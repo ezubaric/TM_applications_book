@@ -1,18 +1,102 @@
 
-\chapter{Introduction (jordan)}
+\chapter{Introduction}
 \label{ch:intro}
+
+Interacting with large text datasets is often posed as a needle in a
+haystack problem: where is the document that says X~\citep{Salton-68} or the answer to
+question Y~\citep{Hirschman-01}.
+
+In contrast, topic models are about understanding large document
+collections.  This is common in science policy~\citep{talley-11}, journalism, and the
+humanities~\citep{moretti-13}.
+
+In the same way that humans need organizational schema for large
+document collections, so do computers.  
+
+Topic models provide a framework for understanding these document
+collections for both humans or computers.
+
+This survey explores the ways that humans and computers make sense of
+document collections.
 
 \section{What is a Topic Model}
 
-\section{What this Survey is (and is not)}
+Topic models get their name from the topics they discover from text.
+We focus on an example from a corpus of scientific literature.
 
-\section{Probabilistic Foundations}
+Examples of topics.
+
+Conventions of labeling topics.
+
+Allocations of documents to the topics. 
+
+\section{Foundations}
+
+Topic models began with a linear algebra
+approach~\citep{deerwester-90}.  While these approaches have seen a
+resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we focus
+on probabilistic approaches, which are intuitive, work well, and allow
+for easy modification (as we see later in \dots).
+
+Probabilistic models begin with a generative story.
+
+The prototypical topic model is latent Dirichlet
+allocation~\citep{blei-03}.  Dirichlet distributions encode sparsity
+and the intuitions about how documents are formed and how works are
+used.
+
+Topics are distributions over words.
+
+Document allocations are distributions over topics.
+
+The generative story is a fiction~\citep{box-87}; it may not be needed
+to understand the organization of document collections.
 
 \section{Inference}
 
+Distinction between prior and posterior.  You can skip this section if
+you want.
+
+There are many flavors of algorithms for posterior inference: message
+passing~\citep{zeng-13}, variational inference~\citep{blei-03}, gradient
+descent~\citep{hoffman-10}, and Gibbs sampling~\citep{griffiths-04}.
+
+We focus on Gibbs sampling, which is simple, intuitive, and
+fast~\citep{yao-09}.
+
+We present the results of Gibbs sampling without derivation, which are
+well described elsewhere.
+
+Gibbs sampling begins with random initialization.
+
+You then change the topic assignments for each word. Example based on
+our scientific dataset. 
+
+From these data, you can then get the topics and the document
+allocations.
+
 \section{Implementations}
 
+Many implementations are available.
+
+Mallet is fast and widely used~\citep{mallet}.  This is where you
+should probably start, in our biased opinion.
+
+Variational inference is the other major option, but requires more
+preprocessing~\citep{blei-03,vw}.
+
+Other options require clusters~\citep{Narayanamurthy-11,zhai-12}.
+
+Other frameworks allow you to specify arbitrary generative
+models~\citep{stan-software:2014}.
 
 
 
+\section{Rest of this Survey}
 
+OUTLINE OF THE REST OF THE BOOK TO BE COMPLETED.
+
+The next chapter returns to the distinction between high level
+overviews and finding a needle in a haystack.  We show how a high
+level overview can help users and algorithms find documents of
+interest.
