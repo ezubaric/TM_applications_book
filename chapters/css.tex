@@ -8,12 +8,89 @@
 
 \section{Sentiment Analysis}
 
-\section{Understanding Stance}
+Modeling sentiment is an important problem for companies, politicians,
+and anyone discussed online~\cite{pang-08}. 
 
-\section{Predicting Polarization}
+% Find original citation 
+Topic modeling can help by breaking large corpora into domains
+(Surprising is bad for steering but good for books).
 
-\section{Discovering Framing}
+Sentiment is an example of meta data, which can be visualized to
+better understand a corpus (see viz).
 
-Introduce hierarchies here
+\section{Upstream and Downstream Models}
 
+Better models, however, can jointly model meta data and sentiment.  
 
+The advantage of joint models are both in the topics and for
+prediction.
+
+There are two broad categories of these joint models: upstream and
+downstream models.
+
+Upstream models can be supervised~\cite{mimno-08} or
+unsupervised~\cite{lin-09}.
+
+Upstream models are easier and more flexible~\cite{stewart-14}.
+
+Downstream models provide better predictions~\cite{blei-07b} and
+predictions can be better still with hinge loss~\cite{zhu-09}
+
+These models form the foundation for the models and problems we
+discuss in the rest of this section. 
+
+\section{Understanding Stance and Polarization}
+
+Often, discussions on an issue can break down into two sides.
+
+Upstream models can discover these sides~\cite{paul-10}
+
+So can downstream models~\cite{nguyen-13:shlda}. 
+
+However, there are not always two sides to an issue.
+
+A probabilistic solution to this model is the nested Dirichlet
+process~\cite{blei-07}.
+
+These hierarchies induce a non parametric hierarchy over an unbounded
+number of topics 
+
+This corresponds to agenda setting from political science~\cite{Nguyen:Boyd-Graber:Resnik:Miler-2015}
+
+\section{Topic Models for Understanding Populations}
+
+Traditional social science methods are labor intensive, take a long
+time, or are impossible for sensitive subjects
+
+For instance, surveys of influenza take too long to be useful compared
+to the life cycle of influenza's progression 
+
+Monitoring pollution in China or drug use in teens requires access to
+populations that may be difficult.  Using social media presents an
+alternative 
+
+\section{Social Networks}
+
+We have talked about meta data that are independent for each user.
+Sometimes, however, we are interested in meta data that describe the
+relationships between people 
+
+This makes modeling more difficult, but we still see the same division
+between upstream and downstream models 
+
+The stochastic block model is the prototype for upstream models
+
+Link LDA is the exemplar for downstream models 
+
+Hybrid models can have the best of both worlds 
+
+Supervised LDA bases regressions on the topic assignments rather than
+the allocations
+
+% journal version?
+Doing something similar can also improve link prediction~\cite{chang-09a}
+
+This can discover geographic variation in language
+
+But what if we are interested in regions with multiple languages or
+dialects? 
