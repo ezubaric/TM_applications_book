@@ -1,4 +1,42 @@
-
-
 \chapter{Multilingual Data and Machine Translation (yuening)}
 \label{ch:mt}
+
+This chapter introduces statistical machine translation, and applies the domain knowledge, induced from topic models, to machine translation. The domain knowledge is not limited to single language, and multilingual information is also used to better extract domain knowledge. Besides domain knowledge, more other approaches are also briefly reviewed and introduced.
+
+\section{Statistical Machine Translation}
+
+This section includes the following parts:
+\begin{itemize}
+\item Brief introduction about statistical machine translation: translation model, language model; word based and phrase based; and lexical weighting features.
+\item Machine translation across domains: existing approaches and problems
+\item Domain adaptation for machine translation: existing approaches and limitations
+\end{itemize}
+
+\section{Domain Adaptation with Topic Models}
+
+This section focuses on how to induce domain knowledge from topic models for machine translation: 
+\begin{itemize}
+\item Extract domain knowledge from topic models
+\item Lexical probability based on domains
+\item Adapted lexical weighting features
+\item Domain adaptation for test data
+\item Some experiments and analysis
+\end{itemize}
+
+\section{Multilingual Information for Domain Adaptation}
+
+This section introduces using multilingual topic models to extract better domain knowledge, which is further used for machine translation.
+\begin{itemize}
+\item Why multilingual information for domain adaptation?
+\item Introduce polylingual tree-based topic models: word-level correlations and document-level alignments to connect source and target languages; generative process; inference.
+\item Some experiments and discussion
+\end{itemize}
+
+\section{Other Approaches}
+
+This section briefly introduces some other approaches of using topic models to improve machine translation.
+\begin{itemize}
+\item Develop a new feature based on topic models for machine translation
+\item Hidden topic Markov models for machine translation
+\item Domain adaptation for language models to improve machine translation
+\end{itemize}
