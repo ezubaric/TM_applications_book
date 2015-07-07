@@ -1,4 +1,25 @@
 
-\chapter{Fiction}
+\chapter{Fiction and Literature}
 
 \label{ch:fiction}
+
+We value literature because it is one of the best ways to capture the spirit of an age, and the experiences of those who lived through it. But standard methods of close reading require focus and thorough interpretation. As a result, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \cite{moretti-00}, works that are never studied.
+
+As a response, Moretti theorized an alternative ``distant reading''  \cite{moretti-13} that uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
+
+Applying topic models to fiction, however, brings new challenges. Jockers \cite{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
+
+Several issues emerge from this corpus. These are not unheard of in other contexts, but they are much more readily apparent in fiction.
+
+Document length. Treating novels as a single bag of words does not work. We need to find a good segmentation into shorter contexts.
+
+Paragraph-based segmentation [currently trying to track down a reference to work done recently by Stanford Literary Lab]
+
+People and places. Because works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
+
+Jockers and Mimno \cite{jockers-13b} analyze the earlier 500-topic model to determine whether there is a statistically significant connection between the use of specific topics and metadata variables such as author gender, author nationality, and year of publication.
+
+Tangherlini and Leonard \cite{tangherlini-13} look at nested models of sub-corpora within Danish literature.
+
+One of the hallmarks of fiction and literature is the use of figurative language.
+It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, Rhody \cite{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
