@@ -1,42 +1,41 @@
 \chapter{Multilingual Data and Machine Translation (yuening)}
 \label{ch:mt}
 
-This chapter introduces statistical machine translation, and applies the domain knowledge, induced from topic models, to machine translation. The domain knowledge is not limited to single language, and multilingual information is also used to better extract domain knowledge. Besides domain knowledge, more other approaches are also briefly reviewed and introduced.
+Topic models have been explored for domain adaptation in statistical machine translation~\citep{Eidelman-12,hu-14}. The domain knowledge is not limited to single language, especially for machine translation, where multiple languages are usually involved. In fact, multilingual topic models~\citep{mimno-09,boyd-graber-10,hu-14} can also be applied to extract better domain knowledge and apply into machine translation.
 
 \section{Statistical Machine Translation}
 
-This section includes the following parts:
-\begin{itemize}
-\item Brief introduction about statistical machine translation: translation model, language model; word based and phrase based; and lexical weighting features.
-\item Machine translation across domains: existing approaches and problems
-\item Domain adaptation for machine translation: existing approaches and limitations
-\end{itemize}
+Statistical machine translation casts machine translation as a probabilistic process~\citep{koehn-09}. For a parallel corpus of aligned source and target sentences $(\mathcal{F}, \mathcal{E})$, a phrase $\bar{f} \in \mathcal{F}$ is translated to a phrase $\bar{e} \in \mathcal{E}$ according to a distribution $p_w(\bar{e}|\bar{f})$.
+One popular method to estimate the probability $p_w(\bar{e}|\bar{f})$ is using lexical weighting features.
+
+Modern machine translation systems~\citep{koehn-09} use millions of examples of translations to learn translation rules in local (phrase) context, while ignoring the global (document) context. These systems work best when the training corpus has consistent global context, including genre, register, and topic. Systems that are robust to systematic variation in the training set are said to exhibit domain adaptation.
+
+Early efforts focus on building separate models~\citep{foster-07} and adding features~\citep{matsoukas-09} to model domain information.  \citet{chiang-11} combine these approaches by directly optimizing genre and collection features by computing separate translation tables for each domain.
 
 \section{Domain Adaptation with Topic Models}
 
-This section focuses on how to induce domain knowledge from topic models for machine translation: 
-\begin{itemize}
-\item Extract domain knowledge from topic models
-\item Lexical probability based on domains
-\item Adapted lexical weighting features
-\item Domain adaptation for test data
-\item Some experiments and analysis
-\end{itemize}
+Topic models are a promising solution for automatically discovering the global context---for example, domain knowledge---in machine translation corpora~~\citep{Eidelman-12,hu-14}.
+
+Given the soft domain assignments from topic models, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\citep[\textsc{mira}]{Crammer-06}. 
+
+However, \citet{Eidelman-12} ignore a wealth of information that could improve topic models and help machine translation. They reply solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an SMT system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so existing applications of topic models~\citep{Eidelman-12} are ignoring available information on the target side that could aid domain discovery.
 
 \section{Multilingual Information for Domain Adaptation}
 
-This section introduces using multilingual topic models to extract better domain knowledge, which is further used for machine translation.
-\begin{itemize}
-\item Why multilingual information for domain adaptation?
-\item Introduce polylingual tree-based topic models: word-level correlations and document-level alignments to connect source and target languages; generative process; inference.
-\item Some experiments and discussion
-\end{itemize}
+There are various ways to build up the multilingual topic models. Different languages can be connected on the word-level or the document levels.
+
+Tree-based topic models~\citep{boyd-graber-07,andrzejewski-09,Hu:Boyd-Graber:Satinoff-ur} incorporate the correlations between words in the same or different languages by encouraging words that appear together in a {\bf concept} to have similar probabilities given a topic.
+
+Polylingual topic models~\citep{mimno-09} assume that the aligned documents in different languages share the same topic distribution and each language has a unique topic distribution over its word types.
+
+\citet{hu-14} bring existing tree-based topic models and polylingual topic models together and create the polylingual tree-based topic model that incorporates both word-level correlations and document-level alignment information.
 
 \section{Other Approaches}
 
-This section briefly introduces some other approaches of using topic models to improve machine translation.
-\begin{itemize}
-\item Develop a new feature based on topic models for machine translation
-\item Hidden topic Markov models for machine translation
-\item Domain adaptation for language models to improve machine translation
-\end{itemize}
+In addition to applying topic models as domain adaptation for machine translation, there are some other approaches of using topic models to improve machine translation.
+
+\citet{xiao-12} present a topic similarity model based on LDA that produces a feature that weights grammar rules based on topic compatibility. They also model the source and target side of rules and compare the target similarity during decoding by projecting the target distribution into the source space.
+
+\citet{hasler-12} use the source-side topic assignments from \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} which model documents as a Markov chain and assign one topic to the whole sentence, instead of a mixture of topics.  \citet{su-12} also apply htmm to monolingual data and apply the results to machine translation.
+
+\citet{Bellegarda-04,wood-09} improve machine translation through domain adaptation for language models.
