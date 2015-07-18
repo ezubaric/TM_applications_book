@@ -1,25 +1,35 @@
 \chapter{Information Retrieval (yuening)}
 \label{ch:ir}
 
-Topic models, such as Latent Semantic Analysis (LSA) by \citep{deerwester-90} and probabilistic Latent Semantic Indexing~\cite{hofmann-99a}, can capture the semantic relations between documents and queries~\citep{wei-07}, thus topic models have been applied into the information retrieval framework to improve ranking results. The language modeling~\citep{croft-03} has been adopted as one popular way to combine topic models with IR framework.
+Topic models, such as Latent Semantic Analysis (LSA) by \citep{deerwester-90} and probabilistic Latent Semantic Indexing~\cite{hofmann-99a}, can capture the semantic relations between documents and queries~\citep{wei-07}.
+
+Topic models have been applied into the information retrieval framework to improve ranking results. Probabilistic language modeling~\citep{croft-03} is a common formalism that incorporates information from topic models.
 
 In this chapter, we briefly introduce the information retrieval framework and the semantic relations between queries and documents. We also present the latent semantic analysis and probabilistic latent semantic indexing models, and how they are combined into information retrieval framework through language modeling.
 
 \section{Semantic Relations in Information Retrieval}
 
-Information Retrieval (IR) systems aim to retrieve relevant documents by comparing query and document texts. From computer's view, Documents are usually treated as ``bags of words'', and documents are retrieved and ranked by measuring the word overlap. However, humans would use background knowledge to interpret and understand the queries and ``add'' missing words~\citep{wei-07}.
+Information Retrieval (IR) systems aim to retrieve relevant documents by comparing query and document texts.
+
+From computer's view, Documents are usually treated as ``bags of words'', and documents are retrieved and ranked by measuring the word overlap. This is consistent with topic models.
+
+Topic models use those bags of words to build abstractions (topics), however.
+
+However, humans would use background knowledge to interpret and understand the queries and ``add'' missing words~\citep{wei-07}, akin to query expansion.
 
 To more accurately retrieve related documents, the semantic relations between queries and documents are needed to improve the ranking results. Topic models, which describe each topic using weighted words and model each document as a distribution over all topics, is an effective way to capture such semantic relations~\citep{deerwester-90,hofmann-99a}.
 
 \section{Topic Models in IR}
 
-Latent Semantic Analysis (LSA) proposed by \citep{deerwester-90} makes use of dimensionality reduction to capture the semantic relations among words and documents. It has been successfully applied into the information retrieval systems through automatic indexing with LSA (Latent Semantic Indexing, LSI) \citep{deerwester-90,dumais-95}. 
+Latent Semantic Analysis (LSA) proposed by \citet{deerwester-90} makes use of dimensionality reduction to capture the semantic relations among words and documents.  (Briefly review, note distinction with probabilistic approaches.)
+
+It has been successfully applied into the information retrieval systems through automatic indexing with LSA (Latent Semantic Indexing, LSI) \citep{deerwester-90,dumais-95}.
 
 The probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}, is an aspect model which associates an unobserved class (topic) variable with each observed word occurrence. pLSI provides a better fit to text data than LSI, thus quickly gained acceptance in IR systems.
 
 \section{Applying Topic Models into IR}
 
-The language modeling approach~\citep{croft-03,PonteCroft,song-99} is the main framework for using topic models in IR systems, since it has been shown to be effective probabilistic framework for studying information retrieval problem~\citep{PonteCroft,berger-99}. 
+The language modeling approach~\citep{croft-03,PonteCroft,song-99} is the main framework for using topic models in IR systems, since it has been shown to be effective probabilistic framework for studying information retrieval problem~\citep{PonteCroft,berger-99}.
 
 The basic language modeling framework is to compute the model likelihood of documents for generating the queries. Topic models, which represent documents with topics, offer a new and interesting means to model documents~\citep{wei-07}. A probability mixture model and a term model with back-off smoothing are presented to integrate topic models in this section.
 
@@ -27,6 +37,6 @@ A probability mixture model combines multiple different probability distribution
 
 A term model with back-off smoothing~\citep{katz-87} is another popular framework to use topic models in IR systems, where a term model is learned for each term in a document and the back-off smoothing~\citep{katz-87} is applied.
 
+% Perhaps it would be nice to mention e-discovery?
 
-%e-discovery
-%Transition to next section: what if you care about recall and understanding
+Transition to next chapter: what if you care about recall and understanding

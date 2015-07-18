@@ -2,16 +2,18 @@
 \chapter{Computational Social Science (jordan)}
 \label{ch:css}
 
- while the previous chapters were mostly retrospective analyses, computational social science is mostly in the "here and now".
+While the previous chapters were mostly retrospective analyses, computational
+social science is mostly in the ``here and now''.
 
- traditional social science methods like polling do not scale well. And still require a lot of resources and time.
+ Traditional social science methods like polling do not scale well. And still
+ require a lot of resources and time.
 
 \section{Sentiment Analysis}
 
 Modeling sentiment is an important problem for companies, politicians,
-and anyone discussed online~\citep{pang-08}. 
+and anyone discussed online~\citep{pang-08}.
 
-% Find original citation 
+% Find original citation
 Topic modeling can help by breaking large corpora into domains
 (Surprising is bad for steering but good for books).
 
@@ -20,7 +22,7 @@ better understand a corpus (see viz).
 
 \section{Upstream and Downstream Models}
 
-Better models, however, can jointly model meta data and sentiment.  
+Better models, however, can jointly model meta data and sentiment.
 
 The advantage of joint models are both in the topics and for
 prediction.
@@ -37,7 +39,7 @@ Downstream models provide better predictions~\citep{blei-07b} and
 predictions can be better still with hinge loss~\citep{zhu-09}
 
 These models form the foundation for the models and problems we
-discuss in the rest of this section. 
+discuss in the rest of this section.
 
 \section{Understanding Stance and Polarization}
 
@@ -45,7 +47,7 @@ Often, discussions on an issue can break down into two sides.
 
 Upstream models can discover these sides~\citep{paul-10}
 
-So can downstream models~\citep{nguyen-13:shlda}. 
+So can downstream models~\citep{nguyen-13:shlda}.
 
 However, there are not always two sides to an issue.
 
@@ -53,7 +55,7 @@ A probabilistic solution to this model is the nested Dirichlet
 process~\citep{blei-07}.
 
 These hierarchies induce a non parametric hierarchy over an unbounded
-number of topics 
+number of topics
 
 This corresponds to agenda setting from political science~\citep{Nguyen:Boyd-Graber:Resnik:Miler-2015}
 
@@ -63,26 +65,26 @@ Traditional social science methods are labor intensive, take a long
 time, or are impossible for sensitive subjects
 
 For instance, surveys of influenza take too long to be useful compared
-to the life cycle of influenza's progression 
+to the life cycle of influenza's progression~\cite{broniatowsky-15}
 
 Monitoring pollution in China or drug use in teens requires access to
 populations that may be difficult.  Using social media presents an
-alternative 
+alternative~\cite{wang:paul:dredze-15}
 
 \section{Social Networks}
 
 We have talked about meta data that are independent for each user.
 Sometimes, however, we are interested in meta data that describe the
-relationships between people 
+relationships between people
 
 This makes modeling more difficult, but we still see the same division
-between upstream and downstream models 
+between upstream and downstream models
 
 The stochastic block model is the prototype for upstream models
 
-Link LDA is the exemplar for downstream models 
+Link LDA is the exemplar for downstream models
 
-Hybrid models can have the best of both worlds 
+Hybrid models can have the best of both worlds
 
 Supervised LDA bases regressions on the topic assignments rather than
 the allocations
@@ -93,4 +95,4 @@ Doing something similar can also improve link prediction~\citep{chang-09a}
 This can discover geographic variation in language
 
 But what if we are interested in regions with multiple languages or
-dialects? 
+dialects?
