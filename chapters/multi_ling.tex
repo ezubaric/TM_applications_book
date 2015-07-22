@@ -1,7 +1,11 @@
-\chapter{Multilingual Data and Machine Translation (yuening)}
+\chapter{Multilingual Data and Machine Translation}
 \label{ch:mt}
 
-Topic models have been explored for domain adaptation in statistical machine translation~\citep{Eidelman-12,hu-14}. The domain knowledge is not limited to single language, especially for machine translation, where multiple languages are usually involved. In fact, multilingual topic models~\citep{mimno-09,boyd-graber-10,hu-14} can also be applied to extract better domain knowledge and apply into machine translation.
+Topic models have been explored for domain adaptation in statistical machine translation~\citep{Eidelman-12,hu-14}.
+
+The domain knowledge is not limited to single language, especially for machine translation, where multiple languages are usually involved.
+
+Multilingual topic models~\citep{mimno-09,boyd-graber-10} can also be applied to extract better domain knowledge and apply into machine translation.
 
 \section{Statistical Machine Translation}
 
@@ -16,7 +20,7 @@ Early efforts focus on building separate models~\citep{foster-07} and adding fea
 
 Topic models are a promising solution for automatically discovering the global context---for example, domain knowledge---in machine translation corpora~~\citep{Eidelman-12,hu-14}.
 
-Given the soft domain assignments from topic models, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\citep[\textsc{mira}]{Crammer-06}. 
+Given the soft domain assignments from topic models, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\citep[\textsc{mira}]{Crammer-06}.
 
 However, \citet{Eidelman-12} ignore a wealth of information that could improve topic models and help machine translation. They reply solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an SMT system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so existing applications of topic models~\citep{Eidelman-12} are ignoring available information on the target side that could aid domain discovery.
 
