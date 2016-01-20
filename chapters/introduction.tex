@@ -1,25 +1,72 @@
 
-\chapter{Introduction}
+\chapter{The What and Wherefore of Topic Models}
 \label{ch:intro}
 
-Interacting with large text data sets is often posed as a needle in a
-haystack problem: where is the document that says X~\citep{Salton-68} or the answer to
-question Y~\citep{Hirschman-01}.
+Imagine that you're an intrepid reporter with an amazing scoop: you have
+twenty-four hours of exclusive access three decades of e-mails sent within a
+corrupt corporation.  You know there's dirt and scandal there, but it's been
+well-concealed by the corporation's political friends.  How are you going to
+understand this haystack well enough to explain it to your devoted readers under
+such a tight deadline?
 
-In contrast, topic models are about understanding large document
-collections.  This is common in science policy~\citep{talley-11}, journalism, and the
-humanities~\citep{moretti-13}.
+\section{Tell me about your haystack}
 
-In the same way that humans need organizational schema for large
-document collections, so do computers.
+Unlike the vignette above, interacting with large text data sets is often posed
+as a needle in a haystack problem.  The user is confronted with a large,
+undifferentiated collection of documents: the entire web, a hard drive, or all
+communications within a company.  The poor user---faced with documents that
+would take a decade to read---is looking for a single needle: a document (or at
+most a handful of documents) that matches what the user is looking for.  This
+could be a ``smoking gun'' e-mail, the document that best represents a
+concept~\citep{Salton-68} or the answer to question~\citep{Hirschman-01}.
 
-Topic models provide a framework for understanding these document
-collections for both humans or computers.
+These questions are important.  The sub-discipline of information retrieval is
+built upon systematizing, solving, and evaluating this problem.  Google's empire
+is built on the premise of users typing a few keywords into a search engine box
+and seeing quick, consistent search results.  However, this is not the only
+problem that confronts those interacting with large text datasets.
 
-This survey explores the ways that humans and computers make sense of
-document collections.
+A different, but related problem is \emph{understanding} large document
+collections, common in science policy~\citep{talley-11}, journalism, and the
+humanities~\citep{moretti-13}.  There isn't just one precious silver needle in
+the haystack.  At the risk of abusing the metaphor, \emph{sometimes you care
+  about the straw}.  Instead of looking for a smoking gun alerting to you some
+crime an evil company committed, perhaps you're looking for a sin of
+omission: did this company never talk about diversity in it's workforce?
+Instead of a single answer to a question, perhaps you're looking for a diversity
+of responses: what are the different ways that people account for rising income
+inequality.  Instead of looking for one document, perhaps you want to answer
+population level statistics: what proportion of Twitter users have ever talked
+about gun violence?
+
+At first, might seem that answering these questions require building an
+extensive ontology or categorization scheme.  For every new corpus, define all
+of the buckets that a document could fit into, have some librarians and
+archivists put each document into the correct buckets, perhaps automate the
+process with some supervised machine learning, and then collect summary
+statistics when you're done.
+
+Obviously, such laborious processes are possible---they've been done for X, Y,
+and Z---and remain an important part of social science, information science,
+library science, and machine learning.  But these processes aren't always
+possible, fast, or even desireable.  First, they obviously require a significant
+investment of time and resources.  Even creating the \emph{list} of categories
+is a difficult task and requires careful delibreration and calibration.  It's
+possible that a particular question does not warrant the time or effort: the
+\oe{}vre of a minor author (only of interest to a few), or the tweets of a day
+(not relevant tomorrow).
+
+Topic models allow us to answer these big picture questions quickly and cheaply.
+Topic models provide a framework for understanding these document collections
+for both humans or computers.  This survey explores the ways that humans and
+computers make sense of document collections through tools called topic models.
+For readers already comfortable with topic models, feel free to skip this
+chapter; we'll mostly cover the definitions and implementations of topic models.
 
 \section{What is a Topic Model}
+
+Returning to our motivating example, consider the e-mails from Enron, the prototypical
+evil corporation of the turn of the century.
 
 Topic models get their name from the topics they discover from text.
 We focus on an example from a corpus of scientific literature.
