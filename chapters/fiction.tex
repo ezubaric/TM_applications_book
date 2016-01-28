@@ -34,7 +34,7 @@ Paragraph-based segmentation [currently trying to track down a reference to work
 
 \section{People and places}
 
- Because works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
+Because works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
 
 Jockers and Mimno \citep{jockers-13b} analyze the earlier 500-topic model to determine whether there is a statistically significant connection between the use of specific topics and metadata variables such as author gender, author nationality, and year of publication.
 
@@ -44,3 +44,21 @@ Tangherlini and Leonard \citep{tangherlini-13} look at nested models of sub-corp
 
 One of the hallmarks of fiction and literature is the use of figurative language.
 It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, Rhody \citep{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
+
+Specifically, Rhody explores a corpus of 4500 poems that describe works of art (or {\em ekphrastic} poems).
+She trains a 60-topic model, and highlights several particularly interesting topics.
+One of these topics places high probability on {\em night, light, moon, stars, day, dark, sun, sleep, sky, wind, time, eyes, star, darkness, bright}.
+The apparent meaning of the topic is clear, and well summarized by the single top word: night.
+But Rhody finds that when she explores the {\em context} of this topic, the poems are all using a consistent metaphor relating night and sleep to death.
+The concept of death does not appear in the top words --- poets are not addressing the issue directly.
+Nevertheless, the model has identified an example of non-literal, figurative language even though, because it is grounded in the actual words, it has no ability to represent what the poets actually mean.
+The model is able to do this because the poets are using a consistent ``surface'' language to represent a consistent metaphor.
+The metaphor is not detectable directly, but a poet's use of a metaphor has a signature that is observable.
+
+Rhody highlights a second topic that provides an example of a different type of non-literal meaning.
+This topic places high probability on {\em death, life, heart, dead, long, world, blood, earth, man, soul, men, face, day, pain, die}.
+Unlike the previous topic, the topic directly references death and life, but it also lacks what Rhody calls the ``unambiguous comprehensibility'' of the {\em night} topic.
+But examining the context of poems that contain the topic reveals a different pattern.
+These poems have a consistent {\em form} that Rhody describes as elegiac.
+She writes that ``Paul Laurence Dunbar's 'We Wear the Mask' never once mentions the word 'death,' the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil --- language which 'The Starry Night' indisputably also draws from.''
+
