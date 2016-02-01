@@ -26,15 +26,34 @@ Several issues emerge from this corpus. These are not unheard of in other contex
 
 \section{What is a Document?}
 
- Treating novels as a single bag of words does not work. We need to find a good segmentation into shorter contexts.
+Treating novels as a single bag of words does not work.
+Topics resulting from this corpus treatment are overly vague and lack thematic coherence.
+We should not be surprised by this finding.
+The assumption of a topic model is that the concentration of topics over a document is fixed and unchanging from the beginning of a document to the end.
+Natural writing rarely fits the topic model assumption, and a novel that had no thematic variation over its entire length is unlikely to have been published.
 
-Paragraph-based segmentation [currently trying to track down a reference to work done recently by Stanford Literary Lab]
+We need to find a good segmentation into shorter contexts.
+We assume that themes are expressed in different sections of a long document like a novel.
+If a segmentation does a good job of identifying the boundaries between these sections, each resulting segment should have relatively few themes.
+If a segmentation does not do a good job of identifying boundaries, we should see segments that contain more themes on average, because our segments combine fragments of multiple thematic segments.
+
+Jockers chooses to avoid relying on structural markers such as chapter divisions and divides novels into 1000-word chunks \citep{jockers-13}. 
+This treatment results in coherent, tightly focused topics that can be reasonably used as proxies for recognizable themes.
+
+Although fixed-length segmentation is effective, it is not necessarily ideal.
+Algee-Hewitt, Heuser, and Moretti \citep{algeehewitt2015paragraphs} compare varying fixed-length segmentations to segmentation based on paragraphs.
+They evaluate the difference between treatments by measuring the concentration of topics in each segment of text after modeling.
+The Herfindahl index is a measure of concentration in discrete probability distributions, calculated as the sum of the squared probabilities of each possible value.
+When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices.
+Setting the slice size to the average length of paragraphs in the corpus, 82 words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
+
+This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19th-century novels.
 
 % Comparison with Twitter?
 
 \section{People and places}
 
-Because works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
+Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
 
 Jockers and Mimno \citep{jockers-13b} analyze the earlier 500-topic model to determine whether there is a statistically significant connection between the use of specific topics and metadata variables such as author gender, author nationality, and year of publication.
 
