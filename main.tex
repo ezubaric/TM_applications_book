@@ -4,12 +4,21 @@
 % the now document class sets various dimensions, so be sure to *not* set
 % or alter dimensions in your latex code.
 % be sure to remove all manual formatting commands such \newpage, \clearpage.
+\usepackage[UTF8]{ctex}
+\usepackage{CJK}
+\usepackage{mathtools}
+\usepackage{comment}
+
 
 % a few definitions that are *not* needed in general:
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\eg}{\emph{e.g.}}
 \newcommand{\etc}{\emph{etc}}
 \newcommand{\now}{\textsc{now}}
+\newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
+\newcommand{\explain}[2]{\underbrace{#2}_{\mbox{\footnotesize{#1}}}}
+
+
 
 \title{Applications of Topic Models}
 
