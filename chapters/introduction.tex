@@ -66,26 +66,98 @@ chapter; we'll mostly cover the definitions and implementations of topic models.
 \section{What is a Topic Model}
 
 Returning to our motivating example, consider the e-mails from Enron, the prototypical
-evil corporation of the turn of the century.
+evil corporation of the turn of the century.  Imagine that you're an
+investigative reporter, the first to get your hands on Enron e-mails.  You know
+that wrongdoing happened, but you don't know who did it or how it was planned
+and carried out.  You have suspicions (e.g., around the California spot market),
+but you are curious to know if there are other skeletons in the closet, and
+you're highly motivated to find them.
 
-Topic models get their name from the topics they discover from text.
-We focus on an example from a corpus of scientific literature.
+So you run a topic model on the data.  True to its name, a topic model gives you
+``topics'', collections of words that make sense together.  Looking at the Enron
+e-mails, we can see topics about X, Y, and Z (Figure~\ref{fig:enron_topics}).
 
-Examples of topics.
+\begin{figure}
+% TODO: Figure of Enron topics
+  \caption{Topic model applied to Enron dataset}
+  \label{fig:enron_topics}
+\end{figure}
 
-Conventions of labeling topics.
 
-Allocations of documents to the topics.
+When we call a topic about X, that's a \textit{post hoc} label applied by humans
+(more on this in Chapter~\ref{sec:display}).  A topic only gives you a jumbled
+``bag of words''; it remains the responsibility of the human consumer of topic
+models to go further and make sense of these piles of straw.
+
+\begin{figure}
+% TODO: Figure of Enron document and allocations to topics
+  \caption{Example document from the Enron corpus and its association to
+    topics.}
+  \label{fig:enron_doc}
+\end{figure}
+
+Making sense of one of these piles requires actually reading the document, which
+topic models also provide.  Each topic is associated with individual documents.
+For example, the document in Figure~\ref{fig:enron_doc} is about X, which
+combines Topic~Y and Topic~Z.  If we get a sense that Topic~Z is of interest, we
+can explore deeper to find other documents
+(Figure~\ref{fig:enron_topic_allocation}).
+
+\begin{figure}
+% TODO: Figure of Enron document and allocations to topics
+  \caption{The documents associated with an Enron topic on X.}
+  \label{fig:enron_topic_allocation}
+\end{figure}
 
 \section{Foundations}
 
-Topic models began with a linear algebra
-approach~\citep{deerwester-90}.  While these approaches have seen a
-resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we focus
-on probabilistic approaches, which are intuitive, work well, and allow
-for easy modification (as we see later in \dots).
+\begin{figure}
+% TODO: Figure of matrix story of topic modeling
+  \caption{A matrix formulation of finding topics for a dataset.  While the
+    original formulation of topic modeling approaches, we focus on probabilistic
+    techniques in the rest of this survey.}
+  \label{fig:matrix_topics}
+\end{figure}
 
-Probabilistic models begin with a generative story.
+Topic models began with a linear algebra approach~\citep{deerwester-90} called
+latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
+document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
+have seen a resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we
+focus on probabilistic approaches, which are intuitive, work well, and allow for
+easy modification (as we see later in many of our later chapters).
+
+\begin{figure}
+% TODO: Figure of Dirichlet, multinomial, and discrete distributions: their
+% parameters, their equations, what their draws look like
+  \caption{A matrix formulation of finding topics for a dataset.  While the
+    original formulation of topic modeling approaches, we focus on probabilistic
+    techniques in the rest of this survey.}
+  \label{fig:matrix_topics}
+\end{figure}
+
+Probabilistic models begin with a generative story: a recipe listing a sequence of random events
+that creates the dataset you're trying to explain.
+Figure~\ref{fig:generative_distributions} lists some of the key players in these
+stories, how they're parameterized and what their draws look like.  Let's
+briefly discuss them, as we'll use them to build a wide variety of topic models
+later.
+
+\paragraph{Gaussian} If you know any probability distribution already, it's the
+Gaussian.  It does not have a role in the most basic topic models that we'll
+discuss here, but it will later (e.g., Chapter~\ref{sec:science_fields}).  We do
+include it because it's a useful point of comparison against the other
+distributions we're using (since it's perhaps the easiest to understand and best
+known).
+
+A Gaussian distribution is a distribution over all real numbers (e.g., $0.0, 0.5,
+-4.2, \pi$, \dots).  You can ask it to spit out a number, and it will give you
+some real number between negative infinity and positive infinity.  But not all
+numbers have equal probability.  Gaussian distributions are parameterized by a
+mean $\mu$ and
+
+\paragraph{Discrete}
+
+\paragraph{Dirichlet}
 
 The prototypical topic model is latent Dirichlet
 allocation~\citep{blei-03}.  Dirichlet distributions encode sparsity
