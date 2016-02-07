@@ -129,11 +129,11 @@ easy modification (as we see later in many of our later chapters).
 \begin{figure}
 % TODO: Figure of Dirichlet, multinomial, and discrete distributions: their
 % parameters, their equations, what their draws look like
-  \caption{A matrix formulation of finding topics for a dataset.  While the
-    original formulation of topic modeling approaches, we focus on probabilistic
-    techniques in the rest of this survey.}
-  \label{fig:matrix_topics}
+  \caption{}
+  \label{fig:distribution_examples}
 \end{figure}
+
+\subsection{Probabilistic Building Blocks}
 
 Probabilistic models begin with a generative story: a recipe listing a sequence of random events
 that creates the dataset you're trying to explain.
@@ -153,20 +153,103 @@ A Gaussian distribution is a distribution over all real numbers (e.g., $0.0, 0.5
 -4.2, \pi$, \dots).  You can ask it to spit out a number, and it will give you
 some real number between negative infinity and positive infinity.  But not all
 numbers have equal probability.  Gaussian distributions are parameterized by a
-mean $\mu$ and
+mean $\mu$ and variance $\sigma$.  Most samples from the distribution will be
+near the mean $\mu$; how close is determined by the variance: higher variances
+will cause the samples to be more spread out.
 
 \paragraph{Discrete}
 
+While Gaussian distributions are over a continuous space, documents are
+combinations of discrete words.\footnote{An emerging trend in natural language
+  processing research is to view words as embedded in a continuous space.  We
+  discuss these ``representation learning'' approaches and their connection to
+  topic modeling in Section~\ref{sec:future}.}   Thus, we need a distribution
+over discrete sets.
+
+A useful metaphor for thinking about discrete distributions is a weighted die.
+The number of faces on the die is its dimension, and each face is a distinct
+outcome.  Each outcome has its own probability of how likely that outcome is;
+this is the parameter of a discrete distribution
+(Figure~\ref{fig:distribution_examples}).
+
+Topic models are described by discrete distributions (sometimes called
+multinomial distributions) over words and topics.  The distribution over words
+is called the topic distribution; each of the topics gives higher weights to
+some words more than others (e.g., in topic X from the Enron corpus, ``foo'' has
+higher probability).  Each document also has an ``allocation'' for each topic:
+documents are about a small handful of topics, and most documents have very low
+weights for most of the possible topics.
+
 \paragraph{Dirichlet}
 
-The prototypical topic model is latent Dirichlet
-allocation~\citep{blei-03}.  Dirichlet distributions encode sparsity
-and the intuitions about how documents are formed and how works are
-used.
+Although discrete distributions are the star players in topic models, they are
+the end of the story.  The story actually begins with Dirichlet distributions.
+Dirichlet distributions are distributions that produce discrete distributions.
+Like the Gaussian distribution, they have parameters analagous to a mean and
+variance.  The mean is called the ``base measure'' $\tau$ and is the expected
+value of the Dirichlet: what you'd get if you averaged many draws from the
+Dirichlet.  The concentration parameter $\alpha$ controls how far away draws are
+from the base measure.
 
-Topics are distributions over words.
+If $\alpha$ is very large, then the draws from a Dirichlet will be very close to
+$\tau$ (Figure~\ref{fig:dirichlet_sparsity}, left).  If $\alpha$ is small, however,
+something more interesting happens: the discrete distributions become sparse
+(Figure~\ref{fig:dirichlet_sparsity}, right).  A sparse distribution is a
+distribution where only a few values have high probability and most are small.
 
-Document allocations are distributions over topics.
+Because topic models are meant to reflect real documents, modeling sparsity
+correctly is important.  When a person sits down to write a document, they only
+write about a handful of topics.  They don't write about every possible topic
+under the sun, and the sparsity of Dirichlet distributions is the probabilistic
+tool that encodes this intuition.
+
+\section{Latent Dirichlet Allocation}
+
+We now have all the tools we need to tell the complete story of the prototypical
+modern topic model: latent Dirichlet allocation~\citep{blei-03}.  Latent
+Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
+  non-probabilistic forerunner (latent semantic analysis).  Latent because we
+  use probabilistic inference to infer missing probabilistic pieces of the
+  generative story.  Dirichlet because of the Dirichlet parameters encoding
+  sparsity.  Allocation because the Dirichlet distribution encodes the prior for
+  each document's allocation over topics.} posits a ``generative process'' about
+how the data came to be.  We assemble the probabilistic pieces to tell
+this story about generating topics and how those topics are used to create
+diverse documents.
+
+% TODO: add an example of how the Enron corpus gets built from the generative story
+
+\paragraph{Generating Topics}
+
+The first part of the story is to create the topics.  The user specifies that
+there are $K$ distinct topics.  Each of the $K$ topics is drawn from a Dirichlet
+distribution with a uniform base distribution and concentration parameter
+$\lambda$: $\phi_k \sim \dir{\lambda {\bm u}}$.  The discrete distribution
+$\phi_k$ has a weight for every word in the vocabulary.
+
+\paragraph{Document Allocations}
+
+Document allocations are distributions over topics for each document.  This
+encodes what a document is about; the sparsity of the Dirichlet distribution's
+concentration parameter $\alpha$ ensures that the document will only be about a
+few topics.  Each document has a discrete distribution over topic: $\theta_d \sim
+\dir{\alpha {\bm u}}$.
+
+\paragraph{Words in Context}
+
+Now that we know what each document is about, we need to actually create the
+words that appear in the document.  We assume\footnote{It's possible to model
+  this in the generative story as well, e.g., with a Poisson distribution.
+  However, we often do not care about document \emph{lengths}---only what the
+  document is about---so we can usually ignore this part of the story.} that
+there are $N_d$ words in document $d$.  For each word $n$ in the
+document $d$, we first choose a {\bf topic assignment} $z_{d,n} \sim
+\disc{\theta_d}$.  This is one of the $K$ topics that tells us which topic the
+word token is from, but not what the word is.
+
+To select which word we'll see in the document, we draw from the a discrete
+distribution again.  Given a words topic assignment $z_{d,n}$, we draw from that
+topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.
 
 The generative story is a fiction~\citep{box-87}; it may not be needed
 to understand the organization of document collections.
