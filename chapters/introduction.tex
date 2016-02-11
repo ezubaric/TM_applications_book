@@ -249,30 +249,77 @@ word token is from, but not what the word is.
 
 To select which word we'll see in the document, we draw from the a discrete
 distribution again.  Given a words topic assignment $z_{d,n}$, we draw from that
-topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.
+topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
+tells you what the word is about, and then this selects which distribution over
+words we'll use to generate the word (Figure~\ref{fig:generative-ex}).
 
-The generative story is a fiction~\citep{box-87}; it may not be needed
-to understand the organization of document collections.
+It goes without saying that the generative story is a fiction~\citep{box-87}.
+Nobody is sitting down with dice to decide what to type in on their keyboard.
+We use this story because it is \emph{useful}.  This fanciful story about randomly
+choosing a topic for each word can help us because if we assume this generative
+process, we can work backwards to find the topics that explain how a document
+collection was created: every word, every document, gets associated with these
+underlying topics.
+
+This fantasy helps us order our document collection: by assuming this story, we
+can discover \emph{topics} (which certainly don't exist) so we can understand
+the common themes that people use to write documents.  As we'll see in later
+chapters, slight tweaks of this generative story allow us to tell uncover more
+complicated structures: how authors prefer specific topics, how topics change
+over time, or how topics can be used across languages.
 
 \section{Inference}
 
-Distinction between prior and posterior.  You can skip this section if
-you want.
+Given a generative model and some data, the process of uncovering the hidden
+probabilistic pieces of the generative story is called \emph{inference}.  More
+concretely, it is a recipie for generating algorithms to go from data to
+\emph{topics that explain a dataset}.
 
 There are many flavors of algorithms for posterior inference: message
 passing~\citep{zeng-13}, variational inference~\citep{blei-03}, gradient
-descent~\citep{hoffman-10}, and Gibbs sampling~\citep{griffiths-04}.
+descent~\citep{hoffman-10}, and Gibbs sampling~\citep{griffiths-04}.  All of
+these algorithms have their advocates and reasons you should use them.  However,
+that discussion is better left for other venues.  In this survey, we focus
+on Gibbs sampling, which is simple, intuitive, and fast~\citep{yao-09}.
 
-We focus on Gibbs sampling, which is simple, intuitive, and
-fast~\citep{yao-09}.
+We present the results of Gibbs sampling without derivation, which---along with
+the history of its origin in statistical physics---are well described
+elsewhere.\footnote{TODO: mention gsftu, griffiths, resources for the
+  derivation} We use a variety of Gibbs sampling called \emph{collapsed} Gibbs
+sampling, which ignores some of the pieces of the generative story: it ignores
+the topics and the document allocations to only focus on the topic assignments.
+Some relatively straightforward math allows you to recreate the topics and
+document allocations if you only know the topic assignments.
 
-We present the results of Gibbs sampling without derivation, which are
-well described elsewhere.
+\paragraph{Document Allocation} The document allocation is a distribution over
+the topics for each document; in other words, it says how popular each topic is
+in a document.  If we count up how often a document uses a topic, this gives us
+an idea of the popularity.  Let's define $\dc{d}{i}$ as the number of times
+document~$d$ uses topic~$i$.  Clearly, this is larger for more popular topics;
+however, it's not a probability because it is larger than one.  We can make it a
+probability by dividing by the number of words in a document
+\begin{equation}
+\frac{\dc{d}{i}}{\sum_k \dc{d}{k}},
+\label{eq:theta_ml}
+\end{equation}
+but this is problematic because it can sometimes give us zero and ignores the
+influence of the Dirichlet distribution; a better estimate is\footnote{To be
+  technical, Equation~\ref{eq:theta_ml} is a maximum likelihood estimate and
+  Equation~\ref{eq:theta_map} is the maximum \textit{a posteriori}, which
+  incorporates the influence of both the prior and the data.}
+\begin{equation}
+\theta_{d,i} \approx \frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k}.
+\label{eq:theta_map}
+\end{equation}
 
-Gibbs sampling begins with random initialization.
+\paragraph{Topics}
+
+Recall that every word has its own topic assignment.  We begin by setting these
+topic assignments randomly: if we have $K$ topics, each word has equal chance to
+be associated with any of the topics.
 
 You then change the topic assignments for each word. Example based on
-our scientific dataset.
+our Enron dataset.
 
 From these data, you can then get the topics and the document
 allocations.
