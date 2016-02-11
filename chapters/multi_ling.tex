@@ -198,14 +198,34 @@ p(w_i|h,w_{i-n+1}^{i-1}) \approx \frac{p(w|h)p(w|w_{i-n+1}^{i-1})}{p(w_i)}
 \end{align}
 Even though this assumption is not valid in general, it works better than the linear scale or log-scale combination according to \citet{Gildea-1999}.
 
-\citet{Yu-2013}
+\cite{Tam-2007} and \cite{Ruiz-2011}
 
-\citet{wood-09} present a hierarchical Pitman-Yor process language model, where the bottom layer include language models in different domains and the top layer couples multiple language models to share statistical length.
+
+
+\citet{Yu-2013} introduces the hidden topic markov model to improve the language model in \textsc{smt}. They build up a topic model on the source side and target side respectively, and learn a topic-specific language model based on the target side by estimating the maximum-likelihood. To smooth the sharply distributed probabilities, back-off probabilities are also considered as follows:
+\begin{align}
+p(w_i | w^{i-1}_{i-n+1}, k_e) = &\lambda_{w^{i-1}_{i-n+1}} p_{MLE}(w_i|w^{i-1}_{i-n+1}, k_e) \\
+&+ (1- \lambda_{w^{i-1}_{i-n+1}})p(w_i|w^{i-1}_{i-n+2}, k_e)
+\end{align}
+where $\lambda$ is the normalization parameter, calculated by,
+\begin{align}
+\lambda_{w^{i-1}_{i-n+1}, k_e} = \frac{N_{1+}(w^{i-1}_{i-n-1}, k_e)}{N_{1+}(w^{i-1}_{i-n-1}, k_e) + \sum_{w_i}c(w^i_{i-n+1}, k_e)}
+\end{align}
+where $N_{1+}(w^{i-1}_{i-n-1}, k_e)$ is the number of words following $w^{i-1}_{i-n-1}$ in topic $k_e$, and $c(w^i_{i-n+1}, k_e)$ is the count of n-gram $w^i_{i-n+1}$ in $k_e$.
+
+During the decoding, since no target sentence is available, they use the topic model on the source side to predict the topics for the testing data, and then project the source topic to the target topic, and then estimate the probability as following:
+\begin{align}
+p(e) = \sum_{k_e} p(e|k_e) p(k_e) = \sum_{k_e} p(e|k_e) \cdot \sum_{k_f} p(k_e|k_f) p (k_f)
+\end{align}
+where $p(k_e|k_f)$ is the topic projection probability, estimated by the co-occurrence of the source-side and the target-side topic assignment.
+
 
 \section{Reordering with Topic Models}
 
 Topic models have also been applied to improve the reordering model, another important component in statistical machine translation.
 \citet{wang-14} predict orders for neighboring blocks by capturing topic-sensitive reordering patterns: they learn the reordering examples from bilingual data based on the document-level and word-level topic information from topic models, and then train a topic-based reordering model that based on a maximum entropy classifier. 
+
+\citet{Chen-2013}
 
 \section{Beyond Domain Adaptation}
 
