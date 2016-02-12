@@ -53,10 +53,25 @@ This result is reassuring, in that it suggests that paragraphs do indeed have so
 
 \section{People and places}
 
-Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
+Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. 
+This word co-occurrence pattern is problematic for topic models because they can be thought of as machines for finding groups of words that occur frequently together and not in other contexts.
+Character names are --- by that criterion --- a perfect topic.
+Modeling these documents can result in topics that are essentially lists of character names.
 
+Jockers \cite{jockers-13} approaches this problem by constructing a stopword list that removes all character names before modeling.
+There are many ways to construct such lists.
+Lists of common names are a good start, but may not be aligned with a specific corpus.
+Some languages mark proper names with orthographic conventions like capitalization, but these tend to be noisy.
+A useful heuristic in English is to identify terms that appear capitalized in more than 90\% of instances.
+Even then, names that are also common words, such as {\em daisy}, or words that appear capitalized for other reasons, such as {\em god}, may lead to unintended results.
+Furthermore, some languages do not differentiate letter cases (Hebrew, Korean) and others use it for other purposes (all nouns in German).
+Named-entity recognition tools scan text for patterns of language that indicate personal names, and may result in greater precision than simpler methods.
+Nevertheless, there is no known way to avoid careful consideration of the meaning of words in context.
+
+Novels describe people and places, but they are also created by people (authors) who are influenced by their cultural setting.
 Jockers and Mimno \citep{jockers-13b} analyze the earlier 500-topic model to determine whether there is a statistically significant connection between the use of specific topics and metadata variables such as author gender, author nationality, and year of publication.
 
+In some cases fiction is set in the context of real places.
 Tangherlini and Leonard \citep{tangherlini-13} look at nested models of sub-corpora within Danish literature.
 
 \section{Beyond the Literal}
