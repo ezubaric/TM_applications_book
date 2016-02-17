@@ -47,6 +47,19 @@ The historical record of scholarship is a valuable source for intellectual histo
 
 Mimno \cite{Mimno-12b} studies a collection of Classics journals to detect changes in the field over the 20th century.
 
-Goldstone and Underwood \cite{Goldstone-14} analyze the proceedings of the Modern Language Association to find shifts in focus in the field of English literature.
+Goldstone and Underwood \cite{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
+They are interested both in changes at the topic level and at the level of word use within topics.
+For these authors the appeal of topic modeling is that models are better able to represent contextual meaning than simple lists of keywords. They write that ``[t]he meanings
+of words are shifting and context-dependent. For this reason, it’s risky to
+construct groups of words that we imagine are equivalent to some predetermined
+concept.''
+
+They analyze the proceedings of the Modern Language Association to find shifts in focus in the field of English literature.
+A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of violence: {\em power,
+violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20th century than during the first half.
+They contextualize this finding by comparing the frequency of these words in a more general corpus from Google ngrams; there is no comparable change.
+This approach holds topic fixed and searches for associated words.
+They then pivot and hold the word ``power'' fixed and search for associated topics.
+In this case the {\em violence} topic actually appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
 
 This is a subfield of a broader study of the science of science, which is discussed next.
