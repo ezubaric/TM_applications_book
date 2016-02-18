@@ -84,6 +84,7 @@ Conceptually, this approach is just reweighting examples.  The probability of a 
 However, \citet{Eidelman-12} ignore a wealth of information that could improve topic models and help machine translation. They rely solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an \textsc{smt} system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so existing applications of topic models~\citep{Eidelman-12} are ignoring available information on the target side that could aid domain discovery. This can be improved by introduction multilingual topic models for machine translation, and the details are introduced in the next section.
 
 \subsection{Multilingual Information for Domain Adaptation}
+\label{sec:trans-multiling}
 
 As we mentioned in the previous section, \citet{Eidelman-12} only use monolingual data from the source language for topic modeling, ignoring all target-language data and available lexical semantic resources between source and target languages. In fact, different languages complement each other to reduce ambiguity.  For example, ``\begin{CJK*}{UTF8}{gbsn}木马\end{CJK*}'' in a Chinese document can be either ``hobbyhorse'' in a children's topic, or ``Trojan virus'' in a technology topic.  A short Chinese context obscures the true topic. However, these terms are unambiguous in English, revealing the true topic. From this example, we can see that that topic models on multilingual corpus do improve the quality of the extracted topics.
 
@@ -92,10 +93,6 @@ On one hand, \emph{lexical information}, such as orthographic similarity~\citep{
 On the other hand, topic models can take advantage of document \emph{alignment information} and infer more robust topics from the aligned dataset. For example, polylingual topic models~\citep{mimno-09} assume that the aligned documents in different languages share the same topic distribution and each language has a unique topic distribution over its word types. 
 
 These two approaches are not mutually exclusive, however; they reveal different connections across languages. \citet{hu-14} bring existing tree-based topic models~(\tlda{}) and polylingual topic models~(\plda{}) together and create the polylingual tree-based topic model~(\ptlda{}) that incorporates both word-level correlations and document-level alignment information. They further apply the proposed polylingual tree-based topic model in the \textsc{smt} framework from \citet{Eidelman-12} to improve the machine translation results.
-
-
-
-
 
 \paragraph{\bf Word-level Correlations}
 
@@ -173,6 +170,8 @@ Topic models capture document-level properties of language, but a critical compo
 
 A language model describes the probability of a word $w$ occurring given the previous context words, which is also mentioned as the history $h$. Language model adaptation uses extra knowledge to adjust this probability $p(w|h)$ to reflect the content change. Topics from topic models can be one of the resources to provide such knowledge for language model adaptation.
 
+\subsection{Monolingual Topic Models for Language Model Adaptation}
+
 Early work such as \citet{Clarkson-1997,Seymore-1997,Kneser-1997,Iyer-1999} focus on partitioning the training data to multiple topic-specific subsets and building up language models for each subset. Then the topic-specific language models $p_k(w|h)$ are linearly combined with a general language model $p_g(w|h)$ built from all training data as Equation~\ref{eq:linear_lm}. The weights $\lambda_k$ can be tuned based on the topics of the test documents. 
 \begin{align}
 \label{eq:linear_lm}
@@ -198,9 +197,28 @@ p(w_i|h,w_{i-n+1}^{i-1}) \approx \frac{p(w|h)p(w|w_{i-n+1}^{i-1})}{p(w_i)}
 \end{align}
 Even though this assumption is not valid in general, it works better than the linear scale or log-scale combination according to \citet{Gildea-1999}.
 
-\cite{Tam-2007} and \cite{Ruiz-2011}
+\subsection{Multilingual Topic Models for Language Model Adaptation}
 
+So far the topic models for language model adaptation we have introduced focus on monolingual language. As we explained in Section~\ref{sec:trans-multiling}, the information from different languages can complement each other to extract better topics. In order to introduce multilingual information to topic models, various approaches such as \cite{Tam-2007}, \cite{Ruiz-2011}, \cite{Yu-2013} etc., have been explored. More details are introduced in this section.
+%\cite{Tam-2007} introduces the bilingual latent semantic analysis to enforce such one-to-one topic correspondence between the source language and the target language; \cite{Ruiz-2011} merges the aligned the source document and target document together to extract topics; \cite{Yu-2013} builds up topic models from the source language and target language respectively, and then learn the projection relations between source topics and target topics. More details 
 
+\cite{Tam-2007} introduces the bilingual latent semantic analysis~(\textsc{blsa}) to learn the topics for both source language and target language and applies the learned topics into language model adaptation for statistical machine translation. \textsc{blsa} is to transfer the inferred topics from the source language to the parallel target language. In order to enforce such one-to-one topic correspondence between source language and target language, \cite{Tam-2007} introduces the Latent Dirichlet Tree Allocation~(\textsc{ldta}), where the correlation among latent topics are captured using a Dirichlet-Tree prior. The basic idea is that each aligned topic pair are sampled from the same Dirichlet distribution.
+
+More specifically, \cite{Tam-2007} assume the aligned source document and the target document share the same document-topic distribution, thus they first learn a \textsc{lsa} model on the source language. Then they use this document-topic distribution from the source document as the document-topic distribution for the aligned target document, and then infer the topic-word distribution on the target side. The topics on the target language are not learned iteratively, thus the topics in parallel corpus can be learned very efficiently. Then the word marginal distributions are computed and integrated into the target background language model using marginal adaptation~\citep{Kneser-1997b}, which minimizes the KL divergence between the adapted language model and the background language model:
+\begin{align}
+\label{eq:mdi}
+p_a(w|h) \propto \Big( \frac{p_{lsa}(w)}{p_{bg}(w)} \Big) ^{\beta} \cdot p_{bg}(w|h)
+\end{align}
+
+\cite{Ruiz-2011} proposes a simplified bilingual topic modeling for language model adaptation. Based on the assumption that the aligned source document and target document share the same document-topic distribution, they combine the aligned source document and target document as one single document and perform the probabilistic latent semantic analysis, from which the conditional probability $p(w|d)$ is computed as:
+\begin{align}
+p(w|d) = \sum_k p(w|k) p(k|d)
+\end{align}
+Then the word-document probabilities are converted into pseudo counts via the following scaling function:
+\begin{align}
+n(w|d) = \frac{p(w|d)}{\max_{w'} p(w'|d)} \cdot \Delta
+\end{align}
+where $\Delta$ is a scaling factor to raise the probability ratios above 1. They then focus only on the words in target language model and build up a topic-adapted language model. They further combine their new language model with the background language model following Minimum Discrimination Information~(\textsc{MDI}) estimation~\cite{Kneser-1997b} as Equation~\ref{eq:mdi}. 
 
 \citet{Yu-2013} introduces the hidden topic markov model to improve the language model in \textsc{smt}. They build up a topic model on the source side and target side respectively, and learn a topic-specific language model based on the target side by estimating the maximum-likelihood. To smooth the sharply distributed probabilities, back-off probabilities are also considered as follows:
 \begin{align}
@@ -219,13 +237,52 @@ p(e) = \sum_{k_e} p(e|k_e) p(k_e) = \sum_{k_e} p(e|k_e) \cdot \sum_{k_f} p(k_e|k
 \end{align}
 where $p(k_e|k_f)$ is the topic projection probability, estimated by the co-occurrence of the source-side and the target-side topic assignment.
 
-
 \section{Reordering with Topic Models}
 
-Topic models have also been applied to improve the reordering model, another important component in statistical machine translation.
-\citet{wang-14} predict orders for neighboring blocks by capturing topic-sensitive reordering patterns: they learn the reordering examples from bilingual data based on the document-level and word-level topic information from topic models, and then train a topic-based reordering model that based on a maximum entropy classifier. 
+In addition to translation models and languages models, topic models have also been applied to improve the reordering model, another important component in statistical machine translation.
 
-\citet{Chen-2013}
+A lexicalized reordering model is to learn the orientation probabilities for a given phrase pair with respect to the previous phrase pair and the following phrase pair~\citep{Chen-2013}. The orientation $o$ typically includes three types: monotone (M), swap (S) and discontinuous (D). The M orientation means the current phrase pair is immediately to the right of the previously translated phrase in the source sentence, S orientation occurs when the current phrase is immediately to the left of the previous phrase, and all other cases all belong to D orientation. This type of reordering model is normally referred as lexicalized since the estimated orientations depend on the words in both the previously translated phrase pair and the current phrase pair. Formally, the reordering model is defined to estimate the corresponding probabilities $p(o|f,e)$ using recursive MAP smoothing:
+\begin{align}
+p(o|f,e) &= \frac{c(o,f,e) + \alpha_f p(o|f) + \alpha_e p(o|e)}{c(f,e) + \alpha_f + \alpha_e} \\
+p(o|f) &= \frac{c(o,f) + \alpha_g p(o)}{c(f) + \alpha_g} \\
+p(o|e) &= \frac{c(o,e) + \alpha_g p(e)}{c(e) + \alpha_g} \\
+p(o) &= \frac{c(o) + \alpha_u/3}{c(\cdot) + \alpha_u}
+\end{align}
+where $c(o,f,e)$ is the orientation counts obtained from the word-aligned corpus;  the parameters $\alpha_f$, $\alpha_e$, $\alpha_g$ and $\alpha_u$ are learned by minimizing the perplexity of the resulting model on the held-out data.
+
+\citet{Chen-2013} find that training corpus in different domains vary significantly in their reordering characteristics for particular phrase pairs, thus they introduce the linear model for reordering model adaptation. Given $N$ sub-corpora (or $N$ domain corpus), they first train a reordering model on each domain corpus, and then define the global reordering model as a linear combination of the reordering models on each domain corpus:
+\begin{align}
+p(o|f,e) = \sum_{i=1}^{N} \alpha_i p_i(o|f,e)
+\end{align}
+where $p_i(o|f,e)$ is the reordering model on sub-corpus $i$, and the weight $\alpha_i$ are learned by maximizing the probability of phrase-pair orientations in the in-domain development set:
+\begin{align}
+\hat{\alpha} = \texttt{argmax}_{\alpha} \sum_{o,f,e} \tilde{p}(o,f,e) \log \sum_{i=1}^N \alpha_i p_i(o|f,e)
+\end{align}
+where $\tilde{p}(o,f,e)$, proportional to $c(o,f,e)$, is the empirical distribution of counts in the development set. \citet{Chen-2013} propose to smooth the in-domain sample and weight instances by document frequency to further improve the mixture adaptation. They demonstrate this adaptation significantly improve the statistical machine translation system.
+
+However, \citet{Chen-2013} manually divide the training data into multiple domains, instead of using automatic techniques such as topic models. \citet{wang-14} introduce topic models to the maximum entropy based phrase reordering models, proposed by \citet{Xiong-2006}. Under the ITG constraints~\citep{Wu-1997}, three Bracketing Transduction Grammar (BTG) rules are used to constrain the translation and reordering:
+\begin{align}
+A &\rightarrow [A^1, A^2]\\
+A &\rightarrow <A^1, A^2>\\
+A &\rightarrow f/e
+\end{align}
+where $A$ is a block with a pair of source and target strings; $A^1$ and $A^2$ are two consecutive blocks; the two rules are reordering rules which merge two blocks into a larger block in a straight or inverted order. Rule 3 translates a source phrase $f$ to a target phrase $e$ and generate a block $A$. These three rules are continuously used until the whole source sentence is covered, and a hierarchical segmentation tree of the source sentence is generated at the same time. Based on this hierarchical setting, \citet{Xiong-2006} treat the reordering problem as a classification with two labels: straight and inverted between two consecutive blocks, and build up a maximum entropy classification model as the reordering model:
+\begin{align}
+p(o|C(A^1, A^2)) = \frac{\exp(\sum_i \theta_i f_i(o, c(A^1, A^2)))}{\sum_{o'} \exp(\sum_i \theta_i f_i(o', c(A^1, A^2)))}
+\end{align}
+where $\theta_i$ are the feature weights, $C(A^1, A^2)$ indicates the attributes of $A^1$ and $A^2$, and $f_i(o, C(A^1, A^2))$ are binary features defined as, 
+\begin{align}
+f_i(o, C(A^1,A^2)) = \begin{cases}
+1, &\text{if $(o,C(A^1, A^2)$ satisfies certain condition} \\
+0, &\text{else}
+\end{cases}
+\end{align}
+
+Different from the lexicalized reordering model, this framework only uses the features extracted from the blocks instead of the whole block, thus it is flexible to reorder any blocks~\citep{Xiong-2006}. Following this framework, \citet{wang-14} integrate two more types of topic-based features into the reordering model, in additional to the boundary word features used in \citet{Xiong-2006}. First, they choose the topic with maximum probability in a document to be the \textit{document topic feature} for that document. Besides, they also use the topics of the content words that locate at the left and rightmost positions on the source phrases as the \textit{word topic features} to capture topic-sensitive reordering patterns. During the decoding process, \citet{Xiong-2006} infer the topic distributions of the test documents first and then apply this proposed topic-based reordering model as one sub-model to the log-linear model to obtain the best translation:
+\begin{align}
+e_\texttt{best} = \texttt{argmax}_e \Big \{ \sum_{m=1}^M \lambda_m h_m(e,f) \Big \}
+\end{align}
+where $h_m(e,f)$ are the  sub-models or features of the whole log-linear model, $\lambda_m$ are their weights accordingly, which are tuned on the development set.
 
 \section{Beyond Domain Adaptation}
 
