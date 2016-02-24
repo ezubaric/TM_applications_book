@@ -338,7 +338,6 @@ topic.  We estimate the probability of a word in a topic as
 \end{equation}
 where $\beta$ is the Dirichlet parameter for the topic distribution.
 
-
 \subsection{Algorithm}
 
 The algorithm for learning a topic model is only based on the topic assignments,
@@ -347,8 +346,11 @@ discussed above.  We begin by setting these topic assignments randomly: if we
 have $K$ topics, each word has equal chance to be associated with any of the
 topics.
 
-You then change the topic assignments for each word. Example based on
-our Enron dataset.
+These topics will be quite bad, but we'll improve them one word at a time.  You
+then change the topic assignments for each word in a way the reflects the
+underlying probabilistic model of the data.  Each pass over the data makes the
+topics slightly better.  Eventually, the topics will ``converge'' to something
+reasonable and you can consider yourself done.
 
 The equation for the probability of assigning a word to a particular topic
 combines these two factors\footnote{To be theoretically correct, it is important
@@ -362,31 +364,61 @@ p(z_{d,n}=j\,|) = \theta_d
 \phi_j = \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
     \beta_w} \right).
 \end{align}
+Computing this value will eventually give you a vector equal to the number of
+topics you chose.  The next step is to randomly choose one of those indices with
+probability proportional to the vector value.  You now assign that word to the
+topic, update $\dc{}{}$ and $\tc{}{}$, and move on to the next word and repeat.
+These topics will be quite bad, but we'll improve them one word at a time.
 
+At the very end of the algorithm, we can use the estimates of each topic
+(Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
+estimates of each document's topic distribution (Equation~\ref{eq:theta_map}) to
+start exploring the collection automatically (Chapter~\ref{ch:ir}) or with a
+human in the loop (Chapter~\ref{ch:viz}).
 
-From these data, you can then get the topics and the document
-allocations.
+The algorithm that we have sketched here is the foundation of many of the more
+advanced models that we'll discuss later in the survey.  While we won't describe
+the algorithms in detail, we will occasionally make reference to this sketch to
+highlight challenges or difficulties in implementing topic models.
 
 \subsection{Implementations}
 
-Many implementations are available.
+Hopefully the previous algorithm sketch has convinced you that implementing
+topic models is not a Herculean task; most skilled programmers can complete a
+reasonable implementation of topic models in less than a day.  However, we would
+suggest not trying to implement topic models yourself, as there are many solid
+implementations that help users get to useful results more quickly, particularly
+as topic models often require extensive preprocessing.
 
-Mallet is fast and widely used~\citep{mallet}.  This is where you
-should probably start, in our biased opinion.
+Mallet is fast and is a widely used implementation in Java~\citep{mallet}.  This
+is where you should probably start, in our biased opinion.  Java uses
+highly-optimized Gibbs sampling implementations and can work from a variety of
+text inputs.  It's well documented, mature, and runs well on a multi-core
+machine, allowing it to process up to millions of documents.  Variational
+inference is the other major option~\citep{blei-03,vw}, but often requires a
+little more effort for new users to get a first result.
 
-Variational inference is the other major option, but requires more
-preprocessing~\citep{blei-03,vw}.
+% Smola, Amr
+However, if your corpus is truly large, it may be worthwhile considering
+techniques that can be parallelized over large computer clusters.  These
+techniques can be based on variational
+inference~\citep{Narayanamurthy-11,zhai-12} or on sampling~\citep{}.
 
-Other options require clusters~\citep{Narayanamurthy-11,zhai-12}.
-
-Other frameworks allow you to specify arbitrary generative
-models~\citep{stan-software:2014}.
+While these implementations allow you to run \emph{specific} topic models, other
+frameworks allow you to specify arbitrary generative
+models.  This allows for quick prototyping of topic models and integrating topic
+models with other probabilistic frameworks like regression or collaborative
+filtering.  Examples of these general frameworks include
+Stan~\citep{stan-software:2014}, Infer.net, and Church.
 
 \section{Rest of this Survey}
 
-Brief discussion of the rest of the survey.
+The next two chapters return to the distinction between high level overviews and
+finding a needle in a haystack.  We show how a high level overview can help
+algorithms (Chapter~\ref{ch:ir}) and users (Chapter~\ref{ch:viz}) find documents
+of interest.
 
-The next chapter returns to the distinction between high level
-overviews and finding a needle in a haystack.  We show how a high
-level overview can help users and algorithms find documents of
-interest.
+These tools can help enable new applications of topic models to tasks such as
+\dots
+
+%TODO (jbg): Flesh out once drafts are written
