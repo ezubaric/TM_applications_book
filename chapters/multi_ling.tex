@@ -288,13 +288,112 @@ where $h_m(e,f)$ are the  sub-models or features of the whole log-linear model, 
 
 \subsection{Word Alignment with Topic Models}
 
-In addition to applying topic models as domain adaptation, \citet{zhao-06} build up a novel bilingual topical admixture (BiTAM) to improve the word alignment in statistical machine translation. In their model, each sentence pair constitutes a mixture of hidden topics and a word pair follows a topic specific bilingual translation model. Then the BiTAM leverages the topical content of document pairs in the word alignment process to obtain better translation quality.
+In addition to applying topic models as domain adaptation, \citet{zhao-06} build up a novel bilingual topical admixture (BiTAM) to improve the word alignment in statistical machine translation. 
+
+BiTAM captures the latent topical structure and generalizes word alignments and translations via topics shared across sentence pairs:
+\begin{align}
+\textbf{E}^{*} = \texttt{argmax}_{\{\textbf{E}\}} p(\textbf{F} | \textbf{E})p(\textbf{E})
+\end{align}
+where $p(\textbf{F} | \textbf{E})$ is a document-level translation model, generating the document $\textbf{F}$ as one entity. BiTam assumes each document pair $(\textbf{F}, \textbf{E})$ is an admixture of topics, thus the topics for each sentence pair within that document pair are sampled from the same document-topic distribution $\theta$. Therefore, the sentence-level word alignment and translations are coupled by the hidden topics.  Based on this assumption, \citet{zhao-06} develop three BiTAM models.
+
+Given the document topic mixture $\theta_d$, the first BiTAM model assumes each sentence pair has a single topic $k$, and each topic has a topic-specific translation table $B_k$, where $B_{i,j,k} = p(f_j | e_i, z=k)$. The generative process for a document pair $(\textbf{F}_d | \textbf{E}_d)$ is as follows:
+\begin{enumerate}
+\item Sample sentence number $N \sim \texttt{Poisson}(\gamma)$.
+\item Sample document-topic distribution $\theta_d \sim \texttt{Dirichlet}(\alpha)$.
+\item For each sentence pair $(f_n, e_n)$ in the document pair:
+\begin{enumerate}
+\item Sample sentence length $J_n \sim \texttt{Poisson}(\delta)$.
+\item Sample a topic $z_{dn} \sim \texttt{Multinomial}(\theta_d)$.
+\item Sample $e_j \sim p(e_j)$, where $p(e_j)$ is a monolingual model.
+\item Sample each word alignment link $a_j \sim p(a_j)$, $p(a_j)$ is a uniform model.
+\item Sample each $f_j \sim p(f_j | \textbf{e}, a_j, z_n, \textbf{B})$.
+\end{enumerate}
+\end{enumerate}
+
+Given the model parameters $\alpha$ and $\textbf{B}$, the joint conditional distribution can be written as,
+\begin{align}
+p(\textbf{F}, \textbf{A}, \theta, \textbf{z} | \textbf{E}, \alpha, \textbf{B}) = p(\theta | \alpha) \prod_{n=1}^{N}p(z_n | \theta)p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, \alpha, B_{z_n})
+\end{align}
+Marginalizing out $\theta$ and $z$, the marginal conditional probability is:
+\begin{align}
+p(\textbf{F}, \textbf{A} | \textbf{E}, \alpha, \textbf{B}) = \int p(\theta | \alpha) \Big ( \prod_{n=1}^{N} \sum_{z_n} p(z_n | \theta)p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, B_{z_n}) \Big ) d\theta
+\end{align}
+where $p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, B_{z_n})$ is a topic-specific sentence level translation model. Variational inference is explored by \citet{zhao-06} for inference, from which the word alignment can be retrieved. 
+
+\citet{zhao-06} also explore another two variants of this BiTAM model just introduced: one model introduces connections between the topic and the observed target phrase $e_j$, which can be helpful for finding more accurate topics; another model samples a topic for each word pair instead of a sentence pair to model word-level admixture. These models improve both the quality of word alignment and the translation.
+
+
+%In their model, each sentence pair constitutes a mixture of hidden topics and a word pair follows a topic specific bilingual translation model. Then the BiTAM leverages the topical content of document pairs in the word alignment process to obtain better translation quality.
+
+
 
 \subsection{Translation Coherence with Topic Models}
 
-\citet{xiao-12} present a topic similarity model based on LDA that produces a feature that weights grammar rules based on topic compatibility. They also model the source and target side of rules and compare the target similarity during decoding by projecting the target distribution into the source space.
+\citet{xiao-12} propose to incorporate the topic information directly at the rule level rather than the word level. They associate each synchronous rule and each document with a topic distribution, and then select the best rule by comparing their topic similarity. More specifically, they build up a monolingual topic model on the source documents and target documents respectively to learn the document-topic distribution $p(z|d)$. Take the source language as an example. If a rule $r$ is used in document $d$ with a topic distribution $p(z|d)$, they collect the instance $I=(r, p(z|d), c)$, where $c$ is the instance fraction count. From the instances $\mathcal{I}$, the rule-topic distribution $p(z=k|r)$ can be computed as,
+\begin{align}
+p(z=k|r) = \frac{\sum_{I \in \mathcal{I}} c \times p(z=k|d)}{\sum_k \sum_{I \in \mathcal{I}} c \times p(z=k'|d)}
+\end{align}
 
-\citet{xiong-13} introduce a topic-based coherence model to improve the translation quality. They generate a coherence chain for each source document using topic models; predict the coherence chain for the target documents based on maximum entropy model; and incorporate the predicted target coherence chain into the document translation decoding process.
+Both the rule-topic distribution on the source side $p(z_f|r)$ and the rule-topic distribution on the target side $p(z_e|r)$ are computed. However, during the decoding, only the document-topic distribution on the source side is available. In order to compute the topic similarity, the rule-topic distribution on the target side should be mapped to the source side. The topics on both the source side and target side are estimated respectively,  and each sentence pair is denoted as $z_f, z_e, a$, where $a$ is the alignment between the source sentence and target sentence as a set of links $\{(i,j)\}$. Then the occurrence of a source-side topic w$k_f$ and a target-side topic $k_e$ is calculated as,
+\begin{align}
+\sum_{(z_f,z_e,a)} \sum_{(i,j) \in a} \delta(z_{f_i}, k_f) \delta(z_{e_j}, k_e)
+\end{align}
+where $\delta_{x,y}$ is $1$ if $x=y$ and $0$ otherwise. Then the projection probability $p(z=k_f | z=k_e)$ is computed by normalizing the co-occurrence count. The whole mapping matrix is denoted as $M_{k_e \times k_f}$, and each entry $M_{i,j}$ is $p(z_e=i | z_f=j)$. Then the target-side rule-topic distribution $p(z_e|r)$ can be projected to the source topic space by,
+\begin{align}
+T(p(z_e|r)) = p(z_e|r) \bigotimes M_{k_e \times k_f}
+\end{align}
+
+Given the rule-topic distribution and the document-topic distribution, the topic similarity can be computed as,
+\begin{align}
+\texttt{Similarity}(p(z|d), p(z|r)) = \sum_{k=1}^{K} (\sqrt{p(z=k|d)} - \sqrt{p(z=k|r)})^2
+\end{align}
+
+Two similarity scores are considered as features during decoding: $\texttt{Similarity}(p(z_f|d), p(z_f|r))$, $\texttt{Similarity}(p(z_f|d), T(p(z_e|r)))$. To better distinguish the general-domain data from the in domain data, \citet{xiao-12} also divide the rules into topic-insensitive rules and topic-sensitive rules based on their rule-topic distribution. However, \citet{xiao-12} further notice that some rules are not sensitive to topics, and the topic-insensitive rules should be preferred more than the topic-sensitive rules in this case. To address this issue, they further define the topic sensitivity of a rule:
+\begin{align}
+\texttt{Sensitivity}(p(z|r)) = - \sum_{k=1}^{K} p(z=k|r) \times \log(p(z=k|r))
+\end{align}
+
+As a result, two more sensitivity features are also introduced in the decoding process: $\texttt{Sensitivity}(p(z_f|r))$ and $\texttt{Sensitivity}(p(z_e|r))$. Through introducing the four new features, \citet{xiao-12} significantly improve the translation performance on NIST Chinese-to-English translation experiments.
+
+
+\citet{xiong-13} introduce a topic-based coherence model to improve the document translation quality. They learn the sentence topic for source documents, based on which they predict the target topic chain; they then incorporate the predicted target coherence chain into the document translation decoding process.
+
+More specifically, they generate a coherence chain $z_1^n = z_1, \cdot, z_n$ for each source document using hidden topic Markov models~\citep[HTMM]{gruber-07}, which infer a topic for each sentence within a source document. They further assume the one-to-one mapping between sentence topics in source and target documents, and predict the target topic coherence chain $\textbf{z}_1^n = \textbf{z}_1, \cdot, \textbf{z}_n$ based on the source topic coherence chain as follows,
+\begin{align}
+\hat{\textbf{z}}_1^n = \texttt{argmax}_{\textbf{z}_1^n} p (\textbf{z}_1^n | z_1^n, z_{D_s})
+\end{align}
+where $z_{D_s}$ is the source document topic. The hidden state $\textbf{z}_1^n$ is determined by it preceding $m$ states $\textbf{z}_{i-m}^{i-1}$, a 5-sentence window $z_{i-2}^{i+2}$ centered as the current source sentence topic $z_i$ and the source document topic $z_{D_s}$. As a result, the posterior probability $p (\textbf{z}_1^n | z_1^n, z_{D_s})$ is further factorized as,
+\begin{align}
+p (\textbf{z}_1^n | z_1^n, z_{D_s}) \approx \prod_{i=1}^n p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})
+\end{align}
+Following~\citet{Xiong-2006}, \citet{xiong-13} build up a maximum entropy classification model to estimate the probability $p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})$ as follows,
+\begin{align}
+p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}) = \frac{\exp(\sum_j \theta_j h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))}{\sum_{\textbf{z}'_i} \exp(\sum_j \theta_j h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))}
+\end{align}
+where $\theta_j$ are the feature weights, $ h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))$ are binary valued features defined as, 
+\begin{align}
+ h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}) = \begin{cases}
+1, &\text{if certain condition} \\
+0, &\text{else}
+\end{cases}
+\end{align}
+Three types of features are considered in this paper: source sentence topic features, where the condition is ``$z_{i+d} = z_s$ and $\textbf{z}_i = z_t$''; source document topic feature, where the condition is ``$z_{D_s} = z_D$ and $\textbf{z}_i = z_t$'';  and target sentence topic transition features, where the condition is ``$\textbf{z}_{i-m} = z_{t'}$ and $\textbf{z}_i = z_t$''. To collect training data $(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})$ for training the maximum entropy classifier, \citet{xiong-13} train the HTMM on the source documents and target documents respectively. From the aligned topic coherence chain for source documents and target documents, they generate the features and train the maximum entropy classifier. 
+
+During decoding, given the topic coherence chain for a source document and the maximum entropy classifier, the topic coherence chain $\textbf{z}_1^n$ for the target document can be predicted, which is further used in improving the target translation $T_{D_t}$. The conditional probability $p(T_{D_t} | \textbf{z}_1^n)$, which is used to measure the topic coherence, can be factorized as,
+\begin{align}
+p(T_{D_t} | \textbf{z}_1^n) \approx \prod_{i=1}^n p(T_i | \textbf{z}_i) \approx \prod_{i=1}^n p(w_j | \textbf{z}_i)
+\end{align}
+where $T_i$ is the translation of the ith sentence, and $w_j$ are the words in this sentence. The word-topic probability $p(w_j | \textbf{z}_i)$ can be directly obtained from the topic model output. Similarly like the phrasal translation probability in \textsc{smt}, this topic coherence measure $p(T_{D_t} | \textbf{z}_1^n)$ can be directly integrated into \textsc{smt} decoder.
+
+In addition to this word level coherence model, \citet{xiong-13} also present the phrase level coherence model as,
+\begin{align}
+p(T_{D_t} | \textbf{z}_1^n) \approx \prod_{i=1}^n p(T_i | \textbf{z}_i) \approx \prod_{i=1}^n p(r_j | \textbf{z}_i)
+\end{align}
+where $r_j$ are the phrases. Instead of estimating $p(r_j | \textbf{z}_i)$, \citet{xiong-13} estimate $p(\textbf{z}_i | r_j)$ instead based on the smoothed counts:
+\begin{align}
+p(\textbf{z}_i | r_j) = \frac{f(r_j, \textbf{z}_i)+1}{f(r_j)+K}
+\end{align}
+Similarly like the word level coherence model, this phrase level coherence model can also be used into the \textsc{smt} decoder. Experiment results in \citet{xiong-13} show that the coherence models significantly improve the translation results.
 
 \citet{hasler-12} use the source-side topic assignments from \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} which model documents as a Markov chain and assign one topic to the whole sentence, instead of a mixture of topics.  \citet{su-12} also apply \textsc{htmm} to monolingual data and apply the results to machine translation.
 
