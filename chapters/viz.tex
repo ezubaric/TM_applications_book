@@ -1,16 +1,45 @@
-
-
 \chapter{Visualization}
 \label{ch:viz}
 
-Many of the following chapters are not just about algorithms using the
-results of topic models: humans need to be in the loop somewhere.
+While the previous two chapters have focused on algorithmic uses of topic
+models, one of the reasons for using topic models is that they produce
+human-readable summaries of the themes of large document collections.  However,
+for users to use the results of topic models, they must be able to understand
+the models' output.  This depends on \emph{visualization} and \emph{interaction}
+with the model.
 
-Thus, topic models need to be shown to users.  We first talk about how
-to show individual topics and then how those topics are presented.
+We begin this chapter with a discussion of how best to show individual topics to
+users.  From these foundations, we move to how we can display entire
+models---with many topics---to users.  Finally, we close with how users can
+provide feedback through these interfaces to improve the underlying model.
 
 \section{Displaying Topics}
 \label{sec:display}
+
+Recall from the previous chapter that topics are distributions over words; the
+words with the highest weight in a topic best explain what the topic is about.
+While the simplest answer---just show the most probable words---is a common
+solution, there are possible refinements that can improve a user's understanding
+of a dataset by showing the relationships between words or explicitly showing
+words' probability.
+
+% cite TACL paper
+\paragraph{Word Lists}
+
+Just showing a list of the most common words (a
+visualization that we'll call ``word list'') is very simple, it also works well.
+Users can quickly understand what's going on, and it is an efficient use of
+space.  represented horizontally~\cite{gardner2010topic,smith2015visual} or
+vertically~\cite{eisenstein2012topicviz,chaney2012visualizing}, with or without
+commas separating the individual words, or using set
+notation~\cite{chaney2012visualizing}.  \newcite{smith2015visual} go further by
+adding bars representing the probabilities of the word.
+
+\paragraph{Word Clouds}
+
+
+
+
 
 As discussed earlier, topics are typically presented as a list of
 ordered words.
