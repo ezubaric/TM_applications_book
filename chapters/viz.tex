@@ -37,28 +37,42 @@ adding bars representing the probabilities of the word.
 
 \paragraph{Word Clouds}
 
+Word clouds (e.g., Figure~\ref{fig:word-cloud}) are another popular approach for
+displaying topics.  Unlike word lists, they also use the size of words to convey
+additional information. Word clouds typically use the size of words to reflect
+the probability of the words.  This uses more of a given visualization area to
+be used to display a topic.
 
+However, word clouds have been criticized for providing poor support for visual
+search~\cite{Viegas2008} and lacking contextual information between
+words~\cite{harris11}; users can sometimes draw false connections between words
+that are placed next to each other randomly in a word cloud.  Another
+alternative is to use word associations to layout
+words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014};
+Figure~\ref{fig:topic-in-a-box} shows places words that appear together next to
+each other in the visualization.
 
-
-
-As discussed earlier, topics are typically presented as a list of
-ordered words.
-
-However, there are relationships between words that are hidden in this
-presentation.
+\subsection{When Words aren't Enough}
 
 Multi-word expressions can be discovered through
 pre-processing~\citep{talley-11}, post-processing step~\citep{blei-09b},
 or a joint model~\citep{johnson-10}.
 
-Visualizations can incorporate information about probabilities to
-highlight the most probable words (Word clouds).
+\section{Labeling Topics}
 
-But word clouds place words randomly, which can lead to spurious
-associations.  Another alternative is to use word associations to
-layout words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014}.
+Throughout this survey, we've been referring to topics about
+\underline{information technology} or about \underline{the arts}.  These are
+convenient labels, but completely removed from the raw distribution over words.
+Thus, it's often useful to assign labels to topics within an interface.
 
-Labeling topics.
+% http://lms.comp.nus.edu.sg/sites/default/files/publication-attachments/pp0406-mao.pdf
+% http://www.aclweb.org/anthology/P11-1154
+% http://sifaka.cs.uiuc.edu/czhai/pub/kdd07-label.pdf
+% http://demeter.inf.ed.ac.uk/redites/docs/vCoreTopicLabel.pdf
+% http://www0.cs.ucl.ac.uk/staff/N.Aletras/resources/ACL14_Topic_Labelling.pdf
+% http://www.aclweb.org/anthology/C10-2069
+
+Automatic topic labeling \dots
 
 \section{Displaying Models}
 
@@ -77,6 +91,11 @@ Showing the relationships between multiple models can also help
 distinguish stable from spurious topics~\citep{chuang-15}
 
 \section{Interaction}
+
+\subsection{Improving Topics}
+
+\subsection{Labeling Topics}
+\label{sec:viz:label}
 
 But not all topic models are perfect.  Visualizations can help show
 users where topic models have issues.
