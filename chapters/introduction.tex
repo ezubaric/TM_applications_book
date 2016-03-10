@@ -291,6 +291,18 @@ the topics and the document allocations to only focus on the topic assignments.
 Some relatively straightforward math allows you to recreate the topics and
 document allocations if you only know the topic assignments.
 
+\subsection{Random Variables}
+
+\paragraph{Topic Assignments}
+
+Recall that every individual token gets a topic assignment.  For example,
+an instance of the word ``compilation'' might be in a business topic in one
+document and in an arts topic in another document.  It's even possible that the
+same word might be assigned to different topics in the same document, as each
+instance of the word has its own topic assignment.  Because topic models care
+about \emph{global} properties, we'll use aggregate statistics derived from
+these topic assignments.
+
 \paragraph{Document Allocation} The document allocation is a distribution over
 the topics for each document; in other words, it says how popular each topic is
 in a document.  If we count up how often a document uses a topic, this gives us
@@ -311,39 +323,102 @@ influence of the Dirichlet distribution; a better estimate is\footnote{To be
 \theta_{d,i} \approx \frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k}.
 \label{eq:theta_map}
 \end{equation}
+It's important that this is never zero because we don't want it to be impossible
+for a topic to get used in a particular document.  This helps the sampler
+explore more of the possible combinations.
 
 \paragraph{Topics}
 
-Recall that every word has its own topic assignment.  We begin by setting these
-topic assignments randomly: if we have $K$ topics, each word has equal chance to
-be associated with any of the topics.
+Each topic is a distribution over words.  To understand what a topic is about,
+we look at the profile of all of the tokens that have been assigned to that
+topic.  We estimate the probability of a word in a topic as
+\begin{equation}
+\phi_{i,v} \approx \frac{\tc{i}{v} + \beta_v}{\sum_w \tc{i}{w} + \beta_w},
+\label{eq:phi_map}
+\end{equation}
+where $\beta$ is the Dirichlet parameter for the topic distribution.
 
-You then change the topic assignments for each word. Example based on
-our Enron dataset.
+\subsection{Algorithm}
 
-From these data, you can then get the topics and the document
-allocations.
+The algorithm for learning a topic model is only based on the topic assignments,
+but we'll use our estimates for the topics $\phi_k$ and the documents $\theta_d$
+discussed above.  We begin by setting these topic assignments randomly: if we
+have $K$ topics, each word has equal chance to be associated with any of the
+topics.
 
-\section{Implementations}
+These topics will be quite bad, but we'll improve them one word at a time.  You
+then change the topic assignments for each word in a way the reflects the
+underlying probabilistic model of the data.  Each pass over the data makes the
+topics slightly better.  Eventually, the topics will ``converge'' to something
+reasonable and you can consider yourself done.
 
-Many implementations are available.
+The equation for the probability of assigning a word to a particular topic
+combines these two factors\footnote{To be theoretically correct, it is important
+not to include the count associated with the token you are currently sampling in
+these counts, which becomes more clear if the probability is written as
+$p(z_{d,n}=j\,|\,z_{d,1}\dots z_{d,n-1},z_{d,n+1}\dots z_{d,N_d}, w_{d,n})$ to
+show the dependence on the topic assignments of \emph{all other} token but not
+this token.}
+\begin{align}
+p(z_{d,n}=j\,|) = \theta_d
+\phi_j = \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
+    \beta_w} \right).
+\end{align}
+Computing this value will eventually give you a vector equal to the number of
+topics you chose.  The next step is to randomly choose one of those indices with
+probability proportional to the vector value.  You now assign that word to the
+topic, update $\dc{}{}$ and $\tc{}{}$, and move on to the next word and repeat.
+These topics will be quite bad, but we'll improve them one word at a time.
 
-Mallet is fast and widely used~\citep{mallet}.  This is where you
-should probably start, in our biased opinion.
+At the very end of the algorithm, we can use the estimates of each topic
+(Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
+estimates of each document's topic distribution (Equation~\ref{eq:theta_map}) to
+start exploring the collection automatically (Chapter~\ref{ch:ir}) or with a
+human in the loop (Chapter~\ref{ch:viz}).
 
-Variational inference is the other major option, but requires more
-preprocessing~\citep{blei-03,vw}.
+The algorithm that we have sketched here is the foundation of many of the more
+advanced models that we'll discuss later in the survey.  While we won't describe
+the algorithms in detail, we will occasionally make reference to this sketch to
+highlight challenges or difficulties in implementing topic models.
 
-Other options require clusters~\citep{Narayanamurthy-11,zhai-12}.
+\subsection{Implementations}
 
-Other frameworks allow you to specify arbitrary generative
-models~\citep{stan-software:2014}.
+Hopefully the previous algorithm sketch has convinced you that implementing
+topic models is not a Herculean task; most skilled programmers can complete a
+reasonable implementation of topic models in less than a day.  However, we would
+suggest not trying to implement topic models yourself, as there are many solid
+implementations that help users get to useful results more quickly, particularly
+as topic models often require extensive preprocessing.
+
+Mallet is fast and is a widely used implementation in Java~\citep{mallet}.  This
+is where you should probably start, in our biased opinion.  Java uses
+highly-optimized Gibbs sampling implementations and can work from a variety of
+text inputs.  It's well documented, mature, and runs well on a multi-core
+machine, allowing it to process up to millions of documents.  Variational
+inference is the other major option~\citep{blei-03,vw}, but often requires a
+little more effort for new users to get a first result.
+
+% Smola, Amr
+However, if your corpus is truly large, it may be worthwhile considering
+techniques that can be parallelized over large computer clusters.  These
+techniques can be based on variational
+inference~\citep{Narayanamurthy-11,zhai-12} or on sampling~\citep{}.
+
+While these implementations allow you to run \emph{specific} topic models, other
+frameworks allow you to specify arbitrary generative
+models.  This allows for quick prototyping of topic models and integrating topic
+models with other probabilistic frameworks like regression or collaborative
+filtering.  Examples of these general frameworks include
+Stan~\citep{stan-software:2014}, Infer.net, and Church.
 
 \section{Rest of this Survey}
 
-Brief discussion of the rest of the survey.
+The next two chapters return to the distinction between high level overviews and
+finding a needle in a haystack.  We show how a high level overview can help
+algorithms (Chapter~\ref{ch:ir}) and users (Chapter~\ref{ch:viz}) find documents
+of interest.
 
-The next chapter returns to the distinction between high level
-overviews and finding a needle in a haystack.  We show how a high
-level overview can help users and algorithms find documents of
-interest.
+These tools can help enable new applications of topic models to tasks such as
+\dots
+
+%TODO (jbg): Flesh out once drafts are written
