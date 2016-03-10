@@ -37,15 +37,27 @@ Yang, Torget, and Mihalcea \cite{yang-11-historical} model a collection of histo
 
 Miller \cite{miller-13} uses Chinese records to investigate the meaning of the word {\em zei}, or ``bandit'' in Qing dynasty China. The word by itself can imply several different forms of anti-social behavior, which are difficult to distinguish from word frequencies alone. A topic model uses contextual information to separate these effects.
 
-This work is notable for using individual Chinese characters as the tokenization.
+The application of topic models in Chinese highlights the importance of tokenization.
+We usually receive documents in the form of long strings, but we are interested in identifying {\em tokens} that are short strings with a specific meaning.
+Breaking a document into distinct tokens is an often-overlooked part of the document analysis process.
+In European languages we can achieve good results simply by separating strings of letter characters from sequences of non-letter characters, although there are many special cases.
+Tokens may contain non-letter characters such as apostrophes and hyphens, and may span multiple words ({\em Queen Victoria}, {\em black hole}).
+In many East Asian writing systems we cannot rely on orthographic conventions to identify tokens.
+Miller argues that in Classical Chinese a single character can be treated as a token without a strong negative impact on modeling, but for Japanese and modern Chinese we must often rely on pre-processing tools that are themselves potentially unreliable.
 
 Cameron Blevins (http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/) models the diary of Martha Ballard, a revolutionary war-era midwife who recorded entries over 27 years. The model provides a useful way to discover connections between words and repeated discourses.
 
 \section{Secondary Literature}
 
-The historical record of scholarship is a valuable source for intellectual history. Many users make use of the JStor ``Data for Research'' API.
+The historical record of scholarship is a valuable source for intellectual history.
+Many users make use of the JStor ``Data for Research'' API.\footnote{http://dfr.jstor.org/}
+The DFR API is an important example, because it provides access to articles that have been scanned by JStor and may be under copyright.
+Access to the underlying documents in their original form as readable sequences of words may be restricted for legal or commercial reasons.
+DFR provides a simple view into selected articles by only providing the frequency of word unigrams.
+While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
-Mimno \cite{Mimno-12b} studies a collection of Classics journals to detect changes in the field over the 20th century.
+Mimno \cite{Mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
+
 
 Goldstone and Underwood \cite{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.

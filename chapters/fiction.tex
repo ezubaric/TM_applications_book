@@ -26,7 +26,12 @@ Several issues emerge from this corpus. These are not unheard of in other contex
 
 \section{What is a Document?}
 
-Treating novels as a single bag of words does not work.
+In most literature about topic models, the term ``document'' is used on the implicit assumption that users have things called documents.
+In the canonical Blei et al. LDA article \cite{blei-03}, this word is used 143 times, but never defined.
+In many cases, the meaning of a ``document'' is fairly clear: a news article, or a scientific abstract.
+What was not clear in this earlier work was that this definition can be problematic, especially for documents longer than a few pages of text.
+
+Treating novels as a single bag of words, for example, does not work.
 Topics resulting from this corpus treatment are overly vague and lack thematic coherence.
 We should not be surprised by this finding.
 The assumption of a topic model is that the concentration of topics over a document is fixed and unchanging from the beginning of a document to the end.
