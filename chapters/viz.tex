@@ -28,6 +28,84 @@ But word clouds place words randomly, which can lead to spurious
 associations.  Another alternative is to use word associations to
 layout words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014}.
 
+
+%%% LABELING Text to merge
+
+However, just showing the top words in a topic is often not sufficient
+for a user who wants clear, succinct labels.  A human analysis of the
+same dataset would not produce a set of ten closely related words:
+their categorization would be crisper and described more succinctly.
+In contrast to the previous \emph{visualization} approaches, labeling
+focuses son showing not the original words of a topic but rather a
+clearer label more akin to what a human summary of the data would
+provide.
+
+Approaches for automatic labeling can be devided into those that only
+use internal information from the topic model against those that also
+use external knowledge resources.  While purely internal methods are
+more robust and consistent with the philospohy of unsupervised topic
+models, those that use external resources often produce higher quality
+labels.
+
+Of the techniques that use external reources, we further separate
+those that use direct supervision for labeling (i.e., knowing what
+consitatues a good labeling) from those that use general knowledge
+resources such as Wikipedia or knowledge bases.
+
+\paragraph{Internal Labeling} 
+
+\citet{mei-07} propose an internal labeling method that takes
+prominent phrases from the topic and compares how consistent the
+phrase's context is is with the topic distribution.  Phrases whose
+contexts closely resemble the topic often appear in regions of text
+that summarize the document, making them good candidates for labels.
+\cite{mao-12} extend the technique to hierarchies, using the insight
+that parents’ labels should be consistent with their childrens'.
+
+% What about Tim W at UIUC?
+
+% I didn't really understand this paper: Automatic Labelling of Topic
+% Models Learned from Twitter by Summarisation (shoud we cite?)
+
+\paragraph{Labeling with Supervised Labels}
+
+\citet{lau-10} use a supervised approach to rerank the words in a
+topic to ensure that the „best“ word in the topic is shown to a
+user.  Each candidate word forms a feature vector consisting of
+features such as the following:
+\begin{itemize*}
+\item the conditional probability of a word given the other words in a
+  topic (which implies topic coherence, as discussed in Section~\ref{});
+\item whether the word is a hypernym of other words in the topic
+  (e.g., ``dog'' in a topic that also contains ``terrier'' and
+  ``poodle''); and
+\item the original probability of the word in the topic.
+\end{itemize*}
+
+While these can be used alone as an unsupervised reranking,
+\citet{lau-10} use user-selected best topic words to weight which of
+these features are most important for selecting the best topic word.
+These weights are learned using support vector regression~\cite{}.
+\citet{lau-11} extend their technique by adding candidates from
+Wikipedia to the set and show that models learned on different domain
+corpora are still effective.
+
+\paragraph{Labeling with Knowledge Bases}
+
+% More details
+\citet{magnatti-07} align hierarchical topic models with an external
+ontology of labels.
+
+\citet{aleteras-14} instead query the whole web and then build a graph
+that includes the words that make up the titles of the retrieved
+webpages. The edges between the words is the \abr{npmi} computed on a
+reference corpus.  The intuition is that words that are ``central'' in
+this graph will be a good title for the topic.
+
+They find the central words by using the PageRank~\cite{} algorithm.
+This finds words that are highly probable in the topic and appears
+often with many other words in the topic.
+
 \section{Displaying Models}
 
 But a topic model is more than about individual topics.
