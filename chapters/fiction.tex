@@ -9,27 +9,95 @@ We value literature because it is one of the best ways to capture the spirit of 
 
 As a response, Moretti theorized an alternative ``distant reading''  \citep{moretti-13} that uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
 
+Topic analysis, viewed as a way of identifying repetitions of language or discourse through multiple works, resonates with many more familiar approaches to the study of literature.
+At the broadest scale, to define a genre or a literary period is to separate a corpus into sections based on some observable criterion.
+We posit a ``gothic'' literature characterized by atmospheric descriptions of castles, or a ``cyberpunk'' literature characterized by conflicted relationships with information technology.
+At a smaller scale, themes or tropes reappear in different contexts.
+At the most detailed level, scholars identify repeated phrases, such as the descriptive epithets used in Homeric oral poetry.
+
+Statistical topic analysis has a similar goal, but pursues it through different means.
+Rather than rigid boundaries specified by date of publication or nationality, algorithms identify genre through the repeated words that form the traces of those themes.
+Topics do not represent themes themselves, but rather identify the implicit statistical regularities in word use brought about by the presence of genres, themes, and discourses.
+
+
 Applying topic models to fiction, however, brings new challenges. Jockers \citep{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
 
 Several issues emerge from this corpus. These are not unheard of in other contexts, but they are much more readily apparent in fiction.
 
 \section{What is a Document?}
 
- Treating novels as a single bag of words does not work. We need to find a good segmentation into shorter contexts.
+In most literature about topic models, the term ``document'' is used on the implicit assumption that users have things called documents.
+In the canonical Blei et al. LDA article \cite{blei-03}, this word is used 143 times, but never defined.
+In many cases, the meaning of a ``document'' is fairly clear: a news article, or a scientific abstract.
+What was not clear in this earlier work was that this definition can be problematic, especially for documents longer than a few pages of text.
 
-Paragraph-based segmentation [currently trying to track down a reference to work done recently by Stanford Literary Lab]
+Treating novels as a single bag of words, for example, does not work.
+Topics resulting from this corpus treatment are overly vague and lack thematic coherence.
+We should not be surprised by this finding.
+The assumption of a topic model is that the concentration of topics over a document is fixed and unchanging from the beginning of a document to the end.
+Natural writing rarely fits the topic model assumption, and a novel that had no thematic variation over its entire length is unlikely to have been published.
+
+We need to find a good segmentation into shorter contexts.
+We assume that themes are expressed in different sections of a long document like a novel.
+If a segmentation does a good job of identifying the boundaries between these sections, each resulting segment should have relatively few themes.
+If a segmentation does not do a good job of identifying boundaries, we should see segments that contain more themes on average, because our segments combine fragments of multiple thematic segments.
+
+Jockers chooses to avoid relying on structural markers such as chapter divisions and divides novels into 1000-word chunks \citep{jockers-13}. 
+This treatment results in coherent, tightly focused topics that can be reasonably used as proxies for recognizable themes.
+
+Although fixed-length segmentation is effective, it is not necessarily ideal.
+Algee-Hewitt, Heuser, and Moretti \citep{algeehewitt2015paragraphs} compare varying fixed-length segmentations to segmentation based on paragraphs.
+They evaluate the difference between treatments by measuring the concentration of topics in each segment of text after modeling.
+The Herfindahl index is a measure of concentration in discrete probability distributions, calculated as the sum of the squared probabilities of each possible value.
+When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices.
+Setting the slice size to the average length of paragraphs in the corpus, 82 words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
+
+This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19th-century novels.
 
 % Comparison with Twitter?
 
 \section{People and places}
 
- Because works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. Modeling these documents can result in topics that are essentially lists of character names.
+Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. 
+This word co-occurrence pattern is problematic for topic models because they can be thought of as machines for finding groups of words that occur frequently together and not in other contexts.
+Character names are --- by that criterion --- a perfect topic.
+Modeling these documents can result in topics that are essentially lists of character names.
 
+Jockers \cite{jockers-13} approaches this problem by constructing a stopword list that removes all character names before modeling.
+There are many ways to construct such lists.
+Lists of common names are a good start, but may not be aligned with a specific corpus.
+Some languages mark proper names with orthographic conventions like capitalization, but these tend to be noisy.
+A useful heuristic in English is to identify terms that appear capitalized in more than 90\% of instances.
+Even then, names that are also common words, such as {\em daisy}, or words that appear capitalized for other reasons, such as {\em god}, may lead to unintended results.
+Furthermore, some languages do not differentiate letter cases (Hebrew, Korean) and others use it for other purposes (all nouns in German).
+Named-entity recognition tools scan text for patterns of language that indicate personal names, and may result in greater precision than simpler methods.
+Nevertheless, there is no known way to avoid careful consideration of the meaning of words in context.
+
+Novels describe people and places, but they are also created by people (authors) who are influenced by their cultural setting.
 Jockers and Mimno \citep{jockers-13b} analyze the earlier 500-topic model to determine whether there is a statistically significant connection between the use of specific topics and metadata variables such as author gender, author nationality, and year of publication.
 
+In some cases fiction is set in the context of real places.
 Tangherlini and Leonard \citep{tangherlini-13} look at nested models of sub-corpora within Danish literature.
 
 \section{Beyond the Literal}
 
 One of the hallmarks of fiction and literature is the use of figurative language.
 It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, Rhody \citep{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
+
+Specifically, Rhody explores a corpus of 4500 poems that describe works of art (or {\em ekphrastic} poems).
+She trains a 60-topic model, and highlights several particularly interesting topics.
+One of these topics places high probability on {\em night, light, moon, stars, day, dark, sun, sleep, sky, wind, time, eyes, star, darkness, bright}.
+The apparent meaning of the topic is clear, and well summarized by the single top word: night.
+But Rhody finds that when she explores the {\em context} of this topic, the poems are all using a consistent metaphor relating night and sleep to death.
+The concept of death does not appear in the top words --- poets are not addressing the issue directly.
+Nevertheless, the model has identified an example of non-literal, figurative language even though, because it is grounded in the actual words, it has no ability to represent what the poets actually mean.
+The model is able to do this because the poets are using a consistent ``surface'' language to represent a consistent metaphor.
+The metaphor is not detectable directly, but a poet's use of a metaphor has a signature that is observable.
+
+Rhody highlights a second topic that provides an example of a different type of non-literal meaning.
+This topic places high probability on {\em death, life, heart, dead, long, world, blood, earth, man, soul, men, face, day, pain, die}.
+Unlike the previous topic, the topic directly references death and life, but it also lacks what Rhody calls the ``unambiguous comprehensibility'' of the {\em night} topic.
+But examining the context of poems that contain the topic reveals a different pattern.
+These poems have a consistent {\em form} that Rhody describes as elegiac.
+She writes that ``Paul Laurence Dunbar's 'We Wear the Mask' never once mentions the word 'death,' the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil --- language which 'The Starry Night' indisputably also draws from.''
+
