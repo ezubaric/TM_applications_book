@@ -36,7 +36,7 @@ Given a document sample $d$, a straightforward way to estimate the probability o
 \begin{align}
 p(t|d) = \frac{n_{d,t}}{n_{d,\cdot}}
 \end{align}
-where $n_{d,t}$ is the term frequency of term $t$ in document $d$, and $n_{d,\cdot}$ is the total number of tokens in document $d$. Then the probability of the given query can be computed. However, a document is often too small to cover all the terms in the query, and the probability of a missing term is zero, which means the probability of the whole query is zero and causes problems for ranking documents. 
+where $n_{d,t}$ is the term frequency of term $t$ in document $d$, and $n_{d,\cdot}$ is the total number of tokens in document $d$. Then the probability of the given query can be computed. However, a document is often too small to cover all the terms in the query, and the probability of a missing term is zero, which means the probability of the whole query is zero and causes problems for ranking documents. This data sp
 
 
 
