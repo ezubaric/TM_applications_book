@@ -165,13 +165,38 @@ kind of \underline{music} without provided links.
 
 \section{Displaying Models}
 
-But a topic model is more than about individual topics.
+\begin{figure}
+  \includegraphics[width=.5\linewidth]{figures/viz_tmve}
+  \caption{ }
+  \label{fig:llda}
+\end{figure}
 
-It is important to show the most relevant documents for reach
-topics~\citep{chaney-12}
 
-More sophisticated techniques can give the relationship between meta
-data and topics~\citep{gardner-10,eistenstein-14}
+However, topics are not the end of the story.  Users often want to use topics to
+find relevant documents within the collection.  Going back to our example in the
+previous chapter, a user may want to find the ``smoking gun'' in the Enron
+dataset, not just use topics to understand the main themes in a dataset.
+
+Thus, a good topic model visualization must also show the documents associated
+with a topic.  The Topic Model Visualization Engine~\citep{chaney-12} shows the
+top documents associated with a topic (Figure~\ref{fig:tmve}).  Recall that each
+document has a distribution over topics $\theta_d$, which is a vector with an
+entry for each topic.  We focus the dimension associated with a particular topic
+and then sort the documents based on that topic coordinate from largest to
+smallest.
+
+The topical guide~\citep{gardner-10} extends this approach by enriching topic
+views with additional metadata.  For instance, if the collection has dollar
+amounts or sentiment~\cite{pang-08} associated with a document, it provides a
+histogram of the metadata associated with the topic.  It also provides \emph{in
+  context} examples of topic words, allowing to see how a word is used within a
+topic (helping to address topic model's bag of words assumptions).
+
+\abr{tome}~\citep{eistenstein-14} focuses on a specific type of metadata: time.
+It allows users to view the evolution of topics over time to understand, for
+example, how the issue of slavery is reframed from an economic argument to an
+argument over human rights.  It supports filtering to specific topics or to see
+how words are used over time across topics.
 
 It is also important to show the similarity between
 topics~\citep{chuang-12}
