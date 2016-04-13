@@ -171,7 +171,6 @@ kind of \underline{music} without provided links.
   \label{fig:llda}
 \end{figure}
 
-
 However, topics are not the end of the story.  Users often want to use topics to
 find relevant documents within the collection.  Going back to our example in the
 previous chapter, a user may want to find the ``smoking gun'' in the Enron
@@ -198,23 +197,59 @@ example, how the issue of slavery is reframed from an economic argument to an
 argument over human rights.  It supports filtering to specific topics or to see
 how words are used over time across topics.
 
-It is also important to show the similarity between
-topics~\citep{chuang-12}
+In contrast to showing how topics related to metadata, \citet{chuang-12} focuses
+on how topics relate to \emph{each other}.  Their ``Termite'' topic
+visualization shows the term-by-term similarity between topics.  By presenting
+topic-term probabilities on a grid with topics as the columns and terms as the
+rows, users can see when topics share words or when topics are only about a
+handful of words.
 
-Showing the relationships between multiple models can also help
-distinguish stable from spurious topics~\citep{chuang-15}
+\begin{figure}
+  \includegraphics[width=.9\linewidth]{figures/viz_termite}
+\end{figure}
 
-\section{Interaction}
+\section{Quality, Stability, and Repair}
 
-\subsection{Improving Topics}
+However, not all topic models are perfect.  \citet{chang-09b} showed that
+held-out likelihood, the traditional measure of probabilistic model quality,
+emphasizes \emph{complexity} rather than interpretability, what humans
+presumably care about.  Thus, automated techniques may not be able to tell you
+whether a topic model is good or not.\footnote{Automated
+  measurements~\citep{newman-10,mimno-11,lau-14} of topic quality may serve as a
+  proxy for human interpretability ratings.}
 
-But not all topic models are perfect.  Visualizations can help show
-users where topic models have issues.
+Visualizations can help show users where topic models have issues.  Showing the
+relationships between multiple models can also help distinguish stable from
+spurious topics~\citep{chuang-15}, and adjusting the ``hyperparameters'' of
+distributions (the Dirichlet parameters of models discussed in Chapter~\ref{})
+can have a large effect of what the final models are~\cite{wallach-09b}.
 
-One approach is to provide probabilistic constraints~\citep{hu-14:itm}
+Interactive topic modeling---in conjunction with visualizations---can help
+correct the problems of topic models.  A user first get an overview of the
+dataset using a visualization of the topics and documents.  Then, the user can
+see instances where the model errs and then correct those mistakes.
 
-Another approach is to add matrix constraints~\citep{choo-13}
+For example, Figure~\ref{} shows a topic learned from abstracts of grants funded
+by the American National Institutes of Health (\abr{nih}).  Most topics were
+``good''; they summarized the data and told a story about a coherent slice of
+research supported by the \abr{nih}.  However, this topic is more problematic;
+it combines words about the central nervous system with words about the urinary
+system.  Such a topic (as discussed in \citet{}) does not give a clear
+understanding of the documents it should represent.
 
-These interactions and visualizations allow users to discover and
-refine insights, allowing them to explore and understand diverse
-datasets.
+\citet{hu-14:itm} address this problem by allowing a user to add probabilistic
+constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
+the user might say that ``bladder'' and ``spinal cord'' don't belong in the same
+topic together.  Figure~\ref{} shows how the topic is more focused after the
+user provides this feedback.  In contrast to probabilistic constraints,
+\citet{choo-13} add matrix factorization constraints, which are in practice much
+faster.
+
+\section{Conclusion}
+
+Much of what topic models are used for is to help users understand corpora.
+However, the output of topic models don't give insights to users without the
+helpmeet of interactive visualizations which allow users to discover and
+refine insights.  In the next chapters we'll talk about specific applications of
+these insights, but these insights are often built on the initial understanding
+of a model offered by the visualizations discussed in this chapter.
