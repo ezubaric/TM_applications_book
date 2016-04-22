@@ -54,34 +54,97 @@ documents is modeling how fields change over time; the static models we've
 discussed thus far are not always appropriate.
 
 \section{Understanding Fields of Studies}
+\label{sec:sci_fields}
 
-Topics can correspond to rough fields of studies.  This insight was
-noted early in the development of topic models~\citep{griffiths-04}.
+\begin{figure}
+  \includegraphics[width=.8\linewidth]{figures/sci_gs}
+  \caption{Topics from \abr{pnas}}
+\end{figure}
 
-Topic models can show where official designations or labels conflict
-with reality~\citep{talley-11}.
+One of the first uses of topic models was to understand the ``fields
+of science''.  \citet{griffiths-04} found that they were able to
+reconstruct the official \abr{pnas} topic codes automatically using
+topic models (Figure~\ref{fig:pnas}).  This is a useful sanity check
+that yes, indeed, topic models correlate with what we often think of
+as scientific disciplines: they use distinct language for methods,
+subjects of study, and have different key players.
 
-Where we have labels we trust, we can use them to constrain
-topics~\citep{ramage-09}.
+Howver, Griffiths and Styvvers were not in a position to do anything
+with their understanding of the fields of science.  In contrast,
+\citet{talley-11} sought to understand the American National Insitutes
+of Health's funding priorities from within the organization.
 
-But if the labels are two coarse, we can use topic models to refine
-them or organize the\citep{Nguyen:Boyd-Graber:Resnik:Chang-2014}
+The National Insititues of Health (\abr{nih}) are America's premiere funding
+agency for biological and health research.  The \abr{nih} consists of
+several institutes that focus on particular diseases, research techniques, or body
+systems; each of these institutes manages its own independent funding portfolio,
+sometimes making it difficult to understand the ``big figure'' of funding.
+
+\citet{talley-11} used topic models to help create this big picture,
+in contrast to more labor intensive techniques (e.g., keywords from a
+meticulously organized ontology).  Their analysis discovered
+unexpected overlaps in research priorities across institutes.  For
+example, many institutes study angiogenesis, the formation of new
+blood vessels; as a treatment for cancer, in heart imaging, the
+molecular basis of angiogenesis in the eye, and how angiogenesis might
+signal complications in diabetes.  
 
 \section{How Fields Change over Time}
-\label{sec:science_fields}
+\label{sec:sci_change}
 
 One way that science is unique from the fields discussed in the
 previous chapters is that it is part of a continuous dialog.  Each
 paper in its own way stands on the shoulders of giants. Topic models
 for science thus need to be aware of the connections between documents
-over time.
+over time.  Annother way that science is different is that the
+documents themselves introduce new ideas (we discuss detecting these
+innovative ideas in the next section).
 
 One of the first techniques to do this viewed topics as subtly
-changing each year~\citep{blei-06b}.  Example of physics going from
-ether to accelerators.
+changing each year with a Dynamic Topic Model~\citep[\abr{dtm}]{blei-06b}.  Within the generative model,
+this views each year's topic distribution to be distinct.  That is,
+the \underline{physics} topic has separate distributions over words
+for each year.  Of course, we don't want the topics to be completely
+different every year---we want topics to change, but not \emph{too
+  much}.  
+
+The \abr{dtm} views topics as changing through \emph{Brownian
+  motion}: the topic at year $t$ is drawn from a Gaussian distribution
+with mean at the topic for year $t-1$ (a separate variance parameter
+controls how much topics can vary each year).  At this point, you may
+object given our discussion of distributions from
+Chapter~\ref{sec:intro_building_blocks}: Gaussian produce continuous
+observations, while topics are multinomial distributions over discrete
+outcomes.
+
+To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
+over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
+create multinomial distribution 
+\begin{equation}
+p(w=k \g \vec x)  = \frac{x_k}{\sum_i x_i}.
+\end{equation}
+This greatly complicates inference, but allows the topics to change
+gradually from year to year.
+
+With this model, the \abr{dtm} discovers how fields change over
+time.  At the start of the twentieth century, the language of
+\underline{physics} focused on understanding how the ``ether''
+propagates waves and the fundamental forces; by midcentury,
+understanding ``quantum'' effects took precedence; by the end of the
+century, experimental physics with large particle accelerators lead
+the search for ever more exotic members of the subatomic menagerie.
+While the final topic is nearly unrecognizable given the first, they
+all are clearly \underline{physics}; the modeling assumptions of the
+\abr{dtm} capture these nearly imperceptible changes in each year.
 
 The flipping of a calendar page does not rule science, however;
-changes can happen at any time~\citep{wang-06,wang-08}.
+changes can happen at any time.  \citet{wang-08} captures changes in
+topics in continous time; each document gets its ``own'' view of a
+topic that can change slightly from the previous version of a topic.
+This can help capture sudden changes in scientific topics, e.g. from
+an innovative contribution.
+
+% Author-topic model?
 
 \section{Innovation}
 
