@@ -46,6 +46,29 @@ In many East Asian writing systems we cannot rely on orthographic conventions to
 Miller argues that in Classical Chinese a single character can be treated as a token without a strong negative impact on modeling, but for Japanese and modern Chinese we must often rely on pre-processing tools that are themselves potentially unreliable.
 
 Cameron Blevins (http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/) models the diary of Martha Ballard, a revolutionary war-era midwife who recorded entries over 27 years. The model provides a useful way to discover connections between words and repeated discourses.
+As with other historical corpora, Blevins focuses on the connection between topics and time.
+Specific events, like a birth, can be highlighted by looking at spikes in a certain topic in the day-to-day time series.
+But larger trends are also evident.
+As a calibration experiment, Blevins measures the association of a topic that appears to refer to cold weather ({\em cold, windy, chilly, snowy, air}) to months of the year.
+As expected, the concentration of this topic is lowest from May to August, rises from September to January, and falls from February to April.
+
+Blevins identifies several other topics that appear to change in their concentration over time.
+Two topics involving house work, focusing roughly on cleaning and cooking, respectively, appear to be correlated in time, and rise over the decades.
+Blevins connects this finding to suggestions that as Ballard grew older and her children moved away, she had less help from family members.
+A more subtle topic involves descriptions of fatigue and illness.
+This topic also increases over time, and appears to correlate with the housework topics, except in the last year of the diary, where fatigue and illness reach their highest concentration and housework declines.
+
+This analysis exemplifies the exploratory nature of topic modeling: by themselves, these observations are not conclusive, but they are suggestive and point to areas of further analysis.
+A scholar might take the diary entries that score high on an individual topic as a reading list, and determine how well a particular automatically detected discourse maps to themes in Ballard's personal experience.
+For example, one might check whether Ballard's references to fatigue and illness are referring to herself or to patients.
+The model does not tell the whole story, but it points to where stories might lie.
+
+Blevins argues that characteristics of the diary form make it well-suited for topic analysis: ``Short, content-driven entries that usually touch upon a limited number of topics appear to produce remarkably cohesive and accurate topics.''
+In addition, the topic model's lack of linguistic sophistication is actually an asset in this case.
+The diary is written in a terse style with many abbreviations and with irregular, 18th century spelling: ``mrss Pages illness Came on at Evng and Shee was Deliverd at 11h of a Son which waid 12 lb.''
+Models trained on modern text corpora might not even recognize this example as English, but the topic modeling algorithm is still capable of finding semantically meaningful groups of words.
+
+
 
 \section{Secondary Literature}
 

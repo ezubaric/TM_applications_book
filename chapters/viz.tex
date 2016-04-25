@@ -229,13 +229,15 @@ correct the problems of topic models.  A user first get an overview of the
 dataset using a visualization of the topics and documents.  Then, the user can
 see instances where the model errs and then correct those mistakes.
 
-For example, Figure~\ref{} shows a topic learned from abstracts of grants funded
-by the American National Institutes of Health (\abr{nih}).  Most topics were
-``good''; they summarized the data and told a story about a coherent slice of
-research supported by the \abr{nih}.  However, this topic is more problematic;
-it combines words about the central nervous system with words about the urinary
-system.  Such a topic (as discussed in \citet{}) does not give a clear
-understanding of the documents it should represent.
+For example, Figure~\ref{} shows a topic learned from abstracts of
+grants funded by the American National Institutes of Health
+(\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
+topics were ``good''; they summarized the data and told a story about
+a coherent slice of research supported by the \abr{nih}.  However,
+this topic is more problematic; it combines words about the central
+nervous system with words about the urinary system.  Such a topic (as
+discussed in \citet{}) does not give a clear understanding of the
+documents it should represent.
 
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic
 constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
