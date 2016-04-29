@@ -113,11 +113,13 @@ p(w|d) = \omega \frac{n_{d,w} + \mu p(t|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \
 
 %A term model with back-off smoothing~\citep{katz-87} is another popular framework to use topic models in IR systems, where a term model is learned for each term in a document and the back-off smoothing~\citep{katz-87} is applied.
 
-\section{Relevance Models for Query Expansion in IR}
+\section{Query Expansion in IR}
 
 The document language models in Information Retrieval~\citep{PonteCroft} have been attempting to model the query generation process based on the document models. However, a big problem is that these models abandon modeling the query-document relevance explicitly~\citep{Lavrenko-2001}, which is very important in traditional Information Retrieval task.
 
-\subsection{Classic Relevance Models}
+This section introduces two major directions for query expansion in information retrieval: relevance models and feedback models. 
+
+\subsection{Classic Relevance Models and Query Expansion}
 
 The classic probabilistic models of information retrieval, for example, probability ranking principle~\citep{Robertson-1997}, argue that the optimal ranking performance is achieved if the documents are ranked by the odds of their being observed in the relevant class $p(D|R) / p(D/N)$, where $D$ is the document and $N$ is a set of documents non-relevant to current document $D$. If we assume the words in the documents are independent, we can rank the documents by,
 \begin{align}
@@ -138,20 +140,19 @@ p(w,q_1 \cdots q_n) &= \sum_{D \in \mathcal{C}} p(D) p(w,q_1 \cdots q_n | D) \\
 
 Once we get this joint probability, $p(w|R)$ can be easily computed, and the documents can be ranked based on $p(D|R) / p(D/N)$~\citep{Robertson-1997}. 
 
-\subsection{Relevance Models for Query Expansion}
-
 In addition to this ranking framework~\citep{Robertson-1997}, this relevance model~\citep{Lavrenko-2001} has also been used for query expansion, which is to calculate a multinomial distribution $p(w|q)$ for a given query $q$ as follows,
 \begin{align}
+\label{eq:rm_qe}
 p(w|q) = \frac{p(w, q)}{p(q)} = \sum_{D \in \mathcal{C}} p(w|D) p(D|q)
 \end{align}
 
 In order to avoid bias, the final query-document relevance $\hat{s}_d(q)$ is normally a linear combination of the relevance $s_d(q)$ between the original query $q$ and documents $d$, and the relevance between the expanded query terms $e$ and documents $d$ as follows,
 \begin{align}
-\label{eq:rm_qe}
+\label{eq:rm_qe_comb}
 \hat{s}_d(q) = \mu s_d(e) + (1-\mu)s_d(q) 
 \end{align}
 
-\subsection{Applying Topic Models to Improve Relevance Models}
+\subsection{Applying Topic Models For Query Expansion}
 
 \cite{Yi-2009} follow this relevance model approach and introduce the topics to query expansion. The intuition is to learn the topics with high probabilities in a query and then expand the query with the terms with high weights in these topics. In order to do so, they first learn a topic model for queries, from which the probability $p_{\texttt{TM}}(k|q)$ of a topic $k$ in a query $q$ is learned. Then the query-word relevance $p(w|q)$ is computed based on topics as follows,
 \begin{align}
@@ -159,9 +160,11 @@ In order to avoid bias, the final query-document relevance $\hat{s}_d(q)$ is nor
 p_{\texttt{TM}}(w|q) = \sum_k p_{\texttt{TM}}(w|k) p_{\texttt{TM}}(k|q)
 \end{align}
 
-This approach extracts the query-word relevance from topic models directly. The high relevant words for the given query $q$ can be selected and used for query expansion to improve the ranking results as Equation~\ref{eq:rm_qe}.
+This approach extracts the query-word relevance from topic models directly. The high relevant words for the given query $q$ can be selected and used for query expansion to improve the ranking results as Equation~\ref{eq:rm_qe_comb}.
 
-Besides, \cite{Yi-2009} also apply topic models to improve the relevance model, which is further used for query expansion. 
+In addition to applying topic models on queries, \cite{Yi-2009} also apply the topics extracted from the relevant documents for query expansion. They train topic models with the top-k documents retrieved by a query, and extract the query-word relationships based on the Equation~\ref{eq:query_word_prob}.
+
+\cite{Yi-2009} also apply topic models to improve the relevance model in Equation~\ref{eq:rm_qe}, which is further used for query expansion. 
 \begin{align}
 p(w|q) = \sum_{D \in \mathcal{C}} (\omega p(w|D) + (1 - \omega)p_{\texttt{TM}}(w|D,q))p(D|q)
 \end{align}
@@ -207,7 +210,14 @@ The final probabilistic relationships of each term pair  can be represented as,
 p(t_x|t_y, \alpha) = \frac{\sum_i p(t_x|z_i, \alpha) p(t_y|z_i,\alpha) \alpha_i }{\sum_j p(t_y|z_j,\alpha) \alpha_j}
 \end{align}
 
-Once they obtain this term relationships, they choose the top related terms as the expanded terms $e$ for the given query $q$, and the final document ranking score is computed as Equation~\ref{eq:rm_qe}.
+Once they obtain this term relationships, they choose the top related terms as the expanded terms $e$ for the given query $q$, and the final document ranking score is computed as Equation~\ref{eq:rm_qe_comb}.
+
+\cite{Gao-2012} further introduce the bilingual topic models~\citep{Gao-2011} for query expansion. They assume the search query and its relevant Web documents share a common distribution of topics, but use different vocabularies to express these topics. Thus in their models, queries and documents have different topic-word distributions $\phi_z^Q$ and $\phi_z^D$ respectively. To generate a query $q$, a document-topic distribution $\theta^Q$ is drawn from a Dirichlet prior, and a topic $z$ is sampled from $\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To generate a document term, a topic $z$ is firstly sampled from $\theta^Q$, the same document-topic distribution as the query, and then a document term $d_i$ is sampled from document topic-word distribution $\phi_z^D$. In this way, documents and queries are conntected through the hidden topics, even though their vocabularies (topic-word distributions) are different. By summing over all possible topics, the relationship between document term $e$ and query $q$ can be computed as,
+\begin{align}
+p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
+\end{align}
+The paramters can be learned by standard EM algorithm. The top related terms in the relevant documents can be used for query expansion. 
+
 
 \section{Relevance Feedback for Query Expansion}
 
@@ -237,10 +247,11 @@ where $c(w, d_i)$ is count of word $w$ in document $d$. The related parameters $
 
 \subsection{Topic Models for Feedback Models}
 
-\cite{Yi-2009} apply the topics extracted from the feedback documents for query expansion. They train topic models with the top-k documents retrieved by a query, and extract the query-word relationships based on the Equation~\ref{eq:query_word_prob}.
+Different from the other approaches, \cite{Andrzejewski-2011} present a new framework for obtaining and exploiting user feedback at the latent topic level. They learn the latent topics from the whole corpus and construct meaningful topic representations. At query time, they decide which latent topics are potentially relevant and present the topic representations along keyword search results. When a user select a latent topic, the original query is expaned with the top words in this selected topic, and the search results are refined. 
 
+In order to construct more meaningful topic representations, \cite{Andrzejewski-2011} extract multiple features, such as word probability, topic posterior, PMI, etc., and then select a single best topic word for each topic as the topic label. They also identify the statistical significant bigrams and trigrams to further better represent the topics. In addition, they restore the capitalization for the n-grams to ease users' interpretation of topics. 
 
-
+At run time, given a query and its top ranked documents, \cite{Andrzejewski-2011} select the top two topics from the each of the top two ranked documents as the enriched topic set. They further study the topic relations and identify the top two topics with the highest covariance with each enriched topics, which is defined as the related topics. They also filter out the in-coherent topics by using PMI scores. For the remaining coherent topics, \cite{Andrzejewski-2011} display their unigram, bigram and trigram representations to users along the search results of the original query. Once a user select a latent topic, the search results are updated by expanding the original query with the top words in this select topic. 
 
 \section{Summary}
 % Perhaps it would be nice to mention e-discovery?
