@@ -87,7 +87,7 @@ unexpected overlaps in research priorities across institutes.  For
 example, many institutes study angiogenesis, the formation of new
 blood vessels; as a treatment for cancer, in heart imaging, the
 molecular basis of angiogenesis in the eye, and how angiogenesis might
-signal complications in diabetes.  
+signal complications in diabetes.
 
 \section{How Fields Change over Time}
 \label{sec:sci_change}
@@ -106,7 +106,7 @@ this views each year's topic distribution to be distinct.  That is,
 the \underline{physics} topic has separate distributions over words
 for each year.  Of course, we don't want the topics to be completely
 different every year---we want topics to change, but not \emph{too
-  much}.  
+  much}.
 
 The \abr{dtm} views topics as changing through \emph{Brownian
   motion}: the topic at year $t$ is drawn from a Gaussian distribution
@@ -119,7 +119,7 @@ outcomes.
 
 To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
 over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
-create multinomial distribution 
+create multinomial distribution
 \begin{equation}
 p(w=k \g \vec x)  = \frac{x_k}{\sum_i x_i}.
 \end{equation}
@@ -148,16 +148,59 @@ an innovative contribution.
 
 \section{Innovation}
 
-Fields change because innovation happens.  Identifying who is
-responsible for the changes can find who is ``winning'' the race to
-introduce, explain, and popularize new ideas.
+The changes to fields happen because of \emph{innovation}.  Scientists develop
+new techniques, new terminologies, and new understanding of the world.  These
+concepts require new words which are reflected in their scientific
+publications.  Unlike other fields, where documents merely report the changing
+world, scientific documents are themselves the force that can change the world:
+from Darwin's \textit{Origin of Species} to Einstein's papers on relativity.
 
-From an institutional perspective, we can see which universities have
-research portfolios that look like the future~\citep{ramage-10}.
+Thus, it is interesting to try to find out where this change is happening.  From
+a historical perspective, it's interesting to learn who introduced
+groundbreaking research first.  For policy makers~\citep{largent-12}, learning
+what research collaborations, conditions, and teams lead to breakthroughs can
+help direct new initiatives to recreate the magic that lead to these findings.
 
-This is important not just for science historians but also for policy
-makers~\citep{largent-12}.
+From a topic perspective, this amounts to detecting \emph{who} was responsible
+for changing topics.  From an institutional perspective, \citet{ramage-10} take
+a \textit{post hoc} perspective: after fitting a standard \abr{lda} topic model,
+find the distribution over research topics in the entire research community at
+time $t$ and then look back at time $t-1$ at the places who look like the
+future.  They hypothesis is that these places ``lead'' other places to adopt
+their ideas.  For example, they found that \dots
+% TODO: add example
 
-Institutions are where science happens, but the true drivers of
-innovation are individual researchers who present their papers as the
-place where research happens~\citep{gerrish-10}.
+Capturing more nuanced effects at either the individual or lab level requires
+refining the model.  \citet{gerrish-10} adapt the random walk model of
+\citet{wang-08} for scientific change.  Instead of topic randomly bumbling into
+new concepts, \citet{gerrish-10} posit that innovative article ``nudge'' topics
+to look more like them in the future.  This model is called the ``Dynamic
+Influence Model'' (\abr{dim}).
+
+For example, the Penn Treebank~\citep{marcus-93} revolutionized natural language
+process and helped enabled the statistical revolution in computational
+linguistics.  Among its many effects is that people started using the word
+``treebank'' much more than they had in the past.  \abr{dim} captures this by
+explicitly modeling the influence $\delta_{k,d}$ of a document $d$ in topic
+$k$.  This document also has a distribution over words $\tau_d$ (for example, the article
+introducing the Penn Treebank uses ``treebank'' much more than ``potato'').
+Recall that each topic is a distribution over words at time $t$, $\phi_{t,k}$.
+
+% TODO: make notation consistent with paper and rest of this survey
+Documents that don't make a splash have zero influence, while influential
+documents are absorbed by other scientists who adopt the influential ideas and
+language,
+\begin{equation}
+  \phi_{t+1,k} \propto \sum_d \delta_{k,d} \tau_d.
+\end{equation}
+Each of these terms are random variables; inference in the model discovers the
+settings of the random variables that best explain the data.  The \abr{dim}'s
+estimates of influence correlate well with the number of citations an article
+gets (the traditional measure of influence).  Unlike citations, however, the
+\abr{dim} can be used in more informal settings to detect influential speech.
+
+While science communication is ostensibly about promoting ideas and new
+understanding, topic models can also help understand less objective
+communications where influence isn't just about facts but also is about emotion,
+beliefs, and relationships.  The next chapter discusses how topic models can
+understand these messy, interesting properties of text.
