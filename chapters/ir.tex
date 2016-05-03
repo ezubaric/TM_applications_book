@@ -3,19 +3,11 @@
 
 Information Retrieval (IR) systems aim to retrieve relevant documents by comparing query and document texts. Users start with their information need in the form of queries. Early IR systems treat both the query and documents as ``bag of words'', retrieve and rank the documents by measuring the word overlap between queries and documents. 
 
-However, the ability of this direct and simple matching is always limited. Words with similar meaning or in different forms should also be considered as matched instead of being ignored. Also, humans would also use background knowledge to interpret and understand the queries and ``add'' missing words~\citep{wei-07}, which provides another way often referred as query expansion to improve the retrieval and ranking results.
+However, the ability of this direct and simple matching is always limited. Words with similar meaning or in different forms should also be considered as matched instead of being ignored. \textbf{Language modeling} has been one of the most popular frameworks to capture such semantic relationships. Also, humans would also use background knowledge to interpret and understand the queries and ``add'' missing words~\citep{wei-07}, which provides another way often referred as \textbf{query expansion} to improve the retrieval and ranking results.
 
 Both directions can be pursued by learning and discovering the semantic relations between words and further the semantic relations between queries and documents. Topic models, which describe each topic using weighted words and model each document as a distribution over all topics, is an effective way to capture such semantic relations~\citep{deerwester-90,hofmann-99a}.
 
 In this chapter, we briefly introduce the information retrieval framework and two major directions of applying topic models to improve the information retrieval results: document language modeling \citep{Lu-2011,wei-06} and query expansion~\citep{Park-2009,Andrzejewski-2011}.
-
-%\section{Probabilistic Information Retrieval}
-
-%Latent Semantic Analysis (LSA) proposed by \citet{deerwester-90} makes use of dimensionality reduction to capture the semantic relations among words and documents.  (Briefly review, note distinction with probabilistic approaches.)
-
-%It has been successfully applied into the information retrieval systems through automatic indexing with LSA (Latent Semantic Indexing, LSI) \citep{deerwester-90,dumais-95}.
-
-%The probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}, is an aspect model which associates an unobserved class (topic) variable with each observed word occurrence. pLSI provides a better fit to text data than LSI, thus quickly gained acceptance in IR systems.
 
 \section{Document Language Modeling in IR}
 
@@ -89,7 +81,7 @@ If we represent the interpolation-based smoothing method as $p_s(w) = p_{\texttt
 
 \subsection{Applying Topic Models to Document Language Models}
 
-Topic models, which model each document as a mixture of topics and each topic as a mixture of words, offer an interesting framework to model documents in information retrieval. \cite{wei-06} introduce Latent Dirichlet Allocation (LDA) to improve the language model as follows,
+Topic models, which model each document as a mixture of topics and each topic as a mixture of words, offer an interesting framework to model documents in information retrieval. \cite{wei-06} introduce Latent Dirichlet Allocation (LDA) to learn the relationship between query words and documents. While topic models learn the document-topic distribution and the topic-word distributions, the conditional probability of a query word $w$ given a document $d$ is computed as marginalizing all topics:
 \begin{align}
 p_{\texttt{lda}}(w|d) = \sum_{z=1}^K p(w|z, \hat{\phi}) p(z | \hat{\theta}, d)
 \end{align}
@@ -101,60 +93,85 @@ p(w|d) = \omega ((1 - \lambda) p_{\texttt{ml}(w|d)} + \lambda p(w|\mathcal{C})) 
 \end{align}
 where $\omega$ is the coefficient which combines the LDA-based document model with the general smoothed language model.
 
-Following \cite{wei-06}, \cite{Lu-2011} further evaluate the performance of applying topic models into the language model framework. Instead of combining with the language model with Jlinek-Mercer smoothing~(Equation~\ref{eq:lm-jr}), \cite{Lu-2011} smooth the language model with the Bayesian smoothing~\ref{eq:lm-bs}, and the final linear combination with topic models is as,
+Following \cite{wei-06}, \cite{Lu-2011} further evaluate the performance of applying topic models into the language model framework. Instead of combining with the language model with Jlinek-Mercer smoothing~(Equation~\ref{eq:lm-jr}), \cite{Lu-2011} smooth the language model with the Bayesian smoothing~(Equation~\ref{eq:lm-bs}), and the final linear combination with topic models is as,
 \begin{align}
 p(w|d) = \omega \frac{n_{d,w} + \mu p(t|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \mu}  + (1 - \omega) p_{\texttt{lda}}(w|d)
 \end{align}
 
-
-
-
-%The basic language modeling framework is to compute the model likelihood of documents for generating the queries. Topic models, which represent documents with topics, offer a new and interesting means to model documents~\citep{wei-07}. A probability mixture model and a term model with back-off smoothing are presented to integrate topic models in this section.
-
-%A term model with back-off smoothing~\citep{katz-87} is another popular framework to use topic models in IR systems, where a term model is learned for each term in a document and the back-off smoothing~\citep{katz-87} is applied.
+While using different smoothing strategies, both approaches~(\citep{wei-06} and \citep{Lu-2011}) apply topic models to connect the query words with documents through hidden topics. As a result, better semantic relationships between query words and documents can be learned and the document language models are improved.
 
 \section{Query Expansion in IR}
 
 The document language models in Information Retrieval~\citep{PonteCroft} have been attempting to model the query generation process based on the document models. However, a big problem is that these models abandon modeling the query-document relevance explicitly~\citep{Lavrenko-2001}, which is very important in traditional Information Retrieval task.
 
-This section introduces two major directions for query expansion in information retrieval: relevance models and feedback models. 
+In fact, queries, which are normally brief and using informal languages from users, diverse significantly from the language in documents~\citep{Muller-2009}. This semantic gap or lexical gap can result in poor query-document relevance, even though the document is quite relevant from the users' view point. This is due to users, who add ``missing'' or potentially related words implicitly in their minds and then consider the query-document relevance. 
 
-\subsection{Classic Relevance Models and Query Expansion}
+Query expansion simulates the similar process. Query expansion normally analyzes the relationships between the query words and other words, and tries to find potential related words so that the original query is better represented and better query-document relevance can be obtained. This section reviews the classic query expansion frameworks in information retrieval and then introduce the related works about using topic models for query expansion. 
 
-The classic probabilistic models of information retrieval, for example, probability ranking principle~\citep{Robertson-1997}, argue that the optimal ranking performance is achieved if the documents are ranked by the odds of their being observed in the relevant class $p(D|R) / p(D/N)$, where $D$ is the document and $N$ is a set of documents non-relevant to current document $D$. If we assume the words in the documents are independent, we can rank the documents by,
+\subsection{Learning Query-Word Relationships for Query Expansion}
+
+There are two main steps for query expansion. The first step is to find the relationships between queries and words and select the top related words to expand the query. The second step is to apply the expanded queries for ranking and compute the final ranking relevance scores. We start with the first step. Two major directions have been explored: query language model~\citep{zhai-01b} and relevance model~\citep{Lavrenko-2001}.
+
+\paragraph{Query Language Model}
+
+In order to learn the query-word relationship, \cite{zhai-01b} build up a query language model to estimate the proabbility $p(w|q)$ of a word $w$ given a query $q$. However, it is not easy to learn a good query language model since the query content is too limited. 
+
+\cite{zhai-01b} further propose to use both the query content and the relevant documents (sometimes referred as feedback documents or clicked documents) to estimate the query language model. Let $\hat{\theta}_{\mathcal{F}}$ be the estimated query language model based on the relevant documents, the combined query model $\hat{\theta}_{Q'}$ can be computed by,
 \begin{align}
-\frac{p(D|R)}{p(D|N)} \sim \prod_{w \in D} \frac{p(w|R)}{p(w|N)}
+\hat{\theta}_{Q'} = (1 - \mu)\hat{\theta}_{Q} + \mu \hat{\theta}_{\mathcal{F}}
 \end{align}
-where $p(w|R)$ and $p(w|N)$ define the probabilities of observing a word $w$ in relevant and non-relevant document sets respectively. 
 
-However, given a query and a large collection of documents, without the relevance labels, it is hard to estimate $p(w|R)$ since we have no training data. \cite{Lavrenko-2001} assume both the query and the relevant documents are random samples from an unknown relevance model $R$. Given the query $q = q_1 \cdots q_n$, they approximate the probability $p(w|R)$ based on the observed query words sequence $q_1 \cdots q_n$ as the following,
+A simple way to estimate the feedback query model $\hat{\theta}_{\mathcal{F}}$ is a unigram language model $\theta$ which generates each word in $\mathcal{F}$ independently. However, most documents contain not only the query relevant information, but also the background information. As a result, \cite{zhai-01b} propose to generate a relevant document by a mixture model, which combines a query model $p(w|\theta_Q)$ with a collection language model $p(w|\mathcal{C})$. Thus the log-likelihood of the relevant document is,
+\begin{align}
+\log p(\mathcal{F}|\theta) = \sum_i \sum_w c(w, d_i) \log((1-\lambda)p(w|\theta_Q) + \lambda p(w|\mathcal{C}))
+\end{align}
+where $c(w, d_i)$ is count of word $w$ in document $d$. The related parameters $\theta$ are estimated by the EM algorithm (more details can be found in \cite{zhai-01b}). By combing with the information from the relevant documents, the query language model is more reobust, thus query-word relationships are better represented. 
+
+\paragraph{Relevance Model}
+
+Different from the query language model approach~\citep{zhai-01b}, \cite{Lavrenko-2001} assume both the query and the relevant documents are random samples from an unknown relevance model $R$. Given the query $q = q_1 \cdots q_n$, they approximate the probability $p(w|R)$ based on the observed query words sequence $q_1 \cdots q_n$ as the following,
 \begin{align}
 p(w|R) \approx p(w|q_1 \cdots q_n) = \frac{p(w,q_1 \cdots q_n)}{p(q_1 \cdots q_n)}
 \end{align}
 
-To estimate the joint probability $p(w,q_1 \cdots q_n)$, \cite{Lavrenko-2001} explore two methods, where the first one assumes the word $w$ and the query $q$ are sampled from the same distribution and the second one assumes they are sampled using different mechanisms. Here we only introduce the first simpler method to illustrate. Assuming $w$, query $q$ and the documents are all sampled independently from a unigram distribution document mode, the joint probability can be computed as,
+To estimate the joint probability $p(w,q_1 \cdots q_n)$, \cite{Lavrenko-2001} assumes the word $w$ and the query $q$ are sampled independently from the same distribution, e.g., from a unigram distribution, then the joint probability can be computed as,
 \begin{align}
-p(w,q_1 \cdots q_n) &= \sum_{D \in \mathcal{C}} p(D) p(w,q_1 \cdots q_n | D) \\
+p(w, q) = p(w,q_1 \cdots q_n) &= \sum_{D \in \mathcal{C}} p(D) p(w,q_1 \cdots q_n | D) \\
 &= \sum_{D \in \mathcal{C}} p(D) p(w|D) p(q | D)
 \end{align}
 
-Once we get this joint probability, $p(w|R)$ can be easily computed, and the documents can be ranked based on $p(D|R) / p(D/N)$~\citep{Robertson-1997}. 
-
-In addition to this ranking framework~\citep{Robertson-1997}, this relevance model~\citep{Lavrenko-2001} has also been used for query expansion, which is to calculate a multinomial distribution $p(w|q)$ for a given query $q$ as follows,
+Then the multinomial distribution $p(w|q)$ for a given query $q$ can be computed as follows,
 \begin{align}
 \label{eq:rm_qe}
 p(w|q) = \frac{p(w, q)}{p(q)} = \sum_{D \in \mathcal{C}} p(w|D) p(D|q)
 \end{align}
 
-In order to avoid bias, the final query-document relevance $\hat{s}_d(q)$ is normally a linear combination of the relevance $s_d(q)$ between the original query $q$ and documents $d$, and the relevance between the expanded query terms $e$ and documents $d$ as follows,
+Both the query language model and the relevance model capture the relationship between the query and other words, based on which the top related words can be selected for query expansion. 
+
+\subsection{Ranking Relevance with Query Expansion}
+
+Given the related words for query expansion, the next question is how to apply the expanded queries for computing the final ranking relevance score. The combination can happen either before or after the relevance score is computed.
+
+\cite{zhai-01b} combines the expanded model $\hat{\theta}_{\mathcal{F}}$ with the original query model $\hat{\theta}_{Q}$ as one query language model $\hat{\theta}_{Q'} $ as the following equation and then compute the relevance scores. 
+\begin{align}
+\hat{\theta}_{Q'} = (1 - \mu)\hat{\theta}_{Q} + \mu \hat{\theta}_{\mathcal{F}}
+\end{align}
+
+There are multiple ways to compute the final relevance score. Given the document language model and the updated query language model,  \cite{Lafferty-2001} and \cite{zhai-01b} introduce the KL-divergence retrieval model to measure the distance between the query model and document model. More formally, given a query $q$ generated fro a query model $p(q|\theta_Q)$, and a document generated from a document model $p(d|\theta_D)$, and $\theta_Q$ and $\theta_D$ are estimated by the query language model and document language model as $\hat{\theta}_Q$ and $\hat{\theta}_D$ respectively, the KL-divergence of document $d$ with respect to $q$ is calculated as:
+\begin{align}
+D(\hat{\theta}_Q || \hat{\theta}_D) = -\sum_w p(w|\hat{\theta}_Q) \log p(w | \hat{\theta}_D) + \texttt{cons}(q)
+\end{align}
+
+Different from \cite{zhai-01b}, \cite{Lavrenko-2001} compute the relevance score using the original query and the expanded query respectively, and then linearly combine the two scores. Thus the final query-document relevance $\hat{s}_d(q)$ is computed as,
 \begin{align}
 \label{eq:rm_qe_comb}
 \hat{s}_d(q) = \mu s_d(e) + (1-\mu)s_d(q) 
 \end{align}
+where $s_d(q)$ is the relevance between the original query $q$ and documents $d$, and $s_d(e)$ is relevance between the expanded query terms $e$ and document $d$. 
 
 \subsection{Applying Topic Models For Query Expansion}
 
-\cite{Yi-2009} follow this relevance model approach and introduce the topics to query expansion. The intuition is to learn the topics with high probabilities in a query and then expand the query with the terms with high weights in these topics. In order to do so, they first learn a topic model for queries, from which the probability $p_{\texttt{TM}}(k|q)$ of a topic $k$ in a query $q$ is learned. Then the query-word relevance $p(w|q)$ is computed based on topics as follows,
+\cite{Yi-2009} follow the relevance model approach and introduce the topics to query expansion. The intuition is to learn the topics with high probabilities in a query and then expand the query with the terms with high weights in these topics. In order to do so, they first learn a topic model for queries, from which the probability $p_{\texttt{TM}}(k|q)$ of a topic $k$ in a query $q$ is learned. Then the query-word relevance $p(w|q)$ is computed based on topics as follows,
 \begin{align}
 \label{eq:query_word_prob}
 p_{\texttt{TM}}(w|q) = \sum_k p_{\texttt{TM}}(w|k) p_{\texttt{TM}}(k|q)
@@ -212,40 +229,17 @@ p(t_x|t_y, \alpha) = \frac{\sum_i p(t_x|z_i, \alpha) p(t_y|z_i,\alpha) \alpha_i 
 
 Once they obtain this term relationships, they choose the top related terms as the expanded terms $e$ for the given query $q$, and the final document ranking score is computed as Equation~\ref{eq:rm_qe_comb}.
 
+\subsection{Bilingual Topic Models for Query Expansion}
+
 \cite{Gao-2012} further introduce the bilingual topic models~\citep{Gao-2011} for query expansion. They assume the search query and its relevant Web documents share a common distribution of topics, but use different vocabularies to express these topics. Thus in their models, queries and documents have different topic-word distributions $\phi_z^Q$ and $\phi_z^D$ respectively. To generate a query $q$, a document-topic distribution $\theta^Q$ is drawn from a Dirichlet prior, and a topic $z$ is sampled from $\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To generate a document term, a topic $z$ is firstly sampled from $\theta^Q$, the same document-topic distribution as the query, and then a document term $d_i$ is sampled from document topic-word distribution $\phi_z^D$. In this way, documents and queries are conntected through the hidden topics, even though their vocabularies (topic-word distributions) are different. By summing over all possible topics, the relationship between document term $e$ and query $q$ can be computed as,
 \begin{align}
 p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
 \end{align}
 The paramters can be learned by standard EM algorithm. The top related terms in the relevant documents can be used for query expansion. 
 
-
-\section{Relevance Feedback for Query Expansion}
+\subsection{Getting Interactive Feedback using Topic Models}
 
 Relevance feedback involves the users in the retrieval process to improve the ranking result set~\citep{Rocchio-1971}. The basic idea is to ask users to give feedback on the relevance of documents in an initial set of retrieval results, and users' feedback on relevance is further used to improve the ranking results. This process can go through one or more iterations. 
-
-\subsection{Ranking Framework for Feedback Models}
-
-Generally, the retrieval problem is to learn the query and document representation respectively, and then match the query and documents by measuring the distance between the query representation and document representation. \cite{Lafferty-2001} introduce the KL-divergence retrieval model to measure the distance between the query model and document model.
-
-More formally, given a query $q$ generated fro a query model $p(q|\theta_Q)$, and a document generated from a document model $p(d|\theta_D)$, and $\theta_Q$ and $\theta_D$ are estimated by the query language model and document language model as $\hat{\theta}_Q$ and $\hat{\theta}_D$ respectively, the KL-divergence of document $d$ with respect to $q$ is calculated as:
-\begin{align}
-D(\hat{\theta}_Q || \hat{\theta}_D) = -\sum_w p(w|\hat{\theta}_Q) \log p(w | \hat{\theta}_D) + \texttt{cons}(q)
-\end{align}
-
-The entropy of the query model $\texttt{cons}(q)$ can be dropped since it is only related with the query, and the minimum value is achieved when $\hat{\theta}_Q$ is identical to $\hat{\theta}_D$. Within this KL-divergence retrieval framework, the retrieval problem is to estimate the query language model $\hat{\theta}_Q$ and the document language model $\hat{\theta}_D$. While any language model can be used for queries and documents in principle, it is not easy to learn a good query language model since the query content is too limited. 
-
-\cite{zhai-01b} propose to use both the query content and the relevant documents (feedback documents) to estimate the query language model. Let $\hat{\theta}_{\mathcal{F}}$ be the estimated query model based on the feedback documents, the combined query model $\hat{\theta}_{Q'}$ can be computed by,
-\begin{align}
-\hat{\theta}_{Q'} = (1 - \mu)\hat{\theta}_{Q} + \mu \hat{\theta}_{\mathcal{F}}
-\end{align}
-
-A simple way to estimate the feedback query model $\hat{\theta}_{\mathcal{F}}$ is a unigram language model $\theta$ which generates each word in $\mathcal{F}$ independently. However, most documents contain not only the query relevant information, but also the background information. As a result, \cite{zhai-01b} propose to generate a feedback document by a mixture model, which combines a query model $p(w|\theta_Q)$ with a collection language model $p(w|\mathcal{C})$. Thus the log-likelihood of the feedback document is,
-\begin{align}
-\log p(\mathcal{F}|\theta) = \sum_i \sum_w c(w, d_i) \log((1-\lambda)p(w|\theta_Q) + \lambda p(w|\mathcal{C}))
-\end{align}
-where $c(w, d_i)$ is count of word $w$ in document $d$. The related parameters $\theta$ are estimated by the EM algorithm (more details can be found in \cite{zhai-01b}). In this framework, a document $d$ is ranked based on the score of combining the query model $\hat{\theta}_Q$ with the feedback query model $\hat{\theta}_\mathcal{F}$, and then compute the KL-divergence of document $d$ with respect to the query $q$. 
-
-\subsection{Topic Models for Feedback Models}
 
 Different from the other approaches, \cite{Andrzejewski-2011} present a new framework for obtaining and exploiting user feedback at the latent topic level. They learn the latent topics from the whole corpus and construct meaningful topic representations. At query time, they decide which latent topics are potentially relevant and present the topic representations along keyword search results. When a user select a latent topic, the original query is expaned with the top words in this selected topic, and the search results are refined. 
 
@@ -253,10 +247,9 @@ In order to construct more meaningful topic representations, \cite{Andrzejewski-
 
 At run time, given a query and its top ranked documents, \cite{Andrzejewski-2011} select the top two topics from the each of the top two ranked documents as the enriched topic set. They further study the topic relations and identify the top two topics with the highest covariance with each enriched topics, which is defined as the related topics. They also filter out the in-coherent topics by using PMI scores. For the remaining coherent topics, \cite{Andrzejewski-2011} display their unigram, bigram and trigram representations to users along the search results of the original query. Once a user select a latent topic, the search results are updated by expanding the original query with the top words in this select topic. 
 
-\section{Summary}
+%\section{Summary}
 % Perhaps it would be nice to mention e-discovery?
-
-Transition to next chapter: what if you care about recall and understanding
+%Transition to next chapter: what if you care about recall and understanding
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

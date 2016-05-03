@@ -131,50 +131,52 @@ polylingual topic models~\citep{mimno-09} assume that the aligned documents in d
 \citet{hu-14} introduce polylingual tree-based topic models (\ptlda{}), which connect information across different languages by incorporating both
 word correlation (as in \tlda{}) and document alignment information (as in \plda{}). 
 
-To build up the prior tree structure, \citet{hu-14} consider two resources to build trees that correlate words across languages. The first is multilingual dictionaries~(\textit{dict}), which match words with the same meaning in different languages together.  These relations between words are used as the concepts~\citep{Bhattacharya-2006} in the prior tree (Figure~\ref{fig:prior_trees}). In addition, they extract the word alignments from aligned sentences in a parallel corpus.  The word pairs define concepts for the prior tree (\textit{align}). 
+To build up the prior tree structure, \citet{hu-14} consider two resources to build trees that correlate words across languages. The first is multilingual dictionaries~(\textit{dict}), which match words with the same meaning in different languages together.  These relations between words are used as the concepts~\citep{Bhattacharya-2006} in the prior tree.% (Figure~\ref{fig:prior_trees}). 
+In addition, they extract the word alignments from aligned sentences in a parallel corpus.  The word pairs define concepts for the prior tree (\textit{align}). 
 
-\begin{figure}
-\centering
+%\begin{figure}
+%\centering
 %\includegraphics[width=0.9\linewidth]{figures/correlations_tree-crop.pdf}
-\vspace{-3mm}
-\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
-  bilingual dictionary: word pairs with the same meaning but in
-  different languages are concepts; we create a common parent node to
-  group words in a concept, and then connect to the root;
-  uncorrelated words are connected to the root directly.  Each topic
-  uses this tree structure as a prior. }
-\label{fig:prior_trees}
-\end{figure}
+%\vspace{-3mm}
+%\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
+%  bilingual dictionary: word pairs with the same meaning but in
+%  different languages are concepts; we create a common parent node to
+%  group words in a concept, and then connect to the root;
+%  uncorrelated words are connected to the root directly.  Each topic
+%  uses this tree structure as a prior. }
+%\label{fig:prior_trees}
+%\end{figure}
 
 Given the prior tree structure, the proposed polylingual tree-based topic models introduce an additional step of selecting a concept in a topic responsible for generating each word token. This is represented by a path $y_{d,n}$ through the topic's tree. This is the same as \tlda{}, but different from \abr{lda}, where each word is associated with a topic. 
 
-\begin{algorithm}[t!]
-\begin{footnotesize}
-\caption{\textsc{\small{Generative Process for \ptlda{}}}}
-\label{alg:ptlda}
-\begin{algorithmic}[1]
-  \FOR{topic $k \in {1, \cdots, K}$}
-  \FOR{each internal node $n_i$}
-  \STATE draw a distribution $\pi_{ki} \sim \text{Dir}(\beta_i)$
-  \ENDFOR
-  \ENDFOR
-  \FOR{document set $d \in {1, \cdots, D}$}
-  \STATE draw a distribution $\theta_d \sim \text{Dir}(\alpha)$
-  \FOR{each word in documents $d$}
-  \STATE choose a topic $z_{dn} \sim \text{Mult}(\theta_d)$
-  \STATE sample a path $y_{dn}$ with probability $\prod_{(i,j) \in y_{dn}} \pi_{z_{dn}, i, j}$
-  \STATE $y_{dn}$ leads to word $w_{dn}$ in language $l_{dn}$
-  \STATE append token $w_{dn}$ to document $d_{l_{dn}}$
-  \ENDFOR
-  \ENDFOR
-\end{algorithmic}
-\end{footnotesize}
-\end{algorithm}
+%\begin{algorithm}[t!]
+%\begin{footnotesize}
+%\caption{\textsc{\small{Generative Process for \ptlda{}}}}
+%\label{alg:ptlda}
+%\begin{algorithmic}[1]
+%  \FOR{topic $k \in {1, \cdots, K}$}
+%  \FOR{each internal node $n_i$}
+%  \STATE draw a distribution $\pi_{ki} \sim \text{Dir}(\beta_i)$
+%  \ENDFOR
+%  \ENDFOR
+%  \FOR{document set $d \in {1, \cdots, D}$}
+%  \STATE draw a distribution $\theta_d \sim \text{Dir}(\alpha)$
+%  \FOR{each word in documents $d$}
+%  \STATE choose a topic $z_{dn} \sim \text{Mult}(\theta_d)$
+%  \STATE sample a path $y_{dn}$ with probability $\prod_{(i,j) \in y_{dn}} \pi_{z_{dn}, i, j}$
+%  \STATE $y_{dn}$ leads to word $w_{dn}$ in language $l_{dn}$
+%  \STATE append token $w_{dn}$ to document $d_{l_{dn}}$
+%  \ENDFOR
+%  \ENDFOR
+%\end{algorithmic}
+%\end{footnotesize}
+%\end{algorithm}
 
 
 The probability of a path in a topic depends on the transition probabilities in a topic.  Each concept $i$ in topic $k$ has a distribution over its children nodes is governed by a Dirichlet prior: $\pi_{k,i} \sim \text{Dir}(\beta_{i})$.  Each path ends in a word (i.e., a leaf node) and the probability of a path is the product of all of the transitions between topics it traverses. Topics have correlations over words because the Dirichlet parameters can encode positive or negative correlations~\citep{andrzejewski-09}.
 
-With these correlated in topics in hand, the generation of documents is very similar to \textsc{lda}.  For every document $d$, we first sample a distribution over topics $\theta_d$ from a Dirichlet prior $\text{Dir}(\alpha)$.  For every token in the documents, we first sample a topic $z_{dn}$ from the multinomial distribution $\theta_d$, and then sample a path $y_{dn}$ along the tree according to the transition distributions specified by topic $z_{dn}$.  Because every path $y_{dn}$ leads to a word $w_{dn}$ in language $l_{dn}$, we append the sampled word $w_{dn}$ to document $d_{l_{dn}}$.  Aligned documents have words in both languages; monolingual documents only have words in a single language. The full generative process is shown in Algorithm~\ref{alg:ptlda}.
+With these correlated in topics in hand, the generation of documents is very similar to \textsc{lda}.  For every document $d$, we first sample a distribution over topics $\theta_d$ from a Dirichlet prior $\text{Dir}(\alpha)$.  For every token in the documents, we first sample a topic $z_{dn}$ from the multinomial distribution $\theta_d$, and then sample a path $y_{dn}$ along the tree according to the transition distributions specified by topic $z_{dn}$.  Because every path $y_{dn}$ leads to a word $w_{dn}$ in language $l_{dn}$, we append the sampled word $w_{dn}$ to document $d_{l_{dn}}$.  Aligned documents have words in both languages; monolingual documents only have words in a single language. 
+%The full generative process is shown in Algorithm~\ref{alg:ptlda}.
 
 If a flat symmetric Dirichlet prior is used instead of the tree prior, \plda{} is recovered; and if all documents are monolingual (i.e., with distinct distributions over topics $\theta$), \tlda{} is recovered. \ptlda{} connects different languages on both the word level (using the word correlations) and the document level (using the document alignments).
 
@@ -404,6 +406,8 @@ where $r_j$ are the phrases. Instead of estimating $p(r_j | \textbf{z}_i)$, \cit
 p(\textbf{z}_i | r_j) = \frac{f(r_j, \textbf{z}_i)+1}{f(r_j)+K}
 \end{align}
 Similarly like the word level coherence model, this phrase level coherence model can also be used into the \textsc{smt} decoder. Experiment results in \citet{xiong-13} show that the coherence models significantly improve the translation results.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
