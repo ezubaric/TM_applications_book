@@ -9,6 +9,8 @@ But there is more to history than simply the management of documents.
 The task of a historian is not only to absorb the contents of historical records, but to generalize; to find patterns and regularities that are true to the documents, but also beyond any single piece of evidence.
 Topic models are useful because they address these issues. They are scalable, robust to variability, and able to generalize while remaining grounded in observation.
 
+\jbgcomment{I don't think we've define close reading.  It might be worthwhile to add something in the intro if you'd like (and backpoint) or we should add more here.}
+
 Automated methods are an especially valuable counterpoint to traditional close reading methods.
 Studying history is about encountering the unexpected, often in contexts that seem familiar.
 We don't necessarily know how people in the past talked about particular issues, or how they organized their lives.
@@ -21,9 +23,13 @@ Collections of historical documents are necessarily situated in a time other tha
 As a result, many of the examples cited in this chapter organize documents along a temporal axis.
 The associated analysis is particularly concerned with how language, as reflected in topic concentrations and topic contents, changes over time.
 
+\jbgcomment{I don't like inline URLs; we should agree on a convention.  Footnotes?}
+
 A useful resource:
 Clay Templeton, Topic Modeling in the Humanities: An Overview.
 http://mith.umd.edu/topic-modeling-in-the-humanities-an-overview/
+
+\jbgcomment{Need more text to provide a roadmap for the rest of the chapter}
 
 \section{Newspapers}
 
@@ -44,6 +50,8 @@ In European languages we can achieve good results simply by separating strings o
 Tokens may contain non-letter characters such as apostrophes and hyphens, and may span multiple words ({\em Queen Victoria}, {\em black hole}).
 In many East Asian writing systems we cannot rely on orthographic conventions to identify tokens.
 Miller argues that in Classical Chinese a single character can be treated as a token without a strong negative impact on modeling, but for Japanese and modern Chinese we must often rely on pre-processing tools that are themselves potentially unreliable.
+
+\jbgcomment{Could we get a figure for the months?  I think that would be a nice addition}
 
 Cameron Blevins (http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/) models the diary of Martha Ballard, a revolutionary war-era midwife who recorded entries over 27 years. The model provides a useful way to discover connections between words and repeated discourses.
 As with other historical corpora, Blevins focuses on the connection between topics and time.
@@ -72,6 +80,9 @@ Models trained on modern text corpora might not even recognize this example as E
 
 \section{Secondary Literature}
 
+
+\jbgcomment{The definition of secondary literature seems unclear to me, and it's not clear that the problem of copyright has been discussed enough that it's clear that JSTOR is so great as a result (even though it is!)}
+
 The historical record of scholarship is a valuable source for intellectual history.
 Many users make use of the JStor ``Data for Research'' API.\footnote{http://dfr.jstor.org/}
 The DFR API is an important example, because it provides access to articles that have been scanned by JStor and may be under copyright.
@@ -80,7 +91,6 @@ DFR provides a simple view into selected articles by only providing the frequenc
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
 Mimno \cite{Mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
-
 
 Goldstone and Underwood \cite{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.

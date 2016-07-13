@@ -4,39 +4,96 @@
 \label{ch:css}
 
 While the previous chapters were mostly retrospective analyses, computational
-social science is mostly in the ``here and now''.
+social science is mostly in the ``here and now''.  It is focus on data
+being generated in the past hours, days, or weeks to inform
+inteligence analysists, brand monitors, journalists, or social
+scientists.  The underlying problem is the same, however: these
+stakeholders are interested in what people have to say but cannot read
+all of the data at their disposal.
 
- Traditional social science methods like polling do not scale well. And still
- require a lot of resources and time.
+Historically, social science questions such as what candidates is
+prefered in a particular part of the country or whether people like a
+new restaurant or product were answered by polling: social scientists
+would head out into the world, gather a statistically significant
+sample, and extrapolate to the broader population.
+
+\jbgcomment{Need to give concrete example of bad press}
+
+These techniques are still valuable, but they still take time.  A
+company needs to know if it has an issue with a product immediately,
+particularly if its good name is being dragged through the mud on
+social media.  However, the reason for the acute time pressure can
+also be the solution: if a company is able to quickly see that it has
+a social media problem, it can more quickly intervene and correct the
+issue.
 
 \section{Sentiment Analysis}
 
-Modeling sentiment is an important problem for companies, politicians,
-and anyone discussed online~\citep{pang-08}.
+In industrial settings, this problem is often called sentiment
+analysis~\citep{pang-08}.  Here, the goal is to determine the
+``sentiment''---e.g., positive or negative opinions---associated with
+a piece of text.  For example, ``Chipotle is great!'' would be
+associated with positive sentiment, while ``Chipotle made me sick
+would be associated with negative sentiment''.
 
-% Find original citation
-Topic modeling can help by breaking large corpora into domains
-(Surprising is bad for steering but good for books).
+While indistrial applications of sentiment analysis is mostly for
+identifying whether people like a product or copany, there are wider
+social science applications of examining large corpora to determine
+authors' \emph{internal state}.  For example, determining whether they
+they are politically liberal or conservative based on their online
+commentary.
 
-Sentiment is an example of meta data, which can be visualized to
-better understand a corpus (see viz).
+Topic models can help these tasks by dividing a problem into topics.
+For example, ``Apple'' can appear in tech news as well as a food
+ingredient; someone monitoring the seller of iPods and iPhones would
+not want to be confused by social media commentary complaining about a
+bad apple pie.  ``surprising'' in an automotive review is likely
+associated with negative seintment, while it's a good thing in a book
+review.  Thus, topics can help differentiate different kinds of
+discussion in broad corpora.
+
+However, topic models lose their value if you want to \emph{contrast}
+sentiment within a topic.  While a topic model can find people
+discussing Chipotle burritos online, it cannot separate the lovers from
+haters.  Thus, \emph{distinguishing} topics based on their sentiment
+can help a user better understand how topics and sentiment interact in
+a dataset.  This requires modifying the topic model to make it aware
+of the underlying sentiment.
+
+% Sentiment is an example of meta data, which can be visualized to
+% better understand a corpus (see viz).
 
 \section{Upstream and Downstream Models}
 
-Better models, however, can jointly model meta data and sentiment.
+To distinguish topics based on their sentiment, the model must be
+aware of what sentiment is.  In the language of probabilistic models,
+sentiment and topic are modeled \emph{jointly}.  That is, there is a
+probability distribution over both the sentiment of a document $y$ and
+the topics that is uses $z$.
 
-The advantage of joint models are both in the topics and for
-prediction.
+There are two general kinds of joint models that incorporate metadata
+such as sentiment: upstream and downstream models.  The distinction is
+based on the generative story of topic models (Chapter~\ref{}): is
+sentiment before (upstream) or after (downstream) topics in the
+generative story?
 
-There are two broad categories of these joint models: upstream and
-downstream models.
+% Put in graphical model examples of upstream and downstream models
 
-Upstream models can be supervised~\citep{mimno-08} or
-unsupervised~\citep{lin-09}.
+Upstream models assume that sentiment comes first.  That is, there
+will be different topics given the underlying sentiment.  This can
+come in the form in a prior learned from observed
+sentiment~\citep{mimno-08} or from a latent variable that can serve as
+a proxy for sentiment~\citep{lin-09}.  Upstream models are often
+easier to implement and are more flexible~\citep{stewart-14}.
 
-Upstream models are easier and more flexible~\citep{stewart-14}.
+In contrast, downstream models explicitly predict sentiment
+\emph{given} text.  If the goal is the later predict sentiment given
+raw text with the help of topic models, downstream models can work
+better than upstream models.  These models are often called
+``supervised'' topic models after supervised
+\abr{lda}~\citep{blei-07b}, which 
 
-Downstream models provide better predictions~\citep{blei-07b} and
+ and
 predictions can be better still with hinge loss~\citep{zhu-09}
 
 These models form the foundation for the models and problems we
@@ -71,6 +128,8 @@ to the life cycle of influenza's progression~\cite{broniatowsky-15}
 Monitoring pollution in China or drug use in teens requires access to
 populations that may be difficult.  Using social media presents an
 alternative~\cite{wang:paul:dredze-15}
+
+% Eisenstein
 
 \section{Social Networks}
 
