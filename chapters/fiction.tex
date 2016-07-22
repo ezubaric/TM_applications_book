@@ -3,13 +3,19 @@
 
 \label{ch:fiction}
 
-\jbgcomment{If deep reading is going to be discussed more here, perhaps it should go first, before fiction?  The nonfiction chapter seems to assume it.}
+This chapter considers documents that are valued not just for their information content but for their artistic expression.
+There are many different ways to read fiction, poetry, and rhetoric, and the choice of how we read affects the type of conclusions that we are able to make.
+Scholars have traditionally focused on a ``close reading'' approach, in which the goal is to identify the specific features of a passage that convey a more general meaning, or emotion, or atmosphere.
+These features might include nuances of word  selection, echoes of sound through rhyme or alliteration, or prosodic features like rhythm or cadence.
 
-We value literature because it is one of the best ways to capture the spirit of an age, and the experiences of those who lived through it. But standard methods of close reading require focus and thorough interpretation. As a result, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \citep{moretti-00}, works that are never studied.
+While close reading is a foundational tool in the study of literature, it is necessarily limited by its scale. 
+We value literature because it is one of the best ways to capture the spirit of an age, and the experiences of those who lived through it. But standard close reading methods require focus and thorough interpretation.
+Close reading is the best way to analyze a short passage of text, but which short passages of text do we want to analyze?
+Because no one can read --- much less close read --- all the available material from a culture or time period, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \citep{moretti-00}, works that are never studied.
 
 \section{The Role Topic Models Play in the Humanities}
 
-As a response, Moretti theorized an alternative ``distant reading''  \citep{moretti-13} that uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
+As a response, \cite{moretti-13} theorizes an alternative ``distant reading''   that uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
 
 Topic analysis, viewed as a way of identifying repetitions of language or discourse through multiple works, resonates with many more familiar approaches to the study of literature.
 At the broadest scale, to define a genre or a literary period is to separate a corpus into sections based on some observable criterion.
@@ -22,14 +28,14 @@ Rather than rigid boundaries specified by date of publication or nationality, al
 Topics do not represent themes themselves, but rather identify the implicit statistical regularities in word use brought about by the presence of genres, themes, and discourses.
 
 
-Applying topic models to fiction, however, brings new challenges. Jockers \citep{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
+Applying topic models to fiction, however, brings new challenges.  \cite{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
 
 Several issues emerge from this corpus. These are not unheard of in other contexts, but they are much more readily apparent in fiction.
 
 \section{What is a Document?}
 
 In most literature about topic models, the term ``document'' is used on the implicit assumption that users have things called documents.
-In the canonical Blei et al. LDA article \cite{blei-03}, this word is used 143 times, but never defined.
+In the canonical LDA article \cite{blei-03}, this word is used 143 times, but never defined.
 In many cases, the meaning of a ``document'' is fairly clear: a news article, or a scientific abstract.
 What was not clear in this earlier work was that this definition can be problematic, especially for documents longer than a few pages of text.
 
@@ -44,11 +50,11 @@ We assume that themes are expressed in different sections of a long document lik
 If a segmentation does a good job of identifying the boundaries between these sections, each resulting segment should have relatively few themes.
 If a segmentation does not do a good job of identifying boundaries, we should see segments that contain more themes on average, because our segments combine fragments of multiple thematic segments.
 
-Jockers chooses to avoid relying on structural markers such as chapter divisions and divides novels into 1000-word chunks \citep{jockers-13}. 
+ \cite{jockers-13} chooses to avoid relying on structural markers such as chapter divisions and divides novels into 1000-word chunks. 
 This treatment results in coherent, tightly focused topics that can be reasonably used as proxies for recognizable themes.
 
 Although fixed-length segmentation is effective, it is not necessarily ideal.
-Algee-Hewitt, Heuser, and Moretti \citep{algeehewitt2015paragraphs} compare varying fixed-length segmentations to segmentation based on paragraphs.
+\cite{algeehewitt2015paragraphs} compare varying fixed-length segmentations to segmentation based on paragraphs.
 They evaluate the difference between treatments by measuring the concentration of topics in each segment of text after modeling.
 The Herfindahl index is a measure of concentration in discrete probability distributions, calculated as the sum of the squared probabilities of each possible value.
 When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices.
@@ -69,7 +75,7 @@ This word co-occurrence pattern is problematic for topic models because they can
 Character names are --- by that criterion --- a perfect topic.
 Modeling these documents can result in topics that are essentially lists of character names.
 
-Jockers \cite{jockers-13} approaches this problem by constructing a stopword list that removes all character names before modeling.
+\cite{jockers-13} approaches this problem by constructing a stopword list that removes all character names before modeling.
 There are many ways to construct such lists.
 Lists of common names are a good start, but may not be aligned with a specific corpus.
 Some languages mark proper names with orthographic conventions like capitalization, but these tend to be noisy.
@@ -88,7 +94,7 @@ Tangherlini and Leonard \citep{tangherlini-13} look at nested models of sub-corp
 \section{Beyond the Literal}
 
 One of the hallmarks of fiction and literature is the use of figurative language.
-It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, Rhody \citep{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
+It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, \cite{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
 
 Specifically, Rhody explores a corpus of 4500 poems that describe works of art (or {\em ekphrastic} poems).
 She trains a 60-topic model, and highlights several particularly interesting topics.
@@ -107,4 +113,31 @@ But examining the context of poems that contain the topic reveals a different pa
 These poems have a consistent {\em form} that Rhody describes as elegiac.
 She writes that ``Paul Laurence Dunbar's 'We Wear the Mask' never once mentions the word 'death,' the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil --- language which 'The Starry Night' indisputably also draws from.''
 
-\jbgcomment{Needs a better conclusion}
+\section{Comparison to stylometric analysis}
+
+In addition to discussing what researchers have done in literary analysis with topic models, it is useful to consider how other technologies have been used in the same setting.
+One of the most established applications of computation in the study of literature is stylometry, or more specifically the question of authorship attribution \cite{juola2008authorship}.
+It is illustrative to contrast the goals and methods of stylometry with those of topic modeling.
+
+The critical insight of modern stylometry is that it is easy for authors to shift the focus of their work, but much more difficult to alter the semi-conscious style of their language \cite{mosteller1964inference}.
+The implication is that content-bearing words, such as nouns and adjectives, are a relatively poor indicator of authorship or at least authorial style, while functional words, such as determiners, conjunctions, and prepositions, carry more information about authorship.
+Therefore, measures such as Burrows' delta \cite{burrows2002delta} restrict attention to the most frequent words in a corpus.
+
+The contrast to topic modeling is clear: stylometric analysis focuses on frequent, low-information words and ignores content-bearing words, while topic modeling generally does the exact opposite.
+We generally remove high frequency words using a stop list, and in fiction go even further in removing words that are overly distinctive of a particular work.
+An assumption of topic modeling is therefore that the goal is to find thematic components that are {\em not} specific to one author, but rather exhibit themselves, with more or less variation, across multiple works.
+Where stylometry seeks to see past what authors are saying and focus on how they are saying it, a use of topic modeling is to find instances where different authors are writing about the same thing.
+
+\section{Conclusion}
+
+
+
+
+
+
+
+
+
+
+
+
