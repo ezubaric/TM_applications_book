@@ -1,16 +1,22 @@
 \chapter{Multilingual Data and Machine Translation}
 \label{ch:mt}
 
-\jbgcomment{This introduction needs to be improved.  I think you should start with how many datasets are multilingual, then discuss how normal topic models fail in this case, and then give an overview of the chapter.}
+\jbgcomment{This introduction needs to be improved.  I think you should start with how many datasets are multilingual, then discuss how topic models help in this case, and then give an overview of the chapter. \yhcomment{fixed.}}
 
-Modern machine translation systems~\citep{koehn-09} use millions of examples of translations to learn translation rules in local (phrase) context, while ignoring the global (document) context. These systems work best when the training corpus has consistent global context, including genre, register, and topic. Systems that are robust to systematic variation in the training set are said to exhibit \textbf{domain adaptation}.
+So far, we have been focusing on monolingual topic models and their applications. In fact, multilingual topic models have also been developed to analyze and understand the corpus in multiple langauges, and statistical machine translation~(\textsc{smt}) is one of the major applications.
 
-Topic models are a promising solution for automatically learning semantic coherence and discovering the domain knowledge as global context for applications such as statistical machine translation, including improving the translation models~\citep{Eidelman-12,hu-14,zhao-06,xiao-12,xiong-13} as well as the language coherence~\citep{Bellegarda-04,wood-09}.
-While multiple languages are involved in machine translation, multilingual topic models~\citep{mimno-09,boyd-graber-10} can also be applied to extract better knowledge and apply into machine translation.
+Given a text input in one language (source language), statistical machine translation tries to find a similar piece of text in another language (target language). Modern machine translation systems~\citep{koehn-09} use millions of training examples to learn the translation rules and apply these rules on the test data. While the translation rules are learned in local context, these systems work best when the training corpus has consistent global context or the same genre (e.g., sports, business) from a similar style (e.g., newswire, blog-posts).  These are called \emph{domains}.  
+
+Translations within one domain are better than translations across domains since they vary dramatically in their word choices and style.  A correct translation in one domain may be inappropriate in another domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in \underline{sports} domain usually means ``underwater diving'', but in \underline{social media} domain, it means a non-contributing ``lurker''. To avoid such translation errors caused by the domain change, domain knowledge is needed to train translation systems that are robust to such systematic variation in the training set, which are said to exhibit \emph{domain adaptation}.
+
+To Train such \textsc{smt} systems with domain adaptation, early efforts focus on building separate models given the hand-labeled domains~\citep{foster-07,matsoukas-09,chiang-11}. However, this setup is at best expensive and at worst infeasible for large data.  
+Topic models provide a promising solution where domains can be automatically discovered. Each extracted topic is treated as a soft domain. \footnote{Henceforth we will use the term ``topic'' and ``domain'' interchangeably: ``topic'' to refer to the concept in topic models and ``domain'' to refer to \textsc{smt} corpora.} Thus the normal monolingual topic models on the source documents only have been applied to extract domain knowledge for machine translation~\citep{Eidelman-12}. 
+
+However, the source language the and target language can complement each other to build up more accurate topic models. For example, if we only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'', it is hard to decide whether it is a \underline{sport} domain or it is a \underline{social media} domain. However, with the help of the aligned English translation ``luker'', it is easy to identify the ``social media'' domain. Thus multilingual topic models~\citep{mimno-09,boyd-graber-10} have been applied to extract domain knowledge for machine translation~\citep{hu-14}. 
+
+This chapter first reviews the basic components of statistical machine translation, then introduces how to apply the monolingual and multilingual topic models in domain adaptation to improve each component of the statistical machine translation systems.
 
 \section{Statistical Machine Translation}
-
-\jbgcomment{This section needs a better introduction.  First hint at how translation works: given an input, it tries to find a similar piece of text.  Then discuss how topic models can help with that.}
 
 Statistical machine translation casts machine translation as a probabilistic process~\citep{koehn-09}. Here we briefly introduce the standard phrase translation model introduced in~\citep{koehn-03}. Given the source sentence $\mathbf{f}$, the best translation in target language $\mathbf{e}_\texttt{best}$ is modeled as,
 \begin{equation}
@@ -18,12 +24,12 @@ Statistical machine translation casts machine translation as a probabilistic pro
 \end{equation}
 which is split to a \textit{translation model} $p(\mathbf{f}|\mathbf{e})$ and a \textit{language model} $p (\mathbf{e})$.
 
-The source sentence $\mathbf{f}$ is segmented into multiple source phrases $\bar{f}_i$ during the decoding, which are translated to a set of target phrases $\bar{e}_i$. Thus the translation probability $p(\mathbf{f}|\mathbf{e})$ can be further decomposed to the phrase translation probability $p(\bar{f}_i | \bar{e}_i)$. Besides, the target phrases may need to be \textit{reordered} to get the best translation result, and this part is captured by a relative distortion probability distribution $d(a_i - b_{i-1})$, where $a_i$ denotes the start position of the source phrase that was translated to the $i$th target phrase, and $b_{i-1}$ denotes the end position of the source phrase translated into the $(i-1)$th target phrase. As a result, the translation model can be decomposed as,
+The source sentence $\mathbf{f}$ is segmented into multiple source phrases $\bar{f}_n$ during the decoding, which are translated to a set of target phrases $\bar{e}_n$. Thus the translation probability $p(\mathbf{f}|\mathbf{e})$ can be further decomposed to the phrase translation probability $p(\bar{f}_n | \bar{e}_n)$. Besides, the target phrases may need to be \textit{reordered} to get the best translation result, and this part is captured by a relative distortion probability distribution $d(a_n - b_{n-1})$, where $a_i$ denotes the start position of the source phrase that was translated to the $n$th target phrase, and $b_{n-1}$ denotes the end position of the source phrase translated into the $(n-1)$th target phrase. As a result, the translation model can be decomposed as,
 \begin{equation}
-p(\mathbf{f}|\mathbf{e}) = \prod_{i} p(\bar{f}_i | \bar{e}_i) d(a_i - b_{i-1})
+p(\mathbf{f}|\mathbf{e}) = \prod_{n} p(\bar{f}_n | \bar{e}_n) d(a_n - b_{n-1})
 \end{equation}
 
-In phrase-based \textsc{smt}, the phrase probability $p(\bar{f}_i | \bar{e}_i)$ can be further estimated by combining lexical translation probabilities of words contained in that phrase~\citep{koehn-03}, which is normally referred as \textit{lexical weighting}. Lexical conditional probabilities $p_w(f|e)$ are maximum likelihood estimates from relative lexical frequencies,
+In phrase-based \textsc{smt}, the phrase probability $p(\bar{f}_n | \bar{e}_n)$ can be further estimated by combining lexical translation probabilities of words contained in that phrase~\citep{koehn-03}, which is normally referred as \textit{lexical weighting}. Lexical conditional probabilities $p_w(f|e)$ are maximum likelihood estimates from relative lexical frequencies,
 \begin{equation}
 \label{eq:lexical_prob}
 p_w(f|e) = \textstyle \slfrac{c(f, e)}{\sum_f{c(f, e)}}
@@ -31,34 +37,31 @@ p_w(f|e) = \textstyle \slfrac{c(f, e)}{\sum_f{c(f, e)}}
 where $c(f, e)$ is the count of observing lexical pair $(f, e)$ in the training dataset. Given a word alignment $a$, the lexical weight for this phrase pair $p_w(\bar{f} | \bar{e}; a)$ is the normalized product of lexical probabilities of the aligned word pairs within that phrase pair:
 \begin{equation}
 \label{eq:phrase_prob}
-p_w(\bar{f} | \bar{e}; a) = \prod^{n}_{i=1} \frac{1}{\{|j | (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i | e_j)
+p_w(\bar{f} | \bar{e}; a) = \prod_{i} \frac{1}{\{|j | (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i | e_j)
 \end{equation}
 where $i$ and $j$ are the word positions in target phrase $\bar{e}$ and source phrase $\bar{f}$ respectively.
 
-\paragraph{\textsc{smt} with Domain Adaptation}
+Next we introduce how to apply topic models to improve translation models, language models and reordering models respectively.
 
-A \textsc{smt} system is usually trained on documents with the same genre (e.g., sports, business) from a similar style (e.g., newswire, blog-posts).  These are called \emph{domains}.  Translations within one domain are better than translations across domains since they vary dramatically in their word choices and style.  A correct translation in one domain may be inappropriate in another domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in a newspaper usually means ``underwater diving''.  On social media, it means a non-contributing ``lurker''.
-
-To Train such \textsc{smt} systems with domain adaptation, early efforts focus on building separate models~\citep{foster-07} and adding features~\citep{matsoukas-09} to model domain information.  \citet{chiang-11} combine these approaches by directly optimizing genre and collection features by computing separate translation tables for each domain.
-
-However, these approaches treat domains as hand-labeled, constant, and known \textit{a priori}.  This setup is at best expensive and at worst infeasible for large data.  Topic models provide a solution where domains can be automatically induced from raw data: treat each topic as a domain. \footnote{Henceforth we will use the term ``topic'' and ``domain'' interchangeably: ``topic'' to refer to the concept in topic models and ``domain'' to refer to \textsc{smt} corpora.}
-Such global context from topic models can be applied to improve each component of the statistical machine translation systems. Next we introduce how to apply such domain knowledge from topic models to translation models, language models and reordering models respectively.
-
-\jbgcomment{Should this really be a new section?}
+\jbgcomment{Should this really be a new section? \yhcomment{Restructured. Let me know what you think now.}}
 
 \section{Topic Models in Translation Models}
 
-%Topic models have been applied to improve the translation models through domain adaptation~\citep{Eidelman-12,hu-14}, word alignment~\citep{zhao-06} and translation coherence~\citep{xiao-12,xiong-13}.
+To Train such \textsc{smt} systems with domain adaptation, early efforts focus on building separate models based on the hand-labeled domains~\citep{foster-07,matsoukas-09,chiang-11}. For example, for all the training examples that are labeled as \underline{sports} domain, one translation model is trained. As a result, in any test example that is labeled as \underline{sports}, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' is always translated to ``underwater diving'', and the probability of translating ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' to ``lurker'' is zero. In fact, such hard domain labels are not only expensive and time consuming to obtain, but also unsmoothed and sensitive to labeling erros. 
 
-Topic models are a promising solution for automatically discovering the global context---for example, domain knowledge---in machine translation corpora~\citep{Eidelman-12,hu-14}. Given the soft domain assignments from topic models, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\citep[\textsc{mira}]{Crammer-06}.
+Different from the manual hard domain labels, topic models provide a promising solution for automatically discovering the soft domain assignments. While the topic-word distributions generated by topic models show what each topic (domain) is about, the document-topic distributions provide such soft domain assignments for each document. Let's continue to use the previous example and assume there are two topics \underline{sports} and \underline{social media}. Given a test example that is most likely about \underline{sports}, it may have a soft domain distribution as $99\%$ for \underline{sports} domain and $1\%$ for \underline{social media}. These automatically obtained soft domain labels are well smoothed, and they are not only cheap to obtain but also much more robust to topic errors. Next, we introduce the details about applying monolingual and multilingual topic models to improve translation models~\citep{Eidelman-12,hu-14}.
+
+\jbgcomment{Give an example of Chiang's hard domain assignment and then give an example of how topic models can do this using ``soft'' assignment.  Then go into the mathematical details. \yhcomment{added.}}
 
 \subsection{Translation Domain Adaptation with Topic Models}
 
-\jbgcomment{Give an example of Chiang's hard domain assignment and then give an example of how topic models can do this using ``soft'' assignment.  Then go into the mathematical details.}
-
 Topic models take the number of topics $K$ and a collection of documents as input, where each document is a bag of words. They output two distributions: a distribution over topics for each document $d$; and a distribution over words for each topic. If each topic defines a \textsc{smt} domain, the document's topic distribution is a soft domain assignment for that document.
 
-Given the soft domain assignments, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\cite[\textsc{mira}]{Crammer:2006}.  The topics come from source documents \emph{only} and create topic-specific lexical weights from the per-document topic distribution $p(k|d)$, which is used to smooth the expected count $\hat{c}_{k}(f,e)$ of a word translation pair under topic $k$,
+%Given the soft domain assignments, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\cite[\textsc{mira}]{Crammer:2006}.  The topics come from source documents \emph{only} and create topic-specific lexical weights from the per-document topic distribution $p(k|d)$, which is used to smooth the expected count $\hat{c}_{k}(f,e)$ of a word translation pair under topic $k$,
+
+\paragraph{Topical Lexical Features}
+
+\citet{Eidelman-12} use such soft domain assignments to build up translation models. The document-topic distribution $p(k|d)$ is used to smooth the expected count $\hat{c}_{k}(f,e)$ of a word translation pair under topic $k$,
 \begin{align}
 \textstyle \hat{c}_{k}(f,e) = \sum_{d}{p(k|d)c_d(f,e)},
 \end{align}
@@ -81,37 +84,46 @@ For a test document $d$, the document topic distribution $p(k | d)$ is inferred 
 \end{align}
 a combination of the topic dependent lexical weight and the topic distribution of the document, from which we extract the phrase.
 
-In fact, \citet{Eidelman-12} introduces the two direction topic-adapted probabilities instead of a single direction: $p_w(\bar{f} | \bar{e};a, k)$ and $p_w(\bar{e} | \bar{f};a, k)$. This is equivalent to introduce $2K$ new word translation tables, thus it results in introducing $2K$ lexical weight features $f_{k}(\bar{f}|\bar{e})$ and $f_{k}(\bar{e}|\bar{f})$. Given the topic-adapted features, \citet{Eidelman-12} compute the resulting model score by combining these adapted features in a linear model with other standard \textsc{smt} features and optimizing the weights:
+In fact, \citet{Eidelman-12} introduces the two direction topic-adapted probabilities instead of a single direction: $p_w(\bar{f} | \bar{e};a, k)$ and $p_w(\bar{e} | \bar{f};a, k)$. This is equivalent to introduce $2K$ new word translation tables, thus it results in introducing $2K$ lexical weight features $f_{k}(\bar{f}|\bar{e})$ and $f_{k}(\bar{e}|\bar{f})$. These topic-adapted features are combined with the other standard \textsc{smt} features including the standard $f(\bar{f}|\bar{e})$ and $f(\bar{e}|\bar{f})$, and the feature weights are optimized through using the \emph{Margin Infused Relaxed Algorithm}~\cite[\textsc{mira}]{Crammer-06}. 
+
+These adapted features allow us to bias the translations according to the topics. For example, if topic $k$ is dominant in a test document, the feature $f_k(\bar{f} | \bar{e})$ will be large, which may bias the decoder to a translation that has small value of the standard feature $f(\bar{f}|\bar{e})$. In addition, combining the adapted features with the standard features makes this model more flexible. For a test document with less clear topics, the topic distribution will tend toward being fairly uniform. In this case, the topic features will contribute less to the translation results and the standard features will dominate the translation results.
+
+\paragraph{Topical Lexical and Phrasal Features}
+
+\citet{hasler-12} also apply topic models for domain adaptation to \textsc{smt} in a similar framework as \citet{Eidelman-12}, except they introduce different features, which they call sparse word pair features and phrase pair features. The topics on source documents are integrated as a source side trigger for a particular word pair or phrase pair as sparse features. For  example, given a word $w_f$ with topic $k$, for an aligned word pair $(w_f, w_e)$ which is observed $c$ times in the aligned sentence pair, the sparse word pair feature $wp$ with topics is represented as $wp\_k\_w_f \sim w_e = c$, while the original word pair feature is $wp\_w_f \sim w_e = c$. The topic phrase pair features are also defined in a similar way: given an aligned phrase pair $(p_f, p_e)$ with count $c$ in the same sentence, the sparse phrase pair feature $pp$ with topics is represented as $pp\_k\_p_f \sim p_e = c$. Both the phrase pair and word pair features are extracted from the aligned training sentence pairs, and then \textsc{mira} is used to learn the feature weights.
+
+One difference in \citet{hasler-12} from \citet{Eidelman-12} is that they are using \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} instead of \textsc{lda} to learn topics. While \textsc{lda} assumes that each word is generated independently in a document, \textsc{htmm} models the word topic in a document as a Markov chain where all words in a sentence are assigned with the same topic. \textsc{htmm} computes $p(z_n, \Phi_n | d, w_1, \cdots, w_N)$ for each sentence, where $z_n$ is the topic of sentence $n$ in document $d$, $w_1, \cdots, w_N$ are the words in the sentence $n$,  $\Phi_n$ is the topic transition between words. $\Phi_n$ is only non-zero at sentence boundaries. The advantage of using \textsc{htmm} is that each sentence gets the same topic assignment, thus the topic for each phrase pair in the aligned sentence is consistent and can be used for topical features directly. 
+
+\jbgcomment{Contrast HTMM with LDA and why it might be better.  You should also explain HTMM a little more, as it's not discussed anywhere else. \yhcomment{added.}}
+
+\paragraph{Topical Phrase Probability via Topic Mapping}
+
+\citet{su-12} also apply \textsc{htmm} to \textsc{smt} based on a similar idea as \citet{Eidelman-12}. Given the bilingual translation training data without any specific domain information (referred as out-of-domain bilingual data), they incorporate the topic information from the source language into translation probability estimation, and decompose the phrase probability $p(\bar{e}|\bar{f})$ as,
 \begin{align}
-\explain{standard features}{\sum_p \lambda_p f_p(\bar{f},\bar{e})} + \explain{adapted features}{\sum_k \lambda_k f_k(\bar{f} | \bar{e})} + \explain{adapted features}{\sum_k \lambda_k f_k(\bar{e} | \bar{f})}
+p(\bar{e}|\bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} | \bar{f}) = \sum_{k_{out}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | \bar{f})
 \end{align}
-These adapted features allow us to bias the translations according to the topics. For example, if topic $k$ is dominant in a test document, the feature $f_k(\bar{f} | \bar{e})$ will be large, which may bias the decoder to a translation that has small value of the standard feature $f_p(\bar{f}, \bar{e})$. In addition, combining the adapted features with the standard features makes this model more flexible. For a test document with less clear topics, the topic distribution will tend toward being fairly uniform. In this case, the topic features will contribute less to the translation results and the standard features will dominate the translation results.
+where $p(\bar{e} | \bar{f}, k_{out})$ is the translation probability given the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the phrase probability in topic $k_{out}$.
 
-Conceptually, this approach is just reweighting examples.  The probability of a topic given a document is never zero.  Every translation observed in the training set will contribute to $p_{k}(e|f)$; many of the expected counts, however, will be less than one.  This obviates the explicit smoothing used in other domain adaptation systems~\citep{chiang-11}.
-
-\jbgcomment{Give clearer examples (e.g., on real text) of these two methods.  Also contrast HTMM with LDA and why it might be better.  You should also explain HTMM a little more, as it's not discussed anywhere else.}
-
-\citet{su-12} introduce the topics to machine translation based on a similar idea but using \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} to monolingual data. They incorporate the topic information from the source language into translation probability estimation, and decompose the phrase probability $p(\bar{e}|\bar{f})$ as,
+Besides, \citet{su-12} assume that a monolingual corpus in the same domain as the test sentence(referred as in-domain monolingual data) is available. Thus they also apply \textsc{htmm} to estimate the in-domain topic $k_{in}$ and $p(k_{in} | \bar{f})$. 
+However, the in-domain topics $k_{in}$ and the out-of-domain topics $k_{out}$ may not be in the same space, so \citet{su-12} introduce the topic mapping probability $p(k_{out} | k_{in})$ to map the in-domain topic to the out-of-domain topic:
 \begin{align}
-p(\bar{e}|\bar{f}) = \sum_{t_f} p(\bar{e}, t_f | \bar{f}) = \sum_{t_f} p(\bar{e} | \bar{f}, t_f) \cdot p(t_f | \bar{f})
+p(k_{out} | \bar{f}) = \sum_{k_{in}} p(k_{out} | k_{in}) \cdot \cdot p(k_{in} | \bar{f})
 \end{align}
-where $p(\bar{e} | \bar{f}, t_f)$ is the translation probability given the source side topic $t_f$, and $p(t_f | \bar{f})$ denotes the phrase probability in topic $t_f$. \textsc{htmm} is applied to the out-of-domain source data to estimate the topic $t_f$ and further estimate $p(\bar{e} | \bar{f}, t_f)$ as $p(\bar{e} | \bar{f}, t_{f_out})$, and \textsc{htmm} is also applied to the in-domain source data to compute $p(t_f | \bar{f})$ as $p(t_{f_in} | \bar{f})$. However, $t_{f_out}$ and $t_{f_in}$ may not be in the same space, so \citet{su-12} introduce the topic mapping probability $p(t_{f_out} | t_{f_in})$ to map the in-domain topic to the out-of-domain topic:
+As a result, the final phrase probability can be refined as,
 \begin{align}
-p(t_{f_out} | \bar{f}) = \sum_{t_{f_in}} p(t_{f_out} | t_{f_in}) \cdot \cdot p(t_{f_in} | \bar{f})
-\end{align}
-Thus the final phrase probability can be refined as,
-\begin{align}
-p(\bar{e}|\bar{f}) = \sum_{t_{f_out}} \sum_{t_{f_in}} p(\bar{e} | \bar{f}, t_{f_out}) \cdot p(t_{f_out} | t_{f_in}) \cdot p(t_{f_in} | \bar{f})
+p(\bar{e}|\bar{f}) = \sum_{k_{out}} \sum_{k_{in}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | k_{in}) \cdot p(k_{in} | \bar{f})
 \end{align}
 
-\citet{hasler-12} also apply \textsc{htmm} and introduce sparse word pair features and phrase pair features based on topic models for domain adaptation to improve the \textsc{smt} system. They apply \textsc{htmm} on the source documents, and assign one topic to the whole sentence. Then the topic information is integrated as a source side trigger for a particular word pair or phrase pair, given a topic. For  example, given a sentence pair $(s_f, s_e)$ with topic $k$, for an aligned word pair $(w_f, w_e)$ which is observed $c$ times in this sentence pair, the sparse word pair feature $wp$ with topics is represented as $wp\_k\_w_f \sim w_e = c$, while the original word pair feature is $wp\_w_f \sim w_e = c$. Similarly, the topic phrase pair features are also defined: given an aligned phrase pair $(p_f, p_e)$ with count $c$ in the same sentence, the sparse phrase pair feature $pp$ with topics is represented as $pp\_k\_p_f \sim p_e = c$. Both the phrase pair and word pair features are extracted from the aligned training sentence pairs, and then the Margin Infused Relaxed Algorithm~(MIRA)~\citep{Crammer-06} are used to learn the feature weights. The evaluation on both English-French and German-English shows promising results.
+Comparing with the approaches in \citet{Eidelman-12} and \citet{hasler-12}, this approach incorprates the topic information into the phrase probability directly, rather than through the word translation probability. The topics and topic mapping relationship between the training data and test data can be built offline, thus the whole process brings no additional burden to the translation system. 
 
-However, \citet{Eidelman-12,su-12,hasler-12} ignore a wealth of information that could improve topic models and help machine translation. They rely solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an \textsc{smt} system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so existing applications of topic models~\citep{Eidelman-12,su-12,hasler-12} are ignoring available information on the target side that could aid domain discovery. This can be improved by introduction multilingual topic models for machine translation, and the details are introduced in the next section.
+\paragraph{Problems}
+
+However, \citet{Eidelman-12,hasler-12,su-12} ignore a wealth of information that could improve topic models and help machine translation. They rely solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an \textsc{smt} system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so these approaches are ignoring available information on the target side that could aid domain discovery. This can be improved by introduction multilingual topic models, and the details are introduced in the next section.
 
 \subsection{Multilingual Information for Domain Adaptation}
 \label{sec:trans-multiling}
 
-As we mentioned in the previous section, \citet{Eidelman-12,su-12,hasler-12} only use monolingual data from the source language for topic modeling, ignoring all target-language data and available lexical semantic resources between source and target languages. In fact, different languages complement each other to reduce ambiguity.  For example, ``\begin{CJK*}{UTF8}{gbsn}木马\end{CJK*}'' in a Chinese document can be either ``hobbyhorse'' in a children's topic, or ``Trojan virus'' in a technology topic.  A short Chinese context obscures the true topic. However, these terms are unambiguous in English, revealing the true topic. From this example, we can see that that topic models on multilingual corpus do improve the quality of the extracted topics.
+While the previous approaches focus on applying topic models on the monolingual source language of tranlsation data, the aligned languages can complement each other to reduce ambiguity.  For example, ``\begin{CJK*}{UTF8}{gbsn}木马\end{CJK*}'' in a Chinese document can be either ``hobbyhorse'' in a \underline{children}'s topic, or ``Trojan virus'' in a \underline{technology} topic.  A short Chinese context obscures the true topic. However, these terms are unambiguous in English, revealing the true topic. From this example, we can see that that topic models on multilingual corpus do improve the quality of the extracted topics.
 
 There are various ways to build up the multilingual topic models. Different languages can be connected on the word-level or the document levels.
 On one hand, \emph{lexical information}, such as orthographic similarity~\citep{boyd-graber-09} and multilingual dictionaries~\citep{boyd-graber-10}, can be very helpful to induce better topics from multilingual corpora. For instance, tree-based topic models~\citep{boyd-graber-07,andrzejewski-09,Hu:Boyd-Graber:Satinoff-ur} incorporate the correlations between words in the same or different languages by encouraging words that appear together in a {\bf concept} to have similar probabilities given a topic.
