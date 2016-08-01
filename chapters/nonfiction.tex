@@ -58,7 +58,25 @@ A topic that is less immediately interpretable ({\em  say thing might think own 
 
 
 
-Nelson\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/} studies topics in Civil War-era newspapers, including the Confederate paper of record, the Daily Dispatch, and the New York Times.
+Nelson\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/} studies topics in Civil War-era newspapers, including the Confederate paper of record, the Richmond Daily Dispatch.
+Like Block and Newman, Nelson's goal is to organize the collection into themes and to measure the variation in prevalence of those themes over time.
+The web interface highlights a temporal view of the collection as a series of topic-specific time series.
+The mode of analysis is neither fully automated nor manual, but rather combines the two approaches. 
+Nelson manually labels the topics and groups them into larger categories such as ``slavery'', ``nationalism and patriotism'', ``soldiers'', and ``economy''.
+
+He validates the model by comparing topics to a known and previously annotated category, the ``fugitive slave ads''. 
+These documents were pre-photographic descriptions of runaway slaves, and have a specific language consisting of aspects of personal appearance and possible locations where enslaved people might have  hidden.
+He finds a near perfect correspondence between the prevalence over time of manually labeled fugitive slave ads and documents that have a high concentration of a specific topic, which places high probability on terms such as {\em reward, years,} and {\em color} (manual labels were not used  in training the model).
+Nelson notes that few if any of these documents are assigned completely to this topic: he uses a cutoff of 21.5\% as a criterion.
+
+Nelson's larger-scale groupings of topics pick out threads of discourse that may or may not be correlated over time.
+The model identifies three topics that have similar temporal distribution, peaking at the beginning of the war in 1861 and largely disappearing afterwards.
+These are related but distinct themes: anti-Northern sentiment expressed in poetic form, anti-Northern sentiment expressed in vitriolic prose, and discussion of secession.
+All three form aspects of the same process, the rhetorical push for war.
+Other related topics have slightly different temporal distributions.
+Nelson groups six topics related to soldiers, and displays them in the order of their maximum concentration over time.
+They move from ``military recruitment'' and ``orders to report'' to later topics related to ``deserters'', ``casualties'', and ``war prisoners.''
+Again, these are related themes but rather than comprising a single event they trace the development of the increasingly dire military situation of the Confederacy.
 
 \cite{yang-11-historical} model a collection of historical newspapers from Texas, finding that the significance of the pivotal battle of San Jacinto was established much earlier than historians had anticipated.
 
