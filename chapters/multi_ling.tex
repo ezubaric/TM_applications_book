@@ -284,11 +284,34 @@ where $p(k_e|k_f)$ is the topic projection probability, estimated by the co-occu
 
 \section{Reordering with Topic Models}
 
-In addition to translation models and languages models, topic models have also been applied to improve the reordering model, another important component in statistical machine translation.
+In addition to translation models and languages models, a third important component of a phrase-based \textsc{smt} systemt is the reordering models, which learn how the order of words in the source sentences influences the order of words in the target sentences and how to make the translations in the right order. 
 
-\jbgcomment{I don't understand this.  Example would really help.  :)}
+While a topic model helps the domain adaptation of translation models and language models, it is not obvious how it helps the reordering model, but it does. The word orders in different domains of the same language may be different, and this is where the topic models come to help. As the example shown in Table~\ref{tab:reorder-topic}~\citep{wang-14}, in \underline{economy} topic, Chinese word \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is on the left of \begin{CJK*}{UTF8}{gbsn}五\end{CJK*}; but in \underline{sports} topic, \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is on the right of \begin{CJK*}{UTF8}{gbsn}五\end{CJK*}. As a result, it is necessary to introduce domain knowledge (topics) to model such order variance. 
 
-A lexicalized reordering model is to learn the orientation probabilities for a given phrase pair with respect to the previous phrase pair and the following phrase pair~\citep{Chen-2013}. The orientation $o$ typically includes three types: monotone (M), swap (S) and discontinuous (D). The M orientation means the current phrase pair is immediately to the right of the previously translated phrase in the source sentence, S orientation occurs when the current phrase is immediately to the left of the previous phrase, and all other cases all belong to D orientation. This type of reordering model is normally referred as lexicalized since the estimated orientations depend on the words in both the previously translated phrase pair and the current phrase pair. Formally, the reordering model is defined to estimate the corresponding probabilities $p(o|f,e)$ using recursive MAP smoothing:
+\begin{table}[!tp]
+\begin{center}
+\setlength\tabcolsep{3pt}
+\begin{tabular}{c || c c} \hline
+Topic & Type & Example \\ \hline \hline
+\multirow{2}{*}{Economy} & Source & $\cdots$ \textbf{\begin{CJK*}{UTF8}{gbsn}比五\end{CJK*}} \begin{CJK*}{UTF8}{gbsn}月份下降\end{CJK*}$3.8\%$ $\cdots$\\
+                     & Target & $\cdots$ down $3.8\%$ from May $\cdots$\\ \hline
+\multirow{2}{*}{Sports} & Source & $\cdots$ \textbf{\begin{CJK*}{UTF8}{gbsn}五比\end{CJK*}}\begin{CJK*}{UTF8}{gbsn}一\end{CJK*}$3.8\%$ $\cdots$\\
+                     & Target & $\cdots$ five to one $\cdots$\\ \hline
+\end{tabular}
+\caption{Topics influence the word orders: the Chinese words in bold are in different orders in different topics. (Example from \citet{wang-14})} 
+\label{tab:reorder-topic}
+\end{center}
+\end{table}
+
+This section introduces two different reordering models and how to apply topic models to improve the reordering model respectively.
+
+\jbgcomment{I don't understand this.  Example would really help. \yhcomment{added.}}
+
+\subsection{Lexicalized Reordering Models with Topics}
+
+A lexicalized reordering model is to learn the orientation probabilities for a given phrase pair with respect to the previous phrase pair and the following phrase pair~\citep{Chen-2013}. The orientation $o$ typically includes three types: monotone (M), swap (S) and discontinuous (D). The M orientation means the current phrase pair is immediately to the right of the previously translated phrase in the source sentence, S orientation occurs when the current phrase is immediately to the left of the previous phrase, and all other cases all belong to D orientation. 
+
+Formally, the reordering model is defined to estimate the corresponding probabilities $p(o|f,e)$ using recursive MAP smoothing:
 \begin{align}
 p(o|f,e) &= \frac{c(o,f,e) + \alpha_f p(o|f) + \alpha_e p(o|e)}{c(f,e) + \alpha_f + \alpha_e} \\
 p(o|f) &= \frac{c(o,f) + \alpha_g p(o)}{c(f) + \alpha_g} \\
@@ -296,6 +319,10 @@ p(o|e) &= \frac{c(o,e) + \alpha_g p(e)}{c(e) + \alpha_g} \\
 p(o) &= \frac{c(o) + \alpha_u/3}{c(\cdot) + \alpha_u}
 \end{align}
 where $c(o,f,e)$ is the orientation counts obtained from the word-aligned corpus;  the parameters $\alpha_f$, $\alpha_e$, $\alpha_g$ and $\alpha_u$ are learned by minimizing the perplexity of the resulting model on the held-out data.
+
+This type of reordering model is normally referred as lexicalized since the estimated orientations depend on the words in both the previously translated phrase pair and the current phrase pair. 
+
+\paragraph{Linear Adaptation with Topics}
 
 \citet{Chen-2013} find that training corpus in different domains vary significantly in their reordering characteristics for particular phrase pairs, thus they introduce the linear model for reordering model adaptation. Given $N$ sub-corpora (or $N$ domain corpus), they first train a reordering model on each domain corpus, and then define the global reordering model as a linear combination of the reordering models on each domain corpus:
 \begin{align}
@@ -307,170 +334,55 @@ where $p_i(o|f,e)$ is the reordering model on sub-corpus $i$, and the weight $\a
 \end{align}
 where $\tilde{p}(o,f,e)$, proportional to $c(o,f,e)$, is the empirical distribution of counts in the development set. \citet{Chen-2013} propose to smooth the in-domain sample and weight instances by document frequency to further improve the mixture adaptation. They demonstrate this adaptation significantly improve the statistical machine translation system.
 
-However, \citet{Chen-2013} manually divide the training data into multiple domains, instead of using automatic techniques such as topic models. \citet{wang-14} introduce topic models to the maximum entropy based phrase reordering models, proposed by \citet{Xiong-2006}. Under the ITG constraints~\citep{Wu-1997}, three Bracketing Transduction Grammar (BTG) rules are used to constrain the translation and reordering:
+\subsection{Maximum Entropy Classification with Topics}
+
+However, \citet{Chen-2013} manually divide the training data into multiple domains, instead of using automatic techniques such as topic models. \citet{wang-14} introduce topic models to the maximum entropy based phrase reordering models, proposed by \citet{Xiong-2006}. 
+
+Under the ITG constraints~\citep{Wu-1997}, three Bracketing Transduction Grammar (BTG) rules are used to constrain the translation and reordering:
 \begin{align}
 A &\rightarrow [A^1, A^2]\\
 A &\rightarrow <A^1, A^2>\\
 A &\rightarrow f/e
 \end{align}
-where $A$ is a block with a pair of source and target strings; $A^1$ and $A^2$ are two consecutive blocks; the two rules are reordering rules which merge two blocks into a larger block in a straight or inverted order. Rule 3 translates a source phrase $f$ to a target phrase $e$ and generate a block $A$. These three rules are continuously used until the whole source sentence is covered, and a hierarchical segmentation tree of the source sentence is generated at the same time. Based on this hierarchical setting, \citet{Xiong-2006} treat the reordering problem as a classification with two labels: straight and inverted between two consecutive blocks, and build up a maximum entropy classification model as the reordering model:
+where $A$ is a block with a pair of source and target strings; $A^1$ and $A^2$ are two consecutive blocks; the two rules are reordering rules which merge two blocks into a larger block in a straight or inverted order. Rule 3 translates a source phrase $f$ to a target phrase $e$ and generate a block $A$. These three rules are continuously used until the whole source sentence is covered, and a hierarchical segmentation tree of the source sentence is generated at the same time. 
+
+Based on this hierarchical setting, \citet{Xiong-2006} treat the reordering problem as a classification with two labels: straight and inverted between two consecutive blocks, and build up a maximum entropy classification model as the reordering model:
 \begin{align}
-p(o|C(A^1, A^2)) = \frac{\exp(\sum_i \theta_i f_i(o, c(A^1, A^2)))}{\sum_{o'} \exp(\sum_i \theta_i f_i(o', c(A^1, A^2)))}
+p(o|c(A^1, A^2)) = \frac{\exp(\sum_i \theta_i f_i(o, c(A^1, A^2)))}{\sum_{o'} \exp(\sum_i \theta_i f_i(o', c(A^1, A^2)))}
 \end{align}
-where $\theta_i$ are the feature weights, $C(A^1, A^2)$ indicates the attributes of $A^1$ and $A^2$, and $f_i(o, C(A^1, A^2))$ are binary features defined as,
+where $\theta_i$ are the feature weights, $c(A^1, A^2)$ indicates the attributes of $A^1$ and $A^2$, and $f_i(o, c(A^1, A^2))$ are binary features defined as,
 \begin{align}
-f_i(o, C(A^1,A^2)) = \begin{cases}
-1, &\text{if $(o,C(A^1, A^2)$ satisfies certain condition} \\
+f_i(o, c(A^1,A^2)) = \begin{cases}
+1, &\text{if $(o,c(A^1, A^2))$ satisfies certain condition} \\
 0, &\text{else}
 \end{cases}
 \end{align}
 
-Different from the lexicalized reordering model, this framework only uses the features extracted from the blocks instead of the whole block, thus it is flexible to reorder any blocks~\citep{Xiong-2006}. Following this framework, \citet{wang-14} integrate two more types of topic-based features into the reordering model, in additional to the boundary word features used in \citet{Xiong-2006}. First, they choose the topic with maximum probability in a document to be the \textit{document topic feature} for that document. Besides, they also use the topics of the content words that locate at the left and rightmost positions on the source phrases as the \textit{word topic features} to capture topic-sensitive reordering patterns. During the decoding process, \citet{Xiong-2006} infer the topic distributions of the test documents first and then apply this proposed topic-based reordering model as one sub-model to the log-linear model to obtain the best translation:
+Different from the lexicalized reordering model, this framework only uses the features extracted from the blocks instead of the whole block, thus it is flexible to reorder any blocks~\citep{Xiong-2006}. 
+
+\paragraph{Adding Topic-based Features}
+
+Following this framework, \citet{wang-14} integrate two more types of topic-based features into the reordering model, in additional to the boundary word features used in \citet{Xiong-2006}. First, they choose the topic with maximum probability in a document to be the \textit{document topic feature} for that document. Besides, they also use the topics of the content words that locate at the left and rightmost positions on the source phrases as the \textit{word topic features} to capture topic-sensitive reordering patterns. 
+
+During the decoding process, \citet{Xiong-2006} infer the topic distributions of the test documents first and then apply this proposed topic-based reordering model as one sub-model to the log-linear model to obtain the best translation:
 \begin{align}
 e_\texttt{best} = \texttt{argmax}_e \Big \{ \sum_{m=1}^M \lambda_m h_m(e,f) \Big \}
 \end{align}
 where $h_m(e,f)$ are the  sub-models or features of the whole log-linear model, $\lambda_m$ are their weights accordingly, which are tuned on the development set.
 
+This framework is very flexible to encode any topic-based features, and any multilingual topic models we have discussed so far can be applied to extract better topics.
+
+
 \section{Beyond Domain Adaptation}
 
-\subsection{Word Alignment with Topic Models}
+So far, we have introduced the existing multilingual topic models and one of its important applications---statistical machine translation. These extracted topics have been used as soft domain knowledge for domain adaptation of the translation models, language models and reorder models. 
 
-In addition to applying topic models as domain adaptation, \citet{zhao-06} build up a novel bilingual topical admixture (BiTAM) to improve the word alignment in statistical machine translation.
+In addition to these three big model modules, there are also other modules of \textsc{smt}, such as word alignment, where topic models have also been applied. \citet{zhao-06} build up a novel bilingual topical admixture (BiTAM) to improve the word alignment in \textsc{smt}. BiTam assumes each document pair is an admixture of topics, and the topics for each sentence pair within that document pair are sampled from the same document-topic distribution. Each topic also has a topic-specific translation table. Therefore, the sentence-level word alignment and translations are coupled by the hidden topics. This BiTam model captures the latent topical structure and generalizes word alignments and translations via topics shared across sentence pairs, thus the quality of the alignments is improved.
 
-BiTAM captures the latent topical structure and generalizes word alignments and translations via topics shared across sentence pairs:
-\begin{align}
-\textbf{E}^{*} = \texttt{argmax}_{\{\textbf{E}\}} p(\textbf{F} | \textbf{E})p(\textbf{E})
-\end{align}
-where $p(\textbf{F} | \textbf{E})$ is a document-level translation model, generating the document $\textbf{F}$ as one entity. BiTam assumes each document pair $(\textbf{F}, \textbf{E})$ is an admixture of topics, thus the topics for each sentence pair within that document pair are sampled from the same document-topic distribution $\theta$. Therefore, the sentence-level word alignment and translations are coupled by the hidden topics.  Based on this assumption, \citet{zhao-06} develop three BiTAM models.
+Besides, coherence, which ties sentences of text into a meaningfully connected structure~\citep{xiong-13}, is another important piece to \textsc{smt}.\citet{xiong-13} introduce a topic-based coherence model to improve the document translation quality. They learn the sentence topic for source documents, based on which they predict the target topic chain; they then incorporate the predicted target coherence chain into the document translation decoding process.
 
-Given the document topic mixture $\theta_d$, the first BiTAM model assumes each sentence pair has a single topic $k$, and each topic has a topic-specific translation table $B_k$, where $B_{i,j,k} = p(f_j | e_i, z=k)$. The generative process for a document pair $(\textbf{F}_d | \textbf{E}_d)$ is as follows:
-\begin{enumerate}
-\item Sample sentence number $N \sim \texttt{Poisson}(\gamma)$.
-\item Sample document-topic distribution $\theta_d \sim \texttt{Dirichlet}(\alpha)$.
-\item For each sentence pair $(f_n, e_n)$ in the document pair:
-\begin{enumerate}
-\item Sample sentence length $J_n \sim \texttt{Poisson}(\delta)$.
-\item Sample a topic $z_{dn} \sim \texttt{Multinomial}(\theta_d)$.
-\item Sample $e_j \sim p(e_j)$, where $p(e_j)$ is a monolingual model.
-\item Sample each word alignment link $a_j \sim p(a_j)$, $p(a_j)$ is a uniform model.
-\item Sample each $f_j \sim p(f_j | \textbf{e}, a_j, z_n, \textbf{B})$.
-\end{enumerate}
-\end{enumerate}
+\jbgcomment{Need to define coherence \yhcomment{added.}}
 
-Given the model parameters $\alpha$ and $\textbf{B}$, the joint conditional distribution can be written as,
-\begin{align}
-p(\textbf{F}, \textbf{A}, \theta, \textbf{z} | \textbf{E}, \alpha, \textbf{B}) = p(\theta | \alpha) \prod_{n=1}^{N}p(z_n | \theta)p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, \alpha, B_{z_n})
-\end{align}
-Marginalizing out $\theta$ and $z$, the marginal conditional probability is:
-\begin{align}
-p(\textbf{F}, \textbf{A} | \textbf{E}, \alpha, \textbf{B}) = \int p(\theta | \alpha) \Big ( \prod_{n=1}^{N} \sum_{z_n} p(z_n | \theta)p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, B_{z_n}) \Big ) d\theta
-\end{align}
-where $p(\textbf{f}_n, \textbf{a}_n | \textbf{e}_n, B_{z_n})$ is a topic-specific sentence level translation model. Variational inference is explored by \citet{zhao-06} for inference, from which the word alignment can be retrieved.
-
-\citet{zhao-06} also explore another two variants of this BiTAM model just introduced: one model introduces connections between the topic and the observed target phrase $e_j$, which can be helpful for finding more accurate topics; another model samples a topic for each word pair instead of a sentence pair to model word-level admixture. These models improve both the quality of word alignment and the translation.
-
-\subsection{Translation Coherence with Topic Models}
-
-\jbgcomment{Need to define coherence}
-
-\citet{xiong-13} introduce a topic-based coherence model to improve the document translation quality. They learn the sentence topic for source documents, based on which they predict the target topic chain; they then incorporate the predicted target coherence chain into the document translation decoding process.
-
-More specifically, they generate a coherence chain $z_1^n = z_1, \cdot, z_n$ for each source document using hidden topic Markov models~\citep[HTMM]{gruber-07}, which infer a topic for each sentence within a source document. They further assume the one-to-one mapping between sentence topics in source and target documents, and predict the target topic coherence chain $\textbf{z}_1^n = \textbf{z}_1, \cdot, \textbf{z}_n$ based on the source topic coherence chain as follows,
-\begin{align}
-\hat{\textbf{z}}_1^n = \texttt{argmax}_{\textbf{z}_1^n} p (\textbf{z}_1^n | z_1^n, z_{D_s})
-\end{align}
-where $z_{D_s}$ is the source document topic. The hidden state $\textbf{z}_1^n$ is determined by it preceding $m$ states $\textbf{z}_{i-m}^{i-1}$, a 5-sentence window $z_{i-2}^{i+2}$ centered as the current source sentence topic $z_i$ and the source document topic $z_{D_s}$. As a result, the posterior probability $p (\textbf{z}_1^n | z_1^n, z_{D_s})$ is further factorized as,
-\begin{align}
-p (\textbf{z}_1^n | z_1^n, z_{D_s}) \approx \prod_{i=1}^n p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})
-\end{align}
-Following~\citet{Xiong-2006}, \citet{xiong-13} build up a maximum entropy classification model to estimate the probability $p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})$ as follows,
-\begin{align}
-p(\textbf{z}_i | \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}) = \frac{\exp(\sum_j \theta_j h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))}{\sum_{\textbf{z}'_i} \exp(\sum_j \theta_j h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))}
-\end{align}
-where $\theta_j$ are the feature weights, $ h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}))$ are binary valued features defined as,
-\begin{align}
- h_j(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s}) = \begin{cases}
-1, &\text{if certain condition} \\
-0, &\text{else}
-\end{cases}
-\end{align}
-Three types of features are considered in this paper: source sentence topic features, where the condition is ``$z_{i+d} = z_s$ and $\textbf{z}_i = z_t$''; source document topic feature, where the condition is ``$z_{D_s} = z_D$ and $\textbf{z}_i = z_t$'';  and target sentence topic transition features, where the condition is ``$\textbf{z}_{i-m} = z_{t'}$ and $\textbf{z}_i = z_t$''. To collect training data $(\textbf{z}_i, \textbf{z}_{i-m}^{i-1}, z_{i-2}^{i+2}, z_{D_s})$ for training the maximum entropy classifier, \citet{xiong-13} train the HTMM on the source documents and target documents respectively. From the aligned topic coherence chain for source documents and target documents, they generate the features and train the maximum entropy classifier.
-
-During decoding, given the topic coherence chain for a source document and the maximum entropy classifier, the topic coherence chain $\textbf{z}_1^n$ for the target document can be predicted, which is further used in improving the target translation $T_{D_t}$. The conditional probability $p(T_{D_t} | \textbf{z}_1^n)$, which is used to measure the topic coherence, can be factorized as,
-\begin{align}
-p(T_{D_t} | \textbf{z}_1^n) \approx \prod_{i=1}^n p(T_i | \textbf{z}_i) \approx \prod_{i=1}^n p(w_j | \textbf{z}_i)
-\end{align}
-where $T_i$ is the translation of the ith sentence, and $w_j$ are the words in this sentence. The word-topic probability $p(w_j | \textbf{z}_i)$ can be directly obtained from the topic model output. Similarly like the phrasal translation probability in \textsc{smt}, this topic coherence measure $p(T_{D_t} | \textbf{z}_1^n)$ can be directly integrated into \textsc{smt} decoder.
-
-In addition to this word level coherence model, \citet{xiong-13} also present the phrase level coherence model as,
-\begin{align}
-p(T_{D_t} | \textbf{z}_1^n) \approx \prod_{i=1}^n p(T_i | \textbf{z}_i) \approx \prod_{i=1}^n p(r_j | \textbf{z}_i)
-\end{align}
-where $r_j$ are the phrases. Instead of estimating $p(r_j | \textbf{z}_i)$, \citet{xiong-13} estimate $p(\textbf{z}_i | r_j)$ instead based on the smoothed counts:
-\begin{align}
-p(\textbf{z}_i | r_j) = \frac{f(r_j, \textbf{z}_i)+1}{f(r_j)+K}
-\end{align}
-Similarly like the word level coherence model, this phrase level coherence model can also be used into the \textsc{smt} decoder. Experiment results in \citet{xiong-13} show that the coherence models significantly improve the translation results.
+%In general, multilingual topic models obtain topics with high quality, since different languages can complement each other to reduce topic ambiguity. Statistical machine translation, as one of the important application of multilingual topic models, 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{comment}
-
-\chapter{Multilingual Data and Machine Translation --- Structure}
-\label{ch:mt}
-
-Topic models are a promising solution for automatically learning semantic coherence and discovering the global context for applications such as statistical machine translation, including improving the translation models~\citep{Eidelman-12,hu-14,zhao-06,xiao-12,xiong-13} as well as the language coherence~\citep{Bellegarda-04,wood-09}.
-While multiple languages are involved in machine translation, multilingual topic models~\citep{mimno-09,boyd-graber-10} can also be applied to extract better knowledge and apply into machine translation.
-
-\section{Statistical Machine Translation}
-
-Statistical machine translation casts machine translation as a probabilistic process~\citep{koehn-09}. For a parallel corpus of aligned source and target sentences $(\mathcal{F}, \mathcal{E})$, a phrase $\bar{f} \in \mathcal{F}$ is translated to a phrase $\bar{e} \in \mathcal{E}$ according to a distribution $p_w(\bar{e}|\bar{f})$.
-One popular method to estimate the probability $p_w(\bar{e}|\bar{f})$ is using lexical weighting features.
-
-Modern machine translation systems~\citep{koehn-09} use millions of examples of translations to learn translation rules in local (phrase) context, while ignoring the global (document) context. These systems work best when the training corpus has consistent global context, including genre, register, and topic. Systems that are robust to systematic variation in the training set are said to exhibit domain adaptation. Early efforts focus on building separate models~\citep{foster-07} and adding features~\citep{matsoukas-09} to model domain information.  \citet{chiang-11} combine these approaches by directly optimizing genre and collection features by computing separate translation tables for each domain.
-
-Statistical Machine Translation include three main parts: translation model, language model and reordering model. Topic models have been applied to improve each part respectively.
-
-\section{Topic Models in Translation Models}
-
-Topic models have been applied to improve the translation models through domain adaptation~\citep{Eidelman-12,hu-14}, word alignment~\citep{zhao-06} and translation coherence~\citep{xiao-12,xiong-13}.
-
-\subsection{Translation Domain Adaptation with Topic Models}
-
-Topic models are a promising solution for automatically discovering the global context---for example, domain knowledge---in machine translation corpora~\citep{Eidelman-12,hu-14}. Given the soft domain assignments from topic models, \citet{Eidelman-12} extract lexical weighting features conditioned on the topics, optimizing feature weights using the \emph{Margin Infused Relaxed Algorithm}~\citep[\textsc{mira}]{Crammer-06}.
-
-However, \citet{Eidelman-12} ignore a wealth of information that could improve topic models and help machine translation. They reply solely on monolingual source-side models. In contrast, machine translation uses inherently multilingual data: an SMT system must translate a phrase or sentence from a \emph{source} language to a different \emph{target} language, so existing applications of topic models~\citep{Eidelman-12} are ignoring available information on the target side that could aid domain discovery.
-
-%\section{Multilingual Information for Domain Adaptation}
-
-There are various ways to build up the multilingual topic models. Different languages can be connected on the word-level or the document levels. Tree-based topic models~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm} incorporate the correlations between words in the same or different languages by encouraging words that appear together in a {\bf concept} to have similar probabilities given a topic. Polylingual topic models~\citep{mimno-09} assume that the aligned documents in different languages share the same topic distribution and each language has a unique topic distribution over its word types. \citet{hu-14} bring existing tree-based topic models and polylingual topic models together and create the polylingual tree-based topic model that incorporates both word-level correlations and document-level alignment information.
-
-\subsection{Word Alignment with Topic Models}
-
-In addition to applying topic models as domain adaptation, \citet{zhao-06} build up a novel bilingual topical admixture (BiTAM) to improve the word alignment in statistical machine translation. In their model, each sentence pair constitutes a mixture of hidden topics and a word pair follows a topic specific bilingual translation model. Then the BiTAM leverages the topical content of document pairs in the word alignment process to obtain better translation quality.
-
-\subsection{Translation Coherence with Topic Models}
-
-\citet{xiao-12} present a topic similarity model based on LDA that produces a feature that weights grammar rules based on topic compatibility. They also model the source and target side of rules and compare the target similarity during decoding by projecting the target distribution into the source space.
-
-\citet{xiong-13} introduce a topic-based coherence model to improve the translation quality. They generate a coherence chain for each source document using topic models; predict the coherence chain for the target documents based on maximum entropy model; and incorporate the predicted target coherence chain into the document translation decoding process.
-
-\citet{hasler-12} use the source-side topic assignments from \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} which model documents as a Markov chain and assign one topic to the whole sentence, instead of a mixture of topics.  \citet{su-12} also apply \textsc{htmm} to monolingual data and apply the results to machine translation.
-
-\section{Topic Models in Language Modeling}
-
-Topic models capture document-level properties of language, but a critical component of machine translation systems is the language model, which provides local constraints and preferences. Domain adaptation for language models~\citep{Bellegarda-04,wood-09} is an important avenue for improving machine translation, as \citet{Bellegarda-04} points out that `` an adaptive language model seeks to maintain an adequate representation of the current task domain under changing conditions involving potential variations in vocabulary, syntax, content, and style''.
-
-\citet{wood-09} present a hierarchical Pitman-Yor process language model, where the bottom layer include language models in different domains and the top layer couples multiple language models to share statistical length.
-
-\section{Reordering with Topic Models}
-
-Topic models have also been applied to improve the reordering model, another important component in statistical machine translation.
-\citet{wang-14} predict orders for neighboring blocks by capturing topic-sensitive reordering patterns: they learn the reordering examples from bilingual data based on the document-level and word-level topic information from topic models, and then train a topic-based reordering model that based on a maximum entropy classifier.
-
-\end{comment}
