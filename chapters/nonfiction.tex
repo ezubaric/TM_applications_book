@@ -78,14 +78,32 @@ Nelson groups six topics related to soldiers, and displays them in the order of 
 They move from ``military recruitment'' and ``orders to report'' to later topics related to ``deserters'', ``casualties'', and ``war prisoners.''
 Again, these are related themes but rather than comprising a single event they trace the development of the increasingly dire military situation of the Confederacy.
 
-\cite{yang-11-historical} model a collection of historical newspapers from Texas, finding that the significance of the pivotal battle of San Jacinto was established much earlier than historians had anticipated.
+\cite{yang-11-historical} model a collection of historical newspapers from Texas spanning from the end of the Civil War to the present day.
+The goal is both exploratory, to find out about the interests of Texans through the 19th and 20th centuries, and {\em semi-exploratory}, to find out more about the history and context of specific, pre-specified themes such as cotton production.
+In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as a axis of investigation into the corpus. 
+For example, a historian considered documents that exhibit topics related to {\em cotton}, and the topics that co-occur in those documents.
+The study also led to more fully exploratory results.
+A topic related to the battle of San Jacinto, the final conflict in the Texas Revolution that led to separation from Mexico, appeared earlier than expected.
+Further investigation suggested that the significance of the pivotal battle of San Jacinto was established much earlier than historians had previously anticipated.
+
+The Texas newspaper study raises several interesting methodological issues relating to pre-processing and iterative modeling.
+The authors put considerable work into dealing with the quality of digitization.
+There are many factors that affect the quality of digitized historical newspapers, from the quality of the original printing to scanning, article segmentation, and optical character recognition (OCR).
+For this study extensive work was applied to automated spelling correction.
+Another notable factor in this study is its prominent use of multiple topic models.
+In many cases there is a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
+\cite{yang-11-historical} train different models on different temporal slices of the corpus.
+Although there is some advantage to maintaining a consistent topic space over time, dividing the corpus into separate sections has certain advantages.
+In this case, historians were interested in the context of specific historic periods, such as the full run of a a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
+The authors also describe an iterative workflow that involves comparing topic model output after each of several pre-processing steps.
+Topic models are often effective at identifying consistent data-preparation errors, such as end-of-line hyphenation and consistent OCR errors.
 
 \section{Historical Records}
 
 Other types of records besides newspapers are of interest, and present their own challenges.
 In this section we consider two case studies, in which the simplicity of the bag-of-words document model is an asset because it allows for substantial variability in spelling and language, both in English and in other languages.
 
-Miller \cite{miller-13} uses Chinese records to investigate the meaning of the word {\em zei}, or ``bandit'' in Qing dynasty China. The word by itself can imply several different forms of anti-social behavior, which are difficult to distinguish from word frequencies alone. A topic model uses contextual information to separate these effects.
+\cite{miller-13} uses Chinese records to investigate the meaning of the word {\em zei}, or ``bandit'' in Qing dynasty China. The word by itself can imply several different forms of anti-social behavior, which are difficult to distinguish from word frequencies alone. A topic model uses contextual information to separate these effects.
 
 The application of topic models in Chinese highlights the importance of tokenization.
 We usually receive documents in the form of long strings, but we are interested in identifying {\em tokens} that are short strings with a specific meaning.
