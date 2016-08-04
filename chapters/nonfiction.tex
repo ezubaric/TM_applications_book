@@ -153,6 +153,17 @@ DFR provides a simple view into selected articles by only providing the frequenc
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
 \cite{Mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
+A distinctive aspect of this study is the use of a {\em polylingual} topic model \cite{mimno-09}.
+An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
+In other words, a topic has two ``modes'', one in which it emits words drawn from a distribution over English terms, and another in which it emits words drawn from a distribution over German terms.
+The linkage between English and German words is constructed using Wikipedia articles.
+Wikipedia articles exist in many different languages, and articles in one language often link to comparable articles in another language.
+The author first selects English Wikipedia articles matching key terms in the English-language journals, and then collects the German Wikipedia articles that are listed as being comparable to the selected English-language articles.
+
+By training the topic model jointly on the combined corpus of the original journal articles and the comparable Wikipedia articles, the model provides insight into the relative concentration of scholarly interests across the two language communities.
+The German-language journal articles contain relatively more work on law and oratory, themes that are present in the English-language articles but less prevalent.
+The model also shows a large increase in  interest in poetry in the German journal in the period following the second world war.
+In the English journals there is a large increase starting in the 1980s in cultural and economic studies along with critical theory, which does not appear in the German journals.
 
 \cite{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.
