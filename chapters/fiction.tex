@@ -8,14 +8,18 @@ There are many different ways to read fiction, poetry, and rhetoric, and the cho
 Scholars have traditionally focused on a ``close reading'' approach, in which the goal is to identify the specific features of a passage that convey a more general meaning, or emotion, or atmosphere.
 These features might include nuances of word  selection, echoes of sound through rhyme or alliteration, or prosodic features like rhythm or cadence.
 
-While close reading is a foundational tool in the study of literature, it is necessarily limited by its scale. 
-We value literature because it is one of the best ways to capture the spirit of an age, and the experiences of those who lived through it. But standard close reading methods require focus and thorough interpretation.
-Close reading is the best way to analyze a short passage of text, but which short passages of text do we want to analyze?
-Because no one can read --- much less close read --- all the available material from a culture or time period, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \citep{moretti-00}, works that are never studied.
-
 \section{The Role Topic Models Play in the Humanities}
 
-As a response, \cite{moretti-13} theorizes an alternative ``distant reading''   that uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
+While close reading is a foundational tool in the study of literature, it is necessarily limited by its scale. 
+We value literature because it is one of the best ways to capture the spirit of an age, and the experiences of those who lived through it. But standard close reading methods require narrow focus and thorough interpretation.
+Topic models complement close reading in two ways, as a survey method and as a means for tracing and comparing large-scale patterns.
+
+The survey method is relatively simple, linking passages that a reader may not have known about.
+Close reading is the best way to analyze a short passage of text, but which short passages of text do we want to analyze?
+Because no one can read --- much less close read --- all the available material from a culture or time period, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \citep{moretti-00}, works that are never studied.
+Identifying broad themes and then mapping those themes to their realization in different contexts may reveal works or sections of works that are ``hiding in plain sight,'' unknown to modern scholarship simply through obscurity.
+
+An alternative, and less traditional, mode of analysis is often referred to as ``distant reading'' \citep{moretti-13}.   This approach uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
 
 Topic analysis, viewed as a way of identifying repetitions of language or discourse through multiple works, resonates with many more familiar approaches to the study of literature.
 At the broadest scale, to define a genre or a literary period is to separate a corpus into sections based on some observable criterion.
@@ -29,8 +33,7 @@ Topics do not represent themes themselves, but rather identify the implicit stat
 
 
 Applying topic models to fiction, however, brings new challenges.  \cite{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
-
-Several issues emerge from this corpus. These are not unheard of in other contexts, but they are much more readily apparent in fiction.
+Several issues emerge from this corpus. These are present in other contexts, but they are much more readily apparent in fiction.
 
 \section{What is a Document?}
 
@@ -62,18 +65,47 @@ Setting the slice size to the average length of paragraphs in the corpus, 82 wor
 
 This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19th-century novels.
 
-\jbgcomment{We've not talked about twitter anywhere else, I think it would be a good example here}
+%\jbgcomment{We've not talked about twitter anywhere else, I think it would be a good example here}
 
 % Comparison with Twitter?
 
 \section{People and places}
 
-\jbgcomment{Would be good to have examples / data to support character name assertion.}
-
 Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere. 
 This word co-occurrence pattern is problematic for topic models because they can be thought of as machines for finding groups of words that occur frequently together and not in other contexts.
 Character names are --- by that criterion --- a perfect topic.
 Modeling these documents can result in topics that are essentially lists of character names.
+
+As an example, consider a model of 14 novels by Charles Dickens. 
+The top 20 words from a selection of topics ($K=50$) are shown in Table \ref{tbl:dickens-with-names}.
+Upper-case letters are not reduced to lower-case in order to emphasize the presence of proper names.
+Several topics are dominated by capitalized names, with individual novels clearly identifiable: Topic 4 is {\em Oliver Twist}, Topic 5 is {\em Nicholas Nickleby}, Topic 6 is {\em The Pickwick Papers} and Topic 7 is {\em A Tale of Two Cities}.
+In fact, exactly half of the distinct words in the top 20 words for all topics are capitalized, and almost all of these are proper names.
+
+Focusing on characters is not always uninformative, and can in some cases highlight structure within works.
+Topics 1--3 all refer primarily to {\em Bleak House} (with the exception of {\em Scrooge}), but focus on different interlocking subplots.
+The first focuses on Lady Dedlock, the second on Mr. Jarndyce and his two wards, Richard and Ada, and the third on the investigations of the detective Mr. Bucket.
+The plot centers around the revelation of the connections between these apparently unrelated groups.
+
+\begin{table}[htp]
+\caption{Sample topics from Charles Dickens novels, without removal of character names (ordered manually).}
+\begin{center}
+\begin{tabular}{|c|p{15cm}|}
+1 & Lady Leicester Scrooge Dedlock Rouncewell ladyship Wold Chesney Ghost Volumnia Christmas Tulkinghorn family Spirit Baronet nephew Rosa Scrooge's housekeeper Lady's \\
+2 & Richard Jarndyce guardian Ada Charley Caddy dear Skimpole Miss Summerson Esther Jellyby miss Vholes Kenge Woodcourt quite myself Guppy Chancery \\
+3 & says George Bucket Snagsby Guppy returns Smallweed Bagnet comes Tulkinghorn looks takes trooper does makes friend goes asks cries Chadband \\
+4 & Oliver replied Bumble Sikes Jew Fagin boy girl Rose Brownlow dear gentleman Monks Noah doctor Giles Dodger lady Nancy Bill \\
+5& Nicholas Nickleby Ralph Kate Newman replied Tim Mulberry Mantalini Creevy brother N oggs Madame Gride Linkinwater Smike Arthur rejoined Wititterly Ned \\
+6 & Pickwick Winkle replied Tupman Wardle gentleman Snodgrass Pickwick's Perker fat boy Bardell dear Jingle inquired Fogg Dodson friends friend lady 
+7 &  Lorry Defarge Doctor Manette Pross Carton Darnay Madame Lucie Monseigneur Cruncher Jerry Stryver prisoner Charles Monsieur Tellson's Marquis father Paris \\
+8 & coach uncle gentleman lady box coachman gentlemen landlord get London guard inside horses waiter boys mail passengers large better hat \\
+9 & street door streets windows houses room window few iron walls wall rooms dark within shop doors corner small stood large  \\
+10 & money letter paper business read pounds papers five hundred office thousand clerk paid years pen next law desk letters week \\
+\end{tabular}
+\end{center}
+\label{tbl:dickens-with-names}
+\end{table}%
+
 
 \cite{jockers-13} approaches this problem by constructing a stopword list that removes all character names before modeling.
 There are many ways to construct such lists.
