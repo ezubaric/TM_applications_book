@@ -2,23 +2,143 @@
 \chapter{Conclusion}
 \label{ch:conc}
 
-We have covered a variety of applications of topic models focused on natural language, but no finite book could list all of the applications.
+While we have attempted to cover a variety of the applications of
+topic models to help individuals navigate large text datasets, no
+finite survey could enumerate all of the applications of topic models
+in text, which have been applied to part of speech
+tagging~\citep{toutanova-08}, word sense induction~\citep{brody-09},
+and entity disambiguation~\citep{kataria-11}.  It goes without saying
+that we have also omitted many other applications outside text, such
+as biology~\cite{pritchard-00}, understanding source
+code~\cite{maskeri-08}, music analysis~\cite{hu-09}, and many more.
 
-Other applications include biology~\cite{pritchard-00}, understanding source code~\cite{maskeri-08}, music analysis~\cite{hu-09}, and many more.
+\section{Coping with Information Overload}
+\label{sec:fast-inference}
 
-\section{The Future of Topic Models}
-\label{sec:future}
+A challenge in topic modeling is how to make inference efficient
+enough to both scale to large datasets and to provide low-latency
+interactive experiences to help provide support to a user in the loop.
+Three broad directions support this efficient learning of large topic
+models.  There are three broad strategies for processing documents
+more quickly.
 
-Much of the research in topic models is in making inference more efficient~\cite{hoffman-10,zhai-12}.
+% Add in something about document-centric perspective
 
-Topic modeling is also blending with more expressive latent representation models~\cite{ranganath-15}.
+The first is through decreasing the average number of times a computer
+needs to look at a document to learn a topic model; i.e., to improve
+\emph{throughput}.  Online algorithms~\cite{hoffman-10} only look at a
+document once, update the topics, and then move on to the next
+document.  This is often much faster than batch approaches which
+require many passes over the same set of documents.  Another option is
+to \emph{distribute} computation across many machines~\citep{zhai-12}.
+
+A complementary approach is to reduce the time a computer spends on
+any particular document: improving \emph{efficiency}.  This is
+possible by improving how long it takes to sample document
+assignments~\citep{} or compute variational parameters~\citep{}.
+
+The final approach to improve the efficiency of probabilistic
+algorithms for topic models is to rethink the inference process
+entirely.  Novel approaches view topic model inference as a
+factorization of a co-occurence matrix~\citep{arora-13} or as a spectral
+decomposition~\citep{anandkumar-12}.  These approaches often are much faster than
+traditional approaches as they use word types---rather than
+documents---as the central unit of computation.
+
+\section{Deeper Representations}
+
+Part of the benefit of topic models is that the topic distribution of
+a document ($\theta$) serves as a low-dimensional representation of
+what the document means.  This numerical vector is useful for finding
+similar documents (Chapter~\ref{}), displaying documents to a user
+(Chapter~\ref{}), or connecting documents across languages
+(Chapter~\ref{}).
+
+Increasingly, vector-based representations have been useful ``all the
+way down''.  Vector-based representations of words and phrases can
+improve next word prediction~\citep{bengio-03}, sentiment
+analysis~\citep{socher-12}, and translation~\citep{devlin-14}.  And
+this is not just for text---representation learning has taken hold of
+speech, vision, and machine learning generally.
+
+The impact of representation learning on topic modeling remains
+unclear as we go to press in 2017.  We see several ways that
+representation learning and topic modeling could benefit each other in
+the future.
+
+\paragraph{Evaluation}
+
+Evaluation methods from topic models have made their way into
+representation learning, which suggests that some of the lessons
+learned in making topic models interpretable (Section~\ref{}) could
+also be applied in representation learning.  This could help mollify
+some critics of representation learning who argue that the results are
+often uninterpretable or deceptive~\citep{szegedy-13}.
+
+\paragraph{Synthesis}
+
+Topic modeling is also blending with more expressive latent
+representation models~\cite{ranganath-15}.  Topic models could help
+representation learning solve some of its difficulty summarizing
+larger segments of text.  Paragraphs and sentences are difficult to
+model as a single vector, and techniques more sophisticated than
+simple averaging don't seem worth the hassle~\citep{iyyer-15}.
+
+\paragraph{Parallel Evolution}
+
+Another possible path is less intertwined: topic models and
+deep-learning representation learning could peacefully co-exist for
+some time.  Topic models offer advantages of speed and
+interpretability, while representation learning can do better for
+prediction-based tasks.  They would well become tools that many text
+miners have in their toolkit, with specific circumstances for using
+either.
 
 \section{Automatic Text Analysis for the People}
 
-However, the challenge is not to make these models and their inference more complicated but rather to make them more accessible.
+However, in our view, the primary research challenge of topic models
+is not to make these models and their inference more complicated but
+rather to make them more accessible.  As we've described, topic models
+can help scholars and ordinary people navigate large text collections.
 
-This requires making the tools more usable.
+However, using topic models still requires extensive data and computer
+skills.  Our job as information scientists is not complete until these
+tools (or suitable alternatives) are available to everyone who needs
+them.
 
-But the output must also be understandable.
+This requires making the tools more usable: the preprocessing often
+required of topic models is not straightforward: should we remove
+non-English documents, what should we consider a document, how should
+we handle metadata?  Nor are the modeling choices needed to make sense
+of the data trivial: how many topics should we use, which of the many
+possible models should we use, what inference technique gives us the
+best tradeoff between speed and accuracy.  Existing topic models do a
+poor job of communicating what options are available to a user and
+what consequences these choices have.
 
-The outputs can be used as input into models or directly for human consumption.
+However, even if the process of creating a topic model becomes
+intuitive, the output must also be interpretable.  Distributions
+over words are the language that these models use to create
+representations of document collections, but it is not how users think
+about topics: they would much rather have phrases~\citep{mei-07},
+sentences~\citep{smith-16}, or pictures~\citep{lau-14}.  However,
+providing these representations is non-trivial and requires a deeper
+understanding of a corpus than today's topic models can manage.
+
+Finally, topic models need a more systematic investigation of how
+they can assist users' workflow for typical information seeking,
+organization, and management tasks.  While the applications covered in
+this survey show examples of how people can use topic models from
+applications from history to political science, how topic models can
+augment or replace existing workflows lacks the same attention given
+to---for example---search engines.
+
+\section{Coda}
+
+We hope that you have enjoyed our survey of topic models'
+applications.  For further information, we'd encourage the reader to
+investigate the topic modeling
+bibliography,\footnote{\url{https://mimno.infosci.cornell.edu/topics.html}}
+join the topic modeling mailing
+list,\footnote{\url{https://lists.cs.princeton.edu/mailman/listinfo/topic-models}},
+or the book's associated webpage.

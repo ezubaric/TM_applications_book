@@ -4,6 +4,7 @@
 % the now document class sets various dimensions, so be sure to *not* set
 % or alter dimensions in your latex code.
 % be sure to remove all manual formatting commands such \newpage, \clearpage.
+% hack
 \usepackage[UTF8]{ctex}
 \usepackage{CJK}
 \usepackage{mathtools}
@@ -15,10 +16,11 @@
 \usepackage{amsfonts}
 \usepackage{xcolor}
 \usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{dsfont}
 
 % a few definitions that are *not* needed in general:
-\newcommand{\ie}{\emph{i.e.}}
-\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\ind}[1]{\mathds{1}\left[ #1 \right] }
 \newcommand{\dc}[2]{N_{#1,#2}}
 \newcommand{\tc}[2]{V_{#1,#2}}
 \newcommand{\etc}{\emph{etc}}
@@ -84,6 +86,7 @@ output (this document, \texttt{sample.pdf}) along with the \LaTeX\ source code
 (\texttt{sample.tex}) that created it to get the full picture.
 \end{abstract}
 
+% Hack
 \input{chapters/introduction}
 \input{chapters/ir}
 \input{chapters/viz}
@@ -97,6 +100,6 @@ output (this document, \texttt{sample.pdf}) along with the \LaTeX\ source code
 \backmatter  % references
 
 \bibliographystyle{plainnat}
-\bibliography{bib/journal-full,bib/jbg}
+\bibliography{bib/journal-full,bib/jbg,bib/alison}
 
 \end{document}

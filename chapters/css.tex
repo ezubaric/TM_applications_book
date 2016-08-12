@@ -6,13 +6,13 @@
 While the previous chapters were mostly retrospective analyses, computational
 social science is mostly in the ``here and now''.  It is focus on data
 being generated in the past hours, days, or weeks to inform
-inteligence analysists, brand monitors, journalists, or social
+intelligence analysts, brand monitors, journalists, or social
 scientists.  The underlying problem is the same, however: these
 stakeholders are interested in what people have to say but cannot read
 all of the data at their disposal.
 
 Historically, social science questions such as what candidates is
-prefered in a particular part of the country or whether people like a
+preferred in a particular part of the country or whether people like a
 new restaurant or product were answered by polling: social scientists
 would head out into the world, gather a statistically significant
 sample, and extrapolate to the broader population.
@@ -49,8 +49,8 @@ a piece of text.  For example, ``Chipotle is great!'' would be
 associated with positive sentiment, while ``Chipotle made me sick
 would be associated with negative sentiment''.
 
-While indistrial applications of sentiment analysis is mostly for
-identifying whether people like a product or copany, there are wider
+While industrial applications of sentiment analysis is mostly for
+identifying whether people like a product or company, there are wider
 social science applications of examining large corpora to determine
 authors' \emph{internal state}.  For example, determining whether they
 they are politically liberal or conservative based on their online
@@ -61,7 +61,7 @@ For example, ``Apple'' can appear in tech news as well as a food
 ingredient; someone monitoring the seller of iPods and iPhones would
 not want to be confused by social media commentary complaining about a
 bad apple pie.  ``surprising'' in an automotive review is likely
-associated with negative seintment, while it's a good thing in a book
+associated with negative sentiment, while it's a good thing in a book
 review.  Thus, topics can help differentiate different kinds of
 discussion in broad corpora.
 
@@ -173,8 +173,32 @@ background distribution, a side's version of the topic, or from the
 topic's ``neutral'' words.  For instance, Israelis and Palestinians
 both use ``attacks'', ``civilians'', and ``military'' in discussing
 unrest in Israeli-occupied Palestine, but the Israeli side uses
-``terrorist'' and ``incitement'', while the Palestinean side focuses
+``terrorist'' and ``incitement'', while the Palestinian side focuses
 on ``resistance'' and ``occupation''.
+
+\begin{figure}[ht]
+  \begin{minipage}[c]{0.62\textwidth}
+  	\vspace{-.3cm}
+    \includegraphics[width=\textwidth]{figures/ideology_topics_vert}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.36\textwidth}
+    \caption{
+       \small Topics discovered from Congressional floor debates using
+       a downstream model to capture speaker's ideology.  Many
+    first-level topics are bipartisan (purple), while lower level topics are
+    associated with specific ideologies (Democrats blue, Republicans red). For example,
+    	the ``tax'' topic (B) is bipartisan, but its Democratic-leaning child (D) focuses on
+    	social goals supported by taxes (``children'', ``education'', ``health care''), while
+    	its Republican-leaning child (C) focuses on business implications (``death tax'', ``jobs'',
+    	``businesses'').  The number below each
+    topic denotes the magnitude of a learned regression parameter associated
+    with that topic.  Colors and the numbers beneath each topic show the
+    regression parameter $\eta$ associated with the topic.  From \citet{nguyen-13:shlda}.
+    } \label{fig:shlda-taxes}
+  \end{minipage}
+  \vspace{-.3cm}
+\end{figure}
+
 
 Downstream models can also capture these divisions as well.
 \citet{nguyen-13:shlda} predict whether a speaker is Republican or
@@ -182,6 +206,8 @@ Democrat based on the versions of topics they discuss.  For example,
 Republicans are more likely to discuss taxes in general than
 Democrats, but Democrats focus on the good that comes out of taxes
 (Figure~\cite{fig:shlda-taxes}).
+
+% Need to cite Grimmer
 
 However, there are not always two sides to an issue.  A probabilistic
 solution to this model is the nested Dirichlet
@@ -196,25 +222,41 @@ science~\citep{Nguyen:Boyd-Graber:Resnik:Miler-2015}.
 
 We have talked about meta data that are independent for each user.
 Sometimes, however, we are interested in meta data that describe the
-relationships between people
+relationships \emph{between} documents: which users follow each other
+on Twitter, which scientific papers cite each other, or which webpages
+link to each other.  This makes modeling more difficult, but we still
+see the same division between upstream and downstream models: upstream
+models assume that the communities form before we see words, while
+downstream models use the words to explain which links we see.
 
-This makes modeling more difficult, but we still see the same division
-between upstream and downstream models
+The stochastic block model~\citep{holland-83} and its mixed-membership
+descendant~\citep{airoldi-08} are prototypes for upstream models.
+They posits that there are intrinsic groups of documents and links are
+more likely inside the group than outside the group.  These groups are
+analagous to the topics in topic models, except that the links are
+``shared'' between documents.
 
-The stochastic block model is the prototype for upstream models~\cite{airoldi-08}
+However, the first probabilistic models of network structure ignored
+the words in documents.  Link LDA is the exemplar for downstream
+models~\cite{nallapati-08} and include the text in the documents.  It
+uses a regression on the topic allocations ($\theta$) rather than
+topic assignments ($z$), in contrast to supervised \abr{lda} above.
 
-Link LDA is the exemplar for downstream models~\cite{nallapati-08}
+Conditioning on the topic assignments can improve the algorithm's
+ability to predict links on held-out documents,
+however~\citep{chang-09a}.  This is because a regression based on the
+allocations alone can use topics to explain links that aren't in the
+document.  For example, if the model thinks there's a link between
+documents because they both use Topic~14 but no words in the document
+are assigned ($z_n=14$), then the model is unable to recreate this
+prediction in a held-out document.
 
-Hybrid models can have the best of both worlds
+% But changing the objective function can improve performance further~\cite{bach-15}
 
-Supervised LDA bases regressions on the topic assignments rather than
-the allocations.  Doing something similar can also improve link prediction~\citep{chang-09a}
+However, as social networks increasingly span the entire globe,
+assuming that a topic model is only in a single language is often a
+poor assumption.  Indeed, even within a single country, topic models
+can discover regional variation~\citep{eisenstein-10}.  In the next
+chapter, we discuss how to cope with multilingual datasets and still
+discover reasonable topics.
 
-But changing the objective function can improve performance further~\cite{bach-15}
-
-This can discover geographic variation in language~\cite{eisenstein-10}
-
-
-
-But what if we are interested in regions with multiple languages or
-dialects?

@@ -46,14 +46,18 @@ archivists put each document into the correct buckets, perhaps automate the
 process with some supervised machine learning, and then collect summary
 statistics when you're done.
 
-Obviously, such laborious processes are possible---they've been done for X, Y,
-and Z---and remain an important part of social science, information science,
-library science, and machine learning.  But these processes aren't always
-possible, fast, or even desireable.  First, they obviously require a significant
-investment of time and resources.  Even creating the \emph{list} of categories
-is a difficult task and requires careful delibreration and calibration.  It's
-possible that a particular question does not warrant the time or effort: the
-\oe{}vre of a minor author (only of interest to a few), or the tweets of a day
+Obviously, such laborious processes are possible---they've been done
+for labeling congressional
+speech~\footnote{\url{www.congressionalbills.org/}} and understanding
+emotional state~\cite{wiebestates}---and remain an important part of
+social science, information science, library science, and machine
+learning.  But these processes aren't always possible, fast, or even
+the optimal outcome if we had infinite resources.  First, they
+obviously require a significant investment of time and resources.
+Even creating the \emph{list} of categories is a difficult task and
+requires careful deliberation and calibration.  It's possible that a
+particular question does not warrant the time or effort: the \oe{}vre
+of a minor author (only of interest to a few), or the tweets of a day
 (not relevant tomorrow).
 
 Topic models allow us to answer these big picture questions quickly and cheaply.
@@ -73,50 +77,91 @@ and carried out.  You have suspicions (e.g., around the California spot market),
 but you are curious to know if there are other skeletons in the closet, and
 you're highly motivated to find them.
 
-So you run a topic model on the data.  True to its name, a topic model gives you
-``topics'', collections of words that make sense together.  Looking at the Enron
-e-mails, we can see topics about X, Y, and Z (Figure~\ref{fig:enron_topics}).
+So you run a topic model on the data.  True to its name, a topic model
+gives you ``topics'', collections of words that make sense together.
+Looking at the Enron e-mails, we can see topics about gas contracts,
+California regulators, and stock prices
+(Figure~\ref{fig:enron_topics}).
 
 \begin{figure}
-% TODO: Figure of Enron topics
-  \caption{Topic model applied to Enron dataset}
+\begin{center}
+  \begin{tabular}{ccccc}
+    Topic 3    & Topic 6   & Topic 9    & Topic 14 & Topic 22 \\
+    \hline
+    trading    & gas       & state      & ferc     & group \\
+    financial  & capacity  & california & issue    & meeting \\
+    trade      & deal      & davis      & order    & team \\
+    product    & pipeline  & power      & party    & process \\
+    price      & contract  & utilities  & case     & plan \\
+    \hline
+  \end{tabular}
+\end{center}
+
+  \caption{Five topics from a twenty-five topic model fit on Enron
+    e-mails.  Example topics concern financial transactions, natural
+    gas, the California utilities, federal regulation, and planning
+    meetings.}
   \label{fig:enron_topics}
 \end{figure}
 
-When we call a topic about X, that's a \textit{post hoc} label applied by humans
-(more on this in Chapter~\ref{sec:display}).  A topic only gives you a jumbled
-``bag of words''; it remains the responsibility of the human consumer of topic
-models to go further and make sense of these piles of straw.
+When we call a topic about $X$, that's a \textit{post hoc} label
+applied by humans (more on this in Chapter~\ref{sec:display}).  A
+topic only gives you a jumbled ``bag of words''; it remains the
+responsibility of the human consumer of topic models to go further and
+make sense of these piles of straw (we discuss labeling the topics
+more in Chapter~\ref{ch:viz}).
 
 \begin{figure}
-% TODO: Figure of Enron document and allocations to topics
-  \caption{Example document from the Enron corpus and its association to
-    topics.}
+
+\begin{center}
+\colorbox{gray}{ \parbox{.9\linewidth}{
+Yesterday, SDG\&E filed a motion for adoption of an
+electric procurement cost recovery mechanism and for an order
+shortening time for parties to file comments on the mechanism. The
+attached email from SDG\&E contains the motion, an executive summary,
+and a detailed summary of their proposals and recommendations
+governing procurement of the net short energy requirements for
+SDG\&E's customers. The utility requests a 15-day comment period, which
+means comments would have to be filed by September 10 (September 8
+is a Saturday). Reply comments would be filed 10 days later.}}
+
+\begin{tabular}{cc}
+  Topic & Probability \\
+  \hline
+  9 & 0.42 \\
+  11 & 0.05 \\
+  8 & 0.05 \\
+  \hline
+\end{tabular}
+\end{center}
+  \caption{Example document from the Enron corpus and its association
+    to topics.  Although it doesn't contain the word ``California'',
+    it discusses a single California utility's dissatisfaction with how
+    much it is paying for electricity.}
   \label{fig:enron_doc}
 \end{figure}
 
-Making sense of one of these piles requires actually reading the document, which
-topic models also provide.  Each topic is associated with individual documents.
-For example, the document in Figure~\ref{fig:enron_doc} is about X, which
-combines Topic~Y and Topic~Z.  If we get a sense that Topic~Z is of interest, we
-can explore deeper to find other documents
-(Figure~\ref{fig:enron_topic_allocation}).
-
-\begin{figure}
-% TODO: Figure of Enron document and allocations to topics
-  \caption{The documents associated with an Enron topic on X.}
-  \label{fig:enron_topic_allocation}
-\end{figure}
+Making sense of one of these piles requires actually reading the
+document, which topic models also provide.  Each topic is associated
+with individual documents.  For example, the document in
+Figure~\ref{fig:enron_doc} is about a California utility's reaction to
+the short-term electricity market and exemplifies Topic~9 from
+Figure~\ref{fig:enron_topics}.  If we get a sense that Topic~9 is of
+interest, we can explore deeper to find other documents.
 
 \section{Foundations}
 
+\begin{center}
 \begin{figure}
-% TODO: Figure of matrix story of topic modeling
-  \caption{A matrix formulation of finding topics for a dataset.  While the
-    original formulation of topic modeling approaches, we focus on probabilistic
-    techniques in the rest of this survey.}
+  \includegraphics[width=.8\linewidth]{figures/matrix_factorization}
+  \caption{A matrix formulation of finding $K$ topics for a dataset
+    with $M$ documents and $V$ unique words.  While the original
+    formulation of topic modeling approaches such as latent semantic
+    analysis (\abr{lsa}), we focus on probabilistic techniques in the
+    rest of this survey.}
   \label{fig:matrix_topics}
 \end{figure}
+\end{center}
 
 Topic models began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
@@ -126,9 +171,14 @@ focus on probabilistic approaches, which are intuitive, work well, and allow for
 easy modification (as we see later in many of our later chapters).
 
 \begin{figure}
-% TODO: Figure of Dirichlet, multinomial, and discrete distributions: their
-% parameters, their equations, what their draws look like
-  \caption{}
+  \begin{tabular}{cccc}
+    Distribution & Density & Parameter Examples & Draw Examples \\
+    \hline
+    Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}{K} \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = (1.1, 0.1, 0.1)$  & $\theta = (0.8, 0.15, 0.05)$ \\
+    Gaussian  & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{- \frac{(x-\mu)^2}{2 \sigma^2}}$ & $\mu=2, \sigma=1.1$ & $x=2.21$\\
+    Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=(0.1, 0.6, 0.3)$ & $w=2$ (second index) \\
+    \hline
+  \end{tabular}
   \label{fig:distribution_examples}
 \end{figure}
 
@@ -173,12 +223,13 @@ this is the parameter of a discrete distribution
 (Figure~\ref{fig:distribution_examples}).
 
 Topic models are described by discrete distributions (sometimes called
-multinomial distributions) over words and topics.  The distribution over words
-is called the topic distribution; each of the topics gives higher weights to
-some words more than others (e.g., in topic X from the Enron corpus, ``foo'' has
-higher probability).  Each document also has an ``allocation'' for each topic:
-documents are about a small handful of topics, and most documents have very low
-weights for most of the possible topics.
+multinomial distributions) over words and topics.  The distribution
+over words is called the topic distribution; each of the topics gives
+higher weights to some words more than others (e.g., in Topic 9 from
+the Enron corpus, ``state'' and ``california'' have higher probability
+than other words).  Each document also has an ``allocation'' for each
+topic: documents are about a small handful of topics, and most
+documents have very low weights for most of the possible topics.
 
 \paragraph{Dirichlet}
 
@@ -217,7 +268,18 @@ how the data came to be.  We assemble the probabilistic pieces to tell
 this story about generating topics and how those topics are used to create
 diverse documents.
 
-% TODO: add an example of how the Enron corpus gets built from the generative story
+For example, consider the document in Figure~\ref{fig:enron_doc}.  To
+generate it, we choose a distribution over all of the topics.  This is
+$\theta$.  For this document, the distribution favors Topic~9 about
+California.  It's higher for this topic than any other topic.  For
+each word in the document, the generative process chooses a topic
+assignment $z_n$.  For this document, most of those will be Topic~9.
+
+Then, for each word, we need to choose which word will appear.  This
+comes from Topic~9's distribution over words (multiple topics' have
+word distributions shown in Figure~\ref{fig:enron_topics}).  Each is a
+discrete draw from the topic's word distribution, which makes words
+like ``California'', ``state'', and ``Sacramento'' more likely.
 
 \paragraph{Generating Topics}
 
@@ -272,7 +334,7 @@ over time, or how topics can be used across languages.
 
 Given a generative model and some data, the process of uncovering the hidden
 probabilistic pieces of the generative story is called \emph{inference}.  More
-concretely, it is a recipie for generating algorithms to go from data to
+concretely, it is a recipe for generating algorithms to go from data to
 \emph{topics that explain a dataset}.
 
 There are many flavors of algorithms for posterior inference: message
@@ -282,14 +344,16 @@ these algorithms have their advocates and reasons you should use them.  However,
 that discussion is better left for other venues.  In this survey, we focus
 on Gibbs sampling, which is simple, intuitive, and fast~\citep{yao-09}.
 
-We present the results of Gibbs sampling without derivation, which---along with
-the history of its origin in statistical physics---are well described
-elsewhere.\footnote{TODO: mention gsftu, griffiths, resources for the
-  derivation} We use a variety of Gibbs sampling called \emph{collapsed} Gibbs
-sampling, which ignores some of the pieces of the generative story: it ignores
-the topics and the document allocations to only focus on the topic assignments.
-Some relatively straightforward math allows you to recreate the topics and
-document allocations if you only know the topic assignments.
+We present the results of Gibbs sampling without derivation,
+which---along with the history of its origin in statistical
+physics---are well described elsewhere.\footnote{We recommend
+  \citet{resnik-09} for additional information on derivation.} We use
+a variety of Gibbs sampling called \emph{collapsed} Gibbs sampling,
+which ignores some of the pieces of the generative story: it ignores
+the topics and the document allocations to only focus on the topic
+assignments.  Some relatively straightforward math allows you to
+recreate the topics and document allocations if you only know the
+topic assignments.
 
 \subsection{Random Variables}
 
@@ -426,5 +490,10 @@ interest.  We show how a high level overview can help
 algorithms (Chapter~\ref{ch:ir}) and users (Chapter~\ref{ch:viz}) find documents
 of interest.
 
-These tools can help enable new applications of topic models to tasks such as
-\dots
+These tools help enable new applications of topic models: how
+understanding newspapers (Chapter~\ref{ch:nonfiction}) reveals the
+march of history, how the corpus of writers of fiction
+(Chapter~\ref{ch:fiction}) illuminates societal norms, how the
+writings of science reveal innovation (Chapter~\ref{ch:science}), or
+how politicians' speeches (Chapter~\ref{ch:css}) reveal schisms in
+political organizations.

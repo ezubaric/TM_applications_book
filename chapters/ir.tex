@@ -138,7 +138,11 @@ where $c(w, d_i)$ is count of word $w$ in document $d$. The related parameters $
 
 \paragraph{Relevance Model}
 
-Different from the query language model approach~\citep{zhai-01b}, \cite{Lavrenko-2001} assume both the query and the relevant documents are random samples from an unknown relevance model $R$. Given the query $q$, they approximate the probability $p(w|R)$ based on the observed query $q$ as the following,
+Unlike the query language model approach~\citep{zhai-01b},
+\cite{Lavrenko-2001} assume both the query and the relevant documents
+are random samples from an unknown relevance model $R$. Given the
+query $q$, they approximate the probability $p(w|R)$ based on the
+observed query $q$ as the following,
 \begin{align}
 p(w|R) \approx p(w|q) = \frac{p(w,q)}{p(q)}
 \end{align}
@@ -165,7 +169,10 @@ Given the related words for query expansion, the next question is how to apply t
 D(\hat{\theta}_{Q'} || \hat{\theta}_D) = -\sum_w p(w|\hat{\theta}_{Q'}) \log p(w | \hat{\theta}_D) + \texttt{cons}(q)
 \end{align}
 
-Different from \cite{zhai-01b}, \cite{Lavrenko-2001} compute the relevance score using the original query and the expanded query respectively, and then linearly combine the two scores. Thus the final query-document relevance $\hat{s}_d(q)$ is computed as,
+Again, in contrast to \cite{zhai-01b}, \cite{Lavrenko-2001} compute
+the relevance score using the original query and the expanded query
+respectively, and then linearly combine the two scores. Thus the final
+query-document relevance $\hat{s}_d(q)$ is computed as,
 \begin{align}
 \label{eq:rm_qe_comb}
 \hat{s}_d(q) = \mu s_d(e) + (1-\mu)s_d(q)
@@ -254,7 +261,14 @@ The paramters can be learned by standard EM algorithm. The top related terms in 
 
 Relevance feedback involves the users in the retrieval process to improve the ranking result set~\citep{Rocchio-1971}. The basic idea is to ask users to give feedback on the relevance of documents in an initial set of retrieval results, and users' feedback on relevance is further used to improve the ranking results. This process can go through one or more iterations.
 
-Different from the other approaches, \cite{Andrzejewski-2011} present a new framework for obtaining and exploiting user feedback at the latent topic level. They learn the latent topics from the whole corpus and construct meaningful topic representations. At query time, they decide which latent topics are potentially relevant and present the topic representations along keyword search results. When a user select a latent topic, the original query is expaned with the top words in this selected topic, and the search results are refined.
+\cite{Andrzejewski-2011} present a new framework for obtaining and
+exploiting user feedback at the latent topic level. They learn the
+latent topics from the whole corpus and construct meaningful topic
+representations. At query time, they decide which latent topics are
+potentially relevant and present the topic representations along
+keyword search results. When a user select a latent topic, the
+original query is expaned with the top words in this selected topic,
+and the search results are refined.
 
 This direction is actually more related with topic labeling and interative visulization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
 
