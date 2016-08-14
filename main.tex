@@ -39,8 +39,18 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\disc}[1]{\mbox{Discrete}( #1)}
 
+
+
+
+\newif\ifcomment\commentfalse
+\ifcomment
 \newcommand{\jbgcomment}[1]{  \colorbox{red}{   \parbox{.8\linewidth}{ JBG: #1}  }}
 \newcommand{\yhcomment}[1]{  \colorbox{green}{  \parbox{.8\linewidth}{ YH:  #1}  }}
+\else
+\newcommand{\jbgcomment}[1]{ }
+\newcommand{\yhcomment}[1]{ }
+\fi
+
 
 \title{Applications of Topic Models}
 
