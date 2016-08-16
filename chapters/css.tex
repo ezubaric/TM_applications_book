@@ -118,12 +118,15 @@ sense together, if a topic is associated with documents with many
 different sentiment values, it will have low probability.  
 
 \begin{figure}
-  \includegraphics[width=0.7\linewidth]{figures/slda}
+  \begin{center}
+    \includegraphics[width=1.0\linewidth]{figures/slda}
+  \end{center}
   \caption{Example topics learned by supervised \abr{lda} from
     \citet{blei-07b}.  Each topic is not just a collection of words
     but also has a regression score~$\eta$ that explains whether it is
     associated with positive sentiment (right) or negative sentiment
     (left).}
+  \label{fig:slda-topics}
 \end{figure}
 
 Consider Figure~\ref{fig:slda-topics}.  If a topic has an inconsistent
@@ -205,7 +208,7 @@ Downstream models can also capture these divisions as well.
 Democrat based on the versions of topics they discuss.  For example,
 Republicans are more likely to discuss taxes in general than
 Democrats, but Democrats focus on the good that comes out of taxes
-(Figure~\cite{fig:shlda-taxes}).
+(Figure~\ref{fig:shlda-taxes}).
 
 % Need to cite Grimmer
 

@@ -153,7 +153,10 @@ interest, we can explore deeper to find other documents.
 
 \begin{center}
 \begin{figure}
+  \begin{center}
   \includegraphics[width=.8\linewidth]{figures/matrix_factorization}
+  \end{center}
+
   \caption{A matrix formulation of finding $K$ topics for a dataset
     with $M$ documents and $V$ unique words.  While the original
     formulation of topic modeling approaches such as latent semantic
@@ -179,6 +182,8 @@ easy modification (as we see later in many of our later chapters).
     Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=(0.1, 0.6, 0.3)$ & $w=2$ (second index) \\
     \hline
   \end{tabular}
+  \caption{Examples of probability distributions used in the
+    generative stories of topic models.}
   \label{fig:distribution_examples}
 \end{figure}
 
@@ -187,14 +192,14 @@ easy modification (as we see later in many of our later chapters).
 
 Probabilistic models begin with a generative story: a recipe listing a sequence of random events
 that creates the dataset you're trying to explain.
-Figure~\ref{fig:generative_distributions} lists some of the key players in these
+Figure~\ref{fig:distribution_examples} lists some of the key players in these
 stories, how they're parameterized and what their draws look like.  Let's
 briefly discuss them, as we'll use them to build a wide variety of topic models
 later.
 
 \paragraph{Gaussian} If you know any probability distribution already, it's the
 Gaussian.  It does not have a role in the most basic topic models that we'll
-discuss here, but it will later (e.g., Chapter~\ref{sec:science_fields}).  We do
+discuss here, but it will later (e.g., Chapter~\ref{sec:css}).  We do
 include it because it's a useful point of comparison against the other
 distributions we're using (since it's perhaps the easiest to understand and best
 known).
@@ -213,7 +218,7 @@ While Gaussian distributions are over a continuous space, documents are
 combinations of discrete words.\footnote{An emerging trend in natural language
   processing research is to view words as embedded in a continuous space.  We
   discuss these ``representation learning'' approaches and their connection to
-  topic modeling in Section~\ref{sec:future}.}   Thus, we need a distribution
+  topic modeling in Chapter~\ref{ch:conc}.}   Thus, we need a distribution
 over discrete sets.
 
 A useful metaphor for thinking about discrete distributions is a weighted die.
@@ -241,6 +246,21 @@ variance.  The mean is called the ``base measure'' $\tau$ and is the expected
 value of the Dirichlet: what you'd get if you averaged many draws from the
 Dirichlet.  The concentration parameter $\alpha$ controls how far away draws are
 from the base measure.
+
+\begin{center}
+\begin{figure}
+  \includegraphics[width=.8\linewidth]{figures/dirichlet}
+  \caption{Given different Dirichlet parameters, the Dirichlet
+    distribution can either be informative (left, middle) or sparse
+    (right).  Sparse distributions encourage distributions to favor
+    only a small number of elements but don't care which ones.  This
+    is consistent with our intuitions of how documents are written:
+    they are only about a few things, and topics contain only a
+    handful of words.}
+  \label{fig:dirichlet_sparsity}
+\end{figure}
+\end{center}
+
 
 If $\alpha$ is very large, then the draws from a Dirichlet will be very close to
 $\tau$ (Figure~\ref{fig:dirichlet_sparsity}, left).  If $\alpha$ is small, however,
@@ -309,11 +329,12 @@ document $d$, we first choose a {\bf topic assignment} $z_{d,n} \sim
 \disc{\theta_d}$.  This is one of the $K$ topics that tells us which topic the
 word token is from, but not what the word is.
 
+% TODO: add in generative example
 To select which word we'll see in the document, we draw from the a discrete
 distribution again.  Given a words topic assignment $z_{d,n}$, we draw from that
 topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
 tells you what the word is about, and then this selects which distribution over
-words we'll use to generate the word (Figure~\ref{fig:generative-ex}).
+words we use to generate the word.  % (Figure~\ref{fig:generative-ex}).
 
 It goes without saying that the generative story is a fiction~\citep{box-87}.
 Nobody is sitting down with dice to decide what to type in on their keyboard.
@@ -463,10 +484,11 @@ inference is the other major option~\citep{blei-03,vw}, but often requires a
 little more effort for new users to get a first result.
 
 % Smola, Amr
-However, if your corpus is truly large, it may be worthwhile considering
-techniques that can be parallelized over large computer clusters.  These
-techniques can be based on variational
-inference~\citep{Narayanamurthy-11,zhai-12} or on sampling~\citep{}.
+However, if your corpus is truly large, it may be worthwhile
+considering techniques that can be parallelized over large computer
+clusters.  These techniques can be based on variational
+inference~\citep{Narayanamurthy-11,zhai-12} or on
+sampling~\citep{newman-08}.
 
 While these implementations allow you to run \emph{specific} topic models, other
 frameworks allow you to specify arbitrary generative

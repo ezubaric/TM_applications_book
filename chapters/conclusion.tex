@@ -35,7 +35,8 @@ to \emph{distribute} computation across many machines~\citep{zhai-12}.
 A complementary approach is to reduce the time a computer spends on
 any particular document: improving \emph{efficiency}.  This is
 possible by improving how long it takes to sample document
-assignments~\citep{} or compute variational parameters~\citep{}.
+assignments~\citep{yao-09,li2014reducing} or compute variational
+parameters~\citep{mimno-12}.
 
 The final approach to improve the efficiency of probabilistic
 algorithms for topic models is to rethink the inference process
@@ -50,9 +51,9 @@ documents---as the central unit of computation.
 Part of the benefit of topic models is that the topic distribution of
 a document ($\theta$) serves as a low-dimensional representation of
 what the document means.  This numerical vector is useful for finding
-similar documents (Chapter~\ref{}), displaying documents to a user
-(Chapter~\ref{}), or connecting documents across languages
-(Chapter~\ref{}).
+similar documents (Chapter~\ref{ch:ir}), displaying documents to a user
+(Chapter~\ref{ch:viz}), or connecting documents across languages
+(Chapter~\ref{ch:mt}).
 
 Increasingly, vector-based representations have been useful ``all the
 way down''.  Vector-based representations of words and phrases can
@@ -70,7 +71,7 @@ the future.
 
 Evaluation methods from topic models have made their way into
 representation learning, which suggests that some of the lessons
-learned in making topic models interpretable (Section~\ref{}) could
+learned in making topic models interpretable (Section~\ref{ch:viz}) could
 also be applied in representation learning.  This could help mollify
 some critics of representation learning who argue that the results are
 often uninterpretable or deceptive~\citep{szegedy-13}.
@@ -78,7 +79,7 @@ often uninterpretable or deceptive~\citep{szegedy-13}.
 \paragraph{Synthesis}
 
 Topic modeling is also blending with more expressive latent
-representation models~\cite{ranganath-15}.  Topic models could help
+representation models~\citep{ranganath-15}.  Topic models could help
 representation learning solve some of its difficulty summarizing
 larger segments of text.  Paragraphs and sentences are difficult to
 model as a single vector, and techniques more sophisticated than
