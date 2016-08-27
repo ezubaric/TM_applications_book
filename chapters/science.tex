@@ -3,7 +3,7 @@
 \chapter{Understanding Scientific Publications}
 \label{ch:sci}
 
-In Chapter~\ref{ch:nonfiction}, we how scholars use topic models to understand
+In Chapter~\ref{ch:nonfiction}, we discuss how scholars use topic models to understand
 non-fiction documents.  This chapter focuses on a particular subgenre of
 non-fiction: scientific documents.  Scientific documents deserve their own
 chapter because these documents are unique: they use very specialized
@@ -20,7 +20,7 @@ policy decisions.  We discuss each of these aspects in turn.
 
 \paragraph{Specialized Vocabularies Define Fields of Study}
 
-First, scientific documents are unique because unlike ``general'' documents,
+First, scientific documents are unique because unlike general documents,
 their vocabulary is precise and carefully measured.  ``Resistance'', ``splice'',
 ``utilization'', and ``demand'' are common words with radically different
 meanings when used in specialized, technical contexts.  Their use is a
@@ -41,7 +41,7 @@ What makes the analysis of scientific document collections both challenging and
 interesting is that innovation is hard to detect and hard to attribute.
 Einstein's groundbreaking 1905 papers were not fully recognized until many years
 later; important ideas are often proposed by an obscure researcher but only accepted
-once popularized and supported by another research; which document (researcher)
+once popularized and supported by other research; which document (researcher)
 in this case was the true source of the innovation?  As we will see in this
 chapter, topic models can help answer this question.
 
@@ -71,10 +71,10 @@ discussed thus far are not always appropriate.
 One of the first uses of topic models was to understand the ``fields
 of science''.  \citet{griffiths-04} found that they were able to
 reconstruct the official \abr{pnas} topic codes automatically using
-topic models (Figure~\ref{fig:pnas}).  This is a useful sanity check
-that yes, indeed, topic models correlate with what we often think of
-as scientific disciplines: they use distinct language for methods,
-subjects of study, and have different key players.
+topic models (Figure~\ref{fig:pnas}).  This is a useful sanity check:
+yes, topic models correlate with what we often think of as scientific
+disciplines.  They use distinct language for methods, subjects of
+study, and have different key players.
 
 However, Griffiths and Styvvers were not in a position to do anything
 with their understanding of the fields of science.  In contrast,
@@ -88,7 +88,7 @@ systems; each of these institutes manages its own independent funding portfolio,
 sometimes making it difficult to understand the ``big figure'' of funding.
 
 \citet{talley-11} used topic models to help create this big picture,
-in contrast to more labor intensive techniques (e.g., keywords from a
+in contrast to more labor-intensive techniques (e.g., keywords from a
 meticulously organized ontology).  Their analysis discovered
 unexpected overlaps in research priorities across institutes.  For
 example, many institutes study angiogenesis, the formation of new
@@ -108,10 +108,11 @@ documents themselves introduce new ideas (we discuss detecting these
 innovative ideas in the next section).
 
 One of the first techniques to do this viewed topics as subtly
-changing each year with a Dynamic Topic Model~\citep[\abr{dtm}]{blei-06b}.  Within the generative model,
-this views each year's topic distribution to be distinct.  That is,
-the \underline{physics} topic has separate distributions over words
-for each year.  Of course, we don't want the topics to be completely
+changing each year with a Dynamic Topic
+Model~\citep[\abr{dtm}]{blei-06b}.  Within the generative model, this
+views each year's topic distribution to be distinct.  That is, the
+\underline{physics} topic has separate distributions over words for
+each year.  Of course, we don't want the topics to be completely
 different every year---we want topics to change, but not \emph{too
   much}.
 
@@ -174,8 +175,8 @@ a \textit{post hoc} perspective: after fitting a standard \abr{lda} topic model,
 find the distribution over research topics in the entire research community at
 time $t$ and then look back at time $t-1$ at the places who look like the
 future.  They hypothesis is that these places ``lead'' other places to adopt
-their ideas.  For example, they found that \dots
-% TODO: add example
+their ideas. % For example, they found that 
+% TODO: Add example!
 
 Capturing more nuanced effects at either the individual or lab level requires
 refining the model.  \citet{gerrish-10} adapt the random walk model of
@@ -204,7 +205,7 @@ Each of these terms are random variables; inference in the model discovers the
 settings of the random variables that best explain the data.  The \abr{dim}'s
 estimates of influence correlate well with the number of citations an article
 gets (the traditional measure of influence).  Unlike citations, however, the
-\abr{dim} can be used in more informal settings to detect influential speech.
+\abr{dim} can be used in more informal settings to detect influential documents.
 
 While science communication is ostensibly about promoting ideas and new
 understanding, topic models can also help understand less objective
