@@ -11,11 +11,12 @@ scientists.  The underlying problem is the same, however: these
 stakeholders are interested in what people have to say but cannot read
 all of the data at their disposal.
 
-Historically, social science questions such as what candidates is
+Historically, social science asks questions such as what candidates is
 preferred in a particular part of the country or whether people like a
-new restaurant or product were answered by polling: social scientists
-would head out into the world, gather a statistically significant
-sample, and extrapolate to the broader population.
+new restaurant or product.  These questions are often answered by
+polling: social scientists would head out into the world, gather a
+statistically significant survey sample, and extrapolate to the
+broader population.
 
 These techniques are still valuable, but they still take time.  A
 company needs to know if it has an issue with a product immediately,
@@ -35,8 +36,9 @@ Monitoring pollution in China or drug use in teens requires access to
 populations that may be difficult.  Using social media presents an
 alternative~\cite{wang:paul:dredze-15}, as individuals share
 information more freely than official news agencies (which may suffer
-from censorship) or in school-administered surveys (which can suffer
-from self-censorship).  Topic models and other large-data approaches
+from official censorship in the case of Chinese pollution) or in
+school-administered surveys (which can suffer from self-censorship in
+the case of drug use).  Topic models and other large-data approaches
 that can look at vast quantities of text help overcome some of the
 obstacles to fast-response social science.
 
@@ -46,10 +48,10 @@ In industrial settings, this problem is often called sentiment
 analysis~\citep{pang-08}.  Here, the goal is to determine the
 ``sentiment''---e.g., positive or negative opinions---associated with
 a piece of text.  For example, ``Chipotle is great!'' would be
-associated with positive sentiment, while ``Chipotle made me sick
-would be associated with negative sentiment''.
+associated with positive sentiment, while ``Chipotle made me sick''
+would be associated with negative sentiment.
 
-While industrial applications of sentiment analysis is mostly for
+While industrial applications of sentiment analysis are mostly for
 identifying whether people like a product or company, there are wider
 social science applications of examining large corpora to determine
 authors' \emph{internal state}.  For example, determining whether they
@@ -60,7 +62,7 @@ Topic models can help these tasks by dividing a problem into topics.
 For example, ``Apple'' can appear in tech news as well as a food
 ingredient; someone monitoring the seller of iPods and iPhones would
 not want to be confused by social media commentary complaining about a
-bad apple pie.  ``surprising'' in an automotive review is likely
+bad apple pie.  ``Surprising'' in an automotive review is likely
 associated with negative sentiment, while it's a good thing in a book
 review.  Thus, topics can help differentiate different kinds of
 discussion in broad corpora.
@@ -201,7 +203,6 @@ on ``resistance'' and ``occupation''.
   \end{minipage}
   \vspace{-.3cm}
 \end{figure}
-
 
 Downstream models can also capture these divisions as well.
 \citet{nguyen-13:shlda} predict whether a speaker is Republican or

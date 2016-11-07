@@ -16,7 +16,7 @@ provide feedback through these interfaces to improve the underlying model.
 \section{Displaying Topics}
 \label{sec:display}
 
-Recall from the previous chapter that topics are distributions over words; the
+Recall from the previous chapters that topics are distributions over words; the
 words with the highest weight in a topic best explain what the topic is about.
 While the simplest answer---just show the most probable words---is a common
 solution, there are possible refinements that can improve a user's understanding
@@ -27,7 +27,7 @@ words' probability.
 \paragraph{Word Lists}
 
 Just showing a list of the most common words (a
-visualization that we'll call ``word list'') is very simple, it also works well.
+visualization that we'll call ``word list'') is very simple, and it also works well.
 Users can quickly understand what's going on, and it is an efficient use of
 space.  represented horizontally~\cite{gardner2010topic,smith2015visual} or
 vertically~\cite{eisenstein2012topicviz,chaney2012visualizing}, with or without
@@ -94,7 +94,7 @@ Approaches for automatic labeling can be divided into those that only
 use internal information from the topic model against those that also
 use external knowledge resources.  While purely internal methods are
 more robust and consistent with the philosophy of unsupervised topic
-models, those that use external resources often produce higher quality
+models, external resources often produce higher quality
 labels.
 
 Of the techniques that use external resources, we further separate
@@ -109,7 +109,7 @@ prominent phrases from the topic and compares how consistent the
 phrase's context is with the topic distribution.  Phrases whose
 contexts closely resemble the topic often appear in regions of text
 that summarize the document, making them good candidates for labels.
-\cite{mao-12} extend the technique to hierarchies, using the insight
+\citet{mao-12} extend the technique to hierarchies, using the insight
 that parents' labels should be consistent with their children's.
 
 % What about Tim W at UIUC?
@@ -146,10 +146,10 @@ corpora are still effective.
 \paragraph{Labeling with Knowledge Bases}
 
 % Perhaps have a figure to give an example
-\citet{mao-12} align topic models with an external ontology of
-labels.  They argue that labels should match topic words (as labeling with flat
-topics); a topic's words should be consistent with a labels' children in the
-hierarchy; and the topic's labels should be unique.
+\citet{mao-12} align topic models with an external ontology of labels.
+They argue that labels should match topic words (as labeling with flat
+topics); a topic's words should be consistent with a labels' children
+in the hierarchy; and the topic's labels should be unique.
 
 \citet{aleteras-14} instead query the whole web and then build a graph that
 includes the words that make up the titles of the retrieved webpages. The edges
@@ -223,15 +223,20 @@ example, how the issue of slavery is reframed from an economic argument to an
 argument over human rights.  It supports filtering to specific topics or to see
 how words are used over time across topics.
 
-In contrast to showing how topics related to metadata, \citet{chuang-12} focuses
-on how topics relate to \emph{each other}.  Their ``Termite'' topic
-visualization shows the term-by-term similarity between topics.  By presenting
-topic-term probabilities on a grid with topics as the columns and terms as the
-rows, users can see when topics share words or when topics are only about a
-handful of words.
+In contrast to showing how topics related to metadata,
+\citet{chuang-12} focus on how topics relate to \emph{each other}.
+Their ``Termite'' topic visualization (Figure~\ref{fig:termite}) shows
+the term-by-term similarity between topics.  By presenting topic-term
+probabilities on a grid with topics as the columns and terms as the
+rows, users can see when topics share words or when topics are only
+about a handful of words.
 
 \begin{figure}
   \includegraphics[width=.9\linewidth]{figures/viz_termite}
+  \caption{The Termite visualization of topics helps reveal which
+    topics use similar words and are thus likely talking about similar
+    things.}
+  \label{fig:termite}
 \end{figure}
 
 \section{Quality, Stability, and Repair}
@@ -271,17 +276,23 @@ documents it should represent.
 
 \begin{minipage}[b]{0.4\textwidth}
 \begin{tabular}{p{.9\textwidth}}
-	Topic Words (before) \\
-\hline
- \red{bladder}, sci, \blue{spinal\_cord}, \blue{spinal\_cord\_injury}, \blue{spinal}, \red{urinary}, \red{urinary\_tract}, \red{urothelial},\blue{injury}, \blue{motor}, \blue{recovery}, \blue{reflex}, \blue{cervical}, \red{urothelium}, \blue{functional\_recovery} \\
+	Topic Words (before) \\ \hline \red{bladder}, sci,
+        \blue{spinal\_cord}, \blue{spinal\_cord\_injury},
+        \blue{spinal}, \red{urinary}, \red{urinary\_tract},
+        \red{urothelial},\blue{injury}, \blue{motor}, \blue{recovery},
+        \blue{reflex}, \blue{cervical}, \red{urothelium},
+        \blue{functional\_recovery} \\
 \end{tabular}
 \end{minipage}
   \hfill
 \begin{minipage}[b]{0.4\textwidth}
 \begin{tabular}{p{.9\textwidth}}
-	Topic Words (after) \\
-\hline
-sci, \blue{spinal\_cord}, \blue{spinal\_cord\_injury}, \blue{spinal}, \blue{injury}, \blue{recovery}, \blue{motor}, \blue{reflex}, \red{urothelial}, \green{injured}, \blue{functional\_recovery}, \green{plasticity}, \green{locomotor}, \blue{cervical}, \green{locomotion}\\
+	Topic Words (after) \\ \hline sci, \blue{spinal\_cord},
+        \blue{spinal\_cord\_injury}, \blue{spinal}, \blue{injury},
+        \blue{recovery}, \blue{motor}, \blue{reflex},
+        \red{urothelial}, \green{injured},
+        \blue{functional\_recovery}, \green{plasticity},
+        \green{locomotor}, \blue{cervical}, \green{locomotion}\\
 \end{tabular}
 \end{minipage}
 
