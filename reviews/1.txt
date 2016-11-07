@@ -1,0 +1,182 @@
+            FOUNDATIONS AND TRENDS IN INFORMATION RETRIEVAL
+                             Review Form
+
+Paper title  : Applications of Topic Models
+Authors      : Jordan Boyd-Graber, Yuening Hu and David Mimno
+
+The review process for FnTIR is more collaborative than for other
+journals.  We solicit papers, so our expectation is that the paper you
+review will be published, in some form.  However, it needs to be an
+excellent paper, so the reviewer's job is to assess quality, and to
+make explicit suggestions about how to improve clarity, content,
+breadth, etc.  We expect you to complete your review within 4 weeks,
+for which you are paid a $100 honorarium.
+
+----------------------------------------------------------------------
+
+Please fill out ALL of the fields indicated below by indicating a
+score from 01 to 10 (01 is worst, 10 is best) and, #especially# by
+adding constructive comments that may help the author(s) improve the
+paper or help the editors-in-chief in making the final decision.  In
+case of any doubt on how to fill out this form, please consult the
+editors-in-chief.
+
+If you own a copy of Adobe Acrobat, instead of filling in the
+"Detailed comments to the author" section of the review, you may use
+Adobe Acrobat's "annotation tool" to mark comments directly on the
+.pdf file.  If you choose this option, be sure to return the annotated
+.pdf file with your review.  Please use this option only for detailed
+comments that are of interest to the authors but not to the editors.
+
+----------------------------------------------------------------------
+
+
+Is this indeed a REVIEW/TUTORIAL paper?  Remember that FnTIR only publishes
+papers of a review and/or tutorial nature, and is thus unsuitable for
+publishing papers that are only or mainly focused on the authors' own
+results. 
+
+Please indicate a score from 01 to 10 here --> 7
+
+Please add your comments on this:
+
+Positive: The paper covers an extensive range of applications of topic
+models and is a rich source of literature on these applications.
+
+What can be improved: The style is very different across the different
+chapters, sometimes being very didactic (e.g., chapter 1), sometimes
+not (e.g., chapter 7). Also the level of detail and the explanations
+are different across the chapters (e.g., chapter 4 compared to chapter
+8). The authors should try to remedy this and write the publication in
+a uniform and coherent style with a similar level of detail throughout
+the chapters. Now, the publication is written in the style of an
+edited book with different contributions by different authors.
+
+----------------------------------------------------------------------
+
+How IMPORTANT is the topic of the paper?  Would a review/tutorial paper on
+this topic be an important tool for the IR community, or is the topic
+already covered by some good, recent review/tutorial paper?  Is such a
+topic in the scope of FnTIR, or is it too far removed from the concerns of
+the IR community? 
+
+Please indicate a score from 01 to 10 here --> 8
+
+Please add your comments on this:
+
+Positive: Overall a nice overview of the different applications is
+given most of which are relevant for the IR community.
+
+What can be improved: The chapter on multilingual data and machine
+translation might be shortened as it is less relevant for the IR
+community (e.g., the part on reordering with topic models). Instead
+more emphasis should go to the use of topic models in cross-lingual
+information retrieval and additional sections on mono/cross-lingual
+categorization, mono/cross-lingual clustering and even the use of
+topic models in cross-modal retrieval/categorization would strengthen
+the review/tutorial.
+
+----------------------------------------------------------------------
+
+How WELL PRESENTED is the paper?  Does the paper read well?  Is the English
+good?  Is the paper well-structured?  Is the mathematical notation
+appropriate and consistent?  Does the paper introduce the notions required
+to understand its content, so as to make it accessible to a "generic IR
+researcher"?
+
+Please indicate a score from 01 to 10 here --> 7
+
+Please add your comments on this:
+
+Positive: Most of the chapters are well and clearly written. 
+
+What can be improved: As mentioned above the style and level of detail
+should be more uniform over the chapters. Chapter 2 needs to be
+revised.
+
+----------------------------------------------------------------------
+
+How COMPLETE is the paper?  Ideally, a complete paper on topic X should
+address the main applications of X, the main approaches to X, evaluation
+measures and standard benchmarks for X, publicly available resources for X,
+and future trends.  Does the paper fail to address some such important
+aspects of the topic?  Is the paper a thorough review of recent work, or
+does it fail to quote important work in the area?
+
+Please indicate a score from 01 to 10 here --> 6.5
+
+Please add your comments on this:
+
+Positive: As mentioned above the list of applications is already quite
+extensive with the exception of a few.
+
+What can be improved: The most important content that is missing from
+the text is an in depth explanation on how to design, implement and
+train topic models apart from the classical Hofmann - Blei type
+generative architectures. The graphical models come in all shapes and
+sizes and that is their power with regard to applications. Although in
+chapter 7 reference is made to more complex topic models, the reader
+could be better informed on how to build and train such models.  Some
+important work is missing, which I indicated in the pdf.  Also at
+other places indicated in the pdf, the authors miss earlier work on
+specific subjects, methods or applications mentioned.  More
+explanations of evaluation measures and addition of benchmarking test
+collections would strengthen the work.  The section on future trends
+could be more elaborate.
+
+----------------------------------------------------------------------
+
+Is the paper CORRECT? Or does it contain significant technical mistakes?
+Is the mathematics correct? 
+
+Please indicate a score from 01 to 10 here --> 7.5
+
+Please add your comments on this: 
+
+The mathematics are correct, but the different chapters sometimes use
+different symbols for the same variable, or the same symbol is used
+with different meanings. The use of symbols should be more coherent
+thought the work, perhaps by introducing a table with the most
+important symbols in Chapter 1.  Also the technical and mathematical
+details are quite different throughout the chapters as mentioned
+above.
+
+----------------------------------------------------------------------
+
+What is your final EVALUATION of this paper?  How strongly do you feel
+that the paper should be accepted, or rejected?
+
+Please indicate a score from 01 to 10 here --> 7
+
+Please add your comments on this:
+
+The work is certainly relevant to publish, but in its current state is
+not yet ready for publication.
+
+----------------------------------------------------------------------
+
+How COMPETENT do you feel on the particular subject matter that the paper 
+touches upon? Are you familiar with the most recent literature on it?
+
+Please indicate a score from 01 to 10 here --> 9
+
+Please add your comments on this:
+
+I have a very good knowledge of topic models and on how to build,
+train and apply them.
+
+----------------------------------------------------------------------
+
+General comments to the authors:
+
+See annotated pdf, especially annotations at the start of the chapters. 
+I assume the above remarks are also sent to the authors.
+
+----------------------------------------------------------------------
+
+Detailed comments to the authors (or attach an annotated copy of the
+.pdf file -- see above): 
+
+See annotated pdf.
+
+----------------------------------------------------------------------
