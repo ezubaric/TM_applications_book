@@ -1,0 +1,577 @@
+﻿FOUNDATIONS AND TRENDS IN INFORMATION RETRIEVAL
+                            Review Form
+
+Paper title  : Applications of Topic Models
+Authors      : Jordan Boyd-Graber, Yuening Hu, David Mimno
+
+The review process for FnTIR is more collaborative than for other
+journals.  We solicit papers, so our expectation is that the paper you
+review will be published, in some form.  However, it needs to be an
+excellent paper, so the reviewer's job is to assess quality, and to
+make explicit suggestions about how to improve clarity, content,
+breadth, etc.  We expect you to complete your review within 4 weeks,
+for which you are paid a $100 honorarium.
+
+----------------------------------------------------------------------
+
+Please fill out ALL of the fields indicated below by indicating a
+score from 01 to 10 (01 is worst, 10 is best) and, #especially# by
+adding constructive comments that may help the author(s) improve the
+paper or help the editors-in-chief in making the final decision.  In
+case of any doubt on how to fill out this form, please consult the
+editors-in-chief.
+
+If you own a copy of Adobe Acrobat, instead of filling in the
+"Detailed comments to the author" section of the review, you may use
+Adobe Acrobat's "annotation tool" to mark comments directly on the
+.pdf file.  If you choose this option, be sure to return the annotated
+.pdf file with your review.  Please use this option only for detailed
+comments that are of interest to the authors but not to the editors.
+
+----------------------------------------------------------------------
+
+Is this indeed a REVIEW/TUTORIAL paper?  Remember that FnTIR only publishes
+papers of a review and/or tutorial nature, and is thus unsuitable for
+publishing papers that are only or mainly focused on the authors' own
+results. 
+
+Please indicate a score from 01 to 10 here → 10
+
+Please add your comments on this:
+
+This is an excellent review on the applications of topic models,
+mostly LDA and its variants. The authors surveyed a nice collection of
+papers and organized the materials in a way that is meaningful and
+very easy to follow by non-expert audience.
+
+----------------------------------------------------------------------
+
+How IMPORTANT is the topic of the paper?  Would a review/tutorial paper on
+this topic be an important tool for the IR community, or is the topic
+already covered by some good, recent review/tutorial paper?  Is such a
+topic in the scope of FnTIR, or is it too far removed from the concerns of
+the IR community? 
+
+Please indicate a score from 01 to 10 here --> 9
+
+Please add your comments on this:
+
+Topic modeling has been a major theme of machine learning in the past
+15 years. It has been widely applied to different fields inside and
+outside computer science. While there are papers reviewing the
+mathematics and the algorithms, I have not seen a comprehensive review
+of the applications of topic models. This paper fills the gap and
+would benefit both computer science researchers and potential
+customers of topic modeling in other fields, such as social scientists
+and scholars in humanities.
+
+----------------------------------------------------------------------
+
+How WELL PRESENTED is the paper?  Does the paper read well?  Is the English
+good?  Is the paper well-structured?  Is the mathematical notation
+appropriate and consistent?  Does the paper introduce the notions required
+to understand its content, so as to make it accessible to a "generic IR
+researcher"?
+
+Please indicate a score from 01 to 10 here --> 8
+
+Please add your comments on this:
+
+The paper is well-structured in general. The chapters make a lot of
+sense. The presentation of mathematics is very well written, which is
+easy to follow by a “generic IR researcher.” The organization of some
+individual chapters can be improved. Please refer to the detailed
+comments below.
+
+----------------------------------------------------------------------
+
+How COMPLETE is the paper?  Ideally, a complete paper on topic X should
+address the main applications of X, the main approaches to X, evaluation
+measures and standard benchmarks for X, publicly available resources for X,
+and future trends.  Does the paper fail to address some such important
+aspects of the topic?  Is the paper a thorough review of recent work, or
+does it fail to quote important work in the area?
+
+Please indicate a score from 01 to 10 here --> 7
+
+Please add your comments on this:
+
+The paper reviewed the applications of topic models in multiple
+fields, including retrieval, visualization, historical documents,
+fictions and literature, scientific publications, computational social
+sciences, and machine translation. These appear to be a solid
+combination. The paper also includes a nice introduction and a
+meaningful conclusion. On the other hand, more discussion should be
+included about the measures and benchmarks for evaluating topic
+models.
+
+A bigger concern about the completeness of the paper is that the
+review ties closely with LDA-style models and has largely omitted
+others, especially PLSA-style models. As a result, in particular
+domains we either miss some important pioneer work or fall short in
+the coverage of the survey. Please refer to the detailed comments
+below.
+
+----------------------------------------------------------------------
+
+Is the paper CORRECT? Or does it contain significant technical
+mistakes?  Is the mathematics correct?
+
+Please indicate a score from 01 to 10 here --> 10
+
+Please add your comments on this:
+
+The mathematics appears to be correct. I don’t see significant
+technical mistakes.
+
+----------------------------------------------------------------------
+
+What is your final EVALUATION of this paper?  How strongly do you feel
+that the paper should be accepted, or rejected?
+
+Please indicate a score from 01 to 10 here --> 9
+
+Please add your comments on this:
+
+Overall I very much liked this paper. It is important and timely,
+which is useful not only for IR researchers but also for consumers of
+IR techniques in other fields.
+
+----------------------------------------------------------------------
+
+How COMPETENT do you feel on the particular subject matter that the
+paper touches upon? Are you familiar with the most recent literature
+on it?
+
+Please indicate a score from 01 to 10 here --> 9
+
+Please add your comments on this:
+
+I am an expert in this domain. 
+
+----------------------------------------------------------------------
+
+General comments to the authors:
+
+As mentioned above, I very much liked the paper and appreciate the
+authors’ great effort of putting together such a nice review. My major
+concern about the content is that the review has tied too closely to
+LDA and its variants and has omitted other important topic models,
+especially PLSA-like models. Certainly, LDA has a more rigorous
+generative process and also practice advantages such as much fewer
+free parameters. However, compared to other related models such as LSA
+and non-negative matrix factorization, the two probabilistic models
+PLSA and LDA are homologous and have much in common both theoretically
+and practically. Indeed, LDA was originally introduced as a Bayesian
+version of PLSI with the goal to fix the practical issue of PLSI (see
+the original LDA paper, Bei et al., 2003 and the review of Blei 2012,
+“probabilistic topic models”, page 80). As a result, the term “topic
+models” in the field commonly refers to both LDA and PLSA, and their
+variants, but normally excludes LSA and NMF.
+
+When comes to the scope of this review, it is fine if the authors
+decide to narrow the scope to LDA-like models and clearly clarify this
+in the introduction, in which case the title probably needs to be more
+precise. There is a practical risk of narrowing down the scope though,
+as many applications of topic models are first introduced and
+developed on top of PLSA. Omitting these papers may compromise the
+readers’ understanding about the origin and the evolution of ideas in
+these applications and therefore leave a gap in their knowledge. For
+example, the first application of topic models to news data is
+probably Mei and Zhai, 2005, if nothing earlier:
+
+* Discovering evolutionary theme patterns from text: an exploration of
+  temporal text mining, KDD 2005
+
+The first application of topic models to product reviews is Zhai et
+al., 2004, if nothing earlier:
+
+* A cross-collection mixture model for comparative text mining, KDD
+  2004
+
+The first application of topic models to social media (e.g., blogs) is
+Mei et al., 2006:
+
+* A probabilistic approach to spatiotemporal theme pattern mining on
+  weblogs, WWW 2006
+
+The first work that models the interaction between topics and
+sentiments is Mei et al., 2007:
+
+* Topic sentiment mixture: modeling facets and opinions in weblogs,
+  WWW 2007
+
+Below I will provide more detailed references. 
+
+Another general suggestion is to spend more effort on elaborating the
+evaluation of topic models. A major challenge of applying such an
+unsupervised model to a domain is how to evaluate the results. Right
+now it is only briefly mentioned in the paper.
+
+----------------------------------------------------------------------
+
+Detailed comments to the authors (or attach an annotated copy of the
+.pdf file -- see above):
+
+Chapter 1: 
+
+This chapter is very well written. The scope is defined as
+“probabilistic approaches,” which includes PLSA, LDA and excludes LSA
+and NMF. In general I think it’ll be very hard to define a meaningful
+scope that includes LDA and excludes PLSA.
+
+Page 3: “œvre” -> oevre or œuvre?
+Page 6: “Chapter ??”  
+
+Figure 1.3: the figure is really showing matrix factorization, while
+LSA was based on SVD. Of course they are related, but it’s better to
+clarify here.
+
+Section 1.4: I would suggest an introduction of the connection between
+PLSA and LDA here, even if the description focuses on LDA.
+
+Section 1.5: even though the paper focuses on Gibbs Sampling, it is
+worth mentioning the intuition behind other inference algorithms, such
+as variational EM.
+
+Page 13: “update N, and V,,” -> the notation is a bit ambiguous.
+
+Page 14: “Infer.net and Church” -> please include references.
+
+Section 1.5.3: I suggest mentioning more recent implementations here,
+especially something that handles large-scale data. I would mention
+that LDA is part of python, R, mahout (hadoop), spark, (not sure
+whether it is on tensorflow).
+
+Chapter 2:  
+
+This is an important chapter. It is a good place to introduce a little
+more about LSA and PLSA, and their relations to LDA.
+
+Section 2.1 and 2.2: The introduction of language modeling is well
+written. Besides the two papers referenced about the application of
+topic models to document language modeling (Wei and Croft, 2006 and Lu
+et al., 2011), you may consider to add some more recent work. For
+example, Wang et al., 2013 and Vosecky et al., 2014:
+
+* Regularized latent semantic indexing: A new approach to large-scale
+  topic modeling, TOIS 2013.
+
+* Collaborative Personalized Twitter Search with Topic-Language
+  Models, SIGIR 2014.
+
+Page 16: “In the application of information retrieval, the queries are
+generated by a probabilistic language model based on a document...” ->
+This statement is not completely accurate. The goal is really to
+compute the likelihood of query given the document language model
+based on which the documents are ranked, instead of truly “generating”
+the query.
+
+Equation 2.10: “p_{ML(w|d)}” -> p_{ML}(w|d)
+
+Equation 2.10 and 2.11: suggest use \alpha instead of \omega for the
+parameter, which may be confused with the word w.
+
+Section 2.3 and 2.4 are very well written. The content about “Building bilingual topic models” can probably be moved to chapter 8. 
+
+Chapter 3: 
+
+Although this chapter is titled as “visualization,” it actually covers
+more aspects than information visualization (e.g., Labeling, Quality,
+Stability, and Repair). I think it’s better to name the chapter
+“Interpreting Topics,” which includes both visualization and the other
+aspects. In fact, this is probably the most suitable chapter to talk
+about the evaluation of topic models. So, maybe “Evaluation and
+Interpretation?”
+
+Chapter 4: 
+
+This chapter is well written. A few comments:
+
+Mei and Zhai, 2005 is probably the earliest application of topic
+models (PLSA) on news data, earlier than Newman and Block, with a
+focus on time aspects and evolution of topics:
+
+* Discovering evolutionary theme patterns from text: an exploration of
+  temporal text mining, KDD 2005.
+
+Other related work that applied topic models to news: 
+
+* AlSumait et al., On-Line LDA: Adaptive Topic Models for Mining Text
+  Streams with Applications to Topic Detection and Tracking
+
+* Viermetz et al., Tracking topic evolution in news environments
+
+* Wang et al., 2009. Mining common topics from multiple asynchronous
+  text streams
+
+Section 4.3: this section overlaps a bit with Chapter 6. You may
+consider to merge it into Chapter 6. Another possible organization is
+to group materials that emphasize on the temporal aspects of topics,
+which includes most applications to news, historical records, and some
+work that models the evolution of scientific literature (which means
+moving Section 6.2 to Chapter 4).
+
+Chapter 5: 
+
+Chapter 5 is very well organized. 
+
+Chapter 6: 
+
+As mentioned above, you may either consider move Section 4.3 here or
+move Section 6.2 to Chapter 4.
+
+Section 6.2: some important work is missing. Again, Mei and Zhai, 2005
+is probably the earliest paper that models the “subtly changing of
+topics each year” in scientific literature, which is earlier than Blei
+and Lafferty, 2006.
+
+* Mei and Zhai, 2005. “Discovering evolutionary theme patterns from
+  text: an exploration of temporal text mining”
+
+Other important work that applies topic model to the evolution of
+scientific literature includes:
+
+* Wang and McCallum, 2006. “Topics over Time: A Non-Markov
+  Continuous-Time Model of Topical Trends”
+
+* Mei and Zhai, 2006. “A mixture model for contextual text mining”
+
+* Zhou et al., 2006. “Topic evolution and social interactions: how
+  authors effect research”
+
+* He et al., 2009. “Detecting topic evolution in scientific
+  literature: how can citations help?”
+
+There are likely more that cited these papers. 
+
+Another important early work about scientific literature that cannot
+be missed is:
+
+* Steyvers et al., 2004. “Probabilistic author-topic models for
+  information discovery”
+
+It doesn’t belong to “how fields change,” but can probably be put into
+“understanding fields of studies.” Two other papers related to this,
+which models the social network/community of authors are:
+
+* Mei et al., 2008. “Topic Modeling with Network Regularization.”
+
+* Liu et al., 2009. “Topic-link LDA: joint models of topic and author
+  community.”
+
+Other highly cited papers related to mining scientific literature:
+
+* Tang et al., 2008. “A topic modeling approach and its integration
+  into the random walk framework for academic search”
+
+* Sun et al., 2009. “itopicmodel: Information network-integrated topic
+  modeling”
+
+* Wang and Blei, 2011. “Collaborative topic modeling for recommending
+  scientific articles.”
+
+Chapter 7: 
+
+This chapter is relatively weaker than the previous chapters. I think
+it may benefit from a more thoughts and a better organization of the
+materials. Currently Section 7.1-7.3 are all related to sentiment
+analysis in general, and then Section 7.4 gave only a one-page summary
+about social networks.
+
+I would suggest the authors organize the material into three sections:
+sentiment analysis, social networks, and social media. Sentiment
+analysis is particularly challenging in separating sentiments from
+topics and relate sentiments to topics (as stated on page 67); social
+networks are particularly challenging because they are structured data
+instead of text; and social media (e.g., blogs, tweets) is
+particularly challenging because those are short text and there is
+rich context information (time, location, networks, etc). Such an
+organization covers most of the work in this domain and may provide
+good insights to the readers.
+
+Sentiment analysis:
+
+In particular, for sentiment analysis, Mei et al., 2007 is perhaps the
+earliest work that jointly models topics and sentiments.
+
+* Mei et al., 2007. “Topic sentiment mixture: modeling facets and
+  opinions in weblogs.”
+
+Other important work along this line:
+
+* Titov and McDonald, 2008. “Modeling online reviews with multi-grain
+  topic models.”
+
+* Titov and McDonald, 2008. “A Joint Model of Text and Aspect Ratings
+  for Sentiment Summarization.”
+
+* Lu and Zhai, 2008. “Opinion integration through semi-supervised
+  topic modeling.”
+
+* Lin and He, 2009. “Joint sentiment/topic model for sentiment analysis.”
+
+* Jo and Oh, 2011. “Aspect and sentiment unification model for online
+  review analysis.”
+
+* Zhao et al., 2010. “Jointly modeling aspects and opinions with a
+  MaxEnt-LDA hybrid.”
+
+There are definitely others, which can be found in the citations of
+these papers.
+
+There is a very interesting line of work that aims to predict reviews,
+political leanings, or even elections, which should be worthwhile to
+include in the survey. For example, you may find some papers from the
+citations of the following:
+
+* O'Connor et al., 2010. “From tweets to polls: Linking text sentiment
+  to public opinion time series.”
+
+* Wang et al., 2010. “Latent Aspect Rating Analysis on Review Text
+  Data: A Rating Regression Approach.”
+
+Social networks:
+
+On modeling network structure, the following papers may adds value to
+the survey:
+
+* McCallum et al., 2005. “The author-recipient-topic model for topic
+  and role discovery in social networks, with application to enron and
+  academic email.”
+
+* McCallum et al., 2005. “Topic and role discovery in social
+  networks.”
+
+* Tang et al., 2009. “Social Influence Analysis in Large-scale
+  Networks.”
+
+* McAuley and Leskovec, 2012. “Learning to Discover Social Circles in
+  Ego Networks.”
+
+A more interesting direction is actually jointly modeling text and
+social (or information) network structure, where the two types of data
+enrich each other. Such a situation is quite common in real social
+communities. Many of these methods use the social network structure to
+regularize topic modeling (to this end PLSA actually has its
+flexibility over LDA, as it may be easily combined with a
+regularizer. For LDA the regularization has to be done through a
+careful selection of prior distributions). The authors may start with
+the following papers and survey this line of work:
+
+* Mei et al., 2008. “Topic Modeling with Network Regularization.”
+
+* Liu et al., 2009. “Topic-link LDA: joint models of topic and author
+  community.”
+
+* Sun et al., 2009. “itopicmodel: Information network-integrated topic
+  modeling.”
+
+* Chang and Blei, 2009. “Relational Topic Models for Document
+  Networks.”
+
+* Chang and Blei, 2010. “Hierarchical relational models for document
+  networks”
+
+* Newman et al., 2011. “Improving topic coherence with regularized
+  topic models.”
+
+* Lin et al., 2010. “PET: a statistical model for popular events
+  tracking in social communities.”
+
+Social media: 
+
+The key of modeling social media (blogs, tweets, etc.) is how to deal
+with short text and the context information. The organic LDA (or PLSA)
+is known to perform poorly on short text. To solve this, many tried to
+pool short text into longer documents (similar to breaking novels into
+200 word “documents”). There are also topic models proposed to
+particularly model short text. You may look at the following work:
+
+* Weng et al., 2010. “TwitterRank: Finding topic-sensitive influential
+  Twitterers.”
+
+* Hong and Davison, 2010. “Empirical study of topic modeling in
+  twitter.”
+
+* Zhao et al., 2011. “Comparing twitter and traditional media using
+  topic models.”
+
+* Mehrotra et al., 2013. “Improving lda topic models for microblogs
+  via tweet pooling and automatic labeling. ”
+
+* Lin et al., 2014. “The dual-sparse topic model: mining focused
+  topics and focused terms in short text.”
+
+Note that the following work theoretically proved that LDA does not
+perform well on short text and provided advices on document
+length/collection size:
+
+* Tang et al., 2014. “Understanding the Limiting Factors of Topic
+  Modeling via Posterior Contraction Analysis.”
+
+This also connects to the practice mentioned in Chapter 5.2, where a
+novel is divided into 1,000 or 200 words chunks.
+
+On modeling context: the first paper that applies topic models to
+social media (blogs) is
+
+* Mei et al., 2006. “A probabilistic approach to spatiotemporal theme
+  pattern mining on weblogs.”
+
+There are many papers on modeling various types of contexts in social
+media. For example:
+
+* Mei and Zhai, 2006. “A mixture model for contextual text mining.”
+
+* Kurashima et al., 2013. “Geo topic model: joint modeling of user's
+  activity area and interests for location recommendation.”
+
+* Yin et al., 2011. “Geographical topic discovery and comparison.”
+
+* Huynh et al., 2008. “Discovery of activity patterns using topic
+  models.”
+
+* Farrahi et al., 2011. “Discovering routines from large-scale human
+  locations using probabilistic topic models.”
+
+* Kireyev et al., 2009. “Applications of topics models to analysis of
+  disaster-related twitter data.”
+
+* Pennacchiotti and Popescu, 2011. “A Machine Learning Approach to
+  Twitter User Classification.”
+
+You may find much more work along this line in the proceedings of the
+recent WWW and ICWSM conferences.
+
+Chapter 8: 
+
+This is an area I am less familiar with. The content looks very good,
+which is also longer than other chapters. The level of details makes
+the chapter deviate from the norm of other chapters. I would suggest
+the authors cut some of the details and reorganize the material a
+little bit. Many of the equations can be omitted and replaced by
+narratives about the higher level intuitions. Readers may seek the
+details in the papers. There’s also fair amount of overlap between
+“topic models in language modeling” with Chapter 2. Section 8.3.1, in
+particular, reintroduces LSA and PLSI.
+
+Work recommended to mention: 
+
+* Zhang et al., 2010. “Cross-lingual latent topic extraction.”
+
+Chapter 9:
+
+Mostly OK. I suggest moving the evaluation to Chapter 3 and
+elaborating it. The chapter may also benefit from a better synergy of
+the surveyed applications. I’d love to see a discussion about in what
+scenarios topic models work and in what scenarios they don’t work, and
+why. In other words, when should one use topic models and when she
+should use something else. I believe such a conclusion is the most
+valuable to the readers, especially non-expert researchers who work on
+a new application.
+
+Again, it has been a great joy reading the paper, and I’m sure it will
+be a great success!
+
+----------------------------------------------------------------------

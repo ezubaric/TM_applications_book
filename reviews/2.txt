@@ -1,0 +1,383 @@
+            FOUNDATIONS AND TRENDS IN INFORMATION RETRIEVAL
+            		    Review Form
+
+Paper title  : Applications of Topic Models
+Authors      : Jordan Boyd-Graber, Yuening Hu, David Mimno
+
+The review process for FnTIR is more collaborative than for other
+journals.  We solicit papers, so our expectation is that the paper you
+review will be published, in some form.  However, it needs to be an
+excellent paper, so the reviewer's job is to assess quality, and to
+make explicit suggestions about how to improve clarity, content,
+breadth, etc.  We expect you to complete your review within 4 weeks,
+for which you are paid a $100 honorarium.
+
+----------------------------------------------------------------------
+
+Please fill out ALL of the fields indicated below by indicating a
+score from 01 to 10 (01 is worst, 10 is best) and, #especially# by
+adding constructive comments that may help the author(s) improve the
+paper or help the editors-in-chief in making the final decision.  In
+case of any doubt on how to fill out this form, please consult the
+editors-in-chief.
+
+If you own a copy of Adobe Acrobat, instead of filling in the
+"Detailed comments to the author" section of the review, you may use
+Adobe Acrobat's "annotation tool" to mark comments directly on the
+.pdf file.  If you choose this option, be sure to return the annotated
+.pdf file with your review.  Please use this option only for detailed
+comments that are of interest to the authors but not to the editors.
+
+----------------------------------------------------------------------
+
+Is this indeed a REVIEW/TUTORIAL paper?  Remember that FnTIR only publishes
+papers of a review and/or tutorial nature, and is thus unsuitable for
+publishing papers that are only or mainly focused on the authors' own
+results. 
+
+Please indicate a score from 01 to 10 here --> 10
+
+Please add your comments on this:
+
+The paper does not include novel material, and therefore satisfies the
+conditions of this journal. It is a review paper, but not a tutorial
+paper.
+
+----------------------------------------------------------------------
+
+How IMPORTANT is the topic of the paper?  Would a review/tutorial paper on
+this topic be an important tool for the IR community, or is the topic
+already covered by some good, recent review/tutorial paper?  Is such a
+topic in the scope of FnTIR, or is it too far removed from the concerns of
+the IR community? 
+
+Please indicate a score from 01 to 10 here --> 06
+
+Please add your comments on this: 
+
+There are three parts to this answer.
+
+1) The topic of the paper is important, as after 15 years of topic
+models, it is a great time to take a look back and assess its
+influence on different fields. This also poses the opportunity to
+identify extensions to topic models that have been successful in their
+domains as abstract patterns that can be transfered to other domains.
+
+2) The usefulness of this paper to core tasks of the IR community is
+unclear.
+
+The main focus of this paper is not exactly on information retrieval,
+but rather on multilingual data and machine translation, which can be
+seen as a related field to IR. Topic model as a text understanding
+approach, is by itself related to information retrieval.
+
+The paper additionally features a section on information retrieval,
+however many of the claims made here have been debunked over the years
+(See details below). The latest paper in this section is from 2011 -
+it is not believable that this is state-of-the-art for 2016. (Or if it
+is, then it is questionable whether topic models provide a successful
+approach to this field.)
+
+3) To my knowledge, no other review/tutorial paper has covered this
+topic lately.
+
+----------------------------------------------------------------------
+
+How WELL PRESENTED is the paper?  Does the paper read well?  Is the English
+good?  Is the paper well-structured?  Is the mathematical notation
+appropriate and consistent?  Does the paper introduce the notions required
+to understand its content, so as to make it accessible to a "generic IR
+researcher"?
+
+Please indicate a score from 01 to 10 here --> 06
+
+Please add your comments on this:
+
+While most of the text is a pleasant read and well structured, there
+are a number of issues.
+
+The main issue is that, due to brevity of the coverage, the given
+equations are not comprehensible. In general, the paper focuses on a
+high-level understanding (which is appropriate). However most sections
+enumerate equations that would either need to be formally introduced
+or would better be omitted. In many cases, these equations are well
+known to the expert (who is not learning anything new from them),
+while being incomprehensible to the novice, who will not take away new
+insight without a formal walk through.
+
+The section that is most technical (and about twice as long as any
+other section) is on multilingual data and machine
+translation. Without being an expert in this field, it is not possible
+to follow the presented material. The task is not properly introduced,
+Section 8.1 is full of variables that are either not introduced ($e$),
+and whose meaning in the process is not well explained.
+
+The text contains many spelling mistakes.
+
+----------------------------------------------------------------------
+
+How COMPLETE is the paper?  Ideally, a complete paper on topic X should
+address the main applications of X, the main approaches to X, evaluation
+measures and standard benchmarks for X, publicly available resources for X,
+and future trends.  Does the paper fail to address some such important
+aspects of the topic?  Is the paper a thorough review of recent work, or
+does it fail to quote important work in the area?
+
+Please indicate a score from 01 to 10 here --> 07
+
+Please add your comments on this:
+
+The list of applications covered is appropriate. Each section focuses
+on a different application area and covers the most important topic
+model approaches in the field (I am speaking only for the sections
+that I know well).
+
+The main drawback is that authors only focus on positive results
+obtained by topic models in the domain without a critical discussions
+of the limitations. These sections should be complemented with the
+current state-of-the-art methods used in the field today for
+reference. As topic models are seen critical in many domains today, an
+honest discussion of the limitations would be useful and would move
+the research field forward.
+
+----------------------------------------------------------------------
+
+Is the paper CORRECT? Or does it contain significant technical mistakes?
+Is the mathematics correct? 
+
+Please indicate a score from 01 to 10 here --> 10
+
+Please add your comments on this:
+
+For the sections that fall into my area of expertise, I confirm that
+the equations are correct and that authors represent the
+state-of-the-art in topic modeling correctly.
+
+I have, however some concerns regarding the state-of-the-art of query
+expansion (see below).
+
+----------------------------------------------------------------------
+
+What is your final EVALUATION of this paper?  How strongly do you feel
+that the paper should be accepted, or rejected?
+
+Please indicate a score from 01 to 10 here --> 07
+
+Please add your comments on this: 
+
+It is great to see the impact topic models have on all these different
+applications. Many sections provide a great overview of what has been
+done and what is possible. However, this is a great opportunity to
+take a step back and identify repeated patterns of successful
+application across several domains, with the intent to spur adaptation
+of successful recipes in other domains. In this sense, the manuscript
+is not reaching its potential.
+
+Many sections describe what has been done, without drawing the
+conclusions of what led to the success and therefore could be applied
+to other application domains. It is often left unclear what the
+intended take-away message is.
+
+It is also unclear who the intended audience is.
+
+It is unfortumate that the failure modes of topic models are not
+discussed. Also the current state-of-the-art in these fields (i.e.,
+what works best empirically) should be included for reference. This
+especially holds for the section titled information retrieval.
+
+In general, the manuscript holds promise. A review on this topic is
+certainly in order and I hope the authors take my criticism
+positively.
+
+----------------------------------------------------------------------
+
+How COMPETENT do you feel on the particular subject matter that the paper 
+touches upon? Are you familiar with the most recent literature on it?
+
+Please indicate a score from 01 to 10 here --> 09 
+
+Please add your comments on this:
+
+I am competent in 7 (out of 9) fields discussed in this paper.
+
+----------------------------------------------------------------------
+
+General comments to the authors:
+
+### Regarding my criticism on the section titled Information
+    Retrieval:
+
+I would recommend to include a list of more recent papers in
+information retrieval that use topic models. I suggest to look at the
+IR fields diversification, personalization, and topic tracking in
+streams which have used topic models to some extend.
+
+Search result diversification is based on first detecting
+topics/clusters, then using these topics to correct their prevalence
+in the ranking. See Ounis et al for an overview. It was however found
+by Dang & Croft that a simple approach of maximizing the term-coverage
+(think each term as its own topic) works even better.
+
+Personalization is the task of biasing search results towards topics
+that are of interest to the user, based on her past
+behaviour. Personalization is often used within a diversification
+framework. See Liang et al. for an application of topic models here.
+
+Discovering and tracking topics in streams is a classic topic in
+information retrieval, starting with the Topic Detection and Tracking
+track at TREC (Allan). Recently, this is continued as temporal
+summarization, see Kedzie, McKeown & Diaz for an example. People have
+applied topic models here as well.
+
+Finally, various kinds of geo-location recommendation / summarization
+lends itself to topic modeling (for example, see Kurashima et al) and
+ties to some of the works on social media.
+
+However, with respect to query expansion for ad hoc retrieval, despite
+early signs of possible success, topic models have not stood up to the
+test of time. The cited work of Lu 2011 raises many questions on how
+to use topic models and does not compare to the relevance model. Ai et
+al outperformed the topic model based approach with a word embedding
+approach - and their approach does not even compare to traditional
+query expansion methods such as the relevance model. The relevance
+model, is a topic model with K=1 (only one topic) with a bias that is
+governed by the rank score. Even word2vec does not outperform the
+relevance model (see Dwaipayan et al). Only recently was the relevance
+model outperformed with a combination of word embeddings and relevance
+model (see Kuzi et al).
+
+# References
+
+Ounis, Iadh, Craig Macdonald, and Rodrygo LT Santos. "Search result
+diversification." Foundations and Trends in Information Retrieval 9.1
+(2015): 1-90.
+
+Dang, Van, and Bruce W. Croft. "Term level search result
+diversification." Proceedings of the 36th international ACM SIGIR
+conference on Research and development in information retrieval. ACM,
+2013.
+
+Shangsong Liang, Zhaochun Ren, and Maarten de
+Rijke. 2014. Personalized search result diversification via structured
+learning. In Proceedings of the 20th ACM SIGKDD international
+conference on Knowledge discovery and data mining (KDD '14). ACM, New
+York, NY, USA, 751-760. DOI: http://dx.doi.org/10.1145/2623330.2623650
+
+Allan, James, ed. Topic detection and tracking: event-based
+information organization. Vol. 12. Springer Science & Business Media,
+2012.
+
+Kedzie, Chris, Kathleen McKeown, and Fernando Diaz. "Predicting
+salient updates for disaster summarization." Proceedings of the 53rd
+annual meeting of the ACL and the 7th international conference on
+natural language processing. 2015.
+
+Zhaochun Ren, Maria-Hendrike Peetz, Shangsong Liang, Willemijn van
+Dolen, and Maarten de Rijke. 2014. Hierarchical multi-label
+classification of social text streams. In Proceedings of the 37th
+international ACM SIGIR conference on Research & development in
+information retrieval (SIGIR '14). ACM, New York, NY, USA,
+213-222. DOI=http://dx.doi.org/10.1145/2600428.2609595
+
+Kurashima, Takeshi, et al. "Geo topic model: joint modeling of user's
+activity area and interests for location recommendation." Proceedings
+of the sixth ACM international conference on Web search and data
+mining. ACM, 2013.
+
+Qingyao Ai, Liu Yang, Jiafeng Guo, and W. Bruce Croft. 2016. Improving
+Language Estimation with the Paragraph Vector Model for Ad-hoc
+Retrieval. In Proceedings of the 39th International ACM SIGIR
+conference on Research and Development in Information Retrieval (SIGIR
+'16). ACM, New York, NY, USA, 869-872. DOI:
+http://dx.doi.org/10.1145/2911451.2914688
+
+Roy, Dwaipayan, et al. "Using Word Embeddings for Automatic Query
+Expansion." arXiv preprint arXiv:1606.07608 (2016).
+
+Saar Kuzi, Anna Shtok, Oren Kurland. Query Expansion Using Word
+Embeddings. CIKM 2016.
+
+### Regarding the sections "Historical Documents" and "Fiction and
+    Literature":
+
+I completely agree with your assessment of "close reading" and
+hermenautics. These will likely lead to bias in the researched
+findings. However, humanities researchers often claim that algorithms
+have biases as well - especially when they are randomized. If social
+scientists are your intended audience, it would be good to discuss
+this.
+
+### Regarding the discussion in Section 4.1. on LSA and k-means, which
+    also connects to other parts of the paper:
+
+A lot of the arguments against simple method are very interpretative
+("forced to 'waste' clusters"). It would be good to back these claims
+up with experimental results. In my experience, simple methods are
+often surprisingly effective, in particular in the presence of big
+data that is available today, but was not ten years ago. To give you
+an example, Federico Nanni [1] found that for classifying thesis
+abstracts with the goal of detecting interdisciplinarity, a Rocchio
+classifier works significantly better than LDA (on multiple
+variations).
+
+[1] http://dx.doi.org/10.1045/september2016-nanni
+
+----------------------------------------------------------------------
+
+Detailed comments to the authors (or attach an annotated copy of the
+.pdf file -- see above):
+
+Regarding my comments on equations that the expert already knows, but
+the novice is not able to comprehend. This is in particular the case
+for
+
+- Figure 1.4
+
+- Equation 1.2, 1.3 (Maybe there is no way to avoid introducing
+  Dirichlet-Multinomial compound distribution)
+
+- Equation 1.4 (if the right hand side is important, then you need to
+  introduce it better)
+
+- Equation 2.18 (It might be helpful to connect it to "topic model
+  speak" as this is just a topic model with two topics, one from the
+  query, and one from documents in the feedback set)
+
+- p. 68, reference to \eta \bar{s}
+
+- Equation 8.5 - 8.8 
+
+- Equation 8.18 - 8.22 (8.20 is not an equation on its own)
+
+For Equation 8.12 it would be insightful to have an explanation of why
+this functional form yields success. (Why the difference of square
+roots?)
+
+On page 50, the Herfindahl index and concentration metric is
+referenced in detail. Here it would actually be good to explain what
+it is supposed to measure and how it is computed. Why it is better
+when the Herfindahl concentration metric is larger?
+
+On page 50, a connection is made to character names, i.e., named
+entities and that those are ideal topics. What is missing from this
+survey is any discussion on entity disambiguation/linking. These are
+very reliable NLP methods that provide more consistent results than
+topic models. If these constitute ideal topics, then why not use
+entities instead?
+
+On page 55, you mention stylometric analysis. How does this compare to
+recent work on authorship identification? See Potthast et al for a
+recent reproducibility study on this topic, which also compares to
+Burrows.
+
+Potthast, Martin, et al. "Who Wrote the Web? Revisiting Influential
+Author Identification Research Applicable to Information Retrieval."
+European Conference on Information Retrieval. Springer International
+Publishing, 2016.
+
+Table 5.1. Layout problem.
+
+Figure 6.1. Why are you not attributing xkcd as a souce for this
+image? Do you hold the rights for reproduction?
+
+----------------------------------------------------------------------
