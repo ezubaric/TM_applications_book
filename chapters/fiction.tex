@@ -59,10 +59,16 @@ This treatment results in coherent, tightly focused topics that can be reasonabl
 Although fixed-length segmentation is effective, it is not necessarily ideal.
 \cite{algeehewitt2015paragraphs} compare varying fixed-length segmentations to segmentation based on paragraphs.
 They evaluate the difference between treatments by measuring the concentration of topics in each segment of text after modeling.
-The Herfindahl index is a measure of concentration in discrete probability distributions, calculated as the sum of the squared probabilities of each possible value.
-When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices.
-Setting the slice size to the average length of paragraphs in the corpus, 82 words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
+The Herfindahl index is a measure of concentration in discrete probability distributions, calculated as the sum of the squared probabilities of each possible value:
+\begin{align}
+Herfindahl(P) = \sum_x P(x)^2.
+\end{align}
+For example, consider two distributions $P$ and $Q$ over a set of symbols $\{a, b, c, d, e\}$.
+If $P$ has non-zero probability only on a single symbol $P(a) = 1.0$ and zero probability for all other symbols, the Herfindahl index of $P$ will be 1.0.
+If $Q$ has uniform probability on all five symbols $Q(a) = Q(b) = ... = Q(e) = 0.2$, the Herfindahl index will be $5 \cdot \frac{1}{5} \cdot \frac{1}{5} = 0.2$.
 
+When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices, implying that the distribution over topics for each segment is more focused on a smaller number of topics.
+Setting the slice size to the average length of paragraphs in the corpus, 82 words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
 This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19th-century novels.
 
 %\jbgcomment{We've not talked about twitter anywhere else, I think it would be a good example here}

@@ -1,13 +1,11 @@
 \chapter{Information Retrieval}
 \label{ch:ir}
 
-Topic models explore and summarize document collections, without
-knowing users' information need. In the contrary, traditional
-information retrieval (IR) systems aim to retrieve relevant documents
-given users' information need. Users start with their information need
-in the form of queries, and early IR systems treat both the query and
-documents as ``bag of words'', retrieve and rank the documents by
-measuring the word overlap between queries and documents.
+Topic models explore and summarize document collections outside the context of any specific information need.
+This approach to information retrieval stands in contrast to traditional IR systems, which retrieve relevant documents given users' explicit information needs.
+Where IR systems might look for the ``needle in the haystack'', topic models will tell you about the overall proportion of hay and needles, and perhaps inform you about the mice that you didn't know were there.
+Despite their differences in purpose, there are strong mathematical and conceptual connections between these two approaches.
+
 
 \jbgcomment{It would be good to contrast a little bit with the role
   that topic models serve in exploring document collections (discussed
@@ -17,6 +15,7 @@ measuring the word overlap between queries and documents.
   ``traditional information retrieval'' or ``query-based
   IR''. \yhcomment{connected a little.}}
 
+Users start with their information need in the form of queries, and early IR systems treat both the query and documents as ``bags of words'', retrieve and rank the documents by measuring the word overlap between queries and documents.
 However, the ability of this direct and simple matching is always
 limited. Words with similar meaning or in different forms should also
 be considered as matched instead of being ignored. \textbf{Language
@@ -30,14 +29,14 @@ Both directions can be pursued by learning and discovering the
 semantic relations between words and further the semantic relations
 between queries and documents. Topic models, which describe each topic
 using weighted words and model each document as a distribution over
-all topics, provides a semnatic relations between query words and
+all topics, provides a semantic relations between query words and
 documents~\citep{deerwester-90,hofmann-99a}. Such semantic relations
 can be applied to smoothing the language models, or introducing
 related words in query expansion. This chapter focuses on how to apply
 topic models in document language modeling \citep{Lu-2011,wei-06} and
 query expansion~\citep{Park-2009,Andrzejewski-2011} to further improve
 the ranking results of information retrieval. We start with a brief
-review of the traditiona information retrieval framework.
+review of the traditional information retrieval framework.
 
 \jbgcomment{how? \yhcomment{Added.}} 
 
@@ -49,7 +48,7 @@ one of the main frameworks for using topic models in IR systems, since
 it has been shown to be effective probabilistic framework for studying
 information retrieval problem~\citep{PonteCroft,berger-99}.
 
-A statistical language model is to estimate the probability of word
+A statistical language model estimates the probability of word
 sequences, denoted as $p(w_1,w_2,\cdots,w_n)$. In practice, the
 statistical language model is often approximated by N-gram models. A
 unigram model assumes each word in the sequence is independent, and is
@@ -64,7 +63,7 @@ p(w_1,w_2,\cdots,w_n)=p(w_1)p(w_2|w_1)p(w_3|w_1,w_2)\cdots p(w_n|w_{n-2},w_{n-1}
 \end{align}
 
 \jbgcomment{would be good to add backpointers to previous
-  chapter. \yhcomment{Not sure which part in prevous chapter you
+  chapter. \yhcomment{Not sure which part in previous chapter you
     mean.}}
 
 In the application of information retrieval, the queries are generated
@@ -101,7 +100,7 @@ causes problems for ranking documents.
 This data sparsity problem can be fixed by smoothing, which allocates
 some non-zero probability to the missing terms. In fact, topic models
 provide a unique way to extract the word probabilities given the
-corpus, which can be used to smooth doucument language models.  In
+corpus, which can be used to smooth document language models.  In
 this section, we summarize two simple smoothing methods, and then
 introduce how topic models are applied to smooth document language
 models in the next section.
@@ -127,9 +126,9 @@ Here we introduce two popular and simple interpolation smoothing
 methods, which are further used by topic models to smooth document
 language models.
 
-\paragraph{Jlinek-Mercer method}
+\paragraph{Jelinek-Mercer method}
 
-The Jlinek-Mercer method~\citep{Jelinek-1980} is a linear
+The Jelinek-Mercer method~\citep{Jelinek-1980} is a linear
 interpolation of the maximum likelihood model in a document with the
 model based on the whole corpus, and a coefficient $\lambda$ is used
 to combine the two parts.
@@ -199,7 +198,7 @@ where $\hat{\theta}$ is the posterior estimate for the document-topic distributi
 Because topic models learn the semantic relationships between words
 and documents through learning the hidden topics, and their posterior
 estimates of document-topic distribution and topic-word distribution
-are smoothed by the Dirichelet priors, topic models learn a better and
+are smoothed by the Dirichlet priors, topic models learn a better and
 smoothed semantic relationship between words and documents. However,
 the topic models based on documents only lose the direct connection
 between query words and documents as in the original document language
@@ -221,7 +220,7 @@ document model with the general smoothed language model.
 Following \cite{wei-06}, \cite{Lu-2011} further evaluate the
 performance of applying topic models into the document language model
 framework. Instead of combining with the language model with
-Jlinek-Mercer smoothing~(Equation~\ref{eq:lm-jr}), \cite{Lu-2011}
+Jelinek-Mercer smoothing~(Equation~\ref{eq:lm-jr}), \cite{Lu-2011}
 smooth the document language model with the Bayesian
 smoothing~(Equation~\ref{eq:lm-bs}), and the final linear combination
 with topic models is as,
@@ -273,7 +272,7 @@ model~\citep{Lavrenko-2001}.
 \paragraph{Query Language Model}
 
 To learn the query-word relationship, \cite{zhai-01b} build up a query
-language model to estimate the proabbility $p(w|q)$ of a word $w$
+language model to estimate the probability $p(w|q)$ of a word $w$
 given a query $q$. However, it is not easy to learn a good query
 language model since the query content is too limited.
 
@@ -395,7 +394,7 @@ relatively limited. To improve the quality of extracted topics,
 relationships based on the Equation~\ref{eq:query_word_prob} for query
 expansion.
 
-\paragraph{Improving Relvence Model}
+\paragraph{Improving Relevence Model}
 
 In addition to this direct approach, \cite{Yi-2009} also apply topic
 models to improve the relevance model in Equation~\ref{eq:rm_qe} for
@@ -421,7 +420,7 @@ p(w|q) = \sum_{D \in \mathcal{C}} (\omega p(w|D) + (1 - \omega)p_{\texttt{TM}}(w
 \end{align}
 where $\omega$ is a constant weight to combine the original relevance
 model and the topic-based relevance model. Because the topic models
-capture the word relationships on a sematic level, this improved
+capture the word relationships on a semantic level, this improved
 relevance model better captures the query-word relationships and
 improve query expansion.
 
@@ -429,7 +428,7 @@ improve query expansion.
 
 \cite{Park-2009} also apply topic models for query expansion but in a
 different way. They model the pair-wise relationships between words
-through topic models and then apply it for query exapansion. More
+through topic models and then apply it for query expansion. More
 specifically, based on the topics extracted from topic models, they
 compute the probabilistic relationships of each word pair $(w_x,
 w_y)$,
@@ -484,22 +483,22 @@ generate a document term, a topic $z$ is firstly sampled from
 $\theta^Q$, the same document-topic distribution as the query, and
 then a document term $d_i$ is sampled from document topic-word
 distribution $\phi_z^D$. In this way, documents and queries are
-conntected through the hidden topics, even though their vocabularies
+connected through the hidden topics, even though their vocabularies
 (topic-word distributions) are different. By summing over all possible
 topics, the relationship between document term $e$ and query $q$ can
 be computed as,
 \begin{align}
 p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
 \end{align}
-The paramters can be learned by standard EM algorithm. The top related
+The parameters can be learned by standard EM algorithm. The top related
 terms in the relevant documents can be used for query expansion. This
-method aligns queries and documents throught the document-topic
+method aligns queries and documents through the document-topic
 distribution on a semantic level, which is very similar to the
 polylingual topic models~\citep{mimno-09}, except the latter aligns
 parallel documents in different languages. More details will be
 introduced in Chapter~\ref{ch:mt}.
 
-\jbgcomment{Should connect to your multilngual chapter \yhcomment{added.}}
+\jbgcomment{Should connect to your multilingual chapter \yhcomment{added.}}
 
 \paragraph{Getting Interactive Feedback}
 
@@ -511,10 +510,10 @@ latent topics from the whole corpus and construct meaningful topic
 representations. At query time, they decide which latent topics are
 potentially relevant and present the topic representations along
 keyword search results. When a user select a latent topic, the
-original query is expaned with the top words in this selected topic,
+original query is expanded with the top words in this selected topic,
 and the search results are refined.
 
-This direction is actually more related with topic labeling and interative visulization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
+This direction is actually more related with topic labeling and iterative visualization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
 
 \jbgcomment{Some of these ideas are discussed in other chapters (interactivity, labeling), would be good to add links \yhcomment{added.}}
 
@@ -541,12 +540,12 @@ This direction is actually more related with topic labeling and interative visul
 
 \section{Conclusion}
 
-Becuase topic models analyze documents on a semantic level, it offers
+Because topic models analyze documents on a semantic level, it offers
 an interesting and unique framework for modeling the document-word
 relations and word-word relations. As a result, topic models have been
 successfully applied in smoothing language models and query expansion,
 two major directions in information retrieval. This successful
-application on inforation retrieval is based on a general good
+application on information retrieval is based on a general good
 understanding of the outputs of topic models. In the next chapter, we
 will introduce how to visualize and label the topics in general to
 help the users better understand the topics.
@@ -623,7 +622,7 @@ In this chapter, we briefly introduce the information retrieval framework and th
 
 Information Retrieval (IR) systems aim to retrieve relevant documents by comparing query and document texts.
 
-From computer's view, Documents are usually treated as ``bags of words'', and documents are retrieved and ranked by measuring the word overlap. This is consistent with topic models.
+From computer's view, documents are usually treated as ``bags of words'', and documents are retrieved and ranked by measuring the word overlap. This is consistent with topic models.
 
 Topic models use those bags of words to build abstractions (topics), however.
 
@@ -639,7 +638,7 @@ Latent Semantic Analysis (LSA) proposed by \citet{deerwester-90} makes use of di
 
 It has been successfully applied into the information retrieval systems through automatic indexing with LSA (Latent Semantic Indexing, LSI) \citep{deerwester-90,dumais-95}.
 
-The probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}, is an aspect model which associates an unobserved class (topic) variable with each observed word occurrence. pLSI provides a better fit to text data than LSI, thus quickly gained acceptance in IR systems.
+Probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}, is an aspect model which associates an unobserved class (topic) variable with each observed word occurrence. pLSI provides a better fit to text data than LSI, thus quickly gained acceptance in IR systems.
 
 \section{Applying Topic Models into IR}
 
