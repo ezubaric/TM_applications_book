@@ -1,0 +1,72 @@
+\chapter{Summarization}
+\label{ch:summarization}
+
+\section{Summarization}
+
+\section{Topic Detection and Tracking}
+
+%Discovering and tracking topics in streams is a classic topic in
+%information retrieval, starting with the Topic Detection and Tracking
+%track at TREC (Allan). Recently, this is continued as temporal
+%summarization, see Kedzie, McKeown & Diaz for an example. People have
+%applied topic models here as well.
+
+%Allan, James, ed. Topic detection and tracking: event-based
+%information organization. Vol. 12. Springer Science & Business Media,
+%2012.
+
+%Kedzie, Chris, Kathleen McKeown, and Fernando Diaz. "Predicting
+%salient updates for disaster summarization." Proceedings of the 53rd
+%annual meeting of the ACL and the 7th international conference on
+%natural language processing. 2015.
+
+
+
+\section{Geographic variation}
+
+%Finally, various kinds of geo-location recommendation / summarization
+%lends itself to topic modeling (for example, see Kurashima et al) and
+%ties to some of the works on social media.
+
+%Kurashima, Takeshi, et al. "Geo topic model: joint modeling of user's
+%activity area and interests for location recommendation." Proceedings
+%of the sixth ACM international conference on Web search and data
+%mining. ACM, 2013.
+
+
+Jacob Eisenstein's twitter location model.
+
+
+\section{Building Multi-lingual Topic Models}
+
+\cite{Gao-2012} further introduce the bilingual topic
+models~\citep{Gao-2011} for query expansion. They assume the search
+query and its relevant Web documents share a common distribution of
+topics, but use different vocabularies to express these topics. Thus
+in their models, queries and documents share the same document-topic
+distributions $\theta^Q$, but have different topic-word distributions
+$\phi_z^Q$ and $\phi_z^D$ respectively.
+
+To generate a query $q$, a document-topic distribution $\theta^Q$ is
+drawn from a Dirichlet prior, and a topic $z$ is sampled from
+$\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To
+generate a document term, a topic $z$ is firstly sampled from
+$\theta^Q$, the same document-topic distribution as the query, and
+then a document term $d_i$ is sampled from document topic-word
+distribution $\phi_z^D$. In this way, documents and queries are
+connected through the hidden topics, even though their vocabularies
+(topic-word distributions) are different. By summing over all possible
+topics, the relationship between document term $e$ and query $q$ can
+be computed as,
+\begin{align}
+p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
+\end{align}
+The parameters can be learned by standard EM algorithm. The top related
+terms in the relevant documents can be used for query expansion. This
+method aligns queries and documents through the document-topic
+distribution on a semantic level, which is very similar to the
+polylingual topic models~\citep{mimno-09}, except the latter aligns
+parallel documents in different languages. More details will be
+introduced in Chapter~\ref{ch:mt}.
+
+\jbgcomment{Should connect to your multilingual chapter \yhcomment{added.}}
