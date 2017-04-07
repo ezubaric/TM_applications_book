@@ -129,7 +129,7 @@ To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
 over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
 create multinomial distribution
 \begin{equation}
-p(w=k \g \vec x)  = \frac{\ex{x_k}}{\sum_i \ex{x_i}},
+p(w=k \g \vec x)  = \frac{\exp{x_k}}{\sum_i \exp{x_i}},
 \end{equation}
 rather than drawing the multinomial from a dirichlet distribution
 (c.f. Equation~\ref{eq:phi_map}).
