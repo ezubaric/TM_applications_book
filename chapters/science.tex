@@ -129,8 +129,10 @@ To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
 over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
 create multinomial distribution
 \begin{equation}
-p(w=k \g \vec x)  = \frac{x_k}{\sum_i x_i}.
+p(w=k \g \vec x)  = \frac{\exp{x_k}}{\sum_i \exp{x_i}},
 \end{equation}
+rather than drawing the multinomial from a dirichlet distribution
+(c.f. Equation~\ref{eq:phi_map}).
 This greatly complicates inference, but allows the topics to change
 gradually from year to year.
 
@@ -175,7 +177,7 @@ a \textit{post hoc} perspective: after fitting a standard \abr{lda} topic model,
 find the distribution over research topics in the entire research community at
 time $t$ and then look back at time $t-1$ at the places who look like the
 future.  They hypothesis is that these places ``lead'' other places to adopt
-their ideas. % For example, they found that 
+their ideas. % For example, they found that
 % TODO: Add example!
 
 Capturing more nuanced effects at either the individual or lab level requires
@@ -189,23 +191,36 @@ For example, the Penn Treebank~\citep{marcus-93} revolutionized natural language
 process and helped enabled the statistical revolution in computational
 linguistics.  Among its many effects is that people started using the word
 ``treebank'' much more than they had in the past.  \abr{dim} captures this by
-explicitly modeling the influence $\delta_{k,d}$ of a document $d$ in topic
-$k$.  This document also has a distribution over words $\tau_d$ (for example, the article
-introducing the Penn Treebank uses ``treebank'' much more than ``potato'').
-Recall that each topic is a distribution over words at time $t$, $\phi_{t,k}$.
+explicitly modeling the influence $l_{k,d}$ of a document $d$ in topic
+$k$.
 
 % TODO: make notation consistent with paper and rest of this survey
 Documents that don't make a splash have zero influence, while influential
 documents are absorbed by other scientists who adopt the influential ideas and
-language,
-\begin{equation}
-  \phi_{t+1,k} \propto \sum_d \delta_{k,d} \tau_d.
-\end{equation}
+language.  Most documents will not move topics
+at all; so it's reasonable to assume that $l_{d,k}$ is zero for most
+documents.  However, influential documents will change a topic.
+
+A topic is changed by an influential document my making the the topic
+distribution look more like an influential document's distribution
+over words.  For example, the article
+introducing the Penn Treebank uses ``treebank'' much more than
+``potato'', so the topic will have a higher probability for
+``treebank'' after incorporating a document's influence.
+
+This incorporation happens similar to the drift of the dynamic topic
+model (\abr{dtm}, Chapter~\ref{sec:sci_change}).  Instead of drifting
+randomly, the \emph{direction} of topic change is based on the words
+used in influential documents and the \emph{magnitude} of the drift is
+how influential a document is.
+
 Each of these terms are random variables; inference in the model discovers the
 settings of the random variables that best explain the data.  The \abr{dim}'s
 estimates of influence correlate well with the number of citations an article
 gets (the traditional measure of influence).  Unlike citations, however, the
-\abr{dim} can be used in more informal settings to detect influential documents.
+\abr{dim} can be used in more informal settings to detect influential
+documents: for example, when a blog or a letter introduces influential
+ideas.
 
 While science communication is ostensibly about promoting ideas and new
 understanding, topic models can also help understand less objective

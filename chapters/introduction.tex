@@ -16,7 +16,7 @@ as a needle in a haystack problem.  The poor user---faced with documents that
 would take a decade to read---is looking for a single needle: a document (or at
 most a handful of documents) that matches what the user is looking for.  This
 could be a ``smoking gun'' e-mail, the document that best represents a
-concept~\citep{Salton-68} or the answer to question~\citep{Hirschman-01}.
+concept~\citep{Salton-68} or the answer to a question~\citep{Hirschman-01}.
 
 These questions are important.  The sub-discipline of information retrieval is
 built upon systematizing, solving, and evaluating this problem.  Google's empire
@@ -26,52 +26,51 @@ problem that confronts those interacting with large text datasets.
 
 A different, but related problem is \emph{understanding} large document
 collections, common in science policy~\citep{talley-11}, journalism, and the
-humanities~\citep{moretti-13}.  There isn't just one precious silver needle in
+humanities~\citep{moretti-13}.  There isn't just one precious needle in
 the haystack.  At the risk of abusing the metaphor, \emph{sometimes you care
   about the straw}.  Instead of looking for a smoking gun alerting to you some
-crime an evil company committed, perhaps you're looking for a sin of
-omission: did this company never talk about diversity in it's workforce?
-Instead of a single answer to a question, perhaps you're looking for a diversity
+crime that was committed, perhaps you're looking for a sin of
+omission: did this company never talk about diversity in its workforce?
+Instead of a single answer to a question, perhaps you are looking for a diversity
 of responses: what are the different ways that people account for rising income
-inequality.  Instead of looking for one document, perhaps you want to answer
+inequality?  Instead of looking for one document, perhaps you want to answer
 population level statistics: what proportion of Twitter users have ever talked
 about gun violence?
 
-At first, might seem that answering these questions require building an
-extensive ontology or categorization scheme.  For every new corpus, define all
-of the buckets that a document could fit into, have some librarians and
-archivists put each document into the correct buckets, perhaps automate the
+At first, it might seem that answering these questions would require building an
+extensive ontology or categorization scheme.  For every new corpus, you would need to define  the buckets that a document could fit into, politely ask some librarians and
+archivists to put each document into the correct buckets, perhaps automate the
 process with some supervised machine learning, and then collect summary
 statistics when you're done.
 
-Obviously, such laborious processes are possible---they've been done
+Obviously, such laborious processes are possible---they have been done
 for labeling congressional
-speech~\footnote{\url{www.congressionalbills.org/}} and understanding
+speeches\footnote{\url{www.congressionalbills.org/}} and understanding
 emotional state~\cite{wiebestates}---and remain an important part of
 social science, information science, library science, and machine
-learning.  But these processes aren't always possible, fast, or even
+learning.  But these processes are not always possible, fast, or even
 the optimal outcome if we had infinite resources.  First, they
-obviously require a significant investment of time and resources.
+ require a significant investment of time and resources.
 Even creating the \emph{list} of categories is a difficult task and
-requires careful deliberation and calibration.  It's possible that a
-particular question does not warrant the time or effort: the \oe{}vre
+requires careful deliberation and calibration.  Even if it were possible, a
+particular question might not warrant the time or effort: the \oe{}vre
 of a minor author (only of interest to a few), or the tweets of a day
 (not relevant tomorrow).
 
-Topic models allow us to answer these big picture questions quickly and cheaply.
-Topic models provide a framework for understanding these document collections
-for both humans or computers.  This survey explores the ways that humans and
+This survey explores the ways that humans and
 computers make sense of document collections through tools called topic models.
+Topic models allow us to answer big-picture questions quickly, cheaply, and without human intervention.
+Once trained, they provide a framework for humans to understand document collections both directly by ``reading'' models or indirectly by using topics as input variables for further analysis. 
 For readers already comfortable with topic models, feel free to skip this
-chapter; we'll mostly cover the definitions and implementations of topic models.
+chapter; we will mostly cover the definitions and implementations of topic models.
 
 \section{What is a Topic Model}
 
 Returning to our motivating example, consider the e-mails from Enron, the prototypical
 evil corporation of the turn of the century.  Imagine that you're an
 investigative reporter, the first to get your hands on Enron e-mails.  You know
-that wrongdoing happened, but you don't know who did it or how it was planned
-and carried out.  You have suspicions (e.g., around the California spot market),
+that wrongdoing happened, but you do not know who did it or how it was planned
+and carried out.  You have suspicions (e.g., around the California energy spot market),
 but you are curious to know if there are other skeletons in the closet, and
 you're highly motivated to find them.
 
@@ -102,10 +101,10 @@ California regulators, and stock prices
   \label{fig:enron_topics}
 \end{figure}
 
-When we call a topic about $X$, that's a \textit{post hoc} label
-applied by humans (more on this in Chapter~\ref{sec:display}).  A
-topic only gives you a jumbled ``bag of words''; it remains the
-responsibility of the human consumer of topic models to go further and
+The first half of a topic model connects topics to a jumbled ``bag of words''.
+When we say that a topic is about $X$, we are manually assigning a \textit{post hoc} label
+ (more on this in Chapter~\ref{sec:display}). 
+It remains the responsibility of the human consumer of topic models to go further and
 make sense of these piles of straw (we discuss labeling the topics
 more in Chapter~\ref{ch:viz}).
 
@@ -123,10 +122,10 @@ SDG\&E's customers. The utility requests a 15-day comment period, which
 means comments would have to be filed by September 10 (September 8
 is a Saturday). Reply comments would be filed 10 days later.}}
 
-\begin{tabular}{cc}
+\begin{tabular}{ccl}
   Topic & Probability \\
   \hline
-  9 & 0.42 \\
+  9 & 0.42  \\
   11 & 0.05 \\
   8 & 0.05 \\
   \hline
@@ -139,12 +138,14 @@ is a Saturday). Reply comments would be filed 10 days later.}}
   \label{fig:enron_doc}
 \end{figure}
 
-Making sense of one of these piles requires actually reading the
-document, which topic models also provide.  Each topic is associated
-with individual documents.  For example, the document in
+Making sense of one of these word piles by itself can be difficult.
+The second half of a topic model links topics to individual documents.
+For example, the document in
 Figure~\ref{fig:enron_doc} is about a California utility's reaction to
 the short-term electricity market and exemplifies Topic~9 from
-Figure~\ref{fig:enron_topics}.  If we get a sense that Topic~9 is of
+Figure~\ref{fig:enron_topics}.  
+Considering examples of documents that are strongly connected to a topic, along with the words associated with the topic, can give us a more complete representation of the topic.
+If we get a sense that Topic~9 is of
 interest, we can explore deeper to find other documents.
 
 \section{Foundations}
@@ -156,29 +157,34 @@ interest, we can explore deeper to find other documents.
   \end{center}
 
   \caption{A matrix formulation of finding $K$ topics for a dataset
-    with $M$ documents and $V$ unique words.  While the original
-    formulation of topic modeling approaches such as latent semantic
+    with $M$ documents and $V$ unique words.  While this
+    view of topic modeling includes approaches such as latent semantic
     analysis (\abr{lsa}), we focus on probabilistic techniques in the
     rest of this survey.}
   \label{fig:matrix_topics}
 \end{figure}
 \end{center}
 
-Topic models began with a linear algebra approach~\citep{deerwester-90} called
+You might notice that we are using the general term ``topic model''.
+There are many specific mathematical formulations of topic models, and many algorithms that learn the parameters of those models from data. 
+Although we will focus on particular models and algorithms, we choose our terminology in order to emphasize that the similarities between formulations, models, and algorithms are often greater than their differences.
+
+Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
 document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
 have seen a resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we
-focus on probabilistic approaches, which are intuitive, work well, and allow for
+focus on probabilistic approaches \cite{hofmann-99,papadimitriou-00,blei-03}, which are intuitive, work well, and allow for
 easy modification (as we see later in many of our later chapters).
 
 \begin{figure}
+\small
   \begin{tabular}{cccc}
-    Distribution & Density & Parameter Examples & Draw Examples \\
+    Distribution & Density & Example Parameters & Example draws \\
     \hline
-    Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}{K} \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = (1.1, 0.1, 0.1)$  & $\theta = (0.8, 0.15, 0.05)$ \\
-    Gaussian  & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{- \frac{(x-\mu)^2}{2 \sigma^2}}$ & $\mu=2, \sigma=1.1$ & $x=2.21$\\
+    Gaussian  & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{- \frac{(x-\mu)^2}{2 \sigma^2}}$ & $\mu=2, \sigma^2=1.1$ & $x=2.21$\\
     Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=(0.1, 0.6, 0.3)$ & $w=2$ (second index) \\
-    \hline
+   Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}^K \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = (1.1, 0.1, 0.1)$  & $\theta = (0.8, 0.15, 0.05)$ \\
+     \hline
   \end{tabular}
   \caption{Examples of probability distributions used in the
     generative stories of topic models.}
@@ -188,46 +194,46 @@ easy modification (as we see later in many of our later chapters).
 \subsection{Probabilistic Building Blocks}
 \label{sec:intro_building_blocks}
 
-Probabilistic models begin with a generative story: a recipe listing a sequence of random events
-that creates the dataset you're trying to explain.
+In probabilistic models we want to find values for unobserved model variables that do a good job of explaining the observed data.
+The first step in inference is to turn this process around, and assert a way to generate data given model variables.
+Probabilistic models thus begin with a generative story: a recipe listing a sequence of random events
+that creates the dataset we are trying to explain.
 Figure~\ref{fig:distribution_examples} lists some of the key players in these
-stories, how they're parameterized and what their draws look like.  Let's
-briefly discuss them, as we'll use them to build a wide variety of topic models
+stories, how they are parameterized and what samples drawn from these distributions look like.  We will
+briefly discuss them, as we will use them to build a wide variety of topic models
 later.
 
-\paragraph{Gaussian} If you know any probability distribution already, it's the
-Gaussian.  It does not have a role in the most basic topic models that we'll
-discuss here, but it will later (e.g., Chapter~\ref{ch:css}).  We do
-include it because it's a useful point of comparison against the other
-distributions we're using (since it's perhaps the easiest to understand and best
-known).
-
-A Gaussian distribution is a distribution over all real numbers (e.g., $0.0, 0.5,
+\paragraph{Gaussian} If you know any probability distribution already, it's (probably) the
+Gaussian.  This distribution does not have a role in the most basic topic models that we will
+discuss here, but it will later (e.g., Chapter~\ref{ch:css}).  We 
+include it because it is a useful point of comparison against the other
+distributions we {\em are} using (since it is perhaps the easiest to understand and best
+known). A Gaussian is a distribution over all real numbers (e.g., $0.0, 0.5,
 -4.2, \pi$, \dots).  You can ask it to spit out a number, and it will give you
 some real number between negative infinity and positive infinity.  But not all
 numbers have equal probability.  Gaussian distributions are parameterized by a
-mean $\mu$ and variance $\sigma$.  Most samples from the distribution will be
+mean $\mu$ and variance $\sigma^2$.  Most samples from the distribution will be
 near the mean $\mu$; how close is determined by the variance: higher variances
 will cause the samples to be more spread out.
 
 \paragraph{Discrete}
 
 While Gaussian distributions are over a continuous space, documents are
-combinations of discrete words.\footnote{An emerging trend in natural language
-  processing research is to view words as embedded in a continuous space.  We
+combinations of discrete symbols, usually word tokens.\footnote{An emerging trend in natural language
+  processing research is to view words as embedded in a continuous space. We
   discuss these ``representation learning'' approaches and their connection to
-  topic modeling in Chapter~\ref{ch:conc}.}   Thus, we need a distribution
+  topic modeling in Chapter~\ref{ch:conc}, but even then models are still defined over a discrete set of words.}   Thus, we need a distribution
 over discrete sets.
 
 A useful metaphor for thinking about discrete distributions is a weighted die.
-The number of faces on the die is its dimension, and each face is a distinct
-outcome.  Each outcome has its own probability of how likely that outcome is;
-this is the parameter of a discrete distribution
+The number of faces on the die is its dimension, and each face is associated with a distinct
+outcome.  Each face has its own probability of how likely that outcome is;
+these probabilities are the parameters of a discrete distribution
 (Figure~\ref{fig:distribution_examples}).
 
 Topic models are described by discrete distributions (sometimes called
-multinomial distributions) over words and topics.  The distribution
-over words is called the topic distribution; each of the topics gives
+multinomial distributions) that describe the connection between words and topics (the first half) and topics and documents (the second half).  A distribution
+over words is called a topic distribution; each of the topics gives
 higher weights to some words more than others (e.g., in Topic 9 from
 the Enron corpus, ``state'' and ``california'' have higher probability
 than other words).  Each document also has an ``allocation'' for each
@@ -237,13 +243,13 @@ documents have very low weights for most of the possible topics.
 \paragraph{Dirichlet}
 
 Although discrete distributions are the star players in topic models, they are
-the end of the story.  The story actually begins with Dirichlet distributions.
-Dirichlet distributions are distributions that produce discrete distributions.
-Like the Gaussian distribution, they have parameters analagous to a mean and
+not the end of the story.  We often begin with Dirichlet distributions.
+Just as Gaussians produce real numbers and discrete distributions produce symbols from a finite set, Dirichlet distributions produce probability vectors that can be used as the parameters of discrete distributions.
+Like the Gaussian distribution, they have parameters analogous to a mean and
 variance.  The mean is called the ``base measure'' $\tau$ and is the expected
-value of the Dirichlet: what you'd get if you averaged many draws from the
-Dirichlet.  The concentration parameter $\alpha$ controls how far away draws are
-from the base measure.
+value of the Dirichlet: the values you would get if you averaged many draws from the
+Dirichlet.  The concentration parameter $\alpha_0$ controls how far away individual draws are from the base measure.
+Note that we often combine these parameters into a single value for each dimension: $\alpha_k = \alpha_0 \tau_k$.
 
 \begin{center}
 \begin{figure}
@@ -251,7 +257,7 @@ from the base measure.
   \caption{Given different Dirichlet parameters, the Dirichlet
     distribution can either be informative (left, middle) or sparse
     (right).  Sparse distributions encourage distributions to favor
-    only a small number of elements but don't care which ones.  This
+    only a small number of elements but do not care which ones.  This
     is consistent with our intuitions of how documents are written:
     they are only about a few things, and topics contain only a
     handful of words.}
@@ -260,22 +266,26 @@ from the base measure.
 \end{center}
 
 
-If $\alpha$ is very large, then the draws from a Dirichlet will be very close to
-$\tau$ (Figure~\ref{fig:dirichlet_sparsity}, left).  If $\alpha$ is small, however,
+If $\alpha_0$ is very large, then the draws from a Dirichlet will be very close to
+$\tau$ (Figure~\ref{fig:dirichlet_sparsity}, left).  If $\alpha_0$ is small, however,
 something more interesting happens: the discrete distributions become sparse
 (Figure~\ref{fig:dirichlet_sparsity}, right).  A sparse distribution is a
-distribution where only a few values have high probability and most are small.
+distribution where only a few values have high probability and all other values are small.
 
-Because topic models are meant to reflect real documents, modeling sparsity
-correctly is important.  When a person sits down to write a document, they only
-write about a handful of topics.  They don't write about every possible topic
-under the sun, and the sparsity of Dirichlet distributions is the probabilistic
+Because topic models are meant to reflect the properties of real documents, modeling sparsity is important.  When a person sits down to write a document, they only
+write about a handful of the topics that they could potentially use.  They do not write about every possible topic, and the sparsity of Dirichlet distributions is the probabilistic
 tool that encodes this intuition.
+
+There are several important special cases of the Dirichlet distribution.
+If the base measure $\tau$ is uniform, we call the resulting distribution {\em symmetric}.
+This case is appropriate when we do not expect any one element to be, on average, more likely than any other element across all samples from the distribution.
+In the symmetric case the  distribution has only one parameter, the concentration $\alpha_0$.
+If the base measure is uniform and the concentration parameter $\alpha_0$ is equal to the number of dimensions $K$ (or, equivalently, $\alpha_k = 1.0$ for all $k$), the distribution is uniform, placing equal probability on all $K$-dimensional probability distributions.
+
 
 \section{Latent Dirichlet Allocation}
 
-We now have all the tools we need to tell the complete story of the prototypical
-modern topic model: latent Dirichlet allocation~\citep{blei-03}.  Latent
+We now have all the tools we need to tell the complete story of the most popular topic model: latent Dirichlet allocation~\citep{blei-03}.  Latent
 Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
   non-probabilistic forerunner (latent semantic analysis).  Latent because we
   use probabilistic inference to infer missing probabilistic pieces of the
@@ -285,19 +295,7 @@ Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
 how the data came to be.  We assemble the probabilistic pieces to tell
 this story about generating topics and how those topics are used to create
 diverse documents.
-
-For example, consider the document in Figure~\ref{fig:enron_doc}.  To
-generate it, we choose a distribution over all of the topics.  This is
-$\theta$.  For this document, the distribution favors Topic~9 about
-California.  It's higher for this topic than any other topic.  For
-each word in the document, the generative process chooses a topic
-assignment $z_n$.  For this document, most of those will be Topic~9.
-
-Then, for each word, we need to choose which word will appear.  This
-comes from Topic~9's distribution over words (multiple topics' have
-word distributions shown in Figure~\ref{fig:enron_topics}).  Each is a
-discrete draw from the topic's word distribution, which makes words
-like ``California'', ``state'', and ``Sacramento'' more likely.
+We note that LDA is closely related to its probabilistic precursor, pLSA \cite{hofmann-99}, which can be viewed as a special case of LDA in which the Dirichlet priors are uniform.
 
 \paragraph{Generating Topics}
 
@@ -311,7 +309,7 @@ $\phi_k$ has a weight for every word in the vocabulary.
 
 Document allocations are distributions over topics for each document.  This
 encodes what a document is about; the sparsity of the Dirichlet distribution's
-concentration parameter $\alpha$ ensures that the document will only be about a
+concentration parameter $\alpha_0$ ensures that the document will only be about a
 few topics.  Each document has a discrete distribution over topic: $\theta_d \sim
 \dir{\alpha {\bm u}}$.
 
@@ -327,12 +325,24 @@ document $d$, we first choose a {\bf topic assignment} $z_{d,n} \sim
 \disc{\theta_d}$.  This is one of the $K$ topics that tells us which topic the
 word token is from, but not what the word is.
 
-% TODO: add in generative example
-To select which word we'll see in the document, we draw from the a discrete
-distribution again.  Given a words topic assignment $z_{d,n}$, we draw from that
+To select which word we will see in the document, we draw from the a discrete
+distribution again.  Given a word token's topic assignment $z_{d,n}$, we draw from that
 topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
 tells you what the word is about, and then this selects which distribution over
 words we use to generate the word.  % (Figure~\ref{fig:generative-ex}).
+
+For example, consider the document in Figure~\ref{fig:enron_doc}.  To
+generate it, we choose a distribution over all of the topics.  This is
+$\theta$.  For this document, the distribution favors Topic~9 about
+California.  The value for this topic is higher than any other topic.  For
+each word in the document, the generative process chooses a topic
+assignment $z_n$.  For this document, any topic is theoretically possible, but we expect that most of those will be Topic~9.
+
+Then, for each token in the document, we need to choose which word type will appear.  This
+comes from Topic~9's distribution over words (multiple topics have
+word distributions shown in Figure~\ref{fig:enron_topics}).  Each is a
+discrete draw from the topic's word distribution, which makes words
+like ``California'', ``state'', and ``Sacramento'' more likely.
 
 It goes without saying that the generative story is a fiction~\citep{box-87}.
 Nobody is sitting down with dice to decide what to type in on their keyboard.
@@ -342,25 +352,24 @@ process, we can work backwards to find the topics that explain how a document
 collection was created: every word, every document, gets associated with these
 underlying topics.
 
-This fantasy helps us order our document collection: by assuming this story, we
-can discover \emph{topics} (which certainly don't exist) so we can understand
-the common themes that people use to write documents.  As we'll see in later
-chapters, slight tweaks of this generative story allow us to tell uncover more
+This simple model helps us order our document collection: by assuming this story, we
+can discover \emph{topics} (which certainly do not exist) so we can understand
+the common themes that people use to write documents.  As we will see in later
+chapters, slight tweaks of this generative story allow us to uncover more
 complicated structures: how authors prefer specific topics, how topics change
 over time, or how topics can be used across languages.
 
 \section{Inference}
 
 Given a generative model and some data, the process of uncovering the hidden
-probabilistic pieces of the generative story is called \emph{inference}.  More
+ pieces of the probabilistic generative story is called \emph{inference}.  More
 concretely, it is a recipe for generating algorithms to go from data to
 \emph{topics that explain a dataset}.
 
 There are many flavors of algorithms for posterior inference: message
 passing~\citep{zeng-13}, variational inference~\citep{blei-03}, gradient
 descent~\citep{hoffman-10}, and Gibbs sampling~\citep{griffiths-04}.  All of
-these algorithms have their advocates and reasons you should use them.  However,
-that discussion is better left for other venues.  In this survey, we focus
+these algorithms have their advocates and reasons you should use them.  In this survey, we focus
 on Gibbs sampling, which is simple, intuitive, and fast~\citep{yao-09}.
 
 We present the results of Gibbs sampling without derivation,
@@ -368,23 +377,20 @@ which---along with the history of its origin in statistical
 physics---are well described elsewhere.\footnote{We recommend
   \citet{resnik-09} for additional information on derivation.} We use
 a variety of Gibbs sampling called \emph{collapsed} Gibbs sampling,
-which ignores some of the pieces of the generative story: it ignores
-the topics and the document allocations to only focus on the topic
-assignments.  Some relatively straightforward math allows you to
-recreate the topics and document allocations if you only know the
-topic assignments.
+which ignores some of the pieces of the generative story: instead of explicitly representing the parameters of a discrete distribution, separate from any observations drawn from that distribution, we represent the distribution solely through those observations.  We can then
+recreate the topic and document distributions through simple formulas as they are needed.
 
 \subsection{Random Variables}
 
 \paragraph{Topic Assignments}
 
-Recall that every individual token gets a topic assignment.  For example,
+Since every individual token is assumed to be generated from a single topic,
+we can consider the {\em topic assignment} of a token as a variable.  For example,
 an instance of the word ``compilation'' might be in a business topic in one
-document and in an arts topic in another document.  It's even possible that the
-same word might be assigned to different topics in the same document, as each
-instance of the word has its own topic assignment.  Because topic models care
-about \emph{global} properties, we'll use aggregate statistics derived from
-these topic assignments.
+document and in an arts topic in another document.  Because each token has its own 
+topic assignment, it's even possible that the
+same word might be assigned to different topics in the same document.
+To estimate \emph{global} properties of the topic model we use aggregate statistics derived from these token-level topic assignments.
 
 \paragraph{Document Allocation} The document allocation is a distribution over
 the topics for each document; in other words, it says how popular each topic is
@@ -406,8 +412,8 @@ influence of the Dirichlet distribution; a better estimate is\footnote{To be
 \theta_{d,i} \approx \frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k}.
 \label{eq:theta_map}
 \end{equation}
-It's important that this is never zero because we don't want it to be impossible
-for a topic to get used in a particular document.  This helps the sampler
+It is important that this is never zero because we do not want it to rule out the possibility
+that a topic is used in a particular document.  This helps the sampler
 explore more of the possible combinations.
 
 \paragraph{Topics}
@@ -423,20 +429,21 @@ where $\beta$ is the Dirichlet parameter for the topic distribution.
 
 \subsection{Algorithm}
 
-The algorithm for learning a topic model is only based on the topic assignments,
-but we'll use our estimates for the topics $\phi_k$ and the documents $\theta_d$
-discussed above.  We begin by setting these topic assignments randomly: if we
+The collapsed Gibbs sampling algorithm for learning a topic model is only based on the topic assignments,
+but we will use our estimates for the topics $\phi_k$ and the documents $\theta_d$
+discussed above.  We begin by setting topic assignments randomly: if we
 have $K$ topics, each word has equal chance to be associated with any of the
 topics.
+These topics will be quite bad, looking like noisy copies of the overall corpus distribution. But we will improve them one word at a time.
 
-These topics will be quite bad, but we'll improve them one word at a time.  You
-then change the topic assignments for each word in a way the reflects the
-underlying probabilistic model of the data.  Each pass over the data makes the
-topics slightly better.  Eventually, the topics will ``converge'' to something
-reasonable and you can consider yourself done.
+The algorithm proceeds by sweeping over all word tokens in turn over and over. 
+At each iteration we change the topic assignments for each word in a way the reflects the
+underlying probabilistic model of the data.  On average, each pass over the data makes the
+topics slightly better until the model reaches a steady state.  There is no easy way
+to tell when such a steady state has been reached, but eventually the topics will ``converge'' to something reasonable and you can consider yourself done.
 
 The equation for the probability of assigning a word to a particular topic
-combines these two factors\footnote{To be theoretically correct, it is important
+combines information about words and about documents\footnote{To be theoretically correct, it is important
 not to include the count associated with the token you are currently sampling in
 these counts, which becomes more clear if the probability is written as
 $p(z_{d,n}=j\,|\,z_{d,1}\dots z_{d,n-1},z_{d,n+1}\dots z_{d,N_d}, w_{d,n})$ to
@@ -447,11 +454,11 @@ p(z_{d,n}=j\,|) = \theta_d
 \phi_j = \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
     \beta_w} \right).
 \end{align}
-Computing this value will eventually give you a vector equal to the number of
-topics you chose.  The next step is to randomly choose one of those indices with
+Computing this value for each topic will result in a probability distribution over the topic assignment for this word token, given all the other topic assignments.  The next step is to randomly choose one of those indices with
 probability proportional to the vector value.  You now assign that word to the
 topic, update $\dc{}{}$ and $\tc{}{}$, and move on to the next word and repeat.
-These topics will be quite bad, but we'll improve them one word at a time.
+The two terms provide two ``pressures'', for global and local coherence. Sparsity in the topic-word distributions encourages tokens of the same word type to be assigned to a small number of topics,  regardless of where they occur. Sparsity in the document-topic distributions encourages tokens in the same document to be assigned to a small number of topics, regardless of what type they are.
+For example, knowing that a word is ``compilation'' narrows down the number of potential topics considerably, but leaves ambiguity: is it program compilation or a music compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \em{arts} topic as the most probable assignment. 
 
 At the very end of the algorithm, we can use the estimates of each topic
 (Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
@@ -460,7 +467,7 @@ start exploring the collection automatically (Chapter~\ref{ch:ir}) or with a
 human in the loop (Chapter~\ref{ch:viz}).
 
 The algorithm that we have sketched here is the foundation of many of the more
-advanced models that we'll discuss later in the survey.  While we won't describe
+advanced models that we will discuss later in the survey.  While we won't describe
 the algorithms in detail, we will occasionally make reference to this sketch to
 highlight challenges or difficulties in implementing topic models.
 
@@ -474,9 +481,9 @@ implementations that help users get to useful results more quickly, particularly
 as topic models often require extensive preprocessing.
 
 Mallet is fast and is a widely used implementation in Java~\citep{mallet}.  This
-is where you should probably start, in our biased opinion.  Java uses
-highly-optimized Gibbs sampling implementations and can work from a variety of
-text inputs.  It's well documented, mature, and runs well on a multi-core
+is where you should probably start, in our biased opinion.  It runs in Java, uses
+highly-optimized Gibbs sampling implementations, and can work from a variety of
+text inputs.  It is well documented, mature, and runs well on a multi-core
 machine, allowing it to process up to millions of documents.  Variational
 inference is the other major option~\citep{blei-03,vw}, but often requires a
 little more effort for new users to get a first result.

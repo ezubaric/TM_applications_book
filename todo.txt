@@ -1,0 +1,5 @@
+
+* Make sure numbers are text < 100
+* Go through IR equations
+* Go through MT equations
+* Generate Dirichlet plots yourself
