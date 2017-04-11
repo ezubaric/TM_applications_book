@@ -1,4 +1,4 @@
-\chapter{Information Retrieval}
+\chapter{Ad-hoc Information Retrieval}
 \label{ch:ir}
 
 Topic models explore and summarize document collections outside the context of any specific information need.
@@ -15,12 +15,12 @@ Despite their differences in purpose, there are strong mathematical and conceptu
   ``traditional information retrieval'' or ``query-based
   IR''. \yhcomment{connected a little.}}
 
-Users start with their information need in the form of queries, and early IR systems treat both the query and documents as ``bags of words'', retrieve and rank the documents by measuring the word overlap between queries and documents.
+Users start with their information need in the form of queries, and early IR systems treat both the queries and documents as ``bags of words'', retrieve and rank the documents by measuring the word overlap between queries and documents.
 However, the ability of this direct and simple matching is always
 limited. Words with similar meaning or in different forms should also
 be considered as matched instead of being ignored. \textbf{Language
   modeling} has been one of the most popular frameworks to capture
-such semantic relationships. Also, humans would also use background
+such semantic relationships. Besides, humans would also use background
 knowledge to interpret and understand the queries and ``add'' missing
 words~\citep{wei-07}, which provides another way often referred as
 \textbf{query expansion} to improve the retrieval and ranking results.
@@ -29,23 +29,20 @@ Both directions can be pursued by learning and discovering the
 semantic relations between words and further the semantic relations
 between queries and documents. Topic models, which describe each topic
 using weighted words and model each document as a distribution over
-all topics, provides a semantic relations between query words and
+all topics, provides semantic relations between query words and
 documents~\citep{deerwester-90,hofmann-99a}. Such semantic relations
 can be applied to smoothing the language models, or introducing
 related words in query expansion. This chapter focuses on how to apply
 topic models in document language modeling \citep{Lu-2011,wei-06} and
 query expansion~\citep{Park-2009,Andrzejewski-2011} to further improve
-the ranking results of information retrieval. We start with a brief
-review of the traditional information retrieval framework.
-
-\jbgcomment{how? \yhcomment{Added.}} 
+the ranking results of information retrieval. 
 
 \section{Document Language Modeling in IR}
 \label{sec:ir-lm}
 
 The language modeling approach~\citep{croft-03,PonteCroft,song-99} is
 one of the main frameworks for using topic models in IR systems, since
-it has been shown to be effective probabilistic framework for studying
+it has been shown to be an effective probabilistic framework for studying
 information retrieval problem~\citep{PonteCroft,berger-99}.
 
 A statistical language model estimates the probability of word
@@ -59,21 +56,16 @@ p(w_1,w_2,\cdots,w_n) = p(w_1)p(w_2) \cdots p(w_n)
 A trigram model assumes the probability of the current word only
 depends on the previous two words, and it is represented as,
 \begin{align}
-p(w_1,w_2,\cdots,w_n)=p(w_1)p(w_2|w_1)p(w_3|w_1,w_2)\cdots p(w_n|w_{n-2},w_{n-1})
+p(w_1,\cdots,w_n)=p(w_1)p(w_2|w_1)p(w_3|w_1,w_2)\cdots p(w_n|w_{n-2},w_{n-1})
 \end{align}
-
-\jbgcomment{would be good to add backpointers to previous
-  chapter. \yhcomment{Not sure which part in previous chapter you
-    mean.}}
 
 In the application of information retrieval, the queries are generated
 by a probabilistic language model based on a
 document~\citep{zhai-01}. More specifically, each document is viewed
 as a language sample, and a language model for each document is
-estimated based on document terms. Then the probability of generating
-the query is estimated by each document language model. The
-probability of a query is computed by multiplying the probabilities of
-generating each query term using different document language model,
+estimated based on document terms. Then the
+probability of generating a query is estimated by multiplying the probabilities of
+generating each query term using a document language model,
 and the documents are ranked based on the probability.
 
 Given a document sample $d$, a straightforward way to estimate the
@@ -85,17 +77,18 @@ p_{\texttt{ml}}(w|d) = \frac{n_{d,w}}{n_{d,\cdot}}
 \end{align}
 where $n_{d,w}$ is the term frequency of word $w$ in document $d$, and
 $n_{d,\cdot}$ is the total number of tokens in document $d$. Then the
-probability of the given query $q$ can be computed by,
+probability of generating the given query $q$ can be computed by,
 \begin{align}
 p(q|d) = \prod_{w \in q} p(w|d) = \prod_{w \in q} \frac{n_{d,w}}{n_{d,\cdot}}
 \end{align}
 
-Then the documents are ranked based on this probability. Higher
+Then the documents are ranked based on this probability $p(q|d)$. Higher
 probability implies the corresponding document is more relevant to the
-given query~\citep{song-99}. However, a document is often too small to
-cover all the terms in the query. The probability of a missing term is
-zero, which means the probability of the whole query is zero and
-causes problems for ranking documents.
+given query~\citep{song-99}. However, a document often contains limited words and
+maximum likelihood estimation gives zero probability to those unseen words. 
+If a query contains any word that is not included in the document, the probability 
+of generating the whole query given this document is zero, which may cause ranking problems
+for this document.
 
 This data sparsity problem can be fixed by smoothing, which allocates
 some non-zero probability to the missing terms. In fact, topic models
@@ -133,39 +126,39 @@ interpolation of the maximum likelihood model in a document with the
 model based on the whole corpus, and a coefficient $\lambda$ is used
 to combine the two parts.
 \begin{align}
-p(w|d) = (1 - \lambda) p_{\texttt{ml}(w|d)} + \lambda p(w|\mathcal{C})
+p(w|d) = (1 - \lambda) p_{\texttt{ml}}(w|d) + \lambda p(w|\mathcal{C})
+\label{eq:lm-jr}
 \end{align}
 where $\mathcal{C}$ denotes the whole corpus. This simple mixture
 solves the data sparsity problem. For terms that occur in the document
 $d$, the maximum likelihood estimator (Equation~\ref{eq:ir_mse}) is
 not accurate given the limited size of a document, thus it is smoothed
-with the more reliable corpus level probability. For the missing terms
-in the document $d$, the probability is not zero any more, but fall
-back to the corpus level probability. This smoothing method has been
-explored by \cite{PonteCroft} and \cite{song-99} in information
-retrieval task, except \cite{PonteCroft} explored a weighted product
-version instead of a linear interpolation.
-\begin{align}
-p(w|d) = p_{\texttt{ml}}(w|d)^{(1 - \lambda) } \times p(w|\mathcal{C})^{\lambda}
-\label{eq:lm-jr}
-\end{align}
-But in general, the linear interpolation is more popular since the
-resulting probability is still normalized~\citep{song-99}.
+with the more reliable corpus level probability. For a missing term $w$
+in the document $d$, the probability of generating word $w$ is not zero any more, but fall
+back to the corpus level probability $p(w|\mathcal{C})$. 
+This smoothing method has been explored and successfully applied in information retrieval tasks~\citep{PonteCroft,song-99}.
+
+%This smoothing method has been explored by \cite{PonteCroft} and \cite{song-99} in information retrieval task, except \cite{PonteCroft} explored a weighted product version instead of a linear interpolation.
+%\begin{align}
+%p(w|d) = p_{\texttt{ml}}(w|d)^{(1 - \lambda) } \times p(w|\mathcal{C})^{\lambda}
+%\label{eq:lm-jr}
+%\end{align}
+%But in general, the linear interpolation is more popular since the resulting probability is still normalized~\citep{song-99}.
 
 \paragraph{Bayesian Smoothing using Dirichlet Priors}
 
 A language model can be viewed as a multinomial distribution, thus it
 can be smoothed by applying the Dirichlet distribution as the
-conjugate prior~\citep{mackay95dirichlet}. The smoothing model is
-adding extra prior count for each word to smooth the probability of
+conjugate prior~\citep{mackay95dirichlet}. This smoothing model is
+adding an extra prior count for each word to smooth the probability of
 unseen words,
 \begin{align}
-p(w|d) = \frac{n_{d,w} + \mu p(t|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \mu}
+p(w|d) = \frac{n_{d,w} + \beta p(w|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \beta}
 \end{align}
-where the Dirichlet prior is decided by parameter $\mu$ and the
+where the Dirichlet prior is decided by concentration parameter $\beta$ and the
 corpus-level probabilities $p(v|\mathcal{C})$ as follows,
 \begin{align}
-(\mu p(v_1 | \mathcal{C}), \mu p(v_2 | \mathcal{C}), \cdots, \mu p(v_n | \mathcal{C}))
+(\beta p(v_1 | \mathcal{C}), \beta p(v_2 | \mathcal{C}), \cdots, \beta p(v_n | \mathcal{C}))
 \label{eq:lm-bs}
 \end{align}
 
@@ -185,16 +178,20 @@ corpus-level probabilities $p(v|\mathcal{C})$ as follows,
 
 Topic models, which model each document as a mixture of topics and
 each topic as a mixture of words, offer an interesting framework to
-model documents in information retrieval. \cite{wei-06} introduce
-Latent Dirichlet Allocation (LDA) to learn the relationship between
-query words and documents, and the conditional probability of a query
-word $w$ given a document $d$ is computed as marginalizing all topics,
-\begin{align}
-p_{\texttt{lda}}(w|d) = \sum_{z=1}^K p(w|z, \hat{\phi}) p(z |
-\hat{\theta}, d)
-\end{align}
-where $\hat{\theta}$ is the posterior estimate for the document-topic distribution $\theta$; $\hat{\phi}$ is the posterior estimate for the topic-word distribution $\phi$; $K$ is the total number of topics.
+model documents in information retrieval. Popular topic models such as 
+probabilistic Latent Semantic Analysis~(pLSA) and Latent Dirichlet Allocation (LDA)
+have been both explored to improve document language models.
 
+\cite{hofmann-99a} first introduces pLSA to 
+to learn the relationship between query words and documents, 
+and the conditional probability of a query word $w$ given a document $d$ is 
+computed as marginalizing all topics $k$,
+\begin{align}
+p_{\texttt{TM}}(w|d) = \sum_{k} p(w|k) p(k|d)
+\end{align}
+
+Later, \cite{wei-06} apply the same idea to learn the topic-smoothed document-word
+distribution, using LDA instead of pLSA.  
 Because topic models learn the semantic relationships between words
 and documents through learning the hidden topics, and their posterior
 estimates of document-topic distribution and topic-word distribution
@@ -207,25 +204,21 @@ language models. Thus \cite{wei-06} further propose to combine the
 LDA-based document model with the original smoothed document
 model~(Equation~\ref{eq:lm-jr}) through a linear interpolation,
 \begin{align}
-p(w|d) = \omega ((1 - \lambda) p_{\texttt{ml}(w|d)} + \lambda
-p(w|\mathcal{C})) + (1 - \omega) p_{\texttt{lda}}(w|d)
+p(w|d) = \lambda' \Big( (1 - \lambda) p_{\texttt{ml}}(w|d) + \lambda
+p(w|\mathcal{C}) \Big) + (1 - \lambda') p_{\texttt{TM}}(w|d)
 \end{align}
-where $\omega$ is the coefficient which combines the LDA-based
+where $\lambda'$ is the coefficient which combines the LDA-based
 document model with the general smoothed language model.
-
-\jbgcomment{I don't know this work as well, but I haven't seen enough
-  here to convince me that this is a good idea.  How does it help
-  performance, why is it a good idea?  \yhcomment{added.}}
 
 Following \cite{wei-06}, \cite{Lu-2011} further evaluate the
 performance of applying topic models into the document language model
 framework. Instead of combining with the language model with
 Jelinek-Mercer smoothing~(Equation~\ref{eq:lm-jr}), \cite{Lu-2011}
-smooth the document language model with the Bayesian
+smooth the document language model with Bayesian
 smoothing~(Equation~\ref{eq:lm-bs}), and the final linear combination
 with topic models is as,
 \begin{align}
-p(w|d) = \omega \frac{n_{d,w} + \mu p(t|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \mu}  + (1 - \omega) p_{\texttt{lda}}(w|d)
+p(w|d) = \lambda \frac{n_{d,w} + \beta p(w|\mathcal{C})}{\sum_{v \in V} n_{d,v} + \beta}  + (1 - \lambda) p_{\texttt{lda}}(w|d)
 \end{align}
 
 While using different smoothing strategies, both
@@ -236,12 +229,12 @@ documents can be learned to complement the document language models.
 
 \section{Query Expansion in IR}
 
-The document language models in Information
-Retrieval~\citep{PonteCroft} have been attempting to model the query
+The document language models in information
+retrieval~\citep{PonteCroft} have been attempting to model the query
 generation process based on the document models. However, a big
 problem is that these models abandon modeling the query-document
 relevance explicitly~\citep{Lavrenko-2001}, which is very important in
-traditional Information Retrieval task.
+traditional information retrieval task.
 
 In fact, queries, which are normally brief and using informal
 languages from users, diverse significantly from the language in
@@ -277,29 +270,29 @@ given a query $q$. However, it is not easy to learn a good query
 language model since the query content is too limited.
 
 \cite{zhai-01b} propose to use both the query content and the relevant
-documents (sometimes referred as feedback documents or clicked
+documents $\mathcal{F}$ (sometimes referred as feedback documents or clicked
 documents) to estimate the query language model. Let
 $\hat{\theta}_{\mathcal{F}}$ be the estimated query language model
-based on the relevant documents, the combined query model
-$\hat{\theta}_{Q'}$ can be computed by,
+based on the relevant documents and $\hat{\theta}_{Q}$ is the original query language model estimated purely based on queries,
+the combined query model $\hat{\theta}_{Q'}$ can be computed by,
 \begin{align}
 \label{eq:qlm-comb}
-\hat{\theta}_{Q'} = (1 - \mu)\hat{\theta}_{Q} + \mu \hat{\theta}_{\mathcal{F}}
+\hat{\theta}_{Q'} = (1 - \lambda)\hat{\theta}_{Q} + \lambda \hat{\theta}_{\mathcal{F}}
 \end{align}
 
-A simple way to estimate the feedback query model
-$\hat{\theta}_{\mathcal{F}}$ is a unigram language model $\theta$
+Estimating $\hat{\theta}_{Q}$ is obvious based on query words, and $\hat{\theta}_{\mathcal{F}}$ can 
+also be simply estimated by a unigram language model $\theta$
 which generates each word in $\mathcal{F}$ independently. However,
 most documents contain not only the query relevant information, but
 also the background information. As a result, \cite{zhai-01b} propose
 to generate a relevant document by a mixture model, which combines a
-query model $p(w|\theta_Q)$ with a collection language model
-$p(w|\mathcal{C})$. Thus the log-likelihood of the relevant document
+language model $p(w|\theta)$ with a collection language model
+$p(w|\mathcal{C})$, and the log-likelihood of the relevant document
 is,
 \begin{align}
-\log p(\mathcal{F}|\theta) = \sum_i \sum_w c(w, d_i) \log((1-\lambda)p(w|\theta_Q) + \lambda p(w|\mathcal{C}))
+\log p(\mathcal{F}|\theta) = \sum_i \sum_w n_{d_i, w} \log((1-\lambda')p(w|\theta) + \lambda' p(w|\mathcal{C}))
 \end{align}
-where $c(w, d_i)$ is count of word $w$ in document $d$. The related parameters $\theta$ are estimated by the EM algorithm (more details can be found in \cite{zhai-01b}). By combing with the information from the relevant documents, the query language model is more robust, thus query-word relationships are better represented.
+where $n_{d_i, w}$ is count of word $w$ in document $d_i$. The related parameters $\theta$ are estimated by the EM algorithm (more details can be found in \cite{zhai-01b}). By combing with the information from the relevant documents, the query language model is more robust, thus query-word relationships are better represented.
 
 \paragraph{Relevance Model}
 
@@ -317,14 +310,14 @@ assumes the word $w$ and the query $q$ are sampled independently from
 the same distribution, e.g., from a unigram distribution, then the
 joint probability can be computed as,
 \begin{align}
-p(w, q) = \sum_{D \in \mathcal{C}} p(D) p(w,q | D) = \sum_{D \in \mathcal{C}} p(D) p(w|D) p(q | D)
+p(w, q) = \sum_{d \in \mathcal{C}} p(d) p(w,q |d) = \sum_{d \in \mathcal{C}} p(d) p(w|d) p(q | d)
 \end{align}
 
 Then the multinomial distribution $p(w|q)$ for a given query $q$ can
 be computed as follows,
 \begin{align}
 \label{eq:rm_qe}
-p(w|q) = \frac{p(w, q)}{p(q)} = \sum_{D \in \mathcal{C}} p(w|D) p(D|q)
+p(w|q) = \frac{p(w, q)}{p(q)} = \sum_{d \in \mathcal{C}} p(w|d) p(d|q)
 \end{align}
 
 Both the query language model and the relevance model capture the
@@ -347,16 +340,17 @@ generated from a document model $p(d|\hat{\theta}_D)$, they compute
 the KL-divergence of document $d$ with respect to query $q$ as the
 final relevance score:
 \begin{align}
+\label{eq:KL}
 D(\hat{\theta}_{Q'} || \hat{\theta}_D) = -\sum_w p(w|\hat{\theta}_{Q'}) \log p(w | \hat{\theta}_D) + \texttt{cons}(q)
 \end{align}
 
-Again, in contrast to \cite{zhai-01b}, \cite{Lavrenko-2001} compute
+In contrast to \cite{zhai-01b}, \cite{Lavrenko-2001} compute
 the relevance score using the original query and the expanded query
 respectively, and then linearly combine the two scores. Thus the final
 query-document relevance $\hat{s}_d(q)$ is computed as,
 \begin{align}
 \label{eq:rm_qe_comb}
-\hat{s}_d(q) = \mu s_d(e) + (1-\mu)s_d(q)
+\hat{s}_d(q) = \lambda s_d(e) + (1-\lambda)s_d(q)
 \end{align}
 where $s_d(q)$ is the relevance between the original query $q$ and
 documents $d$, and $s_d(e)$ is relevance between the expanded query
@@ -367,8 +361,8 @@ terms $e$ and document $d$.
 Topic models capture the semantic relationships of words through
 learning the latent topics, which are presented as distributions over
 different words. Such semantic relationships among words provide a
-unique way to match or expand words in the semantic level rather than
-a direct spelling matching. As a result, topic models have been
+unique way to match or expand words at the semantic level rather than
+by a direct spelling matching. As a result, topic models have been
 successfully applied into query expansion~\citep{Yi-2009,Park-2009}.
 
 \paragraph{Smoothing Query Language Model}
@@ -394,31 +388,31 @@ relatively limited. To improve the quality of extracted topics,
 relationships based on the Equation~\ref{eq:query_word_prob} for query
 expansion.
 
-\paragraph{Improving Relevence Model}
+\paragraph{Improving Relevance Model}
 
 In addition to this direct approach, \cite{Yi-2009} also apply topic
 models to improve the relevance model in Equation~\ref{eq:rm_qe} for
 query expansion. In this approach, topic models are applied to capture
-the document-word relationship $p(w|D)$ given the query $q$ as
+the document-word relationship $p(w|d)$ given the query $q$ as
 follows,
 \begin{align}
-p_{\texttt{TM}}(w|D,q) = \sum_k p(w|k) p(k|D,q)
+p_{\texttt{TM}}(w|d,q) = \sum_k p(w|k) p(k|d,q)
 \end{align}
 where,
 \begin{align}
-p(k|D,q) &= \frac{p(k,D,q)}{p(D,q)}  = \frac{p(k)p(D|k)p(q|k)}{p(D,q)} \\
-&= \frac{p(k|D)p(q|k)}{p(q|D)} \approx p(k|D)p(q|k) \notag
+p(k|d,q) &= \frac{p(k,d,q)}{p(d,q)}  = \frac{p(k)p(d|k)p(q|k)}{p(d,q)} \\
+&= \frac{p(k|d)p(q|k)}{p(q|d)} \approx p(k|d)p(q|k) \notag
 \end{align}
-where $p(k|D)$ is the topic probability in document $D$, and $p(q|k)$
+where $p(k|d)$ is the topic probability in document $d$, and $p(q|k)$
 is the probability of generating a query $q$ given the topic $k$. Then
-the topic-based document-word relationship $p_{\texttt{TM}}(w|D,q)$ is
-applied to smooth the document-word relationship $p(w|D)$ in the
+the topic-based document-word relationship $p_{\texttt{TM}}(w|d,q)$ is
+applied to smooth the document-word relationship $p(w|d)$ in the
 relevance model~(Equation~\ref{eq:rm_qe}) through a linear
 interpolation,
 \begin{align}
-p(w|q) = \sum_{D \in \mathcal{C}} (\omega p(w|D) + (1 - \omega)p_{\texttt{TM}}(w|D,q))p(D|q)
+p(w|q) = \sum_{d \in \mathcal{C}} (\lambda p(w|d) + (1 - \lambda)p_{\texttt{TM}}(w|d,q))p(d|q)
 \end{align}
-where $\omega$ is a constant weight to combine the original relevance
+where $\lambda$ is a constant weight to combine the original relevance
 model and the topic-based relevance model. Because the topic models
 capture the word relationships on a semantic level, this improved
 relevance model better captures the query-word relationships and
@@ -432,18 +426,28 @@ through topic models and then apply it for query expansion. More
 specifically, based on the topics extracted from topic models, they
 compute the probabilistic relationships of each word pair $(w_x,
 w_y)$,
+%\begin{align}
+%p(w_x|w_y, \alpha) &= \sum_i p(w_x, z_i | w_y, \alpha) \\
+%&= \sum_i p(w_x | z_i, w_y, \alpha) p(z_i | w_y, \alpha) \notag\\
+%&= \sum_i p(w_x|z_i, \alpha) p(z_i|w_y, \alpha) \notag
+%\end{align}
 \begin{align}
-p(w_x|w_y, \alpha) &= \sum_i p(w_x, z_i | w_y, \alpha) \\
-&= \sum_i p(w_x | z_i, w_y, \alpha) p(z_i | w_y, \alpha) \notag\\
-&= \sum_i p(w_x|z_i, \alpha) p(z_i|w_y, \alpha) \notag
+p(w_x|w_y, \alpha) &= \sum_k p(w_x, k | w_y, \alpha) \\
+&= \sum_k p(w_x | k, w_y, \alpha) p(k | w_y, \alpha) \notag\\
+&= \sum_k p(w_x|k, \alpha) p(k|w_y, \alpha) \notag
 \end{align}
-where $p(w_x|z_i, \alpha)$ is the topic-word distribution which can be learned from topic models, and $p(z_i|w_y, \alpha)$ can be computed as,
+where $\alpha$ is the concentration parameter of the Dirichlet prior for document-topic distributions and $p(w_x|k, \alpha)$ is the topic-word distribution which can be learned from topic models, and $p(k|w_y, \alpha)$ can be computed as,
+%\begin{align}
+%p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{p(w_y|\alpha)} \\
+%&= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{\sum_j p(w_y, z_j|\alpha)} \notag\\
+%&= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{\sum_j p(w_y|z_i,\alpha)p(z_i|\alpha)} \notag
+%\end{align}
 \begin{align}
-p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{p(w_y|\alpha)} \\
-&= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{\sum_j p(w_y, z_j|\alpha)} \notag\\
-&= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{\sum_j p(w_y|z_i,\alpha)p(z_i|\alpha)} \notag
+p(k|w_y, \alpha) &= \frac{p(w_y|k,\alpha)p(k|\alpha)}{p(w_y|\alpha)} \\
+%&= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y, k'|\alpha)} \notag\\
+&= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y|k',\alpha)p(k'|\alpha)} \notag
 \end{align}
-where $p(w_y|z_i,\alpha)$ is the topic-word distributions, and \cite{Park-2009} also show that $p(z_i|\alpha) = \frac{\alpha_i}{\sum_k \alpha_k}$.
+where $p(w_y|k,\alpha)$ is the topic-word distributions. \cite{Park-2009} also show that $p(k|\alpha) = \frac{\alpha_k}{\sum_j \alpha_j}$.
 %\begin{align}
 %p(z_i|\alpha) &= \int p(z_i, \theta | \alpha) d\theta \\
 %&= \int p(z_i | \theta, \alpha) p(\theta | \alpha) d\theta \\
@@ -452,14 +456,21 @@ where $p(w_y|z_i,\alpha)$ is the topic-word distributions, and \cite{Park-2009} 
 %&= \frac{\alpha_i}{\sum_k \alpha_k}
 %\end{align}
 As a result, we have,
+%\begin{align}
+%p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha) \frac{\alpha_i}{\sum_k \alpha_k} }{\sum_j p(w_y|z_i,\alpha) \frac{\alpha_j}{\sum_k \alpha_k}} \\
+%&= \frac{p(w_y|z_i,\alpha) \alpha_i}{\sum_j p(w_y|z_i,\alpha) \alpha_j} \notag
+%\end{align}
 \begin{align}
-p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha) \frac{\alpha_i}{\sum_k \alpha_k} }{\sum_j p(w_y|z_i,\alpha) \frac{\alpha_j}{\sum_k \alpha_k}} \\
-&= \frac{p(w_y|z_i,\alpha) \alpha_i}{\sum_j p(w_y|z_i,\alpha) \alpha_j} \notag
+p(k|w_y, \alpha) &= \frac{p(w_y|k,\alpha) \frac{\alpha_k}{\sum_j \alpha_j} }{\sum_{k'} p(w_y|k',\alpha) \frac{\alpha_{k'}}{\sum_j \alpha_j}} \\
+&= \frac{p(w_y|k,\alpha) \alpha_k}{\sum_{k'} p(w_y|k',\alpha) \alpha_{k'}} \notag
 \end{align}
 
 The final probabilistic relationships of each term pair  can be represented as,
+%\begin{align}
+%p(w_x|w_y, \alpha) = \frac{\sum_i p(w_x|z_i, \alpha) p(w_y|z_i,\alpha) \alpha_i }{\sum_j p(w_y|z_j,\alpha) \alpha_j}
+%\end{align}
 \begin{align}
-p(w_x|w_y, \alpha) = \frac{\sum_i p(w_x|z_i, \alpha) p(w_y|z_i,\alpha) \alpha_i }{\sum_j p(w_y|z_j,\alpha) \alpha_j}
+p(w_x|w_y, \alpha) = \frac{\sum_k p(w_x|k, \alpha) p(w_y|k,\alpha) \alpha_k }{\sum_{k'} p(w_y|k',\alpha) \alpha_{k'}}
 \end{align}
 
 Once this term relationship is obtained, they choose the top related
@@ -480,8 +491,6 @@ original query is expanded with the top words in this selected topic,
 and the search results are refined.
 
 This direction is actually more related with topic labeling and iterative visualization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
-
-\jbgcomment{Some of these ideas are discussed in other chapters (interactivity, labeling), would be good to add links \yhcomment{added.}}
 
 %In order to construct more meaningful topic representations,
 %\cite{Andrzejewski-2011} extract multiple features, such as word
@@ -504,6 +513,39 @@ This direction is actually more related with topic labeling and iterative visual
 %updated by expanding the original query with the top words in this
 %select topic.
 
+\section{Beyond Relevance---Search Personalization}
+
+Traditional search systems retrieve documents based on the queries only, regardless of who submitted the queries. 
+As more Web pages become available, queries are normally too short to express users' needs, and 
+users may prefer different results even the input queries are the same~\cite{Jansen-2000,Dou-2007}.
+In order to meet different users' information need, it is important to understand the user's preference, context, 
+etc., and adapt the ranking results accordingly~\cite{Pitkow-2002,Micarelli-2007}. 
+This is referred as personalized search, or search personalization. 
+
+There are multiple different ways to do search personalization, two of major directions are contextualization and individualization\cite{Pitkow-2002}. The former is to consider users' conditions in a search activity, for example, time and location. 
+The latter focuses more on users' individual characteristics and activities, which is also described as the users' profile. 
+
+\cite{Dou-2007} investigate several heuristics to create user profiles and generate personalized search. 
+
+
+\cite{Song-2010} apply topic models to model users' preference from users' search history. The idea is very similar to smoothing query language models $p(w|q)$ by topic models, as explained in Equation~\ref{eq:query_word_prob}. 
+For each users' query, they concatenate the clicked documents (or the top $n$ ranked documents if no click happened) as a big preference document. Then the topic model pLSI is applied on the preference collection to extract the latent topics as users' preference ($p(w|k)$ in the Equation~\ref{eq:query_word_prob}). The second part is to estimate the query-topic distribution $p(k|q)$ in Equation~\ref{eq:query_word_prob}. However, the queries are too short to estimate the query topics directly. Instead, they first estimate a language model $\theta_q$ from the big preference document of query $q$ and compare the cosine similarity against each topic to estimate the query-topic distribution $p(k|q)$,
+\begin{align}
+p(k|q) = \frac{p(k, q)}{\sum_k p(k, q)} \approx \frac{\text{sim}(\theta_k, \theta_q)}{\sum_k \text{sim}(\theta_k, \theta_q)}
+\end{align}
+The query language model $p(w|q)$ is further used in the ranking framework with KL divergence~(Equation~\ref{eq:KL}). In this framework, the topics more relevant to the current query and user contribute more to the query model and further bias the ranking results towards users' personal preference.
+
+\cite{Carman-2010} also investigate topic models on large query logs for search personalization and propose a personalization topic model as shown in Figure. 
+
+Instead of just two observed variable ( document $d_i$ and word $w_i$) as in normal topic models, this model adds one extra variable $u_i$ for user and directly estimate the probability of $p(k|w_i, d_i, u_i)$. They further assume the conditional independence among the word $w_i$, the user $u_i$ and document $d_i$ given the topic $k$, and the model can be simplified as,
+\begin{align}
+p(k|w_i, d_i, u_i) = \frac{p(k,w_i, u_i | d_i)}{p(w_i, u_i | d_i)} \propto p(w_i|k) p(u_i|k) p (k|d_i)
+\end{align}
+
+Given the topic distribution of the document, some number of 
+
+  
+
 \section{Conclusion}
 
 Because topic models analyze documents on a semantic level, it offers
@@ -515,10 +557,6 @@ application on information retrieval is based on a general good
 understanding of the outputs of topic models. In the next chapter, we
 will introduce how to visualize and label the topics in general to
 help the users better understand the topics.
-
-\jbgcomment{needs conclusion and text leading into next chapter \yhcomment{added.}}
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
