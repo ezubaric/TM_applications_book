@@ -517,43 +517,73 @@ This direction is actually more related with topic labeling and iterative visual
 
 Traditional search systems retrieve documents based on the queries only, regardless of who submitted the queries. 
 As more Web pages become available, queries are normally too short to express users' needs, and 
-users may prefer different results even the input queries are the same~\cite{Jansen-2000,Dou-2007}.
+users may prefer different results even the input queries are the same~\citep{Jansen-2000,Dou-2007}.
 In order to meet different users' information need, it is important to understand the user's preference, context, 
-etc., and adapt the ranking results accordingly~\cite{Pitkow-2002,Micarelli-2007}. 
+etc., and adapt the ranking results accordingly~\citep{Pitkow-2002,Micarelli-2007}. 
 This is referred as personalized search, or search personalization. 
 
-There are multiple different ways to do search personalization, two of major directions are contextualization and individualization\cite{Pitkow-2002}. The former is to consider users' conditions in a search activity, for example, time and location. 
+There are multiple ways to do search personalization, and two of major directions are normally referred as contextualization and individualization\citep{Pitkow-2002}. The former is to consider users' conditions in a search activity, for example, time and location. 
 The latter focuses more on users' individual characteristics and activities, which is also described as the users' profile. 
+Topic models have been investigated to model users' preference on the topic space~\citep{Song-2010,Carman-2010}.
 
-\cite{Dou-2007} investigate several heuristics to create user profiles and generate personalized search. 
+\paragraph{Modeling Users' Preference via the Output Topics}
 
+\cite{Song-2010} apply topic models to model users' preference from users' search history. The idea is very similar to smoothing query language models $p(w|q)$ by topic models, as explained in Equation~\ref{eq:query_word_prob}. The estimation of $p(w|q)$ is split into two parts $p(w|k)$ and $p(k|q)$.
 
-\cite{Song-2010} apply topic models to model users' preference from users' search history. The idea is very similar to smoothing query language models $p(w|q)$ by topic models, as explained in Equation~\ref{eq:query_word_prob}. 
 For each users' query, they concatenate the clicked documents (or the top $n$ ranked documents if no click happened) as a big preference document. Then the topic model pLSI is applied on the preference collection to extract the latent topics as users' preference ($p(w|k)$ in the Equation~\ref{eq:query_word_prob}). The second part is to estimate the query-topic distribution $p(k|q)$ in Equation~\ref{eq:query_word_prob}. However, the queries are too short to estimate the query topics directly. Instead, they first estimate a language model $\theta_q$ from the big preference document of query $q$ and compare the cosine similarity against each topic to estimate the query-topic distribution $p(k|q)$,
 \begin{align}
 p(k|q) = \frac{p(k, q)}{\sum_k p(k, q)} \approx \frac{\text{sim}(\theta_k, \theta_q)}{\sum_k \text{sim}(\theta_k, \theta_q)}
 \end{align}
+
 The query language model $p(w|q)$ is further used in the ranking framework with KL divergence~(Equation~\ref{eq:KL}). In this framework, the topics more relevant to the current query and user contribute more to the query model and further bias the ranking results towards users' personal preference.
 
-\cite{Carman-2010} also investigate topic models on large query logs for search personalization and propose a personalization topic model as shown in Figure. 
+\paragraph{Encoding Users into Topic Models}
 
-Instead of just two observed variable ( document $d_i$ and word $w_i$) as in normal topic models, this model adds one extra variable $u_i$ for user and directly estimate the probability of $p(k|w_i, d_i, u_i)$. They further assume the conditional independence among the word $w_i$, the user $u_i$ and document $d_i$ given the topic $k$, and the model can be simplified as,
+\cite{Carman-2010} also investigate topic models on large query logs for search personalization and propose a personalization topic model as shown in Figure~\ref{fig:ptm-original}. The idea is given the topic distribution of the document, there will be a number of words chosen at random to generate the query and a number of users who chose to click that document. 
+
+\begin{figure}
+  \begin{center}
+  \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/ptm}
+  \caption{}
+  \label{fig:ptm-original}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/ptm-simplified}
+  \caption{}
+  \label{fig:ptm-simplified}
+  \end{subfigure}
+  \end{center}
+  \caption{The proposed graphical model for personalized retreival in Figure~\ref{fig:ptm-original} and the actual simplified model used for parameter estimation in Figure~\ref{fig:ptm-simplified} (both figures are from \cite{Harvey-2013}.)}
+  \label{fig:ptm}
+\end{figure}
+
+As shown in Figure~\ref{fig:ptm-original}, instead of just two observed variable (document $d_i$ and query word $w_i$) as in normal topic models, this model adds one extra observed variable $u_i$ for user and directly estimate the probability of $p(k|w_i, d_i, u_i)$. They further assume the conditional independence among the word $w_i$, the user $u_i$ and document $d_i$ given the topic $k$, and the model can be simplified as,
 \begin{align}
 p(k|w_i, d_i, u_i) = \frac{p(k,w_i, u_i | d_i)}{p(w_i, u_i | d_i)} \propto p(w_i|k) p(u_i|k) p (k|d_i)
 \end{align}
 
-Given the topic distribution of the document, some number of 
+By directly including the user in the topic model, this model assumes the user's topical interests for describing a document that the user clicked is equally important as the words to describe the document. This assumption is too strong as shown in \citet{Carman-2010}. As a result, \citet{Harvey-2013} further propose to not consider the user explicitly in the Markov chain topic sampling and simplify the model as shown in Figure~\ref{fig:ptm-simplified}. In this model, the topics are used to infer the topic-user distribution $p(u_i|k)$ once the Markov chain is converged. The intuition is to capture the idea that a user clicks on a document given a specific query due to his/her interests expressed over the topic space~\citep{Harvey-2013}.
 
-  
+Based on the estimates of this personalized topic model, the documents are ranked by the likelihood given the query and the user as follows,
+\begin{align}
+p(d | q,u) &\propto p(d) \prod_{w \in q} p(w, u | d)\\
+&\propto p(d) \prod_{w \in q} \sum_k p(w|k) p(u|k) p(k|d) \notag
+\end{align}
+By subtly incorporating users' profiles as part of the ranking algorithms, \citet{Harvey-2013} significantly improved the personalized ranked document lists than the non personalized baselines.
 
 \section{Conclusion}
 
 Because topic models analyze documents on a semantic level, it offers
 an interesting and unique framework for modeling the document-word
 relations and word-word relations. As a result, topic models have been
-successfully applied in smoothing language models and query expansion,
-two major directions in information retrieval. This successful
-application on information retrieval is based on a general good
+successfully applied in smoothing language models, query expansion, search personalization, etc.
+
+There are also some works focusing on the diversification of the search results~\citep{Dang-2013,Santos-2015}. The goal of search result diversification is to identify the different aspects of the ambiguous query, retrieve documents for each aspect and make the search results more diverse~\citep{Dang-2013}. Similarly, the diversification techniques can also be further combined with personalization to diversify the personalized search results~\citep{Vallet-2012,Liang-2014}. This topic is beyond the scope of this chapter.
+
+These successful applications on information retrieval are based on a general good
 understanding of the outputs of topic models. In the next chapter, we
 will introduce how to visualize and label the topics in general to
 help the users better understand the topics.

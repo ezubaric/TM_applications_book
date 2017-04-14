@@ -458,7 +458,7 @@ Computing this value for each topic will result in a probability distribution ov
 probability proportional to the vector value.  You now assign that word to the
 topic, update $\dc{}{}$ and $\tc{}{}$, and move on to the next word and repeat.
 The two terms provide two ``pressures'', for global and local coherence. Sparsity in the topic-word distributions encourages tokens of the same word type to be assigned to a small number of topics,  regardless of where they occur. Sparsity in the document-topic distributions encourages tokens in the same document to be assigned to a small number of topics, regardless of what type they are.
-For example, knowing that a word is ``compilation'' narrows down the number of potential topics considerably, but leaves ambiguity: is it program compilation or a music compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \em{arts} topic as the most probable assignment. 
+For example, knowing that a word is ``compilation'' narrows down the number of potential topics considerably, but leaves ambiguity: is it program compilation or a music compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \emph{arts} topic as the most probable assignment. 
 
 At the very end of the algorithm, we can use the estimates of each topic
 (Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
