@@ -1,41 +1,37 @@
 \chapter{Ad-hoc Information Retrieval}
 \label{ch:ir}
 
-Topic models explore and summarize document collections outside the context of any specific information need.
+Topic models explore and summarize document collections outside the context of any specific information need, when we do not necessarily know what we are looking for.
 This approach to information retrieval stands in contrast to traditional IR systems, which retrieve relevant documents given users' explicit information needs.
 Where IR systems might look for the ``needle in the haystack'', topic models will tell you about the overall proportion of hay and needles, and perhaps inform you about the mice that you didn't know were there.
+But topic models can also be useful in situations when we do have a specific information need, but we do not quite know how to search for it.
 Despite their differences in purpose, there are strong mathematical and conceptual connections between these two approaches.
+In this chapter we consider the use of topic modeling in IR to balance specific user queries with more open-ended discovery.
 
-
-\jbgcomment{It would be good to contrast a little bit with the role
-  that topic models serve in exploring document collections (discussed
-  in the intro); i.e., you don't know what you're looking for.  This
-  chapter focuses instead on when you do know what you're looking for
-  (in the form of a query).  We may even want to call this
-  ``traditional information retrieval'' or ``query-based
-  IR''. \yhcomment{connected a little.}}
-
-Users start with their information need in the form of queries, and early IR systems treat both the queries and documents as ``bags of words'', retrieve and rank the documents by measuring the word overlap between queries and documents.
+In the ad hoc retrieval setting, users start with an information need expressed in the form of one or more queries. Many IR systems treat both the queries and documents as ``bags of words'', and retrieve and rank the documents by measuring the word overlap between queries and documents.
 However, the ability of this direct and simple matching is always
 limited. Words with similar meaning or in different forms should also
 be considered as matched instead of being ignored. \textbf{Language
   modeling} has been one of the most popular frameworks to capture
-such semantic relationships. Besides, humans would also use background
+such semantic relationships. But humans would also like to use background
 knowledge to interpret and understand the queries and ``add'' missing
-words~\citep{wei-07}, which provides another way often referred as
-\textbf{query expansion} to improve the retrieval and ranking results.
+words~\citep{wei-07}, which provides another approach often referred to as
+\textbf{query expansion} to improve retrieval and ranking results.
 
 Both directions can be pursued by learning and discovering the
-semantic relations between words and further the semantic relations
-between queries and documents. Topic models, which describe each topic
-using weighted words and model each document as a distribution over
-all topics, provides semantic relations between query words and
-documents~\citep{deerwester-90,hofmann-99a}. Such semantic relations
+semantic relations between words and, further, the semantic relations
+between queries and documents. Topic models provide semantic relations between query words and
+documents~\citep{deerwester-90,hofmann-99a} by describing each topic
+using probabilistically-weighted words and modeling each document as a distribution over
+all topics. 
+In this way they add a layer of abstraction between a document and the exact words present in that document.
+Appealing to the generative ``story'' of a model, we want to recover the words that {\em could} have been available to an author based on the words that were actually chosen.
+Such semantic relations
 can be applied to smoothing the language models, or introducing
 related words in query expansion. This chapter focuses on how to apply
 topic models in document language modeling \citep{Lu-2011,wei-06} and
 query expansion~\citep{Park-2009,Andrzejewski-2011} to further improve
-the ranking results of information retrieval. 
+ ranking results of information retrieval. 
 
 \section{Document Language Modeling in IR}
 \label{sec:ir-lm}
@@ -44,7 +40,6 @@ The language modeling approach~\citep{croft-03,PonteCroft,song-99} is
 one of the main frameworks for using topic models in IR systems, since
 it has been shown to be an effective probabilistic framework for studying
 information retrieval problem~\citep{PonteCroft,berger-99}.
-
 A statistical language model estimates the probability of word
 sequences, denoted as $p(w_1,w_2,\cdots,w_n)$. In practice, the
 statistical language model is often approximated by N-gram models. A
@@ -87,16 +82,14 @@ probability implies the corresponding document is more relevant to the
 given query~\citep{song-99}. However, a document often contains limited words and
 maximum likelihood estimation gives zero probability to those unseen words. 
 If a query contains any word that is not included in the document, the probability 
-of generating the whole query given this document is zero, which may cause ranking problems
-for this document.
+of generating the whole query given this document is zero, which may throw out perfectly good documents.
 
 This data sparsity problem can be fixed by smoothing, which allocates
 some non-zero probability to the missing terms. In fact, topic models
 provide a unique way to extract the word probabilities given the
 corpus, which can be used to smooth document language models.  In
 this section, we summarize two simple smoothing methods, and then
-introduce how topic models are applied to smooth document language
-models in the next section.
+show how topic models fit into this smoothing framework.
 
 %\subsection{Smoothing Document Language Models}
 
@@ -556,7 +549,7 @@ The query language model $p(w|q)$ is further used in the ranking framework with 
   \label{fig:ptm-simplified}
   \end{subfigure}
   \end{center}
-  \caption{The proposed graphical model for personalized retreival in Figure~\ref{fig:ptm-original} and the actual simplified model used for parameter estimation in Figure~\ref{fig:ptm-simplified} (both figures are from \cite{Harvey-2013}.)}
+  \caption{The proposed graphical model for personalized retrieval in Figure~\ref{fig:ptm-original} and the actual simplified model used for parameter estimation in Figure~\ref{fig:ptm-simplified} (both figures are from \cite{Harvey-2013}.)}
   \label{fig:ptm}
 \end{figure}
 
