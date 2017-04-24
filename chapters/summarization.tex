@@ -1,10 +1,24 @@
-\chapter{Summarization}
-\label{ch:summarization}
+\chapter{What topic models are not}
+\label{ch:boundaries}
+
+Although topic models have many and varied applications, it is important to be clear and realistic about what they are {\em not} appropriate for.
+
 
 \section{Summarization}
 
+
+
 \section{Topic Detection and Tracking}
 
+Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
+There is a substantial and well-developed field of topic detection and tracking \cite{allan-02}.
+In TDT, a topic is usually closer to an event or an individual story.
+In contrast, topic models tend to identify more abstract latent factors.
+For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
+
+There has been some work on using topic models to detect emerging events by searching for changes in topic probability \cite{alsumait-08}.
+But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
+Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases \cite{leskovec-09}.
 %Discovering and tracking topics in streams is a classic topic in
 %information retrieval, starting with the Topic Detection and Tracking
 %track at TREC (Allan). Recently, this is continued as temporal
@@ -22,7 +36,7 @@
 
 
 
-\section{Geographic variation}
+\section{Feature Induction}
 
 %Finally, various kinds of geo-location recommendation / summarization
 %lends itself to topic modeling (for example, see Kurashima et al) and
@@ -37,36 +51,5 @@
 Jacob Eisenstein's twitter location model.
 
 
-\section{Building Multi-lingual Topic Models}
-
-\cite{Gao-2012} further introduce the bilingual topic
-models~\citep{Gao-2011} for query expansion. They assume the search
-query and its relevant Web documents share a common distribution of
-topics, but use different vocabularies to express these topics. Thus
-in their models, queries and documents share the same document-topic
-distributions $\theta^Q$, but have different topic-word distributions
-$\phi_z^Q$ and $\phi_z^D$ respectively.
-
-To generate a query $q$, a document-topic distribution $\theta^Q$ is
-drawn from a Dirichlet prior, and a topic $z$ is sampled from
-$\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To
-generate a document term, a topic $z$ is firstly sampled from
-$\theta^Q$, the same document-topic distribution as the query, and
-then a document term $d_i$ is sampled from document topic-word
-distribution $\phi_z^D$. In this way, documents and queries are
-connected through the hidden topics, even though their vocabularies
-(topic-word distributions) are different. By summing over all possible
-topics, the relationship between document term $e$ and query $q$ can
-be computed as,
-\begin{align}
-p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
-\end{align}
-The parameters can be learned by standard EM algorithm. The top related
-terms in the relevant documents can be used for query expansion. This
-method aligns queries and documents through the document-topic
-distribution on a semantic level, which is very similar to the
-polylingual topic models~\citep{mimno-09}, except the latter aligns
-parallel documents in different languages. More details will be
-introduced in Chapter~\ref{ch:mt}.
 
 \jbgcomment{Should connect to your multilingual chapter \yhcomment{added.}}

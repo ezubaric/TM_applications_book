@@ -1,17 +1,69 @@
 \chapter{Multilingual Data and Machine Translation}
 \label{ch:mt}
 
-\jbgcomment{This introduction needs to be improved.  I think you
-  should start with how many datasets are multilingual, then discuss
-  how topic models help in this case, and then give an overview of the
-  chapter. \yhcomment{fixed.}}
+So far, we have been focusing on monolingual topic models and their applications.
+But many collections contain documents in more than one language.
+In practice, we often discover this phenomenon unexpectedly after running an initial monolingual topic model: topic models turn out to be very good at language identification.
+This behavior makes sense because the model is looking for groups of words that appear frequently together but not in other contexts, and separate languages will exhibit this property strongly.
+In some cases we may choose to filter out small numbers of documents in other languages, but in many cases we would like to take advantage of  connections across many languages.
 
-So far, we have been focusing on monolingual topic models and their
-applications. Multilingual topic models have also been
-developed to analyze and understand the corpus in multiple langauges,
-with statistical machine translation~(\textsc{smt}) is one of the major
-applications.
+Multilingual topic models have been developed to analyze and understand a corpus in multiple languages.
+The applications in multi-language corpora can be divided into two categories.
+The first, and simpler category is those that aligning languages at the topical level, but not at the level of individual word types.
+These models are useful for organizing corpora, but make no attempt to support analysis for users unfamiliar with any particular language.
+The second category is those that explicitly model word-level alignments across languages.
+These models support applications in statistical machine translation~(\textsc{smt}).
 
+Before discussing specific methods, it is useful to define terms related to data sources.
+The most salient feature for multi-lingual corpora is their degree of alignment.
+Parallel corpora are the most closely aligned. These collections comprise subsets of documents such that each set contains documents in different languages that have the same semantic content (up to the limits of translation).
+Common examples include translations of literary works or translated government documents, where a transcript of a speech in French is accompanied by a transcript of the  same speech in German, with as little semantic difference as possible.
+Comparable corpora are less closely aligned. 
+These collections also contain subsets of documents, but each set is only constrained to be {\em topically} similar, and not necessarily a direct translation.
+A common example is articles in Wikipedia.
+The articles for the French city of Lille in English and French Wikipedia are referring to the same place and contain much of the same information, but the French version is considerably longer.
+Mixed corpora are the least aligned. These collections simply contain documents in more than one language, but there is not necessarily any connection between any one document in one language and a document in another language.
+An example might be a journal that publishes in English, French, German, and Italian.
+No article is a translation of any other article.
+There are likely to be topical overlaps between articles, but there are not necessarily any structural indications of such relationships.
+A last category of useful data, not necessarily in the form of documents, is a bilingual lexicon that maps words in one language to words in another.
+Lexicons of this form can be considered to be examples of parallel corpora with single-token documents, but it is often useful to treat them specially.
+
+\section{Topic-level alignment for multi-lingual corpora}
+
+The weaker category of multi-lingual models represents the presence of multiple languages, but does not explicitly represent connections between word types.
+Several methods use parallel and comparable corpora to learn bilingual \cite{zhao-06} and polylingual topic models~\citep{mimno-09}.
+These models assign each topic a distribution for each language.
+Instead of modeling each document as having a distribution over topics, each {\em subset} of translation pairs or comparable documents share a single distribution over topics, which may be expressed using different languages.
+These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \cite{mimno-12b}.
+
+It is not necessary to take ``language'' in its strict meaning.
+Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. They assume the search
+query and its relevant web documents share a common distribution of
+topics, but use different vocabularies to express these topics. Thus
+in their models, queries and documents share the same document-topic
+distributions $\theta^Q$, but have different topic-word distributions
+$\phi_z^Q$ and $\phi_z^D$ respectively.
+
+To generate a query $q$, a document-topic distribution $\theta^Q$ is
+drawn from a Dirichlet prior, and a topic $z$ is sampled from
+$\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To
+generate a document term, a topic $z$ is firstly sampled from
+$\theta^Q$, the same document-topic distribution as the query, and
+then a document term $d_i$ is sampled from document topic-word
+distribution $\phi_z^D$. In this way, documents and queries are
+connected through the hidden topics, even though their vocabularies
+(topic-word distributions) are different. By summing over all possible
+topics, the relationship between document term $e$ and query $q$ can
+be computed as,
+\begin{align}
+p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
+\end{align}
+The top related terms in the relevant documents can be used for query expansion. 
+
+\section{Topic Models and Machine Translation}
+
+The stronger category of multi-lingual models explicitly represents connections between words, with applications closer to machine translation.
 Given a text input in one language (source language), statistical
 machine translation tries to find a similar piece of text in another
 language (target language). Modern machine translation
