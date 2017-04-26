@@ -65,11 +65,12 @@ The top related terms in the relevant documents can be used for query expansion.
 
 The stronger category of multi-lingual models explicitly represents connections between words, with applications closer to machine translation.
 Given a text input in one language (source language), statistical
-machine translation tries to find a similar piece of text in another
+machine translation tries to find a similar sequence of words in another
 language (target language). Modern machine translation
 systems~\citep{koehn-09} use millions of training examples to learn
-the translation rules and apply these rules on the test data. While
-the translation rules are learned in local context, these systems work
+the translation rules and apply these rules on the test data. 
+Topic models are useful in this application when they can help to inform word meaning and word choice in specific contexts.
+While the translation rules are learned in local context, these systems work
 best when the training corpus has consistent global context or the
 same genre (e.g., sports, business) from a similar style (e.g.,
 newswire, blog-posts).  These are called \emph{domains}.
@@ -77,10 +78,10 @@ newswire, blog-posts).  These are called \emph{domains}.
 Translations within one domain are better than translations across
 domains since they vary dramatically in their word choices and style.
 A correct translation in one domain may be inappropriate in another
-domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in
+domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in the
   \underline{sports} domain usually means ``underwater diving'', but
-  in \underline{social media} domain, it means a non-contributing
-  ``lurker''. To avoid such translation errors caused by the domain
+  in the \underline{social media} domain, it means a non-contributing
+  ``lurker''. To avoid such translation errors caused by a domain
   change, domain knowledge is needed to train translation systems that
   are robust to such systematic variation in the training set, which
   are said to exhibit \emph{domain adaptation}.
@@ -92,9 +93,9 @@ is at best expensive and at worst infeasible for large data.  Topic
 models provide a promising solution where domains can be automatically
 discovered. Each extracted topic is treated as a soft
 domain. \footnote{Henceforth we will use the term ``topic'' and
-  ``domain'' interchangeably: ``topic'' to refer to the concept in
+  ``domain'' interchangeably: ``topic'' to refer to  a word distribution in
   topic models and ``domain'' to refer to \textsc{smt} corpora.} Thus
-the normal monolingual topic models on the source documents only have
+the normal monolingual topic models trained only on the source documents have
 been applied to extract domain knowledge for machine
 translation~\citep{Eidelman-12}.
 
@@ -104,22 +105,16 @@ only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜
   水\end{CJK*}'', it is hard to decide whether it is a
   \underline{sport} domain or it is a \underline{social media}
   domain. However, with the help of the aligned English translation
-  ``luker'', it is easy to identify the ``social media'' domain. Thus
+  ``lurker'', it is easy to identify the ``social media'' domain. Thus
   multilingual topic models~\citep{mimno-09,boyd-graber-10} have been
   applied to extract domain knowledge for machine
   translation~\citep{hu-14}.
 
-This chapter first reviews the basic components of statistical machine
-translation, then introduces how to apply the monolingual and
-multilingual topic models in domain adaptation to improve each
-component of the statistical machine translation systems.
+\section{Background: Statistical Machine Translation}
 
-\section{Statistical Machine Translation}
-
-Statistical machine translation casts machine translation as a
-probabilistic process~\citep{koehn-09}. Here we briefly introduce the
-standard phrase translation model introduced
-in~\citep{koehn-03}. Given the source sentence $\mathbf{f}$, the best
+In order to show how topic models can be used in machine translation, we first need to specify a mathematical framework~\citep{koehn-03}.
+Statistical machine translation represents translation as a
+probabilistic process~\citep{koehn-09}.  Given a source sentence $\mathbf{f}$, the best
 translation in target language $\mathbf{e}_\texttt{best}$ is modeled
 as,
 \begin{equation}
@@ -128,6 +123,7 @@ as,
 which is split to a \textit{translation model}
 $p(\mathbf{f}|\mathbf{e})$ and a \textit{language model} $p
 (\mathbf{e})$.
+Intuitively, a good translation should be both a good match for the source sentence (scoring high in the translation model) and a good sentence in its own right (scoring high in the language model.
 
 The source sentence $\mathbf{f}$ is segmented into multiple source
 phrases $\bar{f}_n$ during the decoding, which are translated to a set
@@ -174,7 +170,7 @@ models, language models and reordering models respectively.
 
 \section{Topic Models in Translation Models}
 
-To Train such \textsc{smt} systems with domain adaptation, early
+To train such \textsc{smt} systems with domain adaptation, early
 efforts focus on building separate models based on the hand-labeled
 domains~\citep{foster-07,matsoukas-09,chiang-11}. For example, for all
 the training examples that are labeled as \underline{sports} domain,
@@ -184,7 +180,7 @@ that is labeled as \underline{sports}, ``\begin{CJK*}{UTF8}{gbsn}潜
   the probability of translating ``\begin{CJK*}{UTF8}{gbsn}潜
     水\end{CJK*}'' to ``lurker'' is zero. In fact, such hard domain
     labels are not only expensive and time consuming to obtain, but
-    also unsmoothed and sensitive to labeling erros.
+    also unsmoothed and sensitive to labeling errors.
 
 Unlike the manual hard domain labels, topic models provide a promising
 solution for automatically discovering the soft domain
@@ -206,13 +202,10 @@ topic models to improve translation models~\citep{Eidelman-12,hu-14}.
   assignment.  Then go into the mathematical
   details. \yhcomment{added.}}
 
-\subsection{Translation Domain Adaptation with Topic Models}
+%\subsection{Translation Domain Adaptation with Topic Models}
 
-Topic models take the number of topics $K$ and a collection of
-documents as input, where each document is a bag of words. They output
-two distributions: a distribution over topics for each document $d$;
-and a distribution over words for each topic. If each topic defines a
-\textsc{smt} domain, the document's topic distribution is a soft
+If we equate the $K$ topic distributions over the vocabulary in a topic model with $K$ 
+\textsc{smt} domains, each document's topic distribution can be viewed as a soft
 domain assignment for that document.
 
 %Given the soft domain assignments, \citet{Eidelman-12} extract
@@ -377,7 +370,7 @@ section.
 \label{sec:trans-multiling}
 
 While the previous approaches focus on applying topic models on the
-monolingual source language of tranlsation data, the bilingual data
+monolingual source language of translation data, the bilingual data
 indeed can complement each other to reduce topic ambiguity.  For
 example, ``\begin{CJK*}{UTF8}{gbsn}木马\end{CJK*}'' in a Chinese
   document can be either ``hobbyhorse'' in a \underline{children}'s
@@ -582,7 +575,7 @@ be combined to further improve \textsc{smt}.
 
 \section{Topic Models in Language Modeling}
 
-\jbgcomment{Would be good to give the basic intution of what an LM
+\jbgcomment{Would be good to give the basic intuition of what an LM
   is. \yhcomment{added.}}
 
 A critical component of machine translation systems is the language
