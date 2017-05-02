@@ -52,9 +52,11 @@
 \ifcomment
 \newcommand{\jbgcomment}[1]{  \colorbox{red}{   \parbox{.8\linewidth}{ JBG: #1}  }}
 \newcommand{\yhcomment}[1]{  \colorbox{green}{  \parbox{.8\linewidth}{ YH:  #1}  }}
+\newcommand{\dmcomment}[1]{  \colorbox{green}{  \parbox{.8\linewidth}{ DM:  #1}  }}
 \else
 \newcommand{\jbgcomment}[1]{ }
 \newcommand{\yhcomment}[1]{ }
+\newcommand{\dmcomment}[1]{ }
 \fi
 
 
@@ -117,14 +119,14 @@ Cornell University \\
 % Hack
 \input{chapters/introduction}
 \input{chapters/ir}
-\input{chapters/summarization}
+%\input{chapters/summarization}
 \input{chapters/viz}
 \input{chapters/nonfiction}
 \input{chapters/fiction}
 \input{chapters/science}
 \input{chapters/css}
 \input{chapters/multi_ling}
-\input{chapters/building}
+%\input{chapters/building}
 \input{chapters/conclusion}
 
 \backmatter  % references
