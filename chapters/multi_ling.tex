@@ -14,6 +14,8 @@ These models are useful for organizing corpora, but make no attempt to support a
 The second category is those that explicitly model word-level alignments across languages.
 These models support applications in statistical machine translation~(\textsc{smt}).
 
+This chapter is organized into two sections. The first describes models that can be applied to multiple languages. The second focuses on a specific application, statistical machine translation.
+
 Before discussing specific methods, it is useful to define terms related to data sources.
 The most salient feature for multi-lingual corpora is their degree of alignment.
 Parallel corpora are the most closely aligned. These collections comprise subsets of documents such that each set contains documents in different languages that have the same semantic content (up to the limits of translation).
@@ -29,15 +31,38 @@ There are likely to be topical overlaps between articles, but there are not nece
 A last category of useful data, not necessarily in the form of documents, is a bilingual lexicon that maps words in one language to words in another.
 Lexicons of this form can be considered to be examples of parallel corpora with single-token documents, but it is often useful to treat them specially.
 
-\section{Topic-level alignment for multi-lingual corpora}
+\section{Document-level alignment from multi-lingual corpora}
 
 The weaker category of multi-lingual models represents the presence of multiple languages, but does not explicitly represent connections between word types.
-Several methods use parallel and comparable corpora to learn bilingual \cite{zhao-06} and polylingual topic models~\citep{mimno-09}.
-These models assign each topic a distribution for each language.
-Instead of modeling each document as having a distribution over topics, each {\em subset} of translation pairs or comparable documents share a single distribution over topics, which may be expressed using different languages.
-These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \cite{mimno-12b}.
+Document-based connect connection between languages is flexible: instead of requiring
+the exact matching or translations on words and sentences, only a
+coarse document alignment is necessary, as long as the documents
+discuss the same topics, e.g., wikipedia articles in different
+languages. Such connection between languages is also helpful to infer
+more robust topics, since different languages can complement each
+other to reduce ambiguity.
 
-It is not necessary to take ``language'' in its strict meaning.
+This approach pre-dates probabilistic topic models.
+\citet{Landauer-1990} connect aligned documents in different languages
+by projecting both documents to a shared latent semantic indexing
+space.
+
+Similarly, bilingual \cite{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
+assume that the aligned documents in different languages share the
+same topic distribution and each language has a unique topic
+distribution over its word types.
+Thus the generative process of polylingual topic model is as follows:
+given a document pair $(d_{l_1}, d_{l_2})$, we first sample a
+document-topic distribution $\theta_d$; for a document $d_{l_i}$ in
+language $l_i$, we then sample a topic $z_{dn}$ from $\theta_d$, and
+generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
+
+Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval.
+\cite{mimno-09} uses a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
+For example, the Farsi-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
+These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \cite{mimno-12b}.
+ 
+We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. They assume the search
 query and its relevant web documents share a common distribution of
 topics, but use different vocabularies to express these topics. Thus
@@ -57,13 +82,123 @@ connected through the hidden topics, even though their vocabularies
 topics, the relationship between document term $e$ and query $q$ can
 be computed as,
 \begin{align}
-p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q)
+p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q).
 \end{align}
-The top related terms in the relevant documents can be used for query expansion. 
+
+\section{Word-level alignment from lexical data}
+
+Non-document \emph{lexical information}, such as orthographic
+similarity~\citep{boyd-graber-09} and multilingual
+dictionaries~\citep{boyd-graber-10}, can be helpful in learning
+better topics from multilingual corpora. For instance, tree-based
+topic models~\citep[\tlda{}]{boyd-graber-07,andrzejewski-09,hu-14:itm}
+incorporate positive correlations between words in the same or
+different languages by encouraging words that appear together in a
+{\bf concept} to have similar probabilities given a topic. These
+concepts can come from WordNet~\citep{boyd-graber-10}, domain
+experts~\citep{andrzejewski-09}, or user
+constrains~\citep{hu-14:itm}. If these concepts are in the same
+language, the backend model is the same as monolingual interactive topic modeling
+introduced in Chapter~\ref{ch:viz}. However, when we gather concepts
+from bilingual resources, these concepts can connect different
+languages. For example, if a bilingual dictionary defines
+``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' as ``computer'', we combine
+  these words in a concept.
+
+These concepts (positive correlations) are organized into a {\bf prior
+  tree} structure. As Figure~\ref{fig:prior_trees} shows, words in the
+same concept share a common parent node. That concept then becomes
+one of many children of the root node.  Words that are not in any
+concept---{\bf uncorrelated words}---are directly connected to the
+root node. Thus a topic becomes a distribution over all paths in this
+prior tree and each path is associated with a word.
+
+The probability of a path in a topic depends on the transition
+probabilities in a topic.  Each concept $i$ in topic $k$ has a
+distribution over its child nodes that is governed by a Dirichlet prior:
+$\pi_{k,i} \sim \text{Dir}(\beta_{i})$.  Each path ends in a word
+(i.e., a leaf node) and the probability of a path is the product of
+all of the transitions between topics it traverses. Topics have
+correlations over words because the Dirichlet parameters can encode
+positive or negative correlations~\citep{andrzejewski-09}.
+
+As a result, to sample a word $w_{dn}$ given a topic $z_{dn}$, a path
+$y_{dn}$ from the topic tree of topic $z_{dn}$ is sampled: we start
+from the root $n_0$ and first sample a child node $n_1$ of the root;
+if node $n_1$ is a concept node, we continue to sample a word node
+$n_2$ and generate the word associated with $n_2$; if node $n_1$ is a
+word node already, we generate the word directly.
+
+\jbgcomment{Give intuition, e.g. selecting a concept first and then
+  you get the language-specific version. \yhcomment{added.}}
+
+When this tree serves as a prior for topic models, words in the same
+concept are positively correlated in topics.  For example, if
+``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' has high probability in a
+  topic, so will ``computer'', since they share the same parent
+  node. With the tree priors, each topic is no longer a distribution
+  over word types; instead, it is a distribution over paths, and each
+  path is associated with a word type.  The same word could appear in
+  multiple paths, and each path represents a unique sense of this
+  word.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{figures/correlations_tree-crop.pdf}
+\vspace{-3mm}
+\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
+  bilingual dictionary: word pairs with the same meaning but in
+  different languages are concepts; a common parent node is created to
+  group words in a concept, and then is connected to the root;
+  uncorrelated words are connected to the root directly.}
+\label{fig:prior_trees}
+\end{figure}
+
+\jbgcomment{Would be nice if the prior tree were multilingual.  Would
+  also be good to give back pointer to the interaction section where
+  it's also discussed \yhcomment{fixed.}}
+
+\section{Alignment from parallel corpora and lexical information}
+
+Bilingual dictionaries and other sources of word-level information are valuable in training multi-lingual models, because they can easily specify simple lexical relationships that might be difficult to extract from parallel corpora.
+But such manually generated data may be brittle, low-quality, or missing contextual differences in actual usage.
+These two approaches are not mutually exclusive, however; they reveal
+different connections across languages. \citet{hu-14} bring existing
+tree-based topic models~(\tlda{}) and polylingual topic
+models~(\plda{}) together and create the polylingual tree-based topic
+model~(\ptlda{}) that incorporates both word-level correlations and
+document-level alignment information.
+
+To build up the prior tree structure, \citet{hu-14} consider two
+resources that correlate words across languages. The first is
+multilingual dictionaries, which match words with the same meaning in
+different languages together. The other is the word alignments
+extracted from aligned sentences in a parallel corpus. These relations
+between words are used as the concepts~\citep{Bhattacharya-2006} in
+the prior tree (Figure~\ref{fig:prior_trees}).
+
+Given the prior tree structure, the generation of documents is a
+combination of \tlda{} and \plda{}.  For each aligned document pair
+$(d_{l_1}, d_{l_2})$, we first sample a distribution over topics
+$\theta_d$ from a Dirichlet prior $\text{Dir}(\alpha)$.  For each
+token in the aligned document $d_{l_i}$, we first sample a topic
+$z_{dn}$ from the multinomial distribution $\theta_d$, and then sample
+a path $y_{dn}$ along the tree of topic $z_{dn}$. Because every path
+$y_{dn}$ leads to a word $w_{dn}$ in language $l_{dn}$, we append the
+sampled word $w_{dn}$ to document $d_{l_{dn}}$ in language $l_{dn}$.
+
+If a flat symmetric Dirichlet prior is used instead of the tree prior,
+\plda{} is recovered; and if all documents are monolingual (i.e., with
+distinct distributions over topics $\theta$), \tlda{} is
+recovered. \ptlda{} connects different languages on both the word
+level (using the word correlations) and the document level (using the
+document alignments), thus it learns better topics by considering more
+information from both languages.
+
 
 \section{Topic Models and Machine Translation}
 
-The stronger category of multi-lingual models explicitly represents connections between words, with applications closer to machine translation.
+The most frequent application of multi-lingual topic models is in machine translation.
 Given a text input in one language (source language), statistical
 machine translation tries to find a similar sequence of words in another
 language (target language). Modern machine translation
@@ -359,7 +494,7 @@ Aligning across multiple languages is a common way of resolving such ambiguities
   document can be either ``hobbyhorse'' in a \underline{children}'s
   topic, or ``Trojan virus'' in a \underline{technology} topic.  
   A monolingual topic model might not be able to tell the difference in a short Chinese document, but these terms
-  are unambiguous in English, indicating the true topic.
+  are unambiguous in English, more accurately indicating the relevant topic.
 
 Multilingual topic models have been shown to improve results in \textsc{smt} \citet{Eidelman-12}.
 There are various ways to build up the multilingual topic
@@ -369,142 +504,6 @@ document levels~\citep{mimno-09}, or a combination of both\citet{hu-14}.
 
 \paragraph{\bf Word-level Correlations}
 
-Non-document \emph{lexical information}, such as orthographic
-similarity~\citep{boyd-graber-09} and multilingual
-dictionaries~\citep{boyd-graber-10}, can be helpful in learning
-better topics from multilingual corpora. For instance, tree-based
-topic models~\citep[\tlda{}]{boyd-graber-07,andrzejewski-09,hu-14:itm}
-incorporate positive correlations between words in the same or
-different languages by encouraging words that appear together in a
-{\bf concept} to have similar probabilities given a topic. These
-concepts can come from WordNet~\citep{boyd-graber-10}, domain
-experts~\citep{andrzejewski-09}, or user
-constrains~\citep{hu-14:itm}. If these concepts are in the same
-language, it is the same backend model for interactive topic modeling
-introduced in Chapter~\ref{ch:viz}. However, when we gather concepts
-from bilingual resources, these concepts can connect different
-languages. For example, if a bilingual dictionary defines
-``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' as ``computer'', we combine
-  these words in a concept.
-
-These concepts (positive correlations) are organized into a {\bf prior
-  tree} structure. As Figure~\ref{fig:prior_trees} shows, words in the
-same concept share a common parent node, and then that concept becomes
-one of many children of the root node.  Words that are not in any
-concept---{\bf uncorrelated words}---are directly connected to the
-root node. Thus a topic becomes a distribution over all paths in this
-prior tree and each path is associated with a word.
-
-The probability of a path in a topic depends on the transition
-probabilities in a topic.  Each concept $i$ in topic $k$ has a
-distribution over its children nodes is governed by a Dirichlet prior:
-$\pi_{k,i} \sim \text{Dir}(\beta_{i})$.  Each path ends in a word
-(i.e., a leaf node) and the probability of a path is the product of
-all of the transitions between topics it traverses. Topics have
-correlations over words because the Dirichlet parameters can encode
-positive or negative correlations~\citep{andrzejewski-09}.
-
-As a result, to sample a word $w_{dn}$ given a topic $z_{dn}$, a path
-$y_{dn}$ from the topic tree of topic $z_{dn}$ is sampled: we start
-from the root $n_0$ and first sample a child node $n_1$ of the root;
-if node $n_1$ is a concept node, we continue to sample a word node
-$n_2$ and generate the word assciated with $n_2$; if node $n_1$ is a
-word node already, we generate the word directly.
-
-\jbgcomment{Give intuition, e.g. selecting a concept first and then
-  you get the language-specific version. \yhcomment{added.}}
-
-When this tree serves as a prior for topic models, words in the same
-concept are positively correlated in topics.  For example, if
-``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' has high probability in a
-  topic, so will ``computer'', since they share the same parent
-  node. With the tree priors, each topic is no longer a distribution
-  over word types; instead, it is a distribution over paths, and each
-  path is associated with a word type.  The same word could appear in
-  multiple paths, and each path represents a unique sense of this
-  word.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.9\linewidth]{figures/correlations_tree-crop.pdf}
-\vspace{-3mm}
-\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
-  bilingual dictionary: word pairs with the same meaning but in
-  different languages are concepts; a common parent node is created to
-  group words in a concept, and then is connected to the root;
-  uncorrelated words are connected to the root directly.}
-\label{fig:prior_trees}
-\end{figure}
-
-\jbgcomment{Would be nice if the prior tree were multilingual.  Would
-  also be good to give back pointer to the interaction section where
-  it's also discussed \yhcomment{fixed.}}
-
-\paragraph{\bf Document-level Alignments}
-
-Lexical resources connect languages and help to guide the
-topics. However, these resources are sometimes brittle and may not
-cover the whole vocabulary. Aligned document pairs provide a more
-corpus-specific, flexible association across languages.
-
-\citet{Landauer-1990} connect aligned documents in different languages
-by projecting both documents to a shared latent semantic indexing
-space. Similarly, polylingual topic models~\citep[\plda{}]{mimno-09}
-assume that the aligned documents in different languages share the
-same topic distribution and each language has a unique topic
-distribution over its word types.
-
-Thus the generative process of polylingual topic model is as follows:
-given a document pair $(d_{l_1}, d_{l_2})$, we first sample a
-document-topic distribution $\theta_d$; for a document $d_{l_i}$ in
-language $l_i$, we then sample a topic $z_{dn}$ from $\theta_d$, and
-generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
-
-This connection between languages is flexible: instead of requiring
-the exact matching or translations on words and sentences, only a
-coarse document alignment is necessary, as long as the documents
-discuss the same topics, e.g., wikipedia articles in different
-languages. Such connection between languages is also helpful to infer
-more robust topics, since different languages can complement each
-other to reduce ambiguity.
-
-\jbgcomment{Give example of linked documents and where they come from.
-  Stress that they don't have to be translations. \yhcomment{fixed.}}
-
-\paragraph{\bf Combine Words and Documents}
-
-These two approaches are not mutually exclusive, however; they reveal
-different connections across languages. \citet{hu-14} bring existing
-tree-based topic models~(\tlda{}) and polylingual topic
-models~(\plda{}) together and create the polylingual tree-based topic
-model~(\ptlda{}) that incorporates both word-level correlations and
-document-level alignment information.
-
-To build up the prior tree structure, \citet{hu-14} consider two
-resources that correlate words across languages. The first is
-multilingual dictionaries, which match words with the same meaning in
-different languages together. The other is the word alignments
-extracted from aligned sentences in a parallel corpus. These relations
-between words are used as the concepts~\citep{Bhattacharya-2006} in
-the prior tree (Figure~\ref{fig:prior_trees}).
-
-Given the prior tree structure, the generation of documents is a
-combination of \tlda{} and \plda{}.  For each aligned document pair
-$(d_{l_1}, d_{l_2})$, we first sample a distribution over topics
-$\theta_d$ from a Dirichlet prior $\text{Dir}(\alpha)$.  For each
-token in the aligned document $d_{l_i}$, we first sample a topic
-$z_{dn}$ from the multinomial distribution $\theta_d$, and then sample
-a path $y_{dn}$ along the tree of topic $z_{dn}$. Because every path
-$y_{dn}$ leads to a word $w_{dn}$ in language $l_{dn}$, we append the
-sampled word $w_{dn}$ to document $d_{l_{dn}}$ in language $l_{dn}$.
-
-If a flat symmetric Dirichlet prior is used instead of the tree prior,
-\plda{} is recovered; and if all documents are monolingual (i.e., with
-distinct distributions over topics $\theta$), \tlda{} is
-recovered. \ptlda{} connects different languages on both the word
-level (using the word correlations) and the document level (using the
-document alignments), thus it learns better topics by considering more
-information from both languages.
 
 \paragraph{\bf Topic Projection}
 
