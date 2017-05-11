@@ -59,7 +59,7 @@ be used to display a topic.
   \end{center}
   \caption{A topic-in-a-box visualization for topics---like a word
     cloud---shows words in a 2D context.  However, it uses local
-    co-occurence to decide which words to place next to each other.}
+    co-occurence (whether words appear together in a sentence) to decide which words to place next to each other.}
   \label{fig:topic-in-a-box}
 \end{figure}
 
@@ -86,7 +86,7 @@ convenient labels, but completely removed from the raw distribution over words.
 Thus, it's often useful to assign labels to topics within an interface.
 
 In contrast to the previous \emph{visualization} approaches, labeling
-focuses son showing not the original words of a topic but rather a
+focuses on showing not the original words of a topic but rather a
 clearer label more akin to what a human summary of the data would
 provide.
 
@@ -151,7 +151,7 @@ They argue that labels should match topic words (as labeling with flat
 topics); a topic's words should be consistent with a labels' children
 in the hierarchy; and the topic's labels should be unique.
 
-\citet{aleteras-14} instead query the whole web and then build a graph that
+\citet{aleteras-14} instead query the whole Web and then build a graph that
 includes the words that make up the titles of the retrieved webpages. The edges
 between the words is the \abr{npmi} computed on a reference corpus.  The
 intuition is that words that are ``central'' in this graph will be a good title
@@ -310,8 +310,8 @@ constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
 the user might say that ``bladder'' and ``spinal cord'' don't belong in the same
 topic together.  Figure~\ref{fig:itm-nih} shows how the topic is more focused after the
 user provides this feedback.  In contrast to probabilistic constraints,
-\citet{choo-13} add matrix factorization constraints, which are in practice much
-faster.
+\citet{choo-13} and \citet{lund-17} use matrix factorization constraints to guide changes
+to topics, which can be much faster.
 
 \section{Conclusion}
 
