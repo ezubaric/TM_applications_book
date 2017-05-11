@@ -1,23 +1,251 @@
 
 Previous chapters have focused on \emph{existing} models.  This
 chapter focuses on how a researcher can create, implement, and
-validate a new model.
+validate a new model.  Previous chapters describe
+models that researchers have created to capture particular nuances or
+processes that exist in the world, but omit blueprints
+for research who want to extend an existing model or create their own.
+
+It is impossible to cover all of the details of research in topic
+models or machine learning generally, but this chapter introduces some
+of the common techniques for creating new models.  We'll focus on a
+running example of how one might create a new model for predicting the
+ideology of a political speaker.
 
 \section{Designing a Model}
 
-Selecting what random variables matter.
+The first step in creating a new model is to define what is
+important.  For example, previous chapters have focused on capturing
+innovation, modeling translations, and capturing sentiment.  These are
+high-level concepts that we want do discover from text.  We believe
+these properties exist in the world, but we want our models to reflect
+these concepts.
 
-Modeling the world
+In a topic model, incorporating a new concept into the model usually
+invovles adding a new random variable to the model.  This is where
+intuitions and domain knowledge come to the forefront.  Because the
+generative process attempts to model the real world, a new model must
+balance several components that are often in tension: fidelity,
+performance, tractability, and interpretability.
 
-Capturing what you care about
+\paragraph{Fidelity}
+
+A good model should reflect the world.  If political scientists
+believe that a politician's ideology is an innate property for a
+politician that changes how they speak, then the model should place a
+speaker's ideology upstream of the language politicians produce
+(upstream vs. downstream models are discussed in Chapter~\ref{}).
+
+Often, modeling reality is a good idea.  If a generative model exactly
+matches the process that produces data, we can prove that it will
+converge to the correct answer~\cite{}.  However, humans and text are
+not Dirichlet and multinomial distributions; all models are going to
+be an approximation.
+
+In addition to determining \emph{where} to model a feature in a
+generative model, it is also important to decide \emph{how} to model
+it.  Is it a continuous value, a binary value, a member of a discrete
+set, or something else?  Often, we have pre-defined notions of how to
+represent a quantity of interest: reviews often have one to five
+stars; lay people assign politicians to one of a fixed number of
+parties; political scientists assign a continuous value to a
+politician's ideology.
+
+
+
+\paragraph{Performance}
+
+Thus, we sometimes have to trade off fidelity with performance.
+Returning to the example of modeling ideology, recent work seems to
+agree that \emph{downstream} models work better even though it is
+less realistic.\footnote{One might argue that it's more realistic for
+  a \emph{listener} who must interpret speech to assign an ideology
+  after it has been heard, but this is no longer consistent with how
+  the text was \emph{generate}.}
+
+Unfortunately, knowing what will work best is often a trial-and-error
+process; it's nigh impossible to know \textit{a priori} whether a
+model will work well for a particular task given just the model.
+However, it's often possible to draw parallels from similar models.
+Supervised topic models have worked well for predicting sentiment when
+this is a downstream variable, so it might be reasonable to assume
+that a downstream model would work well for this task as well.
+
+\paragraph{Tractability}
+
+Now that we know what we want to model, some approaches to model the
+variable could be easier than others.  Political ideology is often
+thought of as a \emph{spectrum} rather than a label: some politicians
+are more centrist than others even though they might have the same
+party label.
+
+However, discrete labels are appealing from a modeling perspective.
+Combinations of Dirichlet-Multinomial distributions (Chapter~\ref{})
+are easy to to combine.  Given that basic topic models are built from
+Dirichlets and Multinomials, it is easier to add an additional
+Dirichlet-Multinomial than to add a continuous random variable to the
+model.  For example, the Topic-Aspect model~\citep{} is far simpler to
+implement than Supervised Topic Models~\citep{}.
+
+Dirichlets and Multinomials play well together because they are
+conjugate~\citep{}, while Gaussian distributions add additional
+difficulty.  However, Gaussian distributions are more convienient than
+other distributions.  For example, spherical distributions~\citep{} are thought
+to better model continuous embeddings of words than Gaussian
+distributions but come at the cost of a less tractable model.
+
+Even worse are combinatorial probability distributions.  For example,
+in Chapter~\ref{} we discussed how to learn mappings across
+languages.  \citet{} used a combinatorial distribution to learn the
+mapping from one language to another.  It's very complicated but
+does not model languages as well as far simpler approaches~\citep{}.
+
+Our listing of ever more complicated distributions should not be taken
+as an admonishion against using them: sometimes complicated models are
+necessary.  However, one should not choose a complicated model just
+because it's complicated (an alluring temptation to young graduate
+students who want to show off their machine learning chops).  It's
+best to try the simplest possible model that could work; even if it
+fails, this model can serve as a useful baseline.
+
+Unlike many of the other dimensions when building a model, complexity
+is often sought and fetishized wihout improving the other dimensions
+(perverse incentives from publications often play a role in this).
+Thus, it's particularly important to guard against unnecssarily
+complicating a model.
+
+\paragraph{Interpretability}
+
+As we describe in Chapter~\ref{}, interpretability is a measure of how
+easy it is for a human to understand the results of a model.  Often,
+the interpretability of a model is an afterthought.  That's if it's thought of
+at all; many papers neglect to inspect the learned parameters of a
+model, focusing instead on the performance.
+
+While always a problem, wIth the increased prominence of deep learning (discussed more in
+Chapter~\ref{}), this is particularly worrying.  Deep learning has a
+reputation for inscruitable parameters but state-of-the-art
+performance.  One of the strengths of probabilistic models is their
+interpretability and grounded generative processes.  Thus, researchers who
+choose probabilistic models such as topic models should not ignore the
+interpretability of their models.
+
+While Chapter~\ref{} discusses ways of rigorously evaluating the
+interpretability of models, even a simple once-over of model
+parameters by the researcher can reveal whether a learned model
+``makes sense'' or not.  Inspecting the model can help buttress
+whether the design of the model (``fidelity'', above) was able to
+capture the intuitions of the modeler.
+
+However, there are often tradeoffs with interpretability (as with the
+choice of a deep learning model).  \citet{} found that the Correlated
+Topic Model~\citep{} had markedly higher held-out likelihood at the
+cost of interpretability.
 
 \section{Implementing the Model}
 
+So you have a new model in hand.  This is usdually described as a
+generative process (Chapter~\ref{}): a sequence of proabilistic steps
+that tells a story of how your data came to be.
+
+Implementing a model requires writing down this model in a form that a
+computer can understand and then using \emph{probabilistic inference}
+work backward from data to discover the configuration of the latent
+variables (topics, other properties of the data you've added as part
+of the model-building process) that best describe your data.
+
 \subsection{Automatic Approaches}
+
+However, automatic approaches do have several drawbacks.  They are
+often restricted to specific platforms, are slower than inference ``by
+hand'', and restrict the kinds of models you can explore.
+
+Using a tool (no matter how wonderful) developed by someone else means
+that you must accept their assumptions.  It may force you to use a
+programming language that you're unfamiliar with, it may force you to
+format your data in odd ways, or it may restrict you to operating
+systems you don't often use (or can't afford).
+
+% Church?
+
+\paragraph{Stan}
+
+
+\paragraph{Infer.Net}
+
+
+
+\paragraph{Automatic Differentiation}
+
+
 
 \subsection{Variational Inference}
 
-Deriving variational updates
+While we focused on Gibbs sampling in Chapter~\ref{}, the other major
+class of inference algorighms is variational inference.  Compared to
+Gibbs sampling, variational inference is often considered to be
+slightly more difficult to both derive and implement.
+
+Variational inference is similar to expectation maximization
+algorithms~\cite{}.  Expectation maximization algorithms find a
+setting of latent variables $z$ and parameters $\theta$ that maximize
+the data likelihood $p(x \g z, \theta)$.  First, start with some guess
+of what the the latent variables might be $z_0$.  Then update the
+parameters to be
+\begin{equation}
+  \arg \max_{\theta} p(x \g z, \theta),
+\label{eq:em}
+\end{equation}
+the parameters that maximize the likelihood.  Then, given those
+parameters, compute the expected value of the latent variables $z$ to
+compute the next iteration of latent variables $z$.
+
+Expectation maximization is a useful tool for inference when the model
+distribution $p$ is simple enough to solve Equation~\ref{eq:em}
+directly.  However, for many models (including topic models), this is
+not feasible.  Variational inference solves this intractability by
+adding its namesake variational distribution $q(z)$.
+
+A variational distribution is over the model's latent variables.
+Although it's a distribution over the same variables, it is typically
+simpler.  For example, in common approaches for topic models~\citep{}, the
+distribution is fully factorized.  For example, the true distribution
+over latent variables is
+\begin{equation}
+
+\end{equation}
+while the variation distribution is
+\begin{equation}
+
+\end{equation}
+
+Instead of maximizing the data likelihood, variational inference
+optimizes a different likelihood function: minimizing the Kulbeck-Leibler
+\emph{divergence} between the distributions $p$ and $q$.  This is
+equivalent to optimizing a lower bound of the data likelihood,
+\begin{equation}
+.
+\end{equaiton}
+
+\paragraph{Chosing a Variational Distribution}
+
+On one hand, you want to choose a variational distribution that is
+close to the true distribution over the latent variables.  In fact, if
+you choose $q$ so that it is \emph{equal} to $p$, variational
+inference reduces to expectation maximization.
+
+However, this often comes at a cost: more complicated computations or
+a more difficult (or even impossible) derivation.  You might not be
+able to solve the equations to update individual variational
+parameters or the calculations might be more difficult: the more
+dependencies in the variational distribution, the more terms you must
+consider.  When there are latent variables for every token in many
+documents, this can quickly explode.
+
+\citet{} argue that the appropriate choice of a variational
+distribution is a mostly fully-factored distribution.
+
+\paragraph{Deriving the Objective Function}
 
 \subsection{Gibbs Sampling}
 
