@@ -257,20 +257,6 @@ adjusting the ``hyperparameters'' of distributions (the Dirichlet
 parameters of models discussed in Chapter~\ref{ch:intro}) can have a
 large effect of what the final models are~\cite{wallach-09b}.
 
-Interactive topic modeling---in conjunction with visualizations---can help
-correct the problems of topic models.  A user first get an overview of the
-dataset using a visualization of the topics and documents.  Then, the user can
-see instances where the model errs and then correct those mistakes.
-
-For example, Figure~\ref{fig:itm-nih} shows a topic learned from abstracts of
-grants funded by the American National Institutes of Health
-(\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
-topics were ``good''; they summarized the data and told a story about
-a coherent slice of research supported by the \abr{nih}.  However,
-this topic is more problematic; it combines words about the central
-nervous system with words about the urinary system.  Such a topic (as
-discussed in \citet{mimno-11}) does not give a clear understanding of the
-documents it should represent.
 
 \begin{figure}
 
@@ -305,6 +291,22 @@ concepts that \green{weren't present before}.}
 \label{fig:itm-nih}
 \end{figure}
 
+Interactive topic modeling---in conjunction with visualizations---can help
+correct the problems of topic models.  A user first get an overview of the
+dataset using a visualization of the topics and documents.  Then, the user can
+see instances where the model errs and then correct those mistakes.
+
+For example, Figure~\ref{fig:itm-nih} shows a topic learned from abstracts of
+grants funded by the American National Institutes of Health
+(\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
+topics were ``good''; they summarized the data and told a story about
+a coherent slice of research supported by the \abr{nih}.  However,
+this topic is more problematic; it combines words about the central
+nervous system with words about the urinary system.  Such a topic (as
+discussed in \citet{mimno-11}) does not give a clear understanding of the
+documents it should represent.
+
+
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic
 constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
 the user might say that ``bladder'' and ``spinal cord'' don't belong in the same
@@ -315,9 +317,10 @@ to topics, which can be much faster.
 
 \section{Conclusion}
 
-Much of what topic models are used for is to help users understand corpora.
-However, the output of topic models don't give insights to users without the
-helpmeet of interactive visualizations which allow users to discover and
+While topic models provide users overviews of corpora, topic models
+cannot be much help if the users cannot effectively see or understand
+the underlying topics.
+Interactive visualizations allow users to discover and
 refine insights.  In the next chapters we'll talk about specific applications of
 these insights, but these insights are often built on the initial understanding
 of a model offered by the visualizations discussed in this chapter.
