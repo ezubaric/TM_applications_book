@@ -244,7 +244,11 @@ Query expansion simulates a similar process. Query expansion
 normally analyzes the relationships between the query words and other
 words, and tries to find potential related words so that the original
 query is better represented and better query-document relevance can be
-obtained. This section reviews the classic query expansion frameworks
+obtained. For example, without much context, it would be really hard 
+to understand what a query ``dtd amc'' means~\citep{Jiang-2016}. Through
+query expansion, it is possible to build up the relationship between ``dtd''
+and ``disneyland downtown'', which is more helpful in document retrieval. 
+Next, this section reviews the classic query expansion frameworks
 in information retrieval and then we introduce the related works about
 using topic models for query expansion in the next section.
 
@@ -358,8 +362,12 @@ Topic models capture the semantic relationships of words through
 learning the latent topics, which are presented as distributions over
 different words. Such semantic relationships among words provide a
 unique way to match or expand words at the semantic level rather than
-by a direct spelling matching. As a result, topic models have been
-successfully applied into query expansion~\citep{Yi-2009,Park-2009}.
+by a direct spelling matching. For example, given a short query ``diabetes'',
+topic models can easily find the related words such as
+``insulin'', ``glucose'', ``coronary'' and ``metformin'' etc., 
+as they often occur in the same context~\citep{Zeng-2012}. 
+As a result, topic models have been
+successfully applied into query expansion~\citep{Yi-2009,Park-2009,Zeng-2012}.
 
 \paragraph{Smoothing Query Language Model}
 
@@ -396,8 +404,9 @@ p_{\texttt{TM}}(w|d,q) = \sum_k p(w|k) p(k|d,q)
 \end{align}
 where,
 \begin{align}
-p(k|d,q) &= \frac{p(k,d,q)}{p(d,q)}  = \frac{p(k)p(d|k)p(q|k)}{p(d,q)} \\
-&= \frac{p(k|d)p(q|k)}{p(q|d)} \approx p(k|d)p(q|k) \notag
+%p(k|d,q) &= \frac{p(k,d,q)}{p(d,q)}  = \frac{p(k)p(d|k)p(q|k)}{p(d,q)} \\
+%&= \frac{p(k|d)p(q|k)}{p(q|d)} \approx p(k|d)p(q|k) \notag
+p(k|d,q) = \frac{p(k|d)p(q|k)}{p(q|d)} \approx p(k|d)p(q|k)
 \end{align}
 where $p(k|d)$ is the topic probability in document $d$, and $p(q|k)$
 is the probability of generating a query $q$ given the topic $k$. Then
@@ -429,7 +438,7 @@ w_y)$,
 %\end{align}
 \begin{align}
 p(w_x \g w_y, \alpha) &= \sum_k p(w_x, k  \g  w_y, \alpha) \\
-&= \sum_k p(w_x  \g  k, w_y, \alpha) p(k  \g  w_y, \alpha) \notag\\
+%&= \sum_k p(w_x  \g  k, w_y, \alpha) p(k  \g  w_y, \alpha) \notag\\
 &= \sum_k p(w_x  \g  k, \alpha) p(k  \g  w_y, \alpha) \notag
 \end{align}
 where $\alpha$ is the concentration parameter of the Dirichlet prior
@@ -442,7 +451,8 @@ $p(k  \g  w_y, \alpha)$ is
 %&= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{\sum_j p(w_y|z_i,\alpha)p(z_i|\alpha)} \notag
 %\end{align}
 \begin{align}
-p(k  \g w_y, \alpha) &= \frac{p(w_y  \g  k,\alpha)p(k \g \alpha)}{p(w_y \g \alpha)} \\
+p(k  \g w_y, \alpha) 
+%&= \frac{p(w_y  \g  k,\alpha)p(k \g \alpha)}{p(w_y \g \alpha)} \\
 %&= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y, k'|\alpha)} \notag\\
 &= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y|k',\alpha)p(k' \g \alpha)} \notag
 \end{align}
@@ -460,7 +470,7 @@ As a result, we have,
 %&= \frac{p(w_y|z_i,\alpha) \alpha_i}{\sum_j p(w_y|z_i,\alpha) \alpha_j} \notag
 %\end{align}
 \begin{align}
-p(k|w_y, \alpha) &= \frac{p(w_y \g k,\alpha) \frac{\alpha_k}{\sum_j \alpha_j} }{\sum_{k'} p(w_y|k',\alpha) \frac{\alpha_{k'}}{\sum_j \alpha_j}} \\
+p(k|w_y, \alpha) %&= \frac{p(w_y \g k,\alpha) \frac{\alpha_k}{\sum_j \alpha_j} }{\sum_{k'} p(w_y|k',\alpha) \frac{\alpha_{k'}}{\sum_j \alpha_j}} \\
 &= \frac{p(w_y \g k,\alpha) \alpha_k}{\sum_{k'} p(w_y|k',\alpha) \alpha_{k'}} \notag
 \end{align}
 
@@ -487,7 +497,35 @@ representations. At query time, they decide which latent topics are
 potentially relevant and present the topic representations along
 keyword search results. When a user select a latent topic, the
 original query is expanded with the top words in this selected topic,
-and the search results are refined.
+and the search results are refined. 
+Query ``euro opposition'' is used as an example in \cite{Andrzejewski-2011},
+and the users want to find documents about opposition to the introduction of
+the single European currency. 500 topics are learned using the corpus and relevance
+judgements. 7 of the 500 topics are selected to show to users as shown in
+Table~\ref{tab:topic-feedback} and the user select the Topic 79 as the user feedback.
+Using the top 10 terms in Topic 79 as the expanded query terms, the ranking of
+the relevant documents has been significantly improved.
+
+\begin{table}[!tp]
+\begin{center}
+\footnotesize
+\setlength\tabcolsep{3pt}
+\begin{tabular}{c  p{9cm} } \hline
+Topic & Terms \\ \hline \hline
+196 (debate) & Tory Euro sceptics, social chapter, Liberal Democrat, mps, Labour, bill, Commons \\
+404 (ratification) & ratification Masstricht treaty, Poul Schluter, Poul Rasmussen, Danish, vote, Denmark, ec \\
+\textbf{79 (Emu)} & economic monetary union, Masstricht treaty, member states, European, Europe, Community, Emu \\
+377 (George) & President George Bush, White House, Mr Clinton, administration \\
+115 (power) & de regulation bill, Sunday trading, Queen Speech, law, legislation, government, act \\
+446 (years) & chairman chief executive, managing director, finance director, Sir, board, group, company \\
+431 (cabinet) & Mr John Major, prime minister, Mr Major, party, tory, government, Conservative \\
+\hline
+\end{tabular}
+\caption{Given query ``euro opposition'', seven topics are selected and shown to a user. The user selected Topic 79
+as the feedback topic (Example from \citet{Andrzejewski-2011}).}
+\label{tab:reorder-topic}
+\end{center}
+\end{table}
 
 This direction is actually more related with topic labeling and iterative visualization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
 
@@ -517,6 +555,11 @@ This direction is actually more related with topic labeling and iterative visual
 Traditional search systems retrieve documents based on the queries only, regardless of who submitted the queries.
 As more Web pages become available, queries are normally too short to express users' needs, and
 users may prefer different results even the input queries are the same~\citep{Jansen-2000,Dou-2007}.
+As the examples shown in \citet{Dou-2007}, the query ``mouse'' may mean ``rodents'' for biologists, 
+while the programmers may use the same query to search for computer peripherals. Even for queries without
+ambiguity, for example ``online shopping'', some users may prefer ``\url{www.amazon.com}'' while others may
+prefer ``\url{www.ebay.com}''.
+
 In order to meet different users' information need, it is important to understand the user's preference, context,
 etc., and adapt the ranking results accordingly~\citep{Pitkow-2002,Micarelli-2007}.
 This is referred as personalized search, or search personalization.
