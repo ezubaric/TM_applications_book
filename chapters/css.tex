@@ -4,21 +4,24 @@
 \label{ch:css}
 
 While the previous chapters were mostly retrospective analyses, computational
-social science is mostly in the ``here and now''.  It is focus on data
+social science is mostly in the ``here and now''.  
+The role of text analysis is to provide evidence for how people relate to each other and to their environment in particular contexts, for example social, political, or economic interactions.
+The specific expression of any particular document is usually of less importance.
+As a result, social science focuses on data
 being generated in the past hours, days, or weeks to inform
 intelligence analysts, brand monitors, journalists, or social
 scientists.  The underlying problem is the same, however: these
 stakeholders are interested in what people have to say but cannot read
 all of the data at their disposal.
 
-Historically, social science asks questions such as what candidates is
-preferred in a particular part of the country or whether people like a
-new restaurant or product.  These questions are often answered by
+Historically, social science asks questions about opinions. What candidate is
+preferred in a particular part of the country? Do people like a
+new restaurant or product?  These questions are often answered by
 polling: social scientists would head out into the world, gather a
 statistically significant survey sample, and extrapolate to the
 broader population.
 
-These techniques are still valuable, but they still take time.  A
+These techniques remain foundational, but they take time.  A
 company needs to know if it has an issue with a product immediately,
 particularly if its good name is being dragged through the mud on
 social media~\cite{bowen-16}.  However, the reason for the acute time
@@ -32,120 +35,38 @@ of influenza take too long to be useful compared to the life cycle of
 influenza's progression~\cite{broniatowsky-15}; using twitter and
 Google searches results in more accurate information faster.
 
-Monitoring pollution in China or drug use in teens requires access to
-populations that may be difficult.  Using social media presents an
+Directly communicating with some
+populations may be difficult.  Using social media presents an
 alternative~\cite{wang:paul:dredze-15}, as individuals share
 information more freely than official news agencies (which may suffer
-from official censorship in the case of Chinese pollution) or in
+from official censorship in the case of opinions about pollution in China) or in
 school-administered surveys (which can suffer from self-censorship in
-the case of drug use).  Topic models and other large-data approaches
+the case of sexuality or drug use).  Topic models and other large-data approaches
 that can look at vast quantities of text help overcome some of the
 obstacles to fast-response social science.
 
-\section{Sentiment Analysis}
+The observational nature of topic models is both a weakness and a strength.
+Analyzing documents through social media collection can induce threats to validity. Researchers cannot necessarily control the populations producing documents, the forum in which documents are written, or the subject of documents.
+At the same time, observational models have the advantage of increased potential for discovery.
+In a survey, researchers have to specify every question that will be asked.
+That control is good for ensuring validity, but risks missing whole categories of opinion that might not be obvious to researchers.
+Topic models can complement this type of carefully designed survey by bringing forward issues or factors that are important to participants whether or not those issues were anticipated.
+Thus unsupervised models can help in identifying questions that researchers ``forgot to ask''.
 
-In industrial settings, this problem is often called sentiment
-analysis~\citep{pang-08}.  Here, the goal is to determine the
-``sentiment''---e.g., positive or negative opinions---associated with
-a piece of text.  For example, ``Chipotle is great!'' would be
-associated with positive sentiment, while ``Chipotle made me sick''
-would be associated with negative sentiment.
+\paragraph{Prediction and Interpretation}
 
-While industrial applications of sentiment analysis are mostly for
-identifying whether people like a product or company, there are wider
-social science applications of examining large corpora to determine
-authors' \emph{internal state}.  For example, determining whether they
-they are politically liberal or conservative based on their online
-commentary.
+A common theme in using topic models is whether models
+should prioritize \emph{prediction} or \emph{interpretation}. 
+Different topic models privilege both of  these approaches.
+The distinction between model applications mirrors, to some extent,  the distinction between quantitative and qualitative social science.
+Predictive applications are closer to quantitative methodologies that focus on regression-based methods that have clear input and output variables.
+Interpretative applications are closer to qualitative methodologies that use human intuition to explain complex processes.
+At the same time, the use of topic models blurs the boundary between these two methodologies.
+Even when used to support qualitative work, topic models apply computation, and insulate researchers to an extent from pre-conceived biases (although they bring their own modeling assumptions).
+Similarly, even when used to support quantitative work, topic models enable researchers to establish quantitative relationships between document metadata variables and variables derived from messy, unstructured text that might otherwise not have supported  quantitative analysis.
 
-Topic models can help these tasks by dividing a problem into topics.
-For example, ``Apple'' can appear in tech news as well as a food
-ingredient; someone monitoring the seller of iPods and iPhones would
-not want to be confused by social media commentary complaining about a
-bad apple pie.  ``Surprising'' in an automotive review is likely
-associated with negative sentiment, while it's a good thing in a book
-review.  Thus, topics can help differentiate different kinds of
-discussion in broad corpora.
-
-However, topic models lose their value if you want to \emph{contrast}
-sentiment within a topic.  While a topic model can find people
-discussing Chipotle burritos online, it cannot separate the lovers from
-haters.  Thus, \emph{distinguishing} topics based on their sentiment
-can help a user better understand how topics and sentiment interact in
-a dataset.  This requires modifying the topic model to make it aware
-of the underlying sentiment.
-
-% Sentiment is an example of meta data, which can be visualized to
-% better understand a corpus (see viz).
-
-\section{Upstream and Downstream Models}
-
-To distinguish topics based on their sentiment, the model must be
-aware of what sentiment is.  In the language of probabilistic models,
-sentiment and topic are modeled \emph{jointly}.  That is, there is a
-probability distribution over both the sentiment of a document $y$ and
-the topics that is uses $z$.
-
-There are two general kinds of joint models that incorporate metadata
-such as sentiment: upstream and downstream models.  The distinction is
-based on the generative story of topic models (Chapter~\ref{ch:intro}): is
-sentiment before (upstream) or after (downstream) topics in the
-generative story?
-
-% Put in graphical model examples of upstream and downstream models
-
-Upstream models assume that sentiment comes first in the generative
-story.  That is, there will be different topics given the underlying
-sentiment.  This can come in the form in a prior learned from observed
-sentiment~\citep{mimno-08} or from a latent variable that can serve as
-a proxy for sentiment~\citep{lin-09}.  Upstream models are often
-easier to implement and are more flexible~\citep{stewart-14}.
-
-In contrast, downstream models explicitly predict sentiment
-\emph{given} text.  If the goal is the later predict sentiment given
-raw text with the help of topic models, downstream models can work
-better than upstream models.  These models are often called
-``supervised'' topic models after supervised
-\abr{lda}~\citep{blei-07b}, which use a document's topics to predict
-the downstream sentiment regression: a document's sentiment~$y_d$ is
-assumed to come from a normal distribution with mean $\eta^\top \bar
-z$, where $\bar z$ is a normalized vector of all of the topics that a
-document uses and $\eta$ is a regression parameter that describes the
-sentiment of each topic.
-
-During inference, the words and sentiments work together to find
-combinations of topic and sentiment that make sense.  While
-``vanilla'' topic models seek to find clusters of words that make
-sense together, if a topic is associated with documents with many
-different sentiment values, it will have low probability.  
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[width=1.0\linewidth]{figures/slda}
-  \end{center}
-  \caption{Example topics learned by supervised \abr{lda} from
-    \citet{blei-07b}.  Each topic is not just a collection of words
-    but also has a regression score~$\eta$ that explains whether it is
-    associated with positive sentiment (right) or negative sentiment
-    (left).}
-  \label{fig:slda-topics}
-\end{figure}
-
-Consider Figure~\ref{fig:slda-topics}.  If a topic has an inconsistent
-sentiment values (for example, a negative sentiment document in a
-positive sentiment topic), inference will try to move the negative
-sentiment documents to topics with consistent sentiment~$\eta$ {\bf
-  and} consistent words.  
-
-These models form the foundation for the models and problems we
-discuss in the rest of this section.
-
-\paragraph{Aside: Prediction or Interpretation}
-
-A common theme in using topic models is the emphasis on whether models
-should prioritize \emph{prediction} or \emph{interpretation}.  Our
-previous chapters have focused on interpretation: can a user
-understand the output of a model?  But for supervised models, there's
+The previous chapters have focused on interpretation: can a user
+understand the output of a model?  But for supervised models, there is
 a question of how well the model can predict $y_d$ (sentiment or
 another prediction of interest).  
 
@@ -161,6 +82,132 @@ complicated topic models do a better job of predicting held-out
 documents but make less sense to a user.  \citet{Nguyen-15:anchor}
 show that supervised models offer better predictions with additional
 topics but the topics are less interpretable.
+
+\section{Topic Models for Qualitative Analysis}
+
+A common task in qualitative social science is to develop high-level theories that explain social processes based on low-level observations, such as field reports or ethnographic notes.
+One way to operationalize this process is the grounded theory method \cite{glaser-67}.
+Grounded theory describes a process for iteratively developing theories through repeated reading of source material.
+\citet{baumer-17} compare a manual grounded theory analysis and a topic model-based analysis of survey response text describing people's experiences attempting to voluntarily leave Facebook.
+
+They find that there are both theoretical and empirical connections between these two approaches.
+At the theoretical level, both grounded theory and probabilistic topic model algorithms are iterative, beginning with rough, low-quality models/theories and refining them through repeated passes through the documents.
+Both methods also seek to maintain a close connection between the abstract representation and the original data set: in Gibbs sampling, topics are ``grounded'' in specific word tokens.
+At the empirical level, \citet{baumer-17} find close connections between the themes discovered by researchers manually applying grounded theory procedures and topics discovered by an LDA model.
+But this result should not imply that human analysis is of no additional value.
+They report that the thematic meaning of LDA topics was not immediately apparent from simple lists of high-frequency words.
+Rather, the model was most useful as a way of suggesting a topic-specific ``reading list.''
+The ``meaning'' of topics was only clear at the theory level by browsing the documents that had unusually high representation of that topic.
+As such the topic model can best be thought of as a tool for applying grounded theory more efficiently and with greater insulation from human biases. 
+
+\section{Sentiment Analysis}
+
+A useful way to think of the application of topic models in quantitative social science is as a means of deriving a numeric variable from text.
+The presence of specific topics in a document can stand in for themes that may not be otherwise easily measurable.
+These inferred topic variables can then be added to standard statistical methods to find connections between topics and non-textual variables.
+As a motivating example, we first consider sentiment analysis~\citep{pang-08}.  Here, the goal is to determine the
+``sentiment''---e.g., positive or negative opinions---associated with
+a piece of text.  For example, ``Chipotle is great!'' would be
+associated with positive sentiment, while ``Chipotle made me sick''
+would be associated with negative sentiment.
+
+While commercial applications of sentiment analysis are mostly for
+identifying whether people like a product or company, there are wider
+social science applications of examining large corpora to determine
+authors' \emph{internal state}.  For example, political scientists may
+want to classify social media users as liberal or conservative based on their online
+commentary.
+
+Topic models can help these tasks by dividing a problem into topics.
+The contextual disambiguation provided by topics can be useful in 
+narrowing the range of applicable subjects.
+For example, ``Apple'' can appear in tech news as well as a food
+ingredient; someone monitoring the seller of iPods and iPhones would
+not want to be confused by social media commentary complaining about 
+the low quality of a Red Delicious. 
+Contextual disambiguation can also be useful because the implied sentiment of words 
+can vary considerably between domains.
+The term ``Surprising'' could be positive in a book review, but 
+strongly negative in an automobile review.
+
+Topic-based sentiment analysis can, however, be problematic.
+The objective of a topic model is to identify and separate the latent factors that best explain the way combinations of words appear together in documents.
+Sentiment can be subtle, and may not present the strongest signal to an algorithm.
+For example, even though restaurant reviews are specifically intended to be sentiment-bearing, topic models trained on restaurant reviews mostly align with {\em types} of restaurants, producing topics representing cuisines, such as Chinese, Mexican, and Thai.
+Topic models also lose their value if you want to \emph{contrast}
+sentiment within a topic.  While a topic model can find people
+discussing Chipotle burritos online, it cannot separate the lovers from
+haters.  Thus, \emph{distinguishing} topics based on their sentiment
+can help a user better understand how topics and sentiment interact in
+a dataset.  This requires modifying the topic model to make it aware
+of the underlying sentiment.
+
+% Sentiment is an example of metadata, which can be visualized to
+% better understand a corpus (see viz).
+
+\section{Upstream and Downstream Models}
+
+To distinguish topics based on their sentiment, the model must be
+aware of a non-textual variable that represents sentiment.
+In the language of probabilistic models,
+sentiment and topic are modeled \emph{jointly}.  That is, there is for each document a
+probability distribution over both the sentiment variable $y$ and
+the topics $z$.
+
+There are two general kinds of joint models that incorporate metadata
+such as sentiment: upstream and downstream models.  The distinction is
+based on the generative story of topic models (Chapter~\ref{ch:intro}): is
+sentiment before (upstream) or after (downstream) topics in the
+generative story?
+
+% Put in graphical model examples of upstream and downstream models
+
+Upstream models assume that external variables such as sentiment come first in the generative
+story.  That is, there will be different topics given the underlying
+sentiment.  This can come in the form in a prior learned from observed
+sentiment~\citep{mimno-08} or from a latent variable that can serve as
+a proxy for sentiment~\citep{lin-09}.  Upstream models are often
+easier to implement and are more flexible~\citep{stewart-14} because they do not need to specify a generative distribution that matches the form of the variable.
+
+In contrast, downstream models explicitly predict variables such as sentiment
+\emph{given} text.  If the goal is to later predict sentiment given
+raw text with the help of topic models, downstream models can work
+better than upstream models.  These models are often called
+``supervised'' topic models after supervised
+\abr{lda}~\citep{blei-07b}, which use a document's topics to predict
+the downstream sentiment using regression: a document's sentiment~$y_d$ is
+assumed to come from a normal distribution with mean $\eta^\top \bar
+z$, where $\bar z$ is a normalized vector of all of the topics that a
+document uses and $\eta$ is a regression parameter that describes the
+sentiment of each topic.
+
+During inference, the words and sentiments work together to find
+combinations of topic and sentiment that make sense.  While
+``vanilla'' topic models seek to find clusters of words that make
+sense together, if a topic is associated with documents that have many
+different sentiment values, it will have to learn a less focused distribution over
+sentiment scores, resulting in lower probability.  
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=1.0\linewidth]{figures/slda}
+  \end{center}
+  \caption{Example topics learned by supervised \abr{lda} from
+    \citet{blei-07b}.  Each topic is not just a collection of words
+    but also has a regression score~$\eta$ that explains whether it is
+    associated with positive sentiment (right) or negative sentiment
+    (left).}
+  \label{fig:slda-topics}
+\end{figure}
+
+Consider Figure~\ref{fig:slda-topics}.  If a topic has an inconsistent
+sentiment value (for example, a negative sentiment document in a
+positive sentiment topic), inference will try to move the negative
+sentiment documents to topics with consistent sentiment~$\eta$ {\bf
+  and} consistent words.  
+
+These models form the foundation for the models and problems we
+discuss in the rest of this section.
 
 \section{Understanding Stance and Polarization}
 
@@ -224,8 +271,8 @@ science~\citep{Nguyen:Boyd-Graber:Resnik:Miler-2015}.
 
 \section{Social Networks}
 
-We have talked about meta data that are independent for each user.
-Sometimes, however, we are interested in meta data that describe the
+We have talked about metadata that are independent for each user.
+Sometimes, however, we are interested in metadata that describe the
 relationships \emph{between} documents: which users follow each other
 on Twitter, which scientific papers cite each other, or which webpages
 link to each other.  This makes modeling more difficult, but we still
@@ -262,5 +309,5 @@ assuming that a topic model is only in a single language is often a
 poor assumption.  Indeed, even within a single country, topic models
 can discover regional variation~\citep{eisenstein-10}.  In the next
 chapter, we discuss how to cope with multilingual datasets and still
-discover reasonable topics.
+discover coherent, language-independent topics.
 
