@@ -36,9 +36,9 @@ Finally, we consider studies of historical scholarly literature.
 \cite{newman-06} present an example of topic modeling on historical newspapers, in a collection of articles from the {\em Pennsylvania Gazette} from 1728 to 1800.\footnote{http://www.accessible-archives.com/}
 These articles comprise 25 million word tokens in articles and advertisements, and cover several generations of everyday life before, during, and after the founding of the United States of America.
 The authors contrast their study to manually created keyword-based indexes, which focus on specific terms and can be applied inconsistently across large corpora.
-Spurious patterns in index term use could complicate historical research. 
+Spurious patterns in index term use could complicate historical research.
 They cite an example of the tag {\em adv}, which is used extensively in the early and late decades of the corpus, but not in the middle.
-The topic-based approach is attractive because it is consistent across the collection (as long as the terms used in the documents are themselves consistent) and because it operates at a more abstract semantic level, reducing the chance that modern historians miss key terms. 
+The topic-based approach is attractive because it is consistent across the collection (as long as the terms used in the documents are themselves consistent) and because it operates at a more abstract semantic level, reducing the chance that modern historians miss key terms.
 
 They compare three methods for finding semantic dimensions, latent semantic analysis \citep{deerwester-90}, k-means clustering, and a topic model \citep{hofmann-99}.
 The difference between these methods can be described in terms of expressivity.
@@ -61,10 +61,10 @@ A topic that is less immediately interpretable ({\em  say thing might think own 
 Nelson\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/} studies topics in Civil War-era newspapers, including the Confederate paper of record, the Richmond Daily Dispatch.
 Like Block and Newman, Nelson's goal is to organize the collection into themes and to measure the variation in prevalence of those themes over time.
 The web interface highlights a temporal view of the collection as a series of topic-specific time series.
-The mode of analysis is neither fully automated nor manual, but rather combines the two approaches. 
+The mode of analysis is neither fully automated nor manual, but rather combines the two approaches.
 Nelson manually labels the topics and groups them into larger categories such as ``slavery'', ``nationalism and patriotism'', ``soldiers'', and ``economy''.
 
-He validates the model by comparing topics to a known and previously annotated category, the ``fugitive slave ads''. 
+He validates the model by comparing topics to a known and previously annotated category, the ``fugitive slave ads''.
 These documents were pre-photographic descriptions of runaway slaves, and have a specific language consisting of aspects of personal appearance and possible locations where enslaved people might have  hidden.
 He finds a near perfect correspondence between the prevalence over time of manually labeled fugitive slave ads and documents that have a high concentration of a specific topic, which places high probability on terms such as {\em reward, years,} and {\em color} (manual labels were not used  in training the model).
 Nelson notes that few if any of these documents are assigned completely to this topic: he uses a cutoff of 21.5\% as a criterion.
@@ -80,7 +80,7 @@ Again, these are related themes but rather than comprising a single event they t
 
 \cite{yang-11-historical} model a collection of historical newspapers from Texas spanning from the end of the Civil War to the present day.
 The goal is both exploratory, to find out about the interests of Texans through the 19th and 20th centuries, and {\em semi-exploratory}, to find out more about the history and context of specific, pre-specified themes such as cotton production.
-In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as a axis of investigation into the corpus. 
+In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as a axis of investigation into the corpus.
 For example, a historian considered documents that exhibit topics related to {\em cotton}, and the topics that co-occur in those documents.
 The study also led to more fully exploratory results.
 A topic related to the battle of San Jacinto, the final conflict in the Texas Revolution that led to separation from Mexico, appeared earlier than expected.

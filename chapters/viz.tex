@@ -59,7 +59,7 @@ be used to display a topic.
   \end{center}
   \caption{A topic-in-a-box visualization for topics---like a word
     cloud---shows words in a 2D context.  However, it uses local
-    co-occurence to decide which words to place next to each other.}
+    co-occurence (whether words appear together in a sentence) to decide which words to place next to each other.}
   \label{fig:topic-in-a-box}
 \end{figure}
 
@@ -86,7 +86,7 @@ convenient labels, but completely removed from the raw distribution over words.
 Thus, it's often useful to assign labels to topics within an interface.
 
 In contrast to the previous \emph{visualization} approaches, labeling
-focuses son showing not the original words of a topic but rather a
+focuses on showing not the original words of a topic but rather a
 clearer label more akin to what a human summary of the data would
 provide.
 
@@ -151,7 +151,7 @@ They argue that labels should match topic words (as labeling with flat
 topics); a topic's words should be consistent with a labels' children
 in the hierarchy; and the topic's labels should be unique.
 
-\citet{aleteras-14} instead query the whole web and then build a graph that
+\citet{aleteras-14} instead query the whole Web and then build a graph that
 includes the words that make up the titles of the retrieved webpages. The edges
 between the words is the \abr{npmi} computed on a reference corpus.  The
 intuition is that words that are ``central'' in this graph will be a good title
@@ -257,20 +257,6 @@ adjusting the ``hyperparameters'' of distributions (the Dirichlet
 parameters of models discussed in Chapter~\ref{ch:intro}) can have a
 large effect of what the final models are~\cite{wallach-09b}.
 
-Interactive topic modeling---in conjunction with visualizations---can help
-correct the problems of topic models.  A user first get an overview of the
-dataset using a visualization of the topics and documents.  Then, the user can
-see instances where the model errs and then correct those mistakes.
-
-For example, Figure~\ref{fig:itm-nih} shows a topic learned from abstracts of
-grants funded by the American National Institutes of Health
-(\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
-topics were ``good''; they summarized the data and told a story about
-a coherent slice of research supported by the \abr{nih}.  However,
-this topic is more problematic; it combines words about the central
-nervous system with words about the urinary system.  Such a topic (as
-discussed in \citet{mimno-11}) does not give a clear understanding of the
-documents it should represent.
 
 \begin{figure}
 
@@ -305,19 +291,36 @@ concepts that \green{weren't present before}.}
 \label{fig:itm-nih}
 \end{figure}
 
+Interactive topic modeling---in conjunction with visualizations---can help
+correct the problems of topic models.  A user first get an overview of the
+dataset using a visualization of the topics and documents.  Then, the user can
+see instances where the model errs and then correct those mistakes.
+
+For example, Figure~\ref{fig:itm-nih} shows a topic learned from abstracts of
+grants funded by the American National Institutes of Health
+(\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
+topics were ``good''; they summarized the data and told a story about
+a coherent slice of research supported by the \abr{nih}.  However,
+this topic is more problematic; it combines words about the central
+nervous system with words about the urinary system.  Such a topic (as
+discussed in \citet{mimno-11}) does not give a clear understanding of the
+documents it should represent.
+
+
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic
 constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
 the user might say that ``bladder'' and ``spinal cord'' don't belong in the same
 topic together.  Figure~\ref{fig:itm-nih} shows how the topic is more focused after the
 user provides this feedback.  In contrast to probabilistic constraints,
-\citet{choo-13} add matrix factorization constraints, which are in practice much
-faster.
+\citet{choo-13} and \citet{lund-17} use matrix factorization constraints to guide changes
+to topics, which can be much faster.
 
 \section{Conclusion}
 
-Much of what topic models are used for is to help users understand corpora.
-However, the output of topic models don't give insights to users without the
-helpmeet of interactive visualizations which allow users to discover and
+While topic models provide users overviews of corpora, topic models
+cannot be much help if the users cannot effectively see or understand
+the underlying topics.
+Interactive visualizations allow users to discover and
 refine insights.  In the next chapters we'll talk about specific applications of
 these insights, but these insights are often built on the initial understanding
 of a model offered by the visualizations discussed in this chapter.
