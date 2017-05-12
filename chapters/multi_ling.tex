@@ -47,7 +47,7 @@ This approach pre-dates probabilistic topic models.
 by projecting both documents to a shared latent semantic indexing
 space.
 
-Similarly, bilingual \cite{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
+Similarly, bilingual \citep{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
 assume that the aligned documents in different languages share the
 same topic distribution and each language has a unique topic
 distribution over its word types.
@@ -60,7 +60,7 @@ generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
 Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval.
 \cite{mimno-09} uses a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
 For example, the Farsi-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
-These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \cite{mimno-12b}.
+These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
  
 We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. They assume the search
@@ -69,14 +69,13 @@ topics, but use different vocabularies to express these topics. Thus
 in their models, queries and documents share the same document-topic
 distributions $\theta^Q$, but have different topic-word distributions
 $\phi_z^Q$ and $\phi_z^D$ respectively.
-
-To generate a query $q$, a document-topic distribution $\theta^Q$ is
-drawn from a Dirichlet prior, and a topic $z$ is sampled from
-$\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To
-generate a document term, a topic $z$ is firstly sampled from
-$\theta^Q$, the same document-topic distribution as the query, and
-then a document term $d_i$ is sampled from document topic-word
-distribution $\phi_z^D$. In this way, documents and queries are
+%To generate a query $q$, a document-topic distribution $\theta^Q$ is
+%drawn from a Dirichlet prior, and a topic $z$ is sampled from
+%$\theta^Q$, then a query term $q_i$ is sampled from $\phi_z^Q$. To
+%generate a document term, a topic $z$ is firstly sampled from
+%$\theta^Q$, the same document-topic distribution as the query, and
+%then a document term $d_i$ is sampled from document topic-word distribution $\phi_z^D$. 
+In this way, documents and queries are
 connected through the hidden topics, even though their vocabularies
 (topic-word distributions) are different. By summing over all possible
 topics, the relationship between document term $e$ and query $q$ can
@@ -117,6 +116,18 @@ concept---{\bf uncorrelated words}---are directly connected to the
 root node. Thus a topic becomes a distribution over all paths in this
 prior tree and each path is associated with a word.
 
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{figures/correlations_tree-crop.pdf}
+\vspace{-3mm}
+\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
+  bilingual dictionary: word pairs with the same meaning but in
+  different languages are concepts; a common parent node is created to
+  group words in a concept, and then is connected to the root;
+  uncorrelated words are connected to the root directly.}
+\label{fig:prior_trees}
+\end{figure}
+
 The probability of a path in a topic depends on the transition
 probabilities in a topic.  Each concept $i$ in topic $k$ has a
 distribution over its child nodes that is governed by a Dirichlet prior:
@@ -146,17 +157,7 @@ concept are positively correlated in topics.  For example, if
   multiple paths, and each path represents a unique sense of this
   word.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.9\linewidth]{figures/correlations_tree-crop.pdf}
-\vspace{-3mm}
-\caption[Constructing prior tree from a bilingual dictionary]{An example of constructing a prior tree from a
-  bilingual dictionary: word pairs with the same meaning but in
-  different languages are concepts; a common parent node is created to
-  group words in a concept, and then is connected to the root;
-  uncorrelated words are connected to the root directly.}
-\label{fig:prior_trees}
-\end{figure}
+
 
 \jbgcomment{Would be nice if the prior tree were multilingual.  Would
   also be good to give back pointer to the interaction section where
@@ -164,7 +165,9 @@ concept are positively correlated in topics.  For example, if
 
 \section{Alignment from parallel corpora and lexical information}
 
-Bilingual dictionaries and other sources of word-level information are valuable in training multilingual models, because they can easily specify simple lexical relationships that might be difficult to extract from parallel corpora.
+Bilingual dictionaries and other sources of word-level information are 
+valuable in training multilingual models, because they can easily specify 
+simple lexical relationships that might be difficult to extract from parallel corpora.
 But such manually generated data may be brittle, low-quality, or missing contextual differences in actual usage.
 These two approaches are not mutually exclusive, however; they reveal
 different connections across languages. \citet{hu-14} bring existing
@@ -304,13 +307,12 @@ and source phrase $\bar{f}$ respectively.
 Next we introduce how to apply topic models to improve translation
 models, language models, and reordering models respectively.
 
-\jbgcomment{Should this really be a new section? \yhcomment{Restructured. Let me know what you think now.}}
 
 \section{Topic Models for Phrase-level Translation}
 \label{sec:trans-multiling}
 
 Translation models map words and phrases from one language to another.
-Both monolingual topic models bilingual topic models are useful for improving translation models.
+Both monolingual topic models and bilingual topic models are useful for improving translation models.
 The most prominent application of topic models is in {\em domain adaptation}.
 
 To train such \textsc{smt} systems with domain adaptation, early
@@ -335,7 +337,7 @@ If there
 are two topics \underline{sports} and \underline{social media} and
 a test example is most likely about \underline{sports}, it may
 have a soft domain distribution as $85\%$ for \underline{sports}
-domain and $15\%$ for \underline{social media}. These automatically
+domain and $15\%$ for \underline{social media} domain. These automatically
 obtained soft domain labels are well smoothed, and they are not only
 cheap to obtain but also much more robust to topic errors. 
 We next describe applications of monolingual and multilingual
@@ -415,41 +417,49 @@ will dominate the translation results.
 
 %\paragraph{Topical Lexical and Phrasal Features}
 
+%\citet{hasler-12} also apply monolingual topic models for domain adaptation to
+%\textsc{smt} in a similar framework as \citet{Eidelman-12}, except
+%they introduce different features which they call sparse word pair
+%features and phrase pair features. The topics on source documents are
+%integrated as a source side trigger for a particular word pair or
+%phrase pair as sparse features. For example, given a word $w_f$ with
+%topic $k$, for an aligned word pair $(w_f, w_e)$ which is observed $c$
+%times in the aligned sentence pair, the sparse word pair feature $wp$
+%with topics is represented as $wp\_k\_w_f \sim w_e = c$, while the
+%original word pair feature is $wp\_w_f \sim w_e = c$. The topic phrase
+%pair features are also defined in a similar way: given an aligned
+%phrase pair $(p_f, p_e)$ with count $c$ in the same sentence, the
+%sparse phrase pair feature $pp$ with topics is represented as
+%$pp\_k\_p_f \sim p_e = c$. Both the phrase pair and word pair features
+%are extracted from the aligned training sentence pairs, and then
+%\textsc{mira} is used to learn the feature weights.
+%
+%One difference in \citet{hasler-12} from \citet{Eidelman-12} is that
+%they are using \emph{hidden topic Markov
+%  models}~\citep[\textsc{htmm}]{gruber-07} instead of \textsc{lda} to
+%learn topics. While \textsc{lda} assumes that each word is generated
+%independently in a document, \textsc{htmm} models the word topic in a
+%document as a Markov chain where all words in a sentence are assigned
+%with the same topic. \textsc{htmm} computes $p(z_n, \Phi_n | d, w_1,
+%\cdots, w_N)$ for each sentence, where $z_n$ is the topic of sentence
+%$n$ in document $d$, $w_1, \cdots, w_N$ are the words in the sentence
+%$n$, $\Phi_n$ is the topic transition between words. $\Phi_n$ is only
+%non-zero at sentence boundaries. The advantage of using \textsc{htmm}
+%is that each sentence gets the same topic assignment, thus the topic
+%for each phrase pair in the aligned sentence is consistent and can be
+%used for topical features directly.
+
+
 \citet{hasler-12} also apply monolingual topic models for domain adaptation to
 \textsc{smt} in a similar framework as \citet{Eidelman-12}, except
-they introduce different features, which they call sparse word pair
-features and phrase pair features. The topics on source documents are
-integrated as a source side trigger for a particular word pair or
-phrase pair as sparse features. For example, given a word $w_f$ with
-topic $k$, for an aligned word pair $(w_f, w_e)$ which is observed $c$
-times in the aligned sentence pair, the sparse word pair feature $wp$
-with topics is represented as $wp\_k\_w_f \sim w_e = c$, while the
-original word pair feature is $wp\_w_f \sim w_e = c$. The topic phrase
-pair features are also defined in a similar way: given an aligned
-phrase pair $(p_f, p_e)$ with count $c$ in the same sentence, the
-sparse phrase pair feature $pp$ with topics is represented as
-$pp\_k\_p_f \sim p_e = c$. Both the phrase pair and word pair features
-are extracted from the aligned training sentence pairs, and then
-\textsc{mira} is used to learn the feature weights.
-
-One difference in \citet{hasler-12} from \citet{Eidelman-12} is that
-they are using \emph{hidden topic Markov
-  models}~\citep[\textsc{htmm}]{gruber-07} instead of \textsc{lda} to
-learn topics. While \textsc{lda} assumes that each word is generated
+they apply \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} 
+instead of \textsc{lda} to learn topics and extract different features. 
+While \textsc{lda} assumes that each word is generated
 independently in a document, \textsc{htmm} models the word topic in a
 document as a Markov chain where all words in a sentence are assigned
-with the same topic. \textsc{htmm} computes $p(z_n, \Phi_n | d, w_1,
-\cdots, w_N)$ for each sentence, where $z_n$ is the topic of sentence
-$n$ in document $d$, $w_1, \cdots, w_N$ are the words in the sentence
-$n$, $\Phi_n$ is the topic transition between words. $\Phi_n$ is only
-non-zero at sentence boundaries. The advantage of using \textsc{htmm}
-is that each sentence gets the same topic assignment, thus the topic
+with the same topic. As a result, the topic
 for each phrase pair in the aligned sentence is consistent and can be
 used for topical features directly.
-
-\jbgcomment{Contrast HTMM with LDA and why it might be better.  You
-  should also explain HTMM a little more, as it's not discussed
-  anywhere else. \yhcomment{added.}}
 
 %\paragraph{Topical Phrase Probability via Topic Mapping}
 
@@ -464,9 +474,11 @@ decompose the phrase probability $p(\bar{e}|\bar{f})$ as,
 \begin{align}
 p(\bar{e}|\bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} | \bar{f}) = \sum_{k_{out}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | \bar{f})
 \end{align}
-where $p(\bar{e} | \bar{f}, k_{out})$ is the translation probability given the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the phrase probability in topic $k_{out}$.
+where $p(\bar{e} | \bar{f}, k_{out})$ is the translation probability given 
+the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the 
+phrase probability in topic $k_{out}$.
 
-In addition, \citet{su-12} assume that a monolingual corpus in the
+Besides, \citet{su-12} assume that a monolingual corpus in the
 same domain as the test sentence (referred to as in-domain monolingual
 data) is available. Thus they also apply \textsc{htmm} to estimate the
 in-domain topic $k_{in}$ and $p(k_{in} | \bar{f})$.  However, the
@@ -481,11 +493,12 @@ As a result, the final phrase probability can be refined as,
 \begin{align}
 p(\bar{e}|\bar{f}) = \sum_{k_{out}} \sum_{k_{in}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | k_{in}) \cdot p(k_{in} | \bar{f})
 \end{align}
-The topics and topic mapping relationship
+The topic and topic mapping relationship
 between the training data and test data can be built offline, so the
 whole process adds no additional burden to the translation system.
 
-Monolingual topic models can add contextual information about word choice to translation models, but do not by themselves take advantage of multilingual information.
+Monolingual topic models can add contextual information about word choice to 
+translation models, but do not by themselves take advantage of multilingual information.
 We next turn to topic models that explicitly learn multilingual connections between words.
 
 \paragraph{Multilingual Information for Domain Adaptation}
@@ -499,11 +512,11 @@ Aligning across multiple languages is a common way of resolving such ambiguities
   A monolingual topic model might not be able to tell the difference in a short Chinese document, but these terms
   are unambiguous in English, more accurately indicating the relevant topic.
 
-Multilingual topic models have been shown to improve results in \textsc{smt} \citet{Eidelman-12}.
+Multilingual topic models have been shown to improve results in \textsc{smt} \citep{hu-14}.
 There are various ways to build up the multilingual topic
 models. Different languages can be connected on the
 word-level~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm} or the
-document levels~\citep{mimno-09}, or a combination of both\citet{hu-14}. 
+document levels~\citep{mimno-09}, or a combination of both\citep{hu-14}. 
 
 While the above approaches try to model the source and target
 languages simultaneously to extract topics, some of the benefit of multilingual models can be achieved by aligning monolingual models. \citet{xiao-12} apply
@@ -517,10 +530,10 @@ to improve \textsc{smt} results.
 
 To translate a new document $d_f$, they first estimate the document-topic distribution $p(k_f |
 d_f)$.
-Then for a given phrase $\bar{f}$ in the source document they search for the target phrase $\bar{e}$ that maximizes the similarity between the source document's topic distribution $p(z_f|d_f)$ and the phrase-topic distribution $p(\bar{e}, z_f|\bar{f})$ according to squared Hellinger distance $H^2(p,q) = \sum_k \left(\sqrt{p_k} - \sqrt{q_k} \right)^2$.
+Then for a given phrase $\bar{f}$ in the source document they search for the target phrase $\bar{e}$ that maximizes the similarity between the source document's topic distribution $p(k_f|d_f)$ and the phrase-topic distribution $p(\bar{e}, k_f|\bar{f})$ according to squared Hellinger distance $H^2(p,q) = \sum_k \left(\sqrt{p_k} - \sqrt{q_k} \right)^2$.
 Second, they calculate a projection between the two monolingual topic models $p(k_f
 | k_e)$  by normalizing the co-occurrence count in the aligned training
-sentences, and use this relationship to calculate the conditional distribution of target phrases and target topics $p(\bar{e}, z_e|\bar{f})$.
+sentences, and use this relationship to calculate the conditional distribution of target phrases and target topics $p(\bar{e}, k_e|\bar{f})$.
 
 This topic projection idea is similar to the topic mapping by
 \citet{su-12}, but it is applied between the source language and the
@@ -529,12 +542,8 @@ target language. Compared to the lexical features in
 framework to apply topic information directly to measure the relationship between phrases and present two topic similarity features for decoding. These two approaches can
 be combined to further improve \textsc{smt}.
 
-\jbgcomment{How does this work in smt? \yhcomment{Rewrote this section to make it more clear.}}
-
 \section{Topic Models for Sentence-level Language Modeling}
 
-\jbgcomment{Would be good to give the basic intuition of what an LM
-  is. \yhcomment{added.}}
 
 A critical component of machine translation systems is the language
 models, which provide local constraints and preferences to make
@@ -565,14 +574,9 @@ phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is translated to
   lot of fans'' without any ambiguity. Next, we introduce the details
   about applying topic models for language model adaptation.
 
-\jbgcomment{Need to explain why language models are useful in
-  translation.  E.g., give two translation options and show how LM
-  adjust.  Then motivate how TM can help with
-  that. \yhcomment{fixed.}}
-
 \paragraph{Language Model Adaptation from Monolingual topic models}
 
-Early work~\citet{Clarkson-1997,Seymore-1997,Kneser-1997,Iyer-1999} focuses on
+Early work~\citep{Clarkson-1997,Seymore-1997,Kneser-1997,Iyer-1999} focuses on
 partitioning the training data to multiple topic-specific subsets and
 building up language models for each subset. Then the topic-specific
 language models $p_k(w|h)$ are linearly combined with a general
@@ -629,12 +633,13 @@ from different languages can complement each other to extract better
 topics. In order to introduce multilingual information to topic models
 for language model adaptation, various approaches such as
 \cite{Tam-2007}, \cite{Ruiz-2011}, \cite{Yu-2013} etc., have been
-explored. More details are introduced in this section.
+explored. 
 
 \cite{Tam-2007} introduces the bilingual latent semantic
 analysis~(\textsc{blsa}) to learn the topics for both source language
 and target language, and apply the learned topics into language model
-adaptation for \textsc{smt}. Similar to polylingual topic models~\citep{mimno-09}, \textsc{blsa} transfers the inferred
+adaptation for \textsc{smt}. Similar to polylingual topic models~\citep{mimno-09}, 
+\textsc{blsa} transfers the inferred
 topics from the source language to the parallel target language.
 
 More specifically, \cite{Tam-2007} assume the aligned source document
@@ -670,7 +675,7 @@ the results of \textsc{smt}.
 
 \jbgcomment{again, good to have ex}
 
-\citet{Yu-2013} presents a hidden topic Markov model to improve
+\citet{Yu-2013} presents a hidden topic Markov model~(\textsc{htmm}) to improve
 the language model in \textsc{smt}. They build up a topic model on the
 source side and target side respectively, and learn a topic-specific
 language model based on the target side by estimating the
@@ -689,16 +694,14 @@ where $N_{1+}(w^{i-1}_{i-n-1}, k_e)$ is the number of words following
 $w^{i-1}_{i-n-1}$ in topic $k_e$, and $c(w^i_{i-n+1}, k_e)$ is the
 count of n-gram $w^i_{i-n+1}$ in $k_e$.
 
-During the decoding, since no target sentence is available, they use
-the topic model on the source side to predict the topics for the
-testing data, and then project the source topic to the target topic,
-and then estimate the probability as following:
+During the decoding, since no target sentence is available, they extract the topics on the 
+source side and project the source topic to the target side. 
+The target probability is estimated as following:
 \begin{align}
 p(e) = \sum_{k_e} p(e|k_e) p(k_e) = \sum_{k_e} p(e|k_e) \cdot \sum_{k_f} p(k_e|k_f) p (k_f)
 \end{align}
 where $p(k_e|k_f)$ is the topic projection probability, estimated by
-the co-occurrence of the source-side and the target-side topic
-assignment.
+the co-occurrence of the source-side and the target-side topic assignment.
 
 
 \section{Reordering with Topic Models}
@@ -772,7 +775,6 @@ This framework is very flexible and can encode any topic-based features.
 Any multilingual topic models we have discussed so far can be
 applied to extract better topics.
 
-\jbgcomment{I don't understand this.  Example would really help. \yhcomment{added.}}
 
 
 %The goal of a lexicalized reordering model is to learn the orientation
@@ -859,8 +861,8 @@ applied to extract better topics.
 
 In addition to translation models, language models and reordering models,
 there are also other modules of \textsc{smt}, such as word alignment,
-where topic models have also been applied.  present a
-Bilingual topical admixture (BiTAM) \citet{zhao-06}  improves  word
+where topic models have also been applied. \citet{zhao-06} present a
+Bilingual topical admixture (BiTAM) to improve  word
 alignment in \textsc{smt}. BiTAM assumes each document pair is an
 admixture of topics, and the topics for each sentence pair within that
 document pair are sampled from the same document-topic
@@ -873,13 +875,11 @@ alignments is improved.
 
 Besides, coherence, which ties sentences of text into a meaningfully
 connected structure~\citep{xiong-13}, is another important piece to
-\textsc{smt}.\citet{xiong-13} introduce a topic-based coherence model
+\textsc{smt}. \citet{xiong-13} introduce a topic-based coherence model
 to improve the document translation quality. They learn the sentence
 topic for source documents, based on which they predict the target
 topic chain; they then incorporate the predicted target coherence
 chain into the document translation decoding process.
-
-\jbgcomment{Need to define coherence \yhcomment{added.}}
 
 In general, multilingual topic models obtain topics with high quality,
 since different languages can complement each other to reduce topic
