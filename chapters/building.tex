@@ -1,4 +1,8 @@
 
+
+\chapter{Building a Topic Model}
+\label{ch:building}
+
 Previous chapters have focused on \emph{existing} models.  This
 chapter focuses on how a researcher can create, implement, and
 validate a new model.  Previous chapters describe
@@ -242,8 +246,17 @@ dependencies in the variational distribution, the more terms you must
 consider.  When there are latent variables for every token in many
 documents, this can quickly explode.
 
-\citet{} argue that the appropriate choice of a variational
-distribution is a mostly fully-factored distribution.
+Often a fully-factored variational distribution is a good choice.
+After implementing a fully-factorized variational distribution, a
+reasearcher should carefully monitor the objective function (Equation~\ref{}).  Ideally
+it will quickly increase and reach a stable (local) optimum
+(Figure~\ref{}, left).  However,
+if it does not (Figure~\ref{}, right), then it could be that there are
+coupled variables that are not well served by the variational
+distribution.
+
+Coupled variables need to change together, and a fully-factorized
+distribution forces them to change in sequence.
 
 \paragraph{Deriving the Objective Function}
 
