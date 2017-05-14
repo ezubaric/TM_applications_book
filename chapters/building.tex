@@ -35,14 +35,14 @@ performance, tractability, and interpretability.
 A good model should reflect the world.  If political scientists
 believe that a politician's ideology is a property that changes how they speak, then the model should place a
 speaker's ideology upstream of the language politicians produce
-(upstream vs. downstream models are discussed in Chapter~\ref{ch:css}).
+(upstream vs. downstream models are discussed in \citet{mimno-08} and Chapter~\ref{ch:css}).
 
 Modeling reality is a good idea. But just as building a scale model of a building requires compromises in terms of materials and level of detail, building a statistical model requires unreal assumptions.
 If a generative model exactly
 matches the process that produces data, we can prove that it will
-converge to the correct answer ~\cite{}.
+converge to the correct answer~\citep{neal-93}.
 But humans and text are
-not Dirichlet and multinomial distributions; all models are going to
+not Dirichlet and discrete distributions; all models are going to
 be an approximation.
 
 In addition to determining \emph{where} to model a feature in a
@@ -60,7 +60,7 @@ politician's ideology.
 Greater fidelity to our perceptions of how the world works does not always imply that models will be more  useful.
 We sometimes have to trade off fidelity with performance.
 Recent work seems to agree that \emph{downstream} models work better even though it is
-less realistic.\footnote{One might argue that it is more realistic for
+less realistic~\citep{nguyen-13:shlda}.\footnote{One might argue that it is more realistic for
   a \emph{listener} who must interpret speech to assign an ideology
   after it has been heard, but this is no longer consistent with how
   the text was \emph{generated}.}  %% CITE?
@@ -87,25 +87,25 @@ are more centrist than others even though they might have the same
 party label.
 
 However, discrete labels are appealing from a modeling perspective.
-Combinations of Dirichlet-Multinomial distributions (Chapter~\ref{})
+Combinations of Dirichlet-discrete distributions (Chapter~\ref{ch:intro})
 are easy to to combine.  Given that basic topic models are built from
-Dirichlets and Multinomials, it is easier to add an additional
-Dirichlet-Multinomial than to add a continuous random variable to the
-model.  For example, the Topic-Aspect model~\citep{} is far simpler to
-implement than Supervised Topic Models~\citep{}.
+Dirichlets and discrete distributions, it is easier to add an additional
+Dirichlet-discrete than to add a continuous random variable to the
+model.  For example, the Topic-Aspect model~\citep{paul-10} is far simpler to
+implement than Supervised Topic Models~\citep{blei-07b}.
 
-Dirichlets and Multinomials play well together because they are
-conjugate~\citep{}, while Gaussian distributions add additional
+Dirichlets and discrete distributions play well together because they are
+conjugate, while Gaussian distributions add additional
 difficulty.  However, Gaussian distributions are more convenient than
-other distributions.  For example, spherical distributions~\citep{} are thought
+other distributions.  For example, spherical distributions~\citep{Batmanghelich-16} are thought
 to better model continuous embeddings of words than Gaussian
 distributions but come at the cost of a less tractable model.
 
 Even worse are combinatorial probability distributions.  For example,
-in Chapter~\ref{} we discussed how to learn mappings across
-languages.  \citet{} used a combinatorial distribution to learn the
+in Chapter~\ref{ch:mt} we discussed how to learn mappings across
+languages.  \citet{boyd-graber-09} use a combinatorial distribution to learn the
 mapping from one language to another.  It is very complicated but
-does not model languages as well as far simpler approaches~\citep{}.
+does not model languages as well as far simpler approaches~\citep{mimno-09}.
 
 Our listing of ever more complicated distributions should not be taken
 as an admonition against using them: sometimes complicated models are
@@ -123,21 +123,21 @@ complicating a model.
 
 \paragraph{Interpretability}
 
-As we describe in Chapter~\ref{}, interpretability is a measure of how
+As we describe in Chapter~\ref{sec:coherence}, interpretability is a measure of how
 easy it is for a human to understand the results of a model.  Often,
 the interpretability of a model is an afterthought.  That's if it is thought of
 at all; many papers neglect to inspect the learned parameters of a
 model, focusing instead on the performance.
 
 While always a problem, wIth the increased prominence of deep learning (discussed more in
-Chapter~\ref{}), this is particularly worrying.  Deep learning has a
+Chapter~\ref{ch:conc}), this is particularly worrying.  Deep learning has a
 reputation for inscrutable parameters but state-of-the-art
 performance.  One of the strengths of probabilistic models is their
 interpretability and grounded generative processes.  Thus, researchers who
 choose probabilistic models such as topic models should not ignore the
 interpretability of their models.
 
-While Chapter~\ref{} discusses ways of rigorously evaluating the
+While Chapter~\ref{sec:coherence} discusses ways of rigorously evaluating the
 interpretability of models, even a simple once-over of model
 parameters by the researcher can reveal whether a learned model
 ``makes sense'' or not.  Inspecting the model can help buttress
@@ -145,14 +145,14 @@ whether the design of the model (``fidelity'', above) was able to
 capture the intuitions of the modeler.
 
 However, there are often tradeoffs with interpretability (as with the
-choice of a deep learning model).  \citet{} found that the Correlated
-Topic Model~\citep{} had markedly higher held-out likelihood at the
+choice of a deep learning model).  \citet{chang-09a} found that the Correlated
+Topic Model~\citep{blei2007correlated} had markedly higher held-out likelihood at the
 cost of interpretability.
 
 \section{Implementing the Model}
 
 So you have a new model in hand.  This is usually described as a
-generative process (Chapter~\ref{}): a sequence of probabilistic steps
+generative process (Chapter~\ref{sec:lda}): a sequence of probabilistic steps
 that tells a story of how your data came to be.
 
 Implementing a model requires writing down this model in a form that a
@@ -177,12 +177,12 @@ systems you don't often use (or can't afford).
 
 \paragraph{Stan}
 
-Stan is an inference framework that works best with the R programming
+Stan~\citep{stan} is an inference framework that works best with the R programming
 language.
 
 \paragraph{Infer.Net}
 
-Stan is a Microsoft-created, closed-source framework that works well for conjugate
+Infer.net~\citep{InferNET14} is a Microsoft-created, closed-source framework that works well for conjugate
 models but can only be used on the Windows operating system.
 
 \paragraph{Automatic Differentiation}
@@ -190,19 +190,19 @@ models but can only be used on the Windows operating system.
 The advent of deep learning has created a variety of
 auto-differentiation platforms.  These can often be used for arbitrary
 objective functions including variational inference.  If you're
-already familiar with Torch or Theano, it's relatively easy to use
+already familiar with Torch~\citep{collobert-11} or Theano~\citep{theano}, it's relatively easy to use
 these tools to define variational objectives for arbitrary
 probabilistic models.
 
 \subsection{Variational Inference}
 
-While we focused on Gibbs sampling in Chapter~\ref{}, the other major
-class of inference algorighms is variational inference.  Compared to
+While we focused on Gibbs sampling in Chapter~\ref{sec:inference}, the other major
+class of inference algorithms is variational inference.  Compared to
 Gibbs sampling, variational inference is often considered to be
 slightly more difficult to both derive and implement.
 
 Variational inference is similar to expectation maximization
-algorithms~\cite{}.  Expectation maximization algorithms find a
+algorithms~\citep{liang-07b}.  Expectation maximization algorithms find a
 setting of latent variables $z$ and parameters $\theta$ that maximize
 the data likelihood $p(x \g z, \theta)$.  First, start with some guess
 of what the the latent variables might be $z_0$.  Then update the
@@ -223,35 +223,47 @@ adding its namesake variational distribution $q(z)$.
 
 A variational distribution is over the model's latent variables.
 Although it is a distribution over the same variables, it is typically
-simpler.  For example, in common approaches for topic models~\citep{}, the
+simpler.  For example, in common approaches for topic models~\citep{blei-03}, the
 distribution is fully factorized.  For example, the true distribution
 over latent variables is
 \begin{equation}
-
+p(z, \theta) = \prod_k p(\phi_k \g \beta) \ \prod_d p(\theta_d \g
+    \alpha {\bm u}) \prod_n p(z_{d,n} \g \theta_d) p(w_{d,n} \g
+    \beta_{z_{d,n}})
 \end{equation}
-while the variation distribution is
+while the variational distribution is
 \begin{equation}
-
+q(z, \theta, \beta) = \prod_k q(\beta_k \g \lambda_k) \prod_d q(\theta_d
+  \g \gamma_d) q(z_{d,n} \g \phi_{d,n}),
 \end{equation}
+where $\lambda$ and $\gamma$ are Dirichlet parameters that describe
+the models latent variables; although functionally the same as the
+true distribution $p$, because the parameters are no longer tied,
+they're called variational parameters.
 
 Instead of maximizing the data likelihood, variational inference
 optimizes a different likelihood function: minimizing the Kulbeck-Leibler
 \emph{divergence} between the distributions $p$ and $q$.  This is
 equivalent to optimizing a lower bound of the data likelihood,
 \begin{equation}
-.
+  \ell \equiv \e{q}{\log \left(p(w \g z, \theta) p(z, \theta | \alpha,
+      \beta) \right) } - \e{q}{\log q(z, \theta)}
+\label{eq:obj}
 \end{equation}
 
 This optimization can be done through many strategies: direct
-optimization~\cite{}, stochastic gradient~\cite{}, or coordinate
-ascent~\cite{}.
+optimization, stochastic gradient~\citep{hoffman-10}, or coordinate
+ascent~\citep{blei-03}.
 
 \paragraph{Deriving the Objective Function}
 
 Once you have chosen a variational distribution, you need to derive
-the full form of the objective and
+the full form of the objective and compute the updates for each
+variational parameter.  This involves taking the derivative of
+Equation~\ref{eq:obj} with respect to that variational parameter,
+setting it equal to zero, and then solving for the variational parameter.
 
-\paragraph{Chosing a Variational Distribution}
+\paragraph{Choosing a Variational Distribution}
 
 On one hand, you want to choose a variational distribution that is
 close to the true distribution over the latent variables.  In fact, if
@@ -266,14 +278,29 @@ dependencies in the variational distribution, the more terms you must
 consider.  When there are latent variables for every token in many
 documents, this can quickly explode.
 
+\begin{figure}
+  \includegraphics[width=.7\linewidth]{figures/objective_functions}
+
+  \caption{Monitoring the objective function is an important component
+  of diagnosing whether inference is working correctly.  Correct
+  variational inference should increase monotonically while Gibbs
+  sampling can decrease slightly.  However, in both cases, the
+  objective function should increase dramatically over time.  If the
+  objective is flat, it may mean that there are issues design choices
+  in your inference algorithm.  Note: the
+  scales for variational inference and Gibbs sampling are not
+  comparable.}
+  \label{fig:objective_func}
+\end{figure}
+
 Often a fully-factored variational distribution is a good choice.
 After implementing a fully-factorized variational distribution, a
-reasearcher should carefully monitor the objective function (Equation~\ref{}).  Ideally
-it will quickly increase and reach a stable (local) optimum
-(Figure~\ref{}, left).  However,
-if it does not (Figure~\ref{}, right), then it could be that there are
-coupled variables that are not well served by the variational
-distribution.
+researcher should carefully monitor the objective function
+(Equation~\ref{eq:obj}).  Ideally it will quickly increase and reach a
+stable (local) optimum (Figure~\ref{fig:objective_func}, left).
+However, if it does not (Figure~\ref{fig:objective_func}, right), then
+it could be that there are coupled variables that are not well served
+by the variational distribution.
 
 Coupled variables need to change together, and a fully-factorized
 distribution forces them to change in sequence.  For example, let's
@@ -289,7 +316,7 @@ becomes $q(x,y)$ (as appropriate for whatever form those variables take).
 
 \subsection{Gibbs Sampling}
 
-Gibbs sampling (as discussed at a high level in Chapter~\ref{}) finds
+Gibbs sampling (as discussed at a high level in Chapter~\ref{ch:intro}) finds
 latent variables by randomly sampling an assignment of each random
 variable conditioned on all of the other random variables.
 
@@ -298,12 +325,16 @@ distribution of each random variable conditioned on all of the
 others.  For example, the conditional distribution of the topic
 assignment of a word $z_{d,n}$ is
 \begin{equation}
-
+p(z_{d,n} \g z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
+\theta, \phi) = \frac{z_{d, 1} \dots z_{d, N_d}, \theta, \phi)}{ p(z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
+\theta, \phi)},
+\label{eq:gibbs_conditional}
 \end{equation}
+which simplifies into Equation~\ref{eq:sampling}.
 
 Deriving conditional distributions is often simpler than expanding
 variational expectations.  For a step-by-step tutorial on deriving
-Gibbs sampling for probabilistic models, see \citet{}.
+Gibbs sampling for probabilistic models, see \citet{hardisty-10}.
 
 \paragraph{Marginalization and Joint Variables}
 
@@ -352,7 +383,7 @@ Thus, you will want to take as many steps to ensure their accuracy as
 possible.
 
 For variational inference, each update of the variational parameters
-increases the objective function (Equation~\ref{}).  Thus, you can
+increases the objective function (Equation~\ref{eq:obj}).  Thus, you can
 check after every update of a variable's variational distribution
 whether that objective has increased or not.  While not every update
 will exactly increase the objective (due to numerical precision errors or
@@ -375,7 +406,7 @@ has a similar structure or application.  This can help you during
 development.
 
 For example, you may want to extend supervised \abr{lda} in some way
-(Chapter~\ref{}).  Fortunately, \abr{slda} is a well-defined model and
+(Chapter~\ref{ch:css}).  Fortunately, \abr{slda} is a well-defined model and
 has established performance on widely available datasets.
 
 Thus, a reasonable development strategy would be to create a series of
@@ -387,7 +418,7 @@ changes to the model are.
 
 A standard metric to report for topic models is their perplexity or
 held-out likelihood.  This is the probability of held-out data given
-the settings of the model.  \citet{} detail the somewhat complicated
+the settings of the model.  \citet{wallach-09a} detail the somewhat complicated
 method for fairly reporting perplexity in topic models (which is
 beyond the scope of this survey).
 
@@ -411,7 +442,7 @@ should be tightly integrated in the probabilistic story.  Rather than
 simply listing the steps of the generative process, the generative
 process should be described with evocative variable names.  For
 example, if your model attempts to capture political polarization,
-then you may call a multinomial variable ``polarization $\pi$'' to
+then you may call a discrete variable ``polarization $\pi$'' to
 make it clear where in the model this aspect will be modeled.
 
 However, simply naming a variable doesn't make it so.  You will also
@@ -435,15 +466,15 @@ the latent variables in your models correctly capture those aspects of
 the documents (or not; as with topics, it's important to show failure
 modes as well).
 
-In addition, you will also have quantiative metrics for your task.
+In addition, you will also have quantitative metrics for your task.
 This could be accuracy of prediction, precision at rank $K$, or
-translation quality (Chapter~\ref{}).  When reporting quantitative
+translation quality (Chapter~\ref{ch:mt}).  When reporting quantitative
 results, it's important to remember the probabilistic foundations of
 topic models: you are not learning one answer.  Regardless of the
 inference, you are learning a \emph{distribution} over latent
 variables given a dataset.
 
-Thus, it is important to convey the inherent uncerainty in inference.
+Thus, it is important to convey the inherent uncertainty in inference.
 You should run inference multiple times with different random seeds
 (Gibbs sampling) or random initializations (variational inference).
 This allows you to report quantitative results with error bars to make

@@ -305,6 +305,7 @@ If the base measure is uniform and the concentration parameter $\alpha_0$ is equ
 
 
 \section{Latent Dirichlet Allocation}
+\label{sec:lda}
 
 We now have all the tools we need to tell the complete story of the most popular topic model: latent Dirichlet allocation~\citep{blei-03}.  Latent
 Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
@@ -398,7 +399,8 @@ gradient descent~\citep{hoffman-10}, and Gibbs
 sampling~\citep{griffiths-04}.  All of these algorithms have their
 advocates and reasons you should use them.  In this survey, we focus
 on Gibbs sampling, which is simple, intuitive, and---with some clever
-tricks specific to topic models---fast~\citep{yao-09}.
+tricks specific to topic models---fast~\citep{yao-09}.  (We discuss
+variational inference in Chapter~\ref{ch:building}.)
 
 We present the results of Gibbs sampling without derivation,
 which---along with the history of its origin in statistical
@@ -484,9 +486,10 @@ $p(z_{d,n}=j\,|\,z_{d,1}\dots z_{d,n-1},z_{d,n+1}\dots z_{d,N_d}, w_{d,n})$ to
 show the dependence on the topic assignments of \emph{all other} token but not
 this token.}
 \begin{align}
-p(z_{d,n}=j\,|) = \theta_d
+p(z_{d,n}=j \g \dots) = \theta_d
 \phi_j = \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
     \beta_w} \right).
+\label{eq:sampling}
 \end{align}
 Computing this value for each topic will result in a probability distribution over the topic assignment for this word token, given all the other topic assignments.  The next step is to randomly choose one of those indices with
 probability proportional to the vector value.  You now assign that word to the
