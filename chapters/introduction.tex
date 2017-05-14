@@ -2,7 +2,7 @@
 \chapter{The What and Wherefore of Topic Models}
 \label{ch:intro}
 
-Imagine that you're an intrepid reporter with an amazing scoop: you have
+Imagine that you are an intrepid reporter with an amazing scoop: you have
 twenty-four hours of exclusive access three decades of e-mails sent within a
 corrupt corporation.  You know there's dirt and scandal there, but it has been
 well-concealed by the corporation's political friends.  How are you going to
@@ -26,10 +26,10 @@ problem that confronts those interacting with large text datasets.
 
 A different, but related problem is \emph{understanding} large document
 collections, common in science policy~\citep{talley-11}, journalism, and the
-humanities~\citep{moretti-13}.  There isn't just one precious needle in
+humanities~\citep{moretti-13}.  There is not just one precious needle in
 the haystack.  At the risk of abusing the metaphor, \emph{sometimes you care
   about the straw}.  Instead of looking for a smoking gun alerting to you some
-crime that was committed, perhaps you're looking for a sin of
+crime that was committed, perhaps you are looking for a sin of
 omission: did this company never talk about diversity in its workforce?
 Instead of a single answer to a question, perhaps you are looking for a diversity
 of responses: what are the different ways that people account for rising income
@@ -41,7 +41,7 @@ At first, it might seem that answering these questions would require building an
 extensive ontology or categorization scheme.  For every new corpus, you would need to define  the buckets that a document could fit into, politely ask some librarians and
 archivists to put each document into the correct buckets, perhaps automate the
 process with some supervised machine learning, and then collect summary
-statistics when you're done.
+statistics when you are done.
 
 Obviously, such laborious processes are possible---they have been done
 for labeling congressional
@@ -80,24 +80,14 @@ will likely not learn much technically, but we hope our coverage of
 diverse applications will expose a topic modeling expert to models and
 approaches they had not seen before.
 
-\section{What is a Topic Model}\footnote{
-Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
-There is a substantial and well-developed field of topic detection and tracking \citep{allan-02}.
-In TDT, a topic is usually closer to an event or an individual story.
-In contrast, topic models tend to identify more abstract latent factors.
-For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
-
-There has been some work on using topic models to detect emerging events by searching for changes in topic probability \citep{alsumait-08}.
-But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
-Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases \citep{leskovec-09}.}
+\section{What is a Topic Model}
 
 Returning to our motivating example, consider the e-mails from Enron, the prototypical
-evil corporation of the turn of the century.  Imagine that you're an
-investigative reporter, the first to get your hands on Enron e-mails.  You know
+troubled corporation of the turn of the century.  A source has provided you with a trove of emails, and your editor is demanding an article by yesterday.  You know
 that wrongdoing happened, but you do not know who did it or how it was planned
 and carried out.  You have suspicions (e.g., around the California energy spot market),
 but you are curious to know if there are other skeletons in the closet, and
-you're highly motivated to find them.
+you are highly motivated to find them.
 
 So you run a topic model on the data.  True to its name, a topic model
 gives you ``topics'', collections of words that make sense together.
@@ -158,7 +148,7 @@ is a Saturday). Reply comments would be filed 10 days later.}}
 \end{tabular}
 \end{center}
   \caption{Example document from the Enron corpus and its association
-    to topics.  Although it doesn't contain the word ``California'',
+    to topics.  Although it does not contain the word ``California'',
     it discusses a single California utility's dissatisfaction with how
     much it is paying for electricity.}
   \label{fig:enron_doc}
@@ -219,6 +209,15 @@ easy modification (as we see later in many of our later chapters).
   \label{fig:distribution_examples}
 \end{figure}
 
+Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
+There is a substantial and well-developed field of topic detection and tracking \cite{allan-02}.
+In TDT, a topic is usually closer to an event or an individual story.
+In contrast, topic models tend to identify more abstract latent factors.
+For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
+
+There has been some work on using topic models to detect emerging events by searching for changes in topic probability \cite{alsumait-08}.
+But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
+Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases \cite{leskovec-09}.
 
 \subsection{Probabilistic Building Blocks}
 \label{sec:intro_building_blocks}
@@ -514,7 +513,7 @@ start exploring the collection automatically (Chapter~\ref{ch:ir}) or with a
 human in the loop (Chapter~\ref{ch:viz}).
 
 The algorithm that we have sketched here is the foundation of many of the more
-advanced models that we will discuss later in the survey.  While we won't describe
+advanced models that we will discuss later in the survey.  While we will not describe
 the algorithms in detail, we will occasionally make reference to this sketch to
 highlight challenges or difficulties in implementing topic models.
 
