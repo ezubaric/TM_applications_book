@@ -88,10 +88,14 @@ simple averaging don't seem worth the hassle~\citep{iyyer-15}.
 \paragraph{Parallel Evolution}
 
 Another possible path is less intertwined: topic models and
-deep-learning representation learning could peacefully co-exist for
-some time.  Topic models offer advantages of speed and
+deep-learning representation learning solve different problems and 
+are not directly competitive.  Topic models offer advantages of speed and
 interpretability, while representation learning can do better for
-prediction-based tasks.  They would well become tools that many text
+prediction-based tasks. 
+Topic models have never been ideal, for example, in inducing features for text classification: it is almost always better to simply use word-count features.
+If interpretability and recognizability is not a fundamental goal of your analysis, you are probably better off using something else.
+However, in cases where interpretability and recognition are the main and final goals of analysis, deep learning methods currently offer little because their very advantage ---greater representational complexity---is also their weakness.
+Both approaches should be tools that many text
 miners have in their toolkit, with specific circumstances for using
 either.
 
@@ -99,7 +103,7 @@ either.
 
 However, in our view, the primary research challenge of topic models
 is not to make these models and their inference more complicated but
-rather to make them more accessible.  As we've described, topic models
+rather to make them more accessible.  As we have described, topic models
 can help scholars and ordinary people navigate large text collections.
 
 However, using topic models still requires extensive data and computer
@@ -107,13 +111,13 @@ skills.  Our job as information scientists is not complete until these
 tools (or suitable alternatives) are available to everyone who needs
 them.
 
-This requires making the tools more usable: the preprocessing often
-required of topic models is not straightforward: should we remove
+This goal requires making the tools more usable.
+The corpus preprocessing and vocabulary curation required of topic models is not straightforward: should we remove
 non-English documents, what should we consider a document, how should
 we handle metadata?  Nor are the modeling choices needed to make sense
 of the data trivial: how many topics should we use, which of the many
-possible models should we use, what inference technique gives us the
-best tradeoff between speed and accuracy.  Existing topic models do a
+possible models should we use, and what inference technique gives us the
+best tradeoff between speed and accuracy?  Existing topic models do a
 poor job of communicating what options are available to a user and
 what consequences these choices have.
 
@@ -137,7 +141,7 @@ to---for example---search engines.
 \section{Coda}
 
 We hope that you have enjoyed our survey of topic models'
-applications.  For further information, we'd encourage the reader to
+applications.  For further information, we would encourage the reader to
 investigate the topic modeling
 bibliography,\footnote{\url{https://mimno.infosci.cornell.edu/topics.html}}
 join the topic modeling mailing
