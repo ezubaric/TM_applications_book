@@ -8,6 +8,11 @@ models that researchers have created to capture particular nuances or
 processes that exist in the world, but omit blueprints
 for research who want to extend an existing model or create their own.
 
+Before going into the details of constructing new models, we encourage users to consider whether questions can be answered through post-hoc analysis of a simple topic model in the context of additional information.
+For example, a simple dynamic topic model can be constructed from a standard LDA model by slicing the corpus into sections and estimating the probability distribution over words for each topic in each section.
+Building and validating custom topic models is a powerful tool, but requires significant investment in coding and debugging, and may not be able to take advantage of computational optimizations available for simpler models.
+Posterior predictive checks \cite{mimno-11Bayesian} provide a good means of determining whether LDA topics or words within topics already show patterns that are present but not explicitly modeled.
+
 It is impossible to cover all of the details of research in topic
 models or machine learning generally, but this chapter introduces some
 of the common techniques for creating new models.  We will focus on a
@@ -63,7 +68,7 @@ Recent work seems to agree that \emph{downstream} models work better even though
 less realistic~\citep{nguyen-13:shlda}.\footnote{One might argue that it is more realistic for
   a \emph{listener} who must interpret speech to assign an ideology
   after it has been heard, but this is no longer consistent with how
-  the text was \emph{generated}.}  %% CITE?
+  the text was \emph{generated}.} 
 
 It is nearly impossible to know \textit{a priori} whether a
 model will work well for a particular task given just the model.
@@ -80,14 +85,14 @@ that a downstream model would work well for ideology as well.
 
 \paragraph{Tractability}
 
-Now that we know what we want to model, some approaches to model the
+Now that we know what variable we want to model, some approaches to model that
 variable could be easier than others.  Political ideology is often
 thought of as a \emph{spectrum} rather than a label: some politicians
 are more centrist than others even though they might have the same
 party label.
 
 However, discrete labels are appealing from a modeling perspective.
-Combinations of Dirichlet-discrete distributions (Chapter~\ref{ch:intro})
+Dirichlet-discrete distributions (Chapter~\ref{ch:intro})
 are easy to to combine.  Given that basic topic models are built from
 Dirichlets and discrete distributions, it is easier to add an additional
 Dirichlet-discrete than to add a continuous random variable to the
@@ -111,7 +116,7 @@ Our listing of ever more complicated distributions should not be taken
 as an admonition against using them: sometimes complicated models are
 necessary.  However, one should not choose a complicated model just
 because it is complicated (an alluring temptation to young graduate
-students who want to show off their machine learning chops).  It is
+students who want to show off their machine learning chops). It is
 best to try the simplest possible model that could work; even if it
 fails, this model can serve as a useful baseline.
 
@@ -125,11 +130,11 @@ complicating a model.
 
 As we describe in Chapter~\ref{sec:coherence}, interpretability is a measure of how
 easy it is for a human to understand the results of a model.  Often,
-the interpretability of a model is an afterthought.  That's if it is thought of
+the interpretability of a model is an afterthought.  That is if it is thought of
 at all; many papers neglect to inspect the learned parameters of a
-model, focusing instead on the performance.
+model, focusing instead on quantifications of performance.
 
-While always a problem, wIth the increased prominence of deep learning (discussed more in
+While always a problem, with the increased prominence of deep learning (discussed more in
 Chapter~\ref{ch:conc}), this is particularly worrying.  Deep learning has a
 reputation for inscrutable parameters but state-of-the-art
 performance.  One of the strengths of probabilistic models is their
@@ -169,9 +174,9 @@ hand'', and restrict the kinds of models you can explore.
 
 Using a tool (no matter how wonderful) developed by someone else means
 that you must accept their assumptions.  It may force you to use a
-programming language that you're unfamiliar with, it may force you to
+programming language that you are unfamiliar with, it may force you to
 format your data in odd ways, or it may restrict you to operating
-systems you don't often use (or can't afford).
+systems you don't often use (or cannot afford).
 
 % Church?
 
@@ -189,8 +194,8 @@ models but can only be used on the Windows operating system.
 
 The advent of deep learning has created a variety of
 auto-differentiation platforms.  These can often be used for arbitrary
-objective functions including variational inference.  If you're
-already familiar with Torch~\citep{collobert-11} or Theano~\citep{theano}, it's relatively easy to use
+objective functions including variational inference.  If you are
+already familiar with Torch~\citep{collobert-11} or Theano~\citep{theano}, it is relatively easy to use
 these tools to define variational objectives for arbitrary
 probabilistic models.
 
@@ -242,7 +247,7 @@ true distribution $p$, because the parameters are no longer tied,
 they're called variational parameters.
 
 Instead of maximizing the data likelihood, variational inference
-optimizes a different likelihood function: minimizing the Kulbeck-Leibler
+optimizes a different likelihood function: minimizing the Kullback-Leibler
 \emph{divergence} between the distributions $p$ and $q$.  This is
 equivalent to optimizing a lower bound of the data likelihood,
 \begin{equation}
@@ -370,10 +375,16 @@ variables you generated.  If your inference algorithm does not come
 close, there is likely a problem with your inference procedure.
 
 However, topic models can be tricky.  Topic~7 in your synthetic data
-may correspond to Topic~4 that you discovered in inference.  That's
+may correspond to Topic~4 that you discovered in inference.  That is
 not a problem as the topic identifiers are arbitrary; thus, you will
 have to match topics greedily or measure some other statistic to
 compare your inferred variables with the true synthetic data.
+
+Synthetic data is most valuable when it is close to the distribution of real data.
+Toy problems can be a good sanity check, but provide at best a loose upper bound on our ability to model data that we care about.
+Using {\em semi-synthetic} data can therefore be a good compromise.
+In this setting, you train a model from real data, and then generate new documents from that model.
+The resulting semi-synthetic corpus has many of the correct properties of natural documents, such as vocabulary size and sparsity, but is guaranteed to actually fit the proposed model.
 
 \subsection{Updates}
 
@@ -390,7 +401,7 @@ will exactly increase the objective (due to numerical precision errors or
 initialization), no update should dramatically \emph{decrease} the
 objective.  If one does, you likely have a bug.
 
-Gibbs sampling is stochastic, so it's more difficult to debug.  But
+Gibbs sampling is stochastic, so it is more difficult to debug.  But
 for both variational inference and Gibbs sampling, you should write
 unit tests (worked out with pen and paper) to verify that your updates
 reach the right answer given the same inputs.  Gibbs sampling's
@@ -401,8 +412,8 @@ seeds, as discussed below).
 
 \subsection{Baselines and Metrics}
 
-Often you'll want to compare your model to another model that either
-has a similar structure or application.  This can help you during
+Often you will want to compare your model to another model that either
+has a similar structure or application.  This comparison can help you during
 development.
 
 For example, you may want to extend supervised \abr{lda} in some way
@@ -412,20 +423,25 @@ has established performance on widely available datasets.
 Thus, a reasonable development strategy would be to create a series of
 models that take you from \abr{slda} to your final model (e.g., adding
 one latent variable at a time), at each time comparing how well your
-model does against \abr{slda}.  These comparisons don't just aid
+model does against \abr{slda}.  These comparisons do not just aid
 development; they will also help document how important each of the
 changes to the model are.
 
+Comparisons between topic models can be difficult because implementations and algorithms can vary so much.
+It is often unclear, for example, whether an observed difference is due to one model being better than another or to comparing Gibbs sampling to variational inference.
+An excellent way to test a new algorithm for a complicated model is to find ways to implement simpler models in the same code.
+For example, you can emulate an LDA model using an Author-Topic model \cite{rosen-zvi-04} by assigning each document its own ``author''.
+
 A standard metric to report for topic models is their perplexity or
-held-out likelihood.  This is the probability of held-out data given
-the settings of the model.  \citet{wallach-09a} detail the somewhat complicated
-method for fairly reporting perplexity in topic models (which is
+held-out likelihood.  This value is the probability of held-out data given
+the settings of the model.  \citet{wallach-09a} detail a 
+method for estimating perplexity in topic models given a Gibbs sampling algorithm (which is
 beyond the scope of this survey).
 
 However, perplexity is often not what you care about for your
-application of topic models.  For example, if you developing a variant
+application of topic models. For example, if you developing a variant
 of \abr{slda}, you likely care about prediction accuracy.  Thus, as
-you're slowly building out your \abr{slda} variant, you should report
+you are slowly building out your \abr{slda} variant, you should report
 prediction performance as well.
 
 \section{Communicating Your Model}
@@ -445,7 +461,7 @@ example, if your model attempts to capture political polarization,
 then you may call a discrete variable ``polarization $\pi$'' to
 make it clear where in the model this aspect will be modeled.
 
-However, simply naming a variable doesn't make it so.  You will also
+However, simply naming a variable does not make it so.  You will also
 need to provide qualitative evidence that will convince a skeptical
 reader that your model is doing what you promised.  This is possible
 by providing overviews of your data at either the micro or macro
@@ -463,7 +479,7 @@ should also show individual documents and how they interact with
 data.  For example, if your model attempts to show political
 polarization, you can show polarized (or not) documents and show how
 the latent variables in your models correctly capture those aspects of
-the documents (or not; as with topics, it's important to show failure
+the documents (or not; as with topics, it is important to show failure
 modes as well).
 
 In addition, you will also have quantitative metrics for your task.
