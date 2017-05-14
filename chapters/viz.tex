@@ -27,9 +27,10 @@ words' probability.
 \paragraph{Word Lists}
 
 Just showing a list of the most common words (a
-visualization that we'll call ``word list'') is very simple, and it also works well.
-Users can quickly understand what's going on, and it is an efficient use of
-space.  represented horizontally~\cite{gardner2010topic,smith2015visual} or
+visualization that we will call ``word list'') is very simple, and it also works well.
+Users can quickly understand how words are arranged, and it is an efficient use of
+space. 
+Topics have been represented horizontally~\cite{gardner2010topic,smith2015visual} or
 vertically~\cite{eisenstein2012topicviz,chaney2012visualizing}, with or without
 commas separating the individual words, or using set
 notation~\cite{chaney2012visualizing}.  \citet{smith2015visual} go further by
@@ -80,10 +81,10 @@ each other in the visualization.
 
 \section{Labeling Topics}
 
-Throughout this survey, we've been referring to topics about
+Throughout this survey, we have been referring to topics about
 \underline{information technology} or about \underline{the arts}.  These are
 convenient labels, but completely removed from the raw distribution over words.
-Thus, it's often useful to assign labels to topics within an interface.
+Thus, it is often useful to assign labels to topics within an interface.
 
 In contrast to the previous \emph{visualization} approaches, labeling
 focuses on showing not the original words of a topic but rather a
@@ -285,9 +286,9 @@ large effect of what the final models are~\cite{wallach-09b}.
 \caption{Before and after topics with iteractive topic modeling from
   \citet{hu-14:itm}.  Initially, this topic conflates two topics
   (\red{urinary} and \blue{central nervous system}), which is undesierable.  Adding
-a constraint that the words ``bladder'' and ``spinal cord'' shouldn't
+a constraint that the words ``bladder'' and ``spinal cord'' should not
 appear together in a topic makes the topic more coherent and discovers
-concepts that \green{weren't present before}.}
+concepts that \green{were not present before}.}
 \label{fig:itm-nih}
 \end{figure}
 
@@ -309,7 +310,7 @@ documents it should represent.
 
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic
 constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
-the user might say that ``bladder'' and ``spinal cord'' don't belong in the same
+the user might say that ``bladder'' and ``spinal cord'' do not belong in the same
 topic together.  Figure~\ref{fig:itm-nih} shows how the topic is more focused after the
 user provides this feedback.  In contrast to probabilistic constraints,
 \citet{choo-13} and \citet{lund-17} use matrix factorization constraints to guide changes
@@ -321,6 +322,6 @@ While topic models provide users overviews of corpora, topic models
 cannot be much help if the users cannot effectively see or understand
 the underlying topics.
 Interactive visualizations allow users to discover and
-refine insights.  In the next chapters we'll talk about specific applications of
+refine insights.  In the next chapters we will talk about specific applications of
 these insights, but these insights are often built on the initial understanding
 of a model offered by the visualizations discussed in this chapter.

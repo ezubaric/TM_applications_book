@@ -33,7 +33,7 @@ Finally, we consider studies of historical scholarly literature.
 
 \section{Newspapers}
 
-\cite{newman-06} present an example of topic modeling on historical newspapers, in a collection of articles from the {\em Pennsylvania Gazette} from 1728 to 1800.\footnote{http://www.accessible-archives.com/}
+\citet{newman-06} present an example of topic modeling on historical newspapers, in a collection of articles from the {\em Pennsylvania Gazette} from 1728 to 1800.\footnote{http://www.accessible-archives.com/}
 These articles comprise 25 million word tokens in articles and advertisements, and cover several generations of everyday life before, during, and after the founding of the United States of America.
 The authors contrast their study to manually created keyword-based indexes, which focus on specific terms and can be applied inconsistently across large corpora.
 Spurious patterns in index term use could complicate historical research.
@@ -78,7 +78,7 @@ Nelson groups six topics related to soldiers, and displays them in the order of 
 They move from ``military recruitment'' and ``orders to report'' to later topics related to ``deserters'', ``casualties'', and ``war prisoners.''
 Again, these are related themes but rather than comprising a single event they trace the development of the increasingly dire military situation of the Confederacy.
 
-\cite{yang-11-historical} model a collection of historical newspapers from Texas spanning from the end of the Civil War to the present day.
+\citet{yang-11-historical} model a collection of historical newspapers from Texas spanning from the end of the Civil War to the present day.
 The goal is both exploratory, to find out about the interests of Texans through the 19th and 20th centuries, and {\em semi-exploratory}, to find out more about the history and context of specific, pre-specified themes such as cotton production.
 In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as a axis of investigation into the corpus.
 For example, a historian considered documents that exhibit topics related to {\em cotton}, and the topics that co-occur in those documents.
@@ -103,7 +103,12 @@ Topic models are often effective at identifying consistent data-preparation erro
 Other types of records besides newspapers are of interest, and present their own challenges.
 In this section we consider two case studies, in which the simplicity of the bag-of-words document model is an asset because it allows for substantial variability in spelling and language, both in English and in other languages.
 
-\cite{miller-13} uses Chinese records to investigate the meaning of
+\citet{erlin2017topic} search for work related to epistemology in a large corpus of English and German books.
+They ``seed'' the models for each language with a small set of query words that the authors expect to be related to that subject.
+This approach is closer to standard information retrieval than many other topic model applications, since the model is used both as a way of organizing the corpus and as a way of focusing attention on specific aspects.
+Their use of a topic model differs from standard IR in that they are more deliberately open to related terms and concepts: the field of epistemology is expected to be broad, and more likely to be represented by a combination of words than by any one query.
+
+\citet{miller-13} uses Chinese records to investigate the meaning of
 the word {\em zei}, or ``bandit'' in Qing dynasty China (1644--1912). The word by
 itself can imply several different forms of anti-social behavior,
 which are difficult to distinguish from word frequencies alone. A
@@ -169,7 +174,11 @@ The German-language journal articles contain relatively more work on law and ora
 The model also shows a large increase in  interest in poetry in the German journal in the period following the second world war.
 In the English journals there is a large increase starting in the 1980s in cultural and economic studies along with critical theory, which does not appear in the German journals.
 
-\cite{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
+\citet{riddell-12} also approaches German scholarly literature from the 20th century. He finds that topics align well with authors such as Goethe and subjects such as folklore. Apparent spikes in the use of these topics appear to align with anniversaries of authors (Goethe, the Grimm brothers).
+Riddell emphasizes that models are useful in raising issues but not a substitute for scholarship.
+He comments that ``it becomes essential that those using topic models validate the description provided by a topic model by reference to something other than the topic model itself.''
+
+\citet{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.
 For these authors the appeal of topic modeling is that models are better able to represent contextual meaning than simple lists of keywords. They write that ``[t]he meanings
 of words are shifting and context-dependent. For this reason, it’s risky to

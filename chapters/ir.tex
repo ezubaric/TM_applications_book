@@ -3,12 +3,19 @@
 
 Topic models explore and summarize document collections outside the context of any specific information need, when we do not necessarily know what we are looking for.
 This approach to information retrieval stands in contrast to traditional IR systems, which retrieve relevant documents given users' explicit information needs.
-Where IR systems might look for the ``needle in the haystack'', topic models will tell you about the overall proportion of hay and needles, and perhaps inform you about the mice that you didn't know were there.
+Where IR systems might look for the ``needle in the haystack'', topic models will tell you about the overall proportion of hay and needles, and perhaps inform you about the mice that you did not know were there.
 But topic models can also be useful in situations when we do have a specific information need, but we do not quite know how to search for it.
 Despite their differences in purpose, there are strong mathematical and conceptual connections between these two approaches.
 In this chapter we consider the use of topic modeling in IR to balance specific user queries with more open-ended discovery.
 
-In the ad hoc retrieval setting, users start with an information need expressed in the form of one or more queries. Many IR systems treat both the queries and documents as ``bags of words'', and retrieve and rank the documents by measuring the word overlap between queries and documents.
+In the most direct sense, topic models can be used as a simple indexing method.
+Users can find topics that assign high probability to a particular query term, and then find documents that exhibit a high probability of these topics.
+Such topic-based search may additionally provide some level of query disambiguation, since it may be clear from topic-word distributions that one or another topic is more relevant to the user's information need.
+More sophisticated approaches blur the boundary between query-driven retrieval and unsupervised topic modeling.
+\citet{erlin2017topic} search for passages related to epistemology in English and German books by ``seeding'' topic models with words thought to be relevant to that subject.
+This approach can be successful, but does not guarantee that relevant topics will be found, or that topics will really match the intended subject.
+
+In the more formal ad hoc retrieval setting, users start with an information need expressed in the form of one or more queries. Many IR systems treat both the queries and documents as ``bags of words'', and retrieve and rank the documents by measuring the word overlap between queries and documents.
 However, the ability of this direct and simple matching is always
 limited. Words with similar meaning or in different forms should also
 be considered as matched instead of being ignored. \textbf{Language
