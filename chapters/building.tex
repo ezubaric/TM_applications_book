@@ -1,5 +1,3 @@
-
-
 \chapter{Building a Topic Model}
 \label{ch:building}
 
@@ -174,14 +172,22 @@ systems you don't often use (or can't afford).
 
 \paragraph{Stan}
 
+Stan is an inference framework that works best with the R programming
+language.
 
 \paragraph{Infer.Net}
 
-
+Stan is a Microsoft-created, closed-source framework that works well for conjugate
+models but can only be used on the Windows operating system.
 
 \paragraph{Automatic Differentiation}
 
-
+The advent of deep learning has created a variety of
+auto-differentiation platforms.  These can often be used for arbitrary
+objective functions including variational inference.  If you're
+already familiar with Torch or Theano, it's relatively easy to use
+these tools to define variational objectives for arbitrary
+probabilistic models.
 
 \subsection{Variational Inference}
 
@@ -229,7 +235,16 @@ optimizes a different likelihood function: minimizing the Kulbeck-Leibler
 equivalent to optimizing a lower bound of the data likelihood,
 \begin{equation}
 .
-\end{equaiton}
+\end{equation}
+
+This optimization can be done through many strategies: direct
+optimization~\cite{}, stochastic gradient~\cite{}, or coordinate
+ascent~\cite{}.
+
+\paragraph{Deriving the Objective Function}
+
+Once you have chosen a variational distribution, you need to derive
+the full form of the objective and
 
 \paragraph{Chosing a Variational Distribution}
 
@@ -256,28 +271,191 @@ coupled variables that are not well served by the variational
 distribution.
 
 Coupled variables need to change together, and a fully-factorized
-distribution forces them to change in sequence.
+distribution forces them to change in sequence.  For example, let's
+say that $x=0$ and $y=0$ and that they are highly correlated, but a
+higher probability setting is for $x=1$ and $y=1$.  Coordinate ascent
+optimization with mean field will want to change $x$ or $y$
+individually when they must move together.
 
-\paragraph{Deriving the Objective Function}
+To fully model the interaction between the two variables, we can model
+$x$ and $y$ jointly in the variational distribution.  Instead of
+independent distributions $q(x)q(y)$, the variational distribution
+becomes $q(x,y)$ (as appropriate for whatever form those variables take).
 
 \subsection{Gibbs Sampling}
 
-Deriving conditional distributions
+Gibbs sampling (as discussed at a high level in Chapter~\ref{}) finds
+latent variables by randomly sampling an assignment of each random
+variable conditioned on all of the other random variables.
 
-\section{Debugging}
+Thus, after creating your model, you need to compute the conditional
+distribution of each random variable conditioned on all of the
+others.  For example, the conditional distribution of the topic
+assignment of a word $z_{d,n}$ is
+\begin{equation}
+
+\end{equation}
+
+Deriving conditional distributions is often simpler than expanding
+variational expectations.  For a step-by-step tutorial on deriving
+Gibbs sampling for probabilistic models, see \citet{}.
+
+\paragraph{Marginalization and Joint Variables}
+
+Just like there is some art in deciding which variables to join
+together in a joint distribution for variational inference, in Gibbs
+sampling, you need to decide which variables to sample jointly and
+which variables to marginalize.
+
+Jointly sampling variables solves the same problem as merging
+variables into the same variational distribution above.  Instead of
+sampling $x$ conditioned on all other variables and then sampling $y$,
+$x$ and $y$ are sampled \emph{at the same time} from a distribution
+that conditions $x$ and $y$ on all of the other variables.
+
+\section{Debugging and Validation}
+
+Now that you have implemented inference for your topic model, how do
+you know if it's working as intended?
 
 \subsection{Synthetic Data}
 
+Because most topic models have a generative story, we can
+\emph{generate} data.  This means running the probabilistic story of
+the model forward to generate data.  For example, for \abr{lda},
+sample a topic distribution for each document and a type distribution
+for each topic from Dirichlet distribution.  Such a dataset is often
+called a \emph{synthetic} dataset.
+
+If you create a dataset this way, the latent variables are no longer
+latent.  You know \emph{exactly} what they are.  If you run inference
+on these data you should be able to recreate the unmasked latent
+variables you generated.  If your inference algorithm does not come
+close, there is likely a problem with your inference procedure.
+
+However, topic models can be tricky.  Topic~7 in your synthetic data
+may correspond to Topic~4 that you discovered in inference.  That's
+not a problem as the topic identifiers are arbitrary; thus, you will
+have to match topics greedily or measure some other statistic to
+compare your inferred variables with the true synthetic data.
+
 \subsection{Updates}
 
-\section{Validating Whether it Worked}
+For both variational inference and Gibbs sampling, the most important
+step is updating the distribution for individual random variables.
+Thus, you will want to take as many steps to ensure their accuracy as
+possible.
 
-\subsection{Baselines}
+For variational inference, each update of the variational parameters
+increases the objective function (Equation~\ref{}).  Thus, you can
+check after every update of a variable's variational distribution
+whether that objective has increased or not.  While not every update
+will exactly increase the objective (due to numerical precision errors or
+initialization), no update should dramatically \emph{decrease} the
+objective.  If one does, you likely have a bug.
 
-\subsection{Metrics}
+Gibbs sampling is stochastic, so it's more difficult to debug.  But
+for both variational inference and Gibbs sampling, you should write
+unit tests (worked out with pen and paper) to verify that your updates
+reach the right answer given the same inputs.  Gibbs sampling's
+randomness can be handled in a unit testing environment using stubs
+that replace the random number generator (these stubs can also be
+useful when you later want to generate results with different random
+seeds, as discussed below).
 
-\section{Publishing}
+\subsection{Baselines and Metrics}
 
-\subsection{Venues}
+Often you'll want to compare your model to another model that either
+has a similar structure or application.  This can help you during
+development.
 
-\subsection{What to Discuss}
+For example, you may want to extend supervised \abr{lda} in some way
+(Chapter~\ref{}).  Fortunately, \abr{slda} is a well-defined model and
+has established performance on widely available datasets.
+
+Thus, a reasonable development strategy would be to create a series of
+models that take you from \abr{slda} to your final model (e.g., adding
+one latent variable at a time), at each time comparing how well your
+model does against \abr{slda}.  These comparisons don't just aid
+development; they will also help document how important each of the
+changes to the model are.
+
+A standard metric to report for topic models is their perplexity or
+held-out likelihood.  This is the probability of held-out data given
+the settings of the model.  \citet{} detail the somewhat complicated
+method for fairly reporting perplexity in topic models (which is
+beyond the scope of this survey).
+
+However, perplexity is often not what you care about for your
+application of topic models.  For example, if you developing a variant
+of \abr{slda}, you likely care about prediction accuracy.  Thus, as
+you're slowly building out your \abr{slda} variant, you should report
+prediction performance as well.
+
+\section{Communicating Your Model}
+
+After building a model, implementing inference, and applying it to
+data, the next exciting step is to tell the world.  While one must
+obviously provide motivation for a new model and describe the
+technical details, one component of communicating a model that is
+often overlooked is the interplay between these two facets of
+describing a model.
+
+The application should not just stand alongside the modeling goal; it
+should be tightly integrated in the probabilistic story.  Rather than
+simply listing the steps of the generative process, the generative
+process should be described with evocative variable names.  For
+example, if your model attempts to capture political polarization,
+then you may call a multinomial variable ``polarization $\pi$'' to
+make it clear where in the model this aspect will be modeled.
+
+However, simply naming a variable doesn't make it so.  You will also
+need to provide qualitative evidence that will convince a skeptical
+reader that your model is doing what you promised.  This is possible
+by providing overviews of your data at either the micro or macro
+level.
+
+At the macro level, you can show that your model is doing reasonable
+things by showing the distribution over words given topics (or
+whatever the analogous component is).  However, you should avoid the
+temptation to cherry-pick topics.  It is better to select topics
+randomly or---if you do cherry-pick---to also select ``bad'' topics
+that show failure modes of your model.
+
+While macro level cues can show the model finds good summaries, you
+should also show individual documents and how they interact with
+data.  For example, if your model attempts to show political
+polarization, you can show polarized (or not) documents and show how
+the latent variables in your models correctly capture those aspects of
+the documents (or not; as with topics, it's important to show failure
+modes as well).
+
+In addition, you will also have quantiative metrics for your task.
+This could be accuracy of prediction, precision at rank $K$, or
+translation quality (Chapter~\ref{}).  When reporting quantitative
+results, it's important to remember the probabilistic foundations of
+topic models: you are not learning one answer.  Regardless of the
+inference, you are learning a \emph{distribution} over latent
+variables given a dataset.
+
+Thus, it is important to convey the inherent uncerainty in inference.
+You should run inference multiple times with different random seeds
+(Gibbs sampling) or random initializations (variational inference).
+This allows you to report quantitative results with error bars to make
+credible comparisons to other models: not only do you have a higher
+score but you show that your higher score is not just the result of
+chance.
+
+\section{Conclusion}
+
+In this chapter, we discussed the process for creating a new topic
+model from scratch and how to communicate this process to the world.
+While superficially different than our application-focused chapters,
+most of the papers were created through this process of
+model-building, inference, and evaluation.  Thus, this chapter helps
+understand the process for building the models that we've discussed
+through these chapters.
+
+In the next chapter, we contemplate the future of topic models and how
+topic models might fit into the broader computer and information
+science research agenda.
