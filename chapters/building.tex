@@ -3,10 +3,10 @@
 
 Previous chapters have focused on \emph{existing} models.  This
 chapter focuses on how a researcher can create, implement, and
-validate a new model.  We have described
+validate a new model.  While we have thus far described
 models that researchers have created to capture particular nuances or
 processes that exist in the world, but omit blueprints
-for research who want to extend an existing model or create their own.
+for researchers who want to extend an existing model or create their own.
 
 Before going into the details of constructing new models, we encourage users to consider whether questions can be answered through post-hoc analysis of a simple topic model in the context of additional information.
 For example, a simple dynamic topic model can be constructed from a standard LDA model by slicing the corpus into sections and estimating the probability distribution over words for each topic in each section.
@@ -284,7 +284,7 @@ consider.  When there are latent variables for every token in many
 documents, this can quickly explode.
 
 \begin{figure}
-  \includegraphics[width=.7\linewidth]{figures/objective_functions}
+  \includegraphics[width=.9\linewidth]{figures/objective_functions}
 
   \caption{Monitoring the objective function is an important component
   of diagnosing whether inference is working correctly.  Correct
