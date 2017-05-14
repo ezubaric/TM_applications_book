@@ -3,28 +3,28 @@
 
 Previous chapters have focused on \emph{existing} models.  This
 chapter focuses on how a researcher can create, implement, and
-validate a new model.  Previous chapters describe
+validate a new model.  We have described
 models that researchers have created to capture particular nuances or
 processes that exist in the world, but omit blueprints
 for research who want to extend an existing model or create their own.
 
 It is impossible to cover all of the details of research in topic
 models or machine learning generally, but this chapter introduces some
-of the common techniques for creating new models.  We'll focus on a
-running example of how one might create a new model for predicting the
+of the common techniques for creating new models.  We will focus on a
+running example, creating a new model for predicting the
 ideology of a political speaker.
 
 \section{Designing a Model}
 
 The first step in creating a new model is to define what is
-important.  For example, previous chapters have focused on capturing
-innovation, modeling translations, and capturing sentiment.  These are
+important.  For example, previous chapters have focused on measuring
+innovation, cross-language connections, and sentiment.  These are
 high-level concepts that we want do discover from text.  We believe
-these properties exist in the world, but we want our models to reflect
+these properties exist in the world, but we want the variables of our models to represent
 these concepts.
 
 In a topic model, incorporating a new concept into the model usually
-invovles adding a new random variable to the model.  This is where
+involves adding a new random variable to the model.  This is where
 intuitions and domain knowledge come to the forefront.  Because the
 generative process attempts to model the real world, a new model must
 balance several components that are often in tension: fidelity,
@@ -33,45 +33,50 @@ performance, tractability, and interpretability.
 \paragraph{Fidelity}
 
 A good model should reflect the world.  If political scientists
-believe that a politician's ideology is an innate property for a
-politician that changes how they speak, then the model should place a
+believe that a politician's ideology is a property that changes how they speak, then the model should place a
 speaker's ideology upstream of the language politicians produce
-(upstream vs. downstream models are discussed in Chapter~\ref{}).
+(upstream vs. downstream models are discussed in Chapter~\ref{ch:css}).
 
-Often, modeling reality is a good idea.  If a generative model exactly
+Modeling reality is a good idea. But just as building a scale model of a building requires compromises in terms of materials and level of detail, building a statistical model requires unreal assumptions.
+If a generative model exactly
 matches the process that produces data, we can prove that it will
-converge to the correct answer~\cite{}.  However, humans and text are
+converge to the correct answer ~\cite{}.
+But humans and text are
 not Dirichlet and multinomial distributions; all models are going to
 be an approximation.
 
 In addition to determining \emph{where} to model a feature in a
 generative model, it is also important to decide \emph{how} to model
 it.  Is it a continuous value, a binary value, a member of a discrete
-set, or something else?  Often, we have pre-defined notions of how to
-represent a quantity of interest: reviews often have one to five
-stars; lay people assign politicians to one of a fixed number of
-parties; political scientists assign a continuous value to a
+set, or something else?  Often, we have multiple pre-defined notions of how to
+represent a quantity of interest.
+Sentiment is sometimes represented as a continuous positive or negative value, while review corpora include discrete, positive star ratings.
+Political ideology could be represented by membership in one of a fixed number of
+parties, but political scientists more often assign a continuous value to a
 politician's ideology.
-
-
 
 \paragraph{Performance}
 
-Thus, we sometimes have to trade off fidelity with performance.
-Returning to the example of modeling ideology, recent work seems to
-agree that \emph{downstream} models work better even though it is
-less realistic.\footnote{One might argue that it's more realistic for
+Greater fidelity to our perceptions of how the world works does not always imply that models will be more  useful.
+We sometimes have to trade off fidelity with performance.
+Recent work seems to agree that \emph{downstream} models work better even though it is
+less realistic.\footnote{One might argue that it is more realistic for
   a \emph{listener} who must interpret speech to assign an ideology
   after it has been heard, but this is no longer consistent with how
-  the text was \emph{generate}.}
+  the text was \emph{generated}.}  %% CITE?
 
-Unfortunately, knowing what will work best is often a trial-and-error
-process; it's nigh impossible to know \textit{a priori} whether a
+It is nearly impossible to know \textit{a priori} whether a
 model will work well for a particular task given just the model.
-However, it's often possible to draw parallels from similar models.
-Supervised topic models have worked well for predicting sentiment when
-this is a downstream variable, so it might be reasonable to assume
-that a downstream model would work well for this task as well.
+Knowing what will work best is often a trial-and-error
+process.
+However, it is often possible to draw parallels from similar models.
+Upstream models allow metadata variables to better predict which topics
+will occur in a context, but they do not necessarily encourage the model to 
+learn different topics than a model without metadata.
+Downstream models must align topics to best predict a metadata variable, 
+and therefore tend to find different (but not necessarily better) topics.
+Supervised topic models have therefore worked well for predicting sentiment as a downstream variable, so it might be reasonable to assume
+that a downstream model would work well for ideology as well.
 
 \paragraph{Tractability}
 
@@ -91,7 +96,7 @@ implement than Supervised Topic Models~\citep{}.
 
 Dirichlets and Multinomials play well together because they are
 conjugate~\citep{}, while Gaussian distributions add additional
-difficulty.  However, Gaussian distributions are more convienient than
+difficulty.  However, Gaussian distributions are more convenient than
 other distributions.  For example, spherical distributions~\citep{} are thought
 to better model continuous embeddings of words than Gaussian
 distributions but come at the cost of a less tractable model.
@@ -99,34 +104,34 @@ distributions but come at the cost of a less tractable model.
 Even worse are combinatorial probability distributions.  For example,
 in Chapter~\ref{} we discussed how to learn mappings across
 languages.  \citet{} used a combinatorial distribution to learn the
-mapping from one language to another.  It's very complicated but
+mapping from one language to another.  It is very complicated but
 does not model languages as well as far simpler approaches~\citep{}.
 
 Our listing of ever more complicated distributions should not be taken
-as an admonishion against using them: sometimes complicated models are
+as an admonition against using them: sometimes complicated models are
 necessary.  However, one should not choose a complicated model just
-because it's complicated (an alluring temptation to young graduate
-students who want to show off their machine learning chops).  It's
+because it is complicated (an alluring temptation to young graduate
+students who want to show off their machine learning chops).  It is
 best to try the simplest possible model that could work; even if it
 fails, this model can serve as a useful baseline.
 
 Unlike many of the other dimensions when building a model, complexity
-is often sought and fetishized wihout improving the other dimensions
+is often sought and fetishized without improving the other dimensions
 (perverse incentives from publications often play a role in this).
-Thus, it's particularly important to guard against unnecssarily
+Thus, it is particularly important to guard against unnecessarily
 complicating a model.
 
 \paragraph{Interpretability}
 
 As we describe in Chapter~\ref{}, interpretability is a measure of how
 easy it is for a human to understand the results of a model.  Often,
-the interpretability of a model is an afterthought.  That's if it's thought of
+the interpretability of a model is an afterthought.  That's if it is thought of
 at all; many papers neglect to inspect the learned parameters of a
 model, focusing instead on the performance.
 
 While always a problem, wIth the increased prominence of deep learning (discussed more in
 Chapter~\ref{}), this is particularly worrying.  Deep learning has a
-reputation for inscruitable parameters but state-of-the-art
+reputation for inscrutable parameters but state-of-the-art
 performance.  One of the strengths of probabilistic models is their
 interpretability and grounded generative processes.  Thus, researchers who
 choose probabilistic models such as topic models should not ignore the
@@ -146,8 +151,8 @@ cost of interpretability.
 
 \section{Implementing the Model}
 
-So you have a new model in hand.  This is usdually described as a
-generative process (Chapter~\ref{}): a sequence of proabilistic steps
+So you have a new model in hand.  This is usually described as a
+generative process (Chapter~\ref{}): a sequence of probabilistic steps
 that tells a story of how your data came to be.
 
 Implementing a model requires writing down this model in a form that a
@@ -217,7 +222,7 @@ not feasible.  Variational inference solves this intractability by
 adding its namesake variational distribution $q(z)$.
 
 A variational distribution is over the model's latent variables.
-Although it's a distribution over the same variables, it is typically
+Although it is a distribution over the same variables, it is typically
 simpler.  For example, in common approaches for topic models~\citep{}, the
 distribution is fully factorized.  For example, the true distribution
 over latent variables is
