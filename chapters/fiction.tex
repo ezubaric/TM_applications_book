@@ -75,7 +75,7 @@ This result is reassuring, in that it suggests that paragraphs do indeed have so
 
 % Comparison with Twitter?
 
-\section{People and places}
+\section{People and Places}
 
 Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere.
 This word co-occurrence pattern is problematic for topic models because they can be thought of as machines for finding groups of words that occur frequently together and not in other contexts.
@@ -177,22 +177,22 @@ But examining the context of poems that contain the topic reveals a different pa
 These poems have a consistent {\em form} that Rhody describes as elegiac.
 She writes that ``Paul Laurence Dunbar's 'We Wear the Mask' never once mentions the word 'death,' the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil --- language which 'The Starry Night' indisputably also draws from.''
 
-\section{Comparison to stylometric analysis}
+\section{Comparison to Stylometric Analysis}
 
 In addition to discussing what researchers have done in literary analysis with topic models, it is useful to consider how other technologies have been used in the same setting.
-One of the most established applications of computation in the study of literature is stylometry, or more specifically the question of authorship attribution \cite{juola2006authorship}.
+One of the most established applications of computation in the study of literature is stylometry, or more specifically the question of authorship attribution \citep{juola2006authorship}.
 It is illustrative to contrast the goals and methods of stylometry with those of topic modeling.
 
-The critical insight of modern stylometry is that it is easy for authors to shift the focus of their work, but much more difficult to alter the semi-conscious style of their language \cite{mosteller1964inference}.
+The critical insight of modern stylometry is that it is easy for authors to shift the focus of their work, but much more difficult to alter the semi-conscious style of their language \citep{mosteller1964inference}.
 The implication is that content-bearing words, such as nouns and adjectives, are a relatively poor indicator of authorship or at least authorial style, while functional words, such as determiners, conjunctions, and prepositions, carry more information about authorship.
-Therefore, measures such as Burrows' delta \cite{burrows2002delta} restrict attention to the most frequent words in a corpus.
+Therefore, measures such as Burrows' delta \citep{burrows2002delta} restrict attention to the most frequent words in a corpus.
 
 The contrast to topic modeling is clear: stylometric analysis focuses on frequent, low-information words and ignores content-bearing words, while topic modeling generally does the exact opposite.
 We generally remove high frequency words using a stop list, and in fiction go even further in removing words that are overly distinctive of a particular work.
 An assumption of topic modeling is therefore that the goal is to find thematic components that are {\em not} specific to one author, but rather exhibit themselves, with more or less variation, across multiple works.
 Where stylometry seeks to see past what authors are saying and focus on how they are saying it, a use of topic modeling is to find instances where different authors are writing about the same thing.
 
-\section{Operationalizing ``theme''}
+\section{Operationalizing ``Theme''}
 
 The use of topic modeling in the study of literature has been beneficial both for humanities scholars and for machine learning researchers.
 For scholars, these models offer the possibility of a more precise approach to concepts that have traditionally been vague and impressionistic, such as theme, genre, and motif.

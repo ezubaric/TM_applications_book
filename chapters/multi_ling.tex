@@ -31,7 +31,7 @@ There are likely to be topical overlaps between articles, but there are not nece
 A last category of useful data, not necessarily in the form of documents, is a bilingual lexicon that maps words in one language to words in another.
 Lexicons of this form can be considered to be examples of parallel corpora with single-token documents, but it is often useful to treat them specially.
 
-\section{Document-level alignment from multilingual corpora}
+\section{Document-level Alignment from Multilingual Corpora}
 
 The weaker category of multilingual models represents the presence of multiple languages, but does not explicitly represent connections between word types.
 Document-based connect connection between languages is flexible: instead of requiring
@@ -81,14 +81,14 @@ connected through the hidden topics, even though their vocabularies
 topics, the relationship between document term $e$ and query $q$ can
 be computed as,
 \begin{align}
-p(e|q) = \sum_z p(e|\phi_z^D) p(z | \theta_q).
+p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
 \end{align}
 
 Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
 \cite{erlin2017topic} uses two independent seeded models on English and German books to search for works about epistemology.
 After manually aligning one topic from each model, the topics are used as a ``soft query'' to identify words that are related to documents but the target subject.
 
-\section{Word-level alignment from lexical data}
+\section{Word-level Alignment from  Lexical Data}
 
 Non-document \emph{lexical information}, such as orthographic
 similarity~\citep{boyd-graber-09} and multilingual
@@ -163,7 +163,7 @@ concept are positively correlated in topics.  For example, if
   also be good to give back pointer to the interaction section where
   it's also discussed \yhcomment{fixed.}}
 
-\section{Alignment from parallel corpora and lexical information}
+\section{Alignment from Parallel Corpora and Lexical Information}
 
 Bilingual dictionaries and other sources of word-level information are 
 valuable in training multilingual models, because they can easily specify 
@@ -248,7 +248,7 @@ only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜
   \underline{sport} domain or it is a \underline{social media}
   domain. However, with the help of the aligned English translation
   ``lurker'', it is easy to identify the ``social media'' domain. Thus
-  multilingual topic models~\citep{mimno-09,boyd-graber-10} have been
+  multilingual topic models~\citep{ni-09,DeSmet-09,mimno-09,boyd-graber-10} have been
   applied to extract domain knowledge for machine
   translation~\citep{hu-14}.
 
@@ -379,7 +379,7 @@ unsmoothed probability estimate of those expected counts
 \textstyle p_w(f|e;k) = \hat{c}_{k}(f,e) / \sum_f{\hat{c}_{k}(f,e)},
 \end{align}
 from which we can compute the lexical weight of this phrase pair
-$p_w(\bar{f}|\bar{e};a, k)$ given a word alignment $a$\citep{koehn-03}:
+$p_w(\bar{f}|\bar{e};a, k)$ given a word alignment $a$ \citep{koehn-03}:
 \begin{align}
 \label{eq:phrase_prob_k}
 p_w(\bar{f} | \bar{e};a, k) = \prod^{n}_{i=1} \frac{1}{\{|j | (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i | e_j; k)
@@ -472,7 +472,7 @@ out-of-domain bilingual data), they incorporate topic information
 from the source language into translation probability estimation, and
 decompose the phrase probability $p(\bar{e}|\bar{f})$ as,
 \begin{align}
-p(\bar{e}|\bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} | \bar{f}) = \sum_{k_{out}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | \bar{f})
+p(\bar{e}|\bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} | \bar{f}) = \sum_{k_{out}} p(\bar{e} | \bar{f}, k_{out})  \cdot p(k_{out} | \bar{f})
 \end{align}
 where $p(\bar{e} | \bar{f}, k_{out})$ is the translation probability given 
 the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the 
@@ -487,7 +487,7 @@ not be in the same space, so \citet{su-12} introduce the topic mapping
 probability $p(k_{out} | k_{in})$ to map the in-domain topic to the
 out-of-domain topic:
 \begin{align}
-p(k_{out} | \bar{f}) = \sum_{k_{in}} p(k_{out} | k_{in}) \cdot \cdot p(k_{in} | \bar{f})
+p(k_{out} | \bar{f}) = \sum_{k_{in}} p(k_{out} | k_{in}) \cdot  p(k_{in} | \bar{f})
 \end{align}
 As a result, the final phrase probability can be refined as,
 \begin{align}
@@ -516,7 +516,7 @@ Multilingual topic models have been shown to improve results in \textsc{smt} \ci
 There are various ways to build up the multilingual topic
 models. Different languages can be connected on the
 word-level~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm} or the
-document levels~\citep{mimno-09}, or a combination of both\citep{hu-14}. 
+document levels~\citep{mimno-09}, or a combination of both \citep{hu-14}. 
 
 While the above approaches try to model the source and target
 languages simultaneously to extract topics, some of the benefit of multilingual models can be achieved by aligning monolingual models. \citet{xiao-12} apply
@@ -630,7 +630,8 @@ for language model adaptation.
 
 As we explained in Section~\ref{sec:trans-multiling}, the information
 from different languages can complement each other to extract better
-topics. In order to introduce multilingual information to topic models
+topics. Latent semantic models such as LSA have been used in multilingual information retrieval for many years \cite{carbonell1997translingual}.
+In order to introduce multilingual information to probabilistic topic models
 for language model adaptation, various approaches such as
 \cite{Tam-2007}, \cite{Ruiz-2011}, \cite{Yu-2013} etc., have been
 explored. 
@@ -649,7 +650,7 @@ language and then use the document-topic vector from the
 source document as the document-topic vector for the aligned
 target document, and then infer the topic-word vector on the
 target side. The topics for the target language are not learned
-iteratively, thus the topics in parallel corpus can be learned very
+iteratively, thus the topics in a parallel corpus can be learned very
 efficiently.
 
 In order to apply the topics for language adaptation, the word
@@ -683,7 +684,7 @@ maximum-likelihood. To smooth the sharply distributed probabilities,
 back-off probabilities are also considered as follows:
 \begin{align}
 p(w_i | w^{i-1}_{i-n+1}, k_e) = &\lambda_{w^{i-1}_{i-n+1}} p_{MLE}(w_i|w^{i-1}_{i-n+1}, k_e) \\
-&+ (1- \lambda_{w^{i-1}_{i-n+1}})p(w_i|w^{i-1}_{i-n+2}, k_e)
+&+ (1- \lambda_{w^{i-1}_{i-n+1}})p_{MLE}(w_i|w^{i-1}_{i-n+2}, k_e)
 \end{align}
 where $\lambda$ is the normalization parameter, calculated by,
 \begin{align}
