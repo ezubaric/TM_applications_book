@@ -11,7 +11,7 @@ for researchers who want to extend an existing model or create their own.
 Before going into the details of constructing new models, we encourage users to consider whether questions can be answered through post-hoc analysis of a simple topic model in the context of additional information.
 For example, a simple dynamic topic model can be constructed from a standard LDA model by slicing the corpus into sections and estimating the probability distribution over words for each topic in each section.
 Building and validating custom topic models is a powerful tool, but requires significant investment in coding and debugging, and may not be able to take advantage of computational optimizations available for simpler models.
-Posterior predictive checks \cite{mimno-11Bayesian} provide a good means of determining whether LDA topics or words within topics already show patterns that are present but not explicitly modeled.
+Posterior predictive checks \citep{mimno-11Bayesian} provide a good means of determining whether LDA topics or words within topics already show patterns that are present but not explicitly modeled.
 
 It is impossible to cover all of the details of research in topic
 models or machine learning generally, but this chapter introduces some
@@ -37,10 +37,10 @@ performance, tractability, and interpretability.
 
 \paragraph{Fidelity}
 
-A good model should reflect the world.  If political scientists
-believe that a politician's ideology is a property that changes how they speak, then the model should place a
-speaker's ideology upstream of the language politicians produce
-(upstream vs. downstream models are discussed in \citet{mimno-08} and Chapter~\ref{ch:css}).
+A good model should reflect the world. One of the ways we can model the relationship between words and non-word information is to define conditioning patterns.
+If political scientists believe that a politician's ideology is a property that changes how they speak, then the model should condition topic choices on a speaker's ideology.
+\cite{mimno-08} describe this formulation as an ``upstream'' model (for more details see Chapter~\ref{ch:css}).
+If they believe that electoral success is a result of political speech, then the model should condition success on topics (a ``downstream'' model).
 
 Modeling reality is a good idea. But just as building a scale model of a building requires compromises in terms of materials and level of detail, building a statistical model requires unreal assumptions.
 If a generative model exactly
@@ -201,16 +201,16 @@ probabilistic models.
 
 \subsection{Variational Inference}
 
-While we focused on Gibbs sampling in Chapter~\ref{sec:inference}, the other major
+While we focused on Gibbs sampling in Chapter~\ref{sec:lda}, the other major
 class of inference algorithms is variational inference.  Compared to
 Gibbs sampling, variational inference is often considered to be
 slightly more difficult to both derive and implement.
 
 Variational inference is similar to expectation maximization
 algorithms~\citep{liang-07b}.  Expectation maximization algorithms find a
-setting of latent variables $z$ and parameters $\theta$ that maximize
-the data likelihood $p(x \g z, \theta)$.  First, start with some guess
-of what the the latent variables might be $z_0$.  Then update the
+setting of local latent variables $z$ (which represent specific observations) and global parameters $\theta$ (which represent model properties) that maximize
+the data likelihood $p(x \g z, \theta)$.  First, we start with some guess
+of what the the latent variables might be $z_0$.  Then we update the
 parameters to be
 \begin{equation}
   \arg \max_{\theta} p(x \g z, \theta),
@@ -224,11 +224,15 @@ Expectation maximization is a useful tool for inference when the model
 distribution $p$ is simple enough to solve Equation~\ref{eq:em}
 directly.  However, for many models (including topic models), this is
 not feasible.  Variational inference solves this intractability by
-adding its namesake variational distribution $q(z)$.
+searching for optimal {\em distributions} $q(z)$ and $q(\theta)$ rather than optimal values of $z$ and $\theta$.
+It is this search for optimal functions (i.e. probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus that deals with finding optimal functions.
 
 A variational distribution is over the model's latent variables.
+These are the same variables that would appear in the original model's posterior distribution over latent variables given observed variables and user-defined hyperparameters.
 Although it is a distribution over the same variables, it is typically
-simpler.  For example, in common approaches for topic models~\citep{blei-03}, the
+simpler.  
+In the original posterior distribution, there are many dependencies between variables: if we know the topics for one document, that implies that we know something about other documents.
+In common approaches for topic models~\citep{blei-03}, the
 distribution is fully factorized.  For example, the true distribution
 over latent variables is
 \begin{equation}
@@ -236,19 +240,21 @@ p(z, \theta) = \prod_k p(\phi_k \g \beta) \ \prod_d p(\theta_d \g
     \alpha {\bm u}) \prod_n p(z_{d,n} \g \theta_d) p(w_{d,n} \g
     \beta_{z_{d,n}})
 \end{equation}
-while the variational distribution is
+where ${\bm u}$ is a $K$-dimensional uniform distribution, while the variational distribution is
 \begin{equation}
 q(z, \theta, \beta) = \prod_k q(\beta_k \g \lambda_k) \prod_d q(\theta_d
   \g \gamma_d) q(z_{d,n} \g \phi_{d,n}),
 \end{equation}
 where $\lambda$ and $\gamma$ are Dirichlet parameters that describe
-the models latent variables; although functionally the same as the
+the model's latent variables.
+Although functionally the same as the
 true distribution $p$, because the parameters are no longer tied,
-they're called variational parameters.
+they are called variational parameters.
 
 Instead of maximizing the data likelihood, variational inference
-optimizes a different likelihood function: minimizing the Kullback-Leibler
-\emph{divergence} between the distributions $p$ and $q$.  This is
+minimizes the difference between the variational distribution $q$ (a product of independent distributions over each of the latent variables) and the original model posterior distribution $p$.
+Difference is defined as the Kullback-Leibler
+\emph{divergence} between the distributions $p$ and $q$.  Minimizing this divergence is
 equivalent to optimizing a lower bound of the data likelihood,
 \begin{equation}
   \ell \equiv \e{q}{\log \left(p(w \g z, \theta) p(z, \theta | \alpha,
@@ -275,13 +281,13 @@ close to the true distribution over the latent variables.  In fact, if
 you choose $q$ so that it is \emph{equal} to $p$, variational
 inference reduces to expectation maximization.
 
-However, this often comes at a cost: more complicated computations or
+However, choosing a more accurate variational distribution often comes at a cost: more complicated computations or
 a more difficult (or even impossible) derivation.  You might not be
 able to solve the equations to update individual variational
-parameters or the calculations might be more difficult: the more
+parameters or the calculations might be more difficult. The more
 dependencies in the variational distribution, the more terms you must
 consider.  When there are latent variables for every token in many
-documents, this can quickly explode.
+documents, the number of dependencies can explode.
 
 \begin{figure}
   \includegraphics[width=.9\linewidth]{figures/objective_functions}
@@ -331,7 +337,7 @@ others.  For example, the conditional distribution of the topic
 assignment of a word $z_{d,n}$ is
 \begin{equation}
 p(z_{d,n} \g z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
-\theta, \phi) = \frac{z_{d, 1} \dots z_{d, N_d}, \theta, \phi)}{ p(z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
+\theta, \phi) = \frac{z_{d, 1} p(\dots z_{d, N_d}, \theta, \phi)}{ p(z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
 \theta, \phi)},
 \label{eq:gibbs_conditional}
 \end{equation}
@@ -430,7 +436,7 @@ changes to the model are.
 Comparisons between topic models can be difficult because implementations and algorithms can vary so much.
 It is often unclear, for example, whether an observed difference is due to one model being better than another or to comparing Gibbs sampling to variational inference.
 An excellent way to test a new algorithm for a complicated model is to find ways to implement simpler models in the same code.
-For example, you can emulate an LDA model using an Author-Topic model \cite{rosen-zvi-04} by assigning each document its own ``author''.
+For example, you can emulate an LDA model using an Author-Topic model \citep{rosen-zvi-04} by assigning each document its own ``author''.
 
 A standard metric to report for topic models is their perplexity or
 held-out likelihood.  This value is the probability of held-out data given
