@@ -46,7 +46,7 @@ query expansion~\citep{Park-2009,Andrzejewski-2011} to further improve
 The language modeling approach~\citep{croft-03,PonteCroft,song-99} is
 one of the main frameworks for using topic models in IR systems, since
 it has been shown to be an effective probabilistic framework for studying
-information retrieval problem~\citep{PonteCroft,berger-99}.
+information retrieval problems~\citep{PonteCroft,berger-99}.
 A statistical language model estimates the probability of word
 sequences, denoted as $p(w_1,w_2,\cdots,w_n)$. In practice, the
 statistical language model is often approximated by N-gram models. A
@@ -86,7 +86,7 @@ p(q \g d) = \prod_{w \in q} p(w \g d) = \prod_{w \in q} \frac{n_{d,w}}{n_{d,\cdo
 
 Then the documents are ranked based on this probability $p(q \g d)$. Higher
 probability implies the corresponding document is more relevant to the
-given query~\citep{song-99}. However, a document often contains limited words and
+given query~\citep{song-99}. However, a document often contains limited number of words and
 maximum likelihood estimation gives zero probability to those unseen words.
 If a query contains any word that is not included in the document, the probability
 of generating the whole query given this document is zero, which may throw out perfectly good documents.
@@ -109,7 +109,7 @@ show how topic models fit into this smoothing framework.
 There are two major directions for smoothing:
 \textbf{interpolation}~\citep{Jelinek-1980,mackay95dirichlet,Ney-1994,PonteCroft,zhai-01}
 and \textbf{backoff}~\citep{katz-87,song-99}. The interpolation-based
-method discount the counts of the seen words and distribute the extra
+method discounts the counts of the seen words and distribute the extra
 counts to both seen words and unseen words. An alternative backoff
 smoothing strategy trusts the maximum likelihood estimation for high
 count words, discounts and redistributes mass only for the less common
@@ -134,7 +134,7 @@ solves the data sparsity problem. For terms that occur in the document
 $d$, the maximum likelihood estimator (Equation~\ref{eq:ir_mse}) is
 not accurate given the limited size of a document, thus it is smoothed
 with the more reliable corpus level probability. For a missing term $w$
-in the document $d$, the probability of generating word $w$ is not zero any more, but fall
+in the document $d$, the probability of generating word $w$ is not zero any more, but falls
 back to the corpus level probability $p(w|\mathcal{C})$.
 This smoothing method has been explored and successfully applied in information retrieval tasks~\citep{PonteCroft,song-99}.
 
@@ -179,10 +179,10 @@ corpus-level probabilities $p(v|\mathcal{C})$
 Topic models, which model each document as a mixture of topics and
 each topic as a mixture of words, offer an interesting framework to
 model documents in information retrieval. Popular topic models such as
-probabilistic Latent Semantic Analysis~(pLSA) and Latent Dirichlet Allocation (\abr{lda})
+probabilistic Latent Semantic Analysis~(\abr{plsa}) and Latent Dirichlet Allocation (\abr{lda})
 have been both explored to improve document language models.
 
-\cite{hofmann-99a} first introduce pLSA to
+\cite{hofmann-99a} first introduces \abr{plsa} to
 to learn the relationship between query words and documents,
 and the conditional probability of a query word $w$ given a document $d$ is
 computed as marginalizing all topics $k$,
@@ -191,15 +191,16 @@ p_{\texttt{TM}}(w|d) = \sum_{k} p(w \g k) p(k \g d)
 \end{align}
 
 Later, \cite{wei-06} apply the same idea to learn the topic-smoothed document-word
-distribution, using \abr{lda} instead of pLSA.
+distribution, using \abr{lda} instead of \abr{plsa}.
 Because topic models learn the semantic relationships between words
-and documents through learning the hidden topics, and their posterior
+and documents through learning the hidden topics and their posterior
 estimates of document-topic distribution and topic-word distribution
 are smoothed by the Dirichlet priors, topic models learn a better and
-smoothed semantic relationship between words and documents. However,
-the topic models based on documents only lose the direct connection
-between query words and documents as in the original document language
-models, but it is a good approach to complement the original document
+smoothed semantic relationship between document words and documents. However,
+while the original document language model directly models the relationship
+between query words and documents, the topic models based on documents only 
+lose the relationship between query words and documents,
+but it is a good approach to complement the original document
 language models. Thus \cite{wei-06} further propose to combine the
 \abr{lda}-based document model with the original smoothed document
 model~(Equation~\ref{eq:lm-jr}) through a linear interpolation,
@@ -219,7 +220,7 @@ smoothing~(Equation~\ref{eq:lm-bs}), and the final linear combination
 with topic models
 \begin{align}
 p(w \g d) = \lambda \frac{n_{d,w} + \beta p(w \g \mathcal{C})}{\sum_{v
-  \in V} n_{d,v} + \beta}  + (1 - \lambda) p_{\texttt{lda}}(w \g d)
+  \in V} n_{d,v} + \beta}  + (1 - \lambda) p_{\texttt{TM}}(w \g d)
 \end{align}
 
 While using different smoothing strategies, both
@@ -240,7 +241,7 @@ relevance explicitly~\citep{Lavrenko-2001}, which is very important in
 traditional information retrieval task.
 
 In fact, queries, which are normally brief and using informal
-languages from users, diverse significantly from the language in
+languages from users, diverge significantly from the language in
 documents~\citep{Muller-2009}. This semantic gap or lexical gap can
 result in poor query-document relevance, even though the document is
 quite relevant from the users' view point. This is due to users, who
@@ -256,8 +257,8 @@ to understand what a query ``dtd amc'' means~\citep{Jiang-2016}. Through
 query expansion, it is possible to build up the relationship between ``dtd''
 and ``disneyland downtown'', which is more helpful in document retrieval. 
 Next, this section reviews the classic query expansion frameworks
-in information retrieval and then we introduce the related works about
-using topic models for query expansion in the next section.
+in information retrieval, and the related works about using topic models
+for query exapansion are introduced in the next section.
 
 \subsection{Learning Query-Word Relationships for Query Expansion}
 
@@ -495,7 +496,11 @@ document ranking score is computed as Equation~\ref{eq:rm_qe_comb}.
 
 \paragraph{Getting Interactive Feedback}
 
-Relevance feedback involves the users in the retrieval process to improve the ranking result set~\citep{Rocchio-1971}. The basic idea is to ask users to give feedback on the relevance of documents in an initial set of retrieval results, and users' feedback on relevance is further used to improve the ranking results. This process can go through one or more iterations.
+Relevance feedback involves the users in the retrieval process to improve 
+the ranking result set~\citep{Rocchio-1971}. The basic idea is to ask users 
+to give feedback on the relevance of documents in an initial set of retrieval 
+results, and users' feedback on relevance is further used to improve the 
+ranking results. This process can go through one or more iterations.
 
 \cite{Andrzejewski-2011} present a new framework for obtaining and
 exploiting user feedback at the latent topic level. They learn the
@@ -530,11 +535,12 @@ Topic & Terms \\ \hline \hline
 \end{tabular}
 \caption{Given query ``euro opposition'', seven topics are selected and shown to a user. The user selected Topic 79
 as the feedback topic (Example from \citet{Andrzejewski-2011}).}
-\label{tab:reorder-topic}
+\label{tab:topic-feedback}
 \end{center}
 \end{table}
 
-This direction is actually more related with topic labeling and iterative visualization for topic models, which will be further discussed in Chapter~\ref{ch:viz}.
+This direction is actually more related to topic labeling and iterative visualization f
+or topic models, which will be further discussed in Chapter~\ref{ch:viz}.
 
 %In order to construct more meaningful topic representations,
 %\cite{Andrzejewski-2011} extract multiple features, such as word
@@ -567,11 +573,12 @@ while the programmers may use the same query to search for computer peripherals.
 ambiguity, for example ``online shopping'', some users may prefer ``\url{www.amazon.com}'' while others may
 prefer ``\url{www.ebay.com}''.
 
-In order to meet different users' information need, it is important to understand the user's preference, context,
+In order to meet different users' information needs, it is important to understand the user's preference, context,
 etc., and adapt the ranking results accordingly~\citep{Pitkow-2002,Micarelli-2007}.
 This is referred as personalized search, or search personalization.
 
-There are multiple ways to do search personalization, and two of major directions are normally referred as contextualization and individualization\citep{Pitkow-2002}. The former is to consider users' conditions in a search activity, for example, time and location.
+There are multiple ways to do search personalization, and two of major directions are normally referred as contextualization~\citep{Melucci-2012} 
+and individualization~\citep{Pitkow-2002}. The former is to consider users' conditions in a search activity, for example, time and location.
 The latter focuses more on users' individual characteristics and activities, which is also described as the users' profile.
 Topic models have been investigated to model users' preference on the topic space~\citep{Song-2010,Carman-2010}.
 
@@ -630,7 +637,7 @@ By subtly incorporating users' profiles as part of the ranking algorithms, \cite
 Because topic models analyze documents on a semantic level, it offers
 an interesting and unique framework for modeling the document-word
 relations and word-word relations. As a result, topic models have been
-successfully applied in smoothing language models, query expansion, search personalization, etc.
+successfully applied in smoothing language models, query expansion and search personalization.
 
 There are also some works focusing on the diversification of the search results~\citep{Dang-2013,Santos-2015}. The goal of search result diversification is to identify the different aspects of the ambiguous query, retrieve documents for each aspect and make the search results more diverse~\citep{Dang-2013}. Similarly, the diversification techniques can also be further combined with personalization to diversify the personalized search results~\citep{Vallet-2012,Liang-2014}. This topic is beyond the scope of this chapter.
 
@@ -727,7 +734,7 @@ Probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}
 
 \section{Applying Topic Models into IR}
 
-The language modeling approach~\citep{croft-03,PonteCroft,song-99} is the main framework for using topic models in IR systems, since it has been shown to be effective probabilistic framework for studying information retrieval problem~\citep{PonteCroft,berger-99}.
+The language modeling approach~\citep{croft-03,PonteCroft,song-99} is the main framework for using topic models in IR systems, since it has been shown to be effective probabilistic framework for studying information retrieval problems~\citep{PonteCroft,berger-99}.
 
 The basic language modeling framework is to compute the model likelihood of documents for generating the queries. Topic models, which represent documents with topics, offer a new and interesting means to model documents~\citep{wei-07}. A probability mixture model and a term model with back-off smoothing are presented to integrate topic models in this section.
 
