@@ -38,7 +38,8 @@ population level statistics: what proportion of Twitter users have ever talked
 about gun violence?
 
 At first, it might seem that answering these questions would require building an
-extensive ontology or categorization scheme.  For every new corpus, you would need to define  the buckets that a document could fit into, politely ask some librarians and
+extensive ontology or categorization scheme.  For every new corpus, you would 
+need to define  the buckets that a document could fit into, politely ask some librarians and
 archivists to put each document into the correct buckets, perhaps automate the
 process with some supervised machine learning, and then collect summary
 statistics when you are done.
@@ -46,7 +47,7 @@ statistics when you are done.
 Obviously, such laborious processes are possible---they have been done
 for labeling congressional
 speeches\footnote{\url{www.congressionalbills.org/}} and understanding
-emotional state~\cite{wiebestates}---and remain an important part of
+emotional state~\citep{wiebestates}---and remain an important part of
 social science, information science, library science, and machine
 learning.  But these processes are not always possible, fast, or even
 the optimal outcome if we had infinite resources.  First, they
@@ -127,7 +128,7 @@ more in Chapter~\ref{ch:viz}).
 \begin{figure}
 
 \begin{center}
-\colorbox{gray}{ \parbox{.9\linewidth}{
+\colorbox{lightgray}{ \parbox{.9\linewidth}{
 Yesterday, SDG\&E filed a motion for adoption of an
 electric procurement cost recovery mechanism and for an order
 shortening time for parties to file comments on the mechanism. The
@@ -189,7 +190,8 @@ Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
 document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
 have seen a resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we
-focus on probabilistic approaches \cite{hofmann-99,papadimitriou-00,blei-03}, which are intuitive, work well, and allow for
+focus on probabilistic approaches \citep{hofmann-99,papadimitriou-00,blei-03}, 
+which are intuitive, work well, and allow for
 easy modification (as we see later in many of our later chapters).
 
 \begin{figure}
@@ -210,15 +212,15 @@ easy modification (as we see later in many of our later chapters).
 \end{figure}
 
 Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
-There is a substantial and well-developed field of topic detection and tracking \cite{allan-02}.
+There is a substantial and well-developed field of topic detection and tracking \citep{allan-02}.
 In TDT, a topic is usually closer to an event or an individual story.
 In contrast, topic models tend to identify more abstract latent factors.
 For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
 
-There has been some work on using topic models to detect emerging events by searching for changes in topic probability \cite{alsumait-08}.
+There has been some work on using topic models to detect emerging events by searching for changes in topic probability \citep{alsumait-08}.
 But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
-Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases \cite{leskovec-09}.
-
+Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases~\citep{leskovec-09}.
+\newline
 \subsection{Probabilistic Building Blocks}
 \label{sec:intro_building_blocks}
 
@@ -228,8 +230,7 @@ Probabilistic models thus begin with a generative story: a recipe listing a sequ
 that creates the dataset we are trying to explain.
 Figure~\ref{fig:distribution_examples} lists some of the key players in these
 stories, how they are parameterized and what samples drawn from these distributions look like.  We will
-briefly discuss them, as we will use them to build a wide variety of topic models
-later.
+briefly discuss them, as we will use them to build a wide variety of topic models later.
 
 \paragraph{Gaussian} If you know any probability distribution already,
 it is (probably) the
@@ -326,7 +327,8 @@ Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
 how the data came to be.  We assemble the probabilistic pieces to tell
 this story about generating topics and how those topics are used to create
 diverse documents.
-We note that LDA is closely related to its probabilistic precursor, pLSA \cite{hofmann-99}, which can be viewed as a special case of LDA in which the Dirichlet priors are uniform.
+We note that \abr{lda} is closely related to its probabilistic precursor, \abr{plsa} \citep{hofmann-99}, 
+which can be viewed as a special case of \abr{lda} in which the Dirichlet priors are uniform.
 
 \paragraph{Generating Topics}
 
@@ -361,7 +363,7 @@ document $d$, we first choose a {\bf topic assignment} $z_{d,n} \sim
 \disc{\theta_d}$.  This is one of the $K$ topics that tells us which topic the
 word token is from, but not what the word is.
 
-To select which word we will see in the document, we draw from the a discrete
+To select which word we will see in the document, we draw from a discrete
 distribution again.  Given a word token's topic assignment $z_{d,n}$, we draw from that
 topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
 tells you what the word is about, and then this selects which distribution over
@@ -492,7 +494,7 @@ combines information about words and about documents\footnote{To be theoreticall
 not to include the count associated with the token you are currently sampling in
 these counts, which becomes more clear if the probability is written as
 $p(z_{d,n}=j\,|\,z_{d,1}\dots z_{d,n-1},z_{d,n+1}\dots z_{d,N_d}, w_{d,n})$ to
-show the dependence on the topic assignments of \emph{all other} token but not
+show the dependence on the topic assignments of \emph{all other} tokens but not
 this token.}
 \begin{align}
 p(z_{d,n}=j \g \dots) = \theta_d
