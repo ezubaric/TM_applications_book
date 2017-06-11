@@ -632,7 +632,7 @@ p(d  \g  q,u) &\propto p(d) \prod_{w \in q} p(w, u  \g  d)\\
 \end{align}
 By subtly incorporating users' profiles as part of the ranking algorithms, \citet{Harvey-2013} significantly improved the personalized ranked document lists than the non personalized baselines.
 
-\section{Conclusion}
+\section{Summary}
 
 Because topic models analyze documents on a semantic level, it offers
 an interesting and unique framework for modeling the document-word
@@ -647,103 +647,3 @@ will introduce how to visualize and label the topics in general to
 help the users better understand the topics.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\begin{comment}
-\cite{PonteCroft} first propose the language model in information retrieval. They treat the generation of queries as a random process and use the probabilities from documents to model the query generations. However, they think the maximum likelihood estimator (Equation~\ref{eq:ir_mse}) is not accurate, given the limited size of a document. So they propose to use the averaged probability across the corpus to smooth the maximum likelihood estimator. The averaged probability $p_{\texttt{avg}}(t)$ is computed as,
-\begin{align}
-p_{\texttt{avg}}(t) = \frac{\sum_{d_{t \in d}} p_{\texttt{ml}}(t|d)}{\texttt{df}_t}
-\end{align}
-where $\texttt{df}_t$ is the document frequency of term $t$. They then combine the maximum likelihood estimator with this averaged probability across the corpus,
-\begin{align}
-p(t|d) &= p_{\texttt{ml}}(t|d)^{(1-R_{t,d})} \times p_{\texttt{avg}}(t)^{R_{t,d}}
-\end{align}
-where $R_{t,d}$ is the risk for a term $t$ in document $d$ using the geometric distribution, computed as,
-\begin{align}
-R_{t,d} &= (\frac{1}{1+\bar{f_t}}) \times (\frac{\bar{f}_t}{1+\bar{f}_t})^{\texttt{tf}_{t,d}} \\
-\bar{f}_t &= \frac{\sum_{d_{t \in d}} \texttt{tf}_{t,d}}{\texttt{df}_t}
-\end{align}
-where $\texttt{tf}_{t,d}$ is the term frequency of term $t$ in document $d$; $\bar{f}_t$ is the mean term frequency of term $t$ in all documents where term $t$ occurs.
-
-For the missing terms in the current document, \cite{PonteCroft} estimate their probabilities based on the ratio of the term frequency in all documents and the total number of tokens, normally referred as background probability. The final probability is estimated by,
-\begin{align}
-p(t|d) =
-\begin{cases}
-p_{\texttt{ml}}(t|d)^{(1-R_{t,d})} \times p_{\texttt{avg}}(t)^{R_{t,d}},~~~~~~~~&\text{if $tf_{t,d}$ > 0}\\
-\frac{\sum_d \texttt{tf}_{t,d}}{\sum_{t} \sum_d \texttt{tf}_{t,d}}. &\text{otherwise}
-\end{cases}
-\end{align}
-
-Following \cite{PonteCroft}, \cite{song-99} further explore the language models for information retrieval based on a range of data smoothing techniques. They first apply the Good-Turing estimate to smooth each document language model, which allocates some probability to the missing terms as,
-\begin{align}
-p_{\texttt{GT}}(t|d) = \frac{(tf+1)S(N_{tf+1})}{N_d S(N_{tf})}
-\end{align}
-where $tf$ is the term frequency of term $t$; $N_{tf}$ is the number of terms with frequency $tf$ in a document; $S(N_{tf})$ is a smoothed function.
-
-The second approach that \cite{song-99} proposed is to expand a document model with the corpus model, which is very similar to the idea in \cite{PonteCroft}, except that they are using a weighted sum and a weight $w$ can be learned,
-\begin{align}
-p(t|d) = w \times p_{document}(t|d) + (1-w) \times p_{corpus}(t)
-\end{align}
-
-\cite{song-99} further propose to combine unigrams and bigrams to further smooth the probability,
-\begin{align}
-p(t_{i-1},t_i|d) = w \times p_1(t_i|d) + (1-w) \times p_2(t_{i-1},t_i | d)
-\end{align}
-which can be further extended to include trigrams as well.
-\end{comment}
-
-
-
-\begin{comment}
-
-\chapter{Information Retrieval Structure}
-\label{ch:ir_structure}
-
-Topic models, such as Latent Semantic Analysis (LSA) by \citep{deerwester-90} and probabilistic Latent Semantic Indexing~\cite{hofmann-99a}, can capture the semantic relations between documents and queries~\citep{wei-07}.
-
-Topic models have been applied into the information retrieval framework to improve ranking results. Probabilistic language modeling~\citep{croft-03} is a common formalism that incorporates information from topic models.
-
-In this chapter, we briefly introduce the information retrieval framework and the semantic relations between queries and documents. We also present the latent semantic analysis and probabilistic latent semantic indexing models, and how they are combined into information retrieval framework through language modeling.
-
-\section{Semantic Relations in Information Retrieval}
-
-Information Retrieval (IR) systems aim to retrieve relevant documents by comparing query and document texts.
-
-From computer's view, documents are usually treated as ``bags of words'', and documents are retrieved and ranked by measuring the word overlap. This is consistent with topic models.
-
-Topic models use those bags of words to build abstractions (topics), however.
-
-However, humans would use background knowledge to interpret and understand the queries and ``add'' missing words~\citep{wei-07}, akin to query expansion.
-
-\jbgcomment{You never define what's a semantic relation here}
-
-To more accurately retrieve related documents, the semantic relations between queries and documents are needed to improve the ranking results. Topic models, which describe each topic using weighted words and model each document as a distribution over all topics, is an effective way to capture such semantic relations~\citep{deerwester-90,hofmann-99a}.
-
-\section{Topic Models in IR}
-
-Latent Semantic Analysis (LSA) proposed by \citet{deerwester-90} makes use of dimensionality reduction to capture the semantic relations among words and documents.  (Briefly review, note distinction with probabilistic approaches.)
-
-It has been successfully applied into the information retrieval systems through automatic indexing with LSA (Latent Semantic Indexing, LSI) \citep{deerwester-90,dumais-95}.
-
-Probabilistic Latent Semantic Indexing (pLSI), introduced by \citet{hofmann-99a}, is an aspect model which associates an unobserved class (topic) variable with each observed word occurrence. pLSI provides a better fit to text data than LSI, thus quickly gained acceptance in IR systems.
-
-\section{Applying Topic Models into IR}
-
-The language modeling approach~\citep{croft-03,PonteCroft,song-99} is the main framework for using topic models in IR systems, since it has been shown to be effective probabilistic framework for studying information retrieval problems~\citep{PonteCroft,berger-99}.
-
-The basic language modeling framework is to compute the model likelihood of documents for generating the queries. Topic models, which represent documents with topics, offer a new and interesting means to model documents~\citep{wei-07}. A probability mixture model and a term model with back-off smoothing are presented to integrate topic models in this section.
-
-A probability mixture model combines multiple different probability distributions to integrate different factors in IR for query representation or document representation~\citep{miller-99,zhai-01,liu-04}.
-
-A term model with back-off smoothing~\citep{katz-87} is another popular framework to use topic models in IR systems, where a term model is learned for each term in a document and the back-off smoothing~\citep{katz-87} is applied.
-
-% Perhaps it would be nice to mention e-discovery?
-
-Transition to next chapter: what if you care about recall and understanding
-
-\end{comment}
