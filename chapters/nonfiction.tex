@@ -92,9 +92,9 @@ There are many factors that affect the quality of digitized historical newspaper
 For this study extensive work was applied to automated spelling correction.
 Another notable factor in this study is its prominent use of multiple topic models.
 In many cases there is a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
-\cite{yang-11-historical} train different models on different temporal slices of the corpus.
+\citet{yang-11-historical} train different models on different temporal slices of the corpus.
 Although there is some advantage to maintaining a consistent topic space over time, dividing the corpus into separate sections has certain advantages.
-In this case, historians were interested in the context of specific historic periods, such as the full run of a a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
+In this case, historians were interested in the context of specific historic periods, such as the full run of a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
 The authors also describe an iterative workflow that involves comparing topic model output after each of several pre-processing steps.
 Topic models are often effective at identifying consistent data-preparation errors, such as end-of-line hyphenation and consistent OCR errors.
 
@@ -162,7 +162,7 @@ DFR provides a simple view into selected articles by only providing the frequenc
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
 \cite{mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
-A distinctive aspect of this study is the use of a {\em polylingual} topic model \cite{mimno-09}.
+A distinctive aspect of this study is the use of a {\em polylingual} topic model \citep{mimno-09}.
 An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
 In other words, a topic has two ``modes'', one in which it emits words drawn from a distribution over English terms, and another in which it emits words drawn from a distribution over German terms.
 The linkage between English and German words is constructed using Wikipedia articles.
@@ -181,14 +181,14 @@ He comments that ``it becomes essential that those using topic models validate t
 \citet{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.
 For these authors the appeal of topic modeling is that models are better able to represent contextual meaning than simple lists of keywords. They write that ``[t]he meanings
-of words are shifting and context-dependent. For this reason, it’s risky to
+of words are shifting and context-dependendt. For this reason, it is risky to
 construct groups of words that we imagine are equivalent to some predetermined
 concept.''
 
 They analyze the proceedings of the Modern Language Association to find shifts in focus in the field of English literature.
 A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of violence: {\em power,
 violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20th century than during the first half.
-They contextualize this finding by comparing the frequency of these words in a more general corpus from Google ngrams; there is no comparable change.
+They contextualize this finding by comparing the frequency of these words in a more general corpus from Google n-grams; there is no comparable change.
 This approach holds topic fixed and searches for associated words.
 They then pivot and hold the word ``power'' fixed and search for associated topics.
 In this case the {\em violence} topic actually appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.

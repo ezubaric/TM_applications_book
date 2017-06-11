@@ -138,9 +138,9 @@ observations that might be negative or greater than 1.0, while topics are multin
 
 To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
 over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
-create multinomial distribution
+create a multinomial distribution
 \begin{equation}
-p(w=k \g \vec x)  = \frac{\exp{x_k}}{\sum_i \exp{x_i}},
+p(z=k \g \vec x)  = \frac{\exp{x_k}}{\sum_i \exp{x_i}},
 \end{equation}
 rather than drawing the multinomial from a Dirichlet distribution
 (c.f. Equation~\ref{eq:phi_map}).
@@ -239,8 +239,7 @@ documents: for example, when a blog or a letter introduces influential
 ideas.
 
 While science communication is ostensibly about promoting ideas and new
-understanding, topic models can also help understand less objective
-text.
+understanding, topic models can also help understand less objective text.
 In contrast to scientific trends, the next chapter looks at less literal and more imaginative use of words in fiction and literature.
 In this case, topic models can reveal patterns of how words are used
 that reflect artistic and literary trends.
