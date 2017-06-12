@@ -6,7 +6,7 @@
 In Chapter~\ref{ch:nonfiction}, we discuss how scholars use topic models to understand
 non-fiction documents.  This chapter focuses on a particular sub-genre of
 non-fiction: scientific documents.  Scientific documents deserve their own
-chapter because these documents are unique: they use very specialized
+chapter because these documents use very specialized
 vocabulary, they are the vehicles for innovation, and they shape important
 policy decisions.  We discuss each of these aspects in turn.
 
@@ -59,7 +59,7 @@ classifications~\citep{szostak-04}.  One challenge of modeling scientific
 documents is modeling how fields change over time; the static models we have
 discussed thus far are not always appropriate.
 
-\section{Understanding Fields of Studies}
+\section{Understanding Fields of Study}
 \label{sec:sci_fields}
 
 \begin{figure}
@@ -73,7 +73,7 @@ discussed thus far are not always appropriate.
 
 One of the first uses of topic models was to understand the ``fields
 of science''.  \citet{griffiths-04} found that they were able to
-reconstruct the official \abr{pnas} topic codes automatically using
+reconstruct the official Proceedings of the National Academy of Sciences (\abr{pnas}) topic codes automatically using
 topic models (Figure~\ref{fig:pnas}).  This is a useful sanity check:
 yes, topic models correlate with what we often think of as scientific
 disciplines.  They use distinct language for methods, subjects of
@@ -87,7 +87,7 @@ The National Institutes of Health are America's premiere funding
 agency for biological and health research.  The \abr{nih} consists of
 several institutes that focus on particular diseases, research techniques, or body
 systems; each of these institutes manages its own independent funding portfolio,
-sometimes making it difficult to understand the ``big figure'' of funding.
+sometimes making it difficult to understand the ``big picture'' of funding.
 
 \citet{talley-11} used topic models to help create this big picture,
 in contrast to more labor-intensive techniques (e.g., keywords from a
@@ -121,7 +121,7 @@ innovative ideas in the next section).
 
 One of the first techniques to do this viewed topics as subtly
 changing each year with a Dynamic Topic
-Model~\citep[\abr{dtm}]{blei-06b}.  Each topic has a distinct
+Model (\abr{dtm})~\citep{blei-06b}.  Each topic has a distinct
 distribution over words for each time period.  For example, the probability that
 the \underline{physics} topic emits the word ``string'' in 1910 might be low,
 but after 1970 much higher.  Of course, we do not want the topics to be completely

@@ -9,7 +9,7 @@ In some cases we may choose to filter out small numbers of documents in other la
 
 Multilingual topic models have been developed to analyze and understand a corpus in multiple languages.
 The applications in multi-language corpora can be divided into two categories.
-The first, and simpler category is those that aligning languages at the topical level, but not at the level of individual word types.
+The first, and simpler category is those that align languages at the topical level, but not at the level of individual word types.
 These models are useful for organizing corpora, but make no attempt to support analysis for users unfamiliar with any particular language.
 The second category is those that explicitly model word-level alignments across languages.
 These models support applications in statistical machine translation~(\textsc{smt}).
@@ -34,7 +34,7 @@ Lexicons of this form can be considered to be examples of parallel corpora with 
 \section{Document-level Alignment from Multilingual Corpora}
 
 The weaker category of multilingual models represents the presence of multiple languages, but does not explicitly represent connections between word types.
-Document-based connect connection between languages is flexible: instead of requiring
+A connection between languages based on documents is flexible: instead of requiring
 the exact matching or translations on words and sentences, only a
 coarse document alignment is necessary, as long as the documents
 discuss the same topics, e.g., wikipedia articles in different
@@ -59,7 +59,7 @@ generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
 
 Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval.
 \cite{mimno-09} uses a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
-For example, the Farsi-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
+For example, the Persian-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
  
 We note that it is not necessary to take ``language'' in its strict meaning.
@@ -85,7 +85,7 @@ p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
 \end{align}
 
 Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
-\cite{erlin2017topic} uses two independent seeded models on English and German books to search for works about epistemology.
+As noted in Chapter \ref{ch:ir}, \cite{erlin2017topic} uses two independent seeded models on English and German books to search for works about epistemology.
 After manually aligning one topic from each model, the topics are used as a ``soft query'' to identify words that are related to documents but the target subject.
 
 \section{Word-level Alignment from  Lexical Data}
@@ -94,7 +94,7 @@ Non-document \emph{lexical information}, such as orthographic
 similarity~\citep{boyd-graber-09} and multilingual
 dictionaries~\citep{boyd-graber-10}, can be helpful in learning
 better topics from multilingual corpora. For instance, tree-based
-topic models~\citep[\tlda{}]{boyd-graber-07,andrzejewski-09,hu-14:itm}
+topic models \abr{tlda}~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
 {\bf concept} to have similar probabilities given a topic. These
@@ -194,10 +194,9 @@ a path $y_{dn}$ along the tree of topic $z_{dn}$. Because every path
 $y_{dn}$ leads to a word $w_{dn}$ in language $l_{dn}$, we append the
 sampled word $w_{dn}$ to document $d_{l_{dn}}$ in language $l_{dn}$.
 
-If a flat symmetric Dirichlet prior is used instead of the tree prior,
-\plda{} is recovered; and if all documents are monolingual (i.e., with
-distinct distributions over topics $\theta$), \tlda{} is
-recovered. \ptlda{} connects different languages on both the word
+If we use a flat symmetric Dirichlet prior in place of the tree prior,
+the model is equivalent to \plda{}. Similarly, if all documents are monolingual (i.e., with
+distinct distributions over topics $\theta$), the model is equivalent to\tlda{}. \ptlda{} connects different languages on both the word
 level (using the word correlations) and the document level (using the
 document alignments), thus it learns better topics by considering more
 information from both languages.
@@ -267,11 +266,12 @@ $p(\mathbf{f}|\mathbf{e})$ and a \textit{language model} $p
 (\mathbf{e})$.
 Intuitively, a good translation should be both a good match for the source sentence (scoring high in the translation model) and a good sentence in its own right (scoring high in the language model).
 
-The source sentence $\mathbf{f}$ is segmented into multiple source
-phrases $\bar{f}_n$ during the decoding, which are translated to a set
+In the \textit{decoding} phase, the source sentence $\mathbf{f}$ is segmented into multiple source
+phrases $\bar{f}_n$, which are translated to a set
 of target phrases $\bar{e}_n$. Thus the translation probability
 $p(\mathbf{f}|\mathbf{e})$ can be further decomposed to the phrase
-translation probability $p(\bar{f}_n | \bar{e}_n)$. Target phrases may then need to be \textit{reordered} to get the best
+translation probability $p(\bar{f}_n | \bar{e}_n)$.
+In the \textit{reordering} phase target phrases may then need to be repositioned to get the best
 translation result. Reordering is captured by a relative distortion
 probability distribution $d(a_n - b_{n-1})$, where $a_i$ denotes the
 start position of the source phrase that was translated to the $n$th
@@ -316,16 +316,16 @@ Both monolingual topic models and bilingual topic models are useful for improvin
 The most prominent application of topic models is in {\em domain adaptation}.
 
 To train such \textsc{smt} systems with domain adaptation, early
-efforts focus on building separate models based on the hand-labeled
+efforts focus on building separate models based on hand-labeled
 domains~\citep{foster-07,matsoukas-09,chiang-11}. For example, for all
-the training examples that are labeled as \underline{sports} domain,
-one translation model is trained. As a result, in any test example
+the training examples that are labeled as \underline{sports} domain, we get 
+one translation model. Continuing the earlier example, in any test document
 that is labeled as \underline{sports}, ``\begin{CJK*}{UTF8}{gbsn}潜
-  水\end{CJK*}'' is always translated to ``underwater diving'', and
+  水\end{CJK*}'' will always be translated as ``underwater diving'', and
   the probability of translating ``\begin{CJK*}{UTF8}{gbsn}潜
-    水\end{CJK*}'' to ``lurker'' is zero. In fact, such hard domain
+    水\end{CJK*}'' as ``lurker'' is zero. In fact, such hard domain
     labels are not only expensive and time consuming to obtain, but
-    also unsmoothed and sensitive to labeling errors.
+    also unsmoothed and sensitive to labeling errors and inconsistency: someone may lurk in a sports forum, and someone may share stories about diving on social media.
 
 Hard domain labels are difficult to apply and can decrease the robustness of translations: domains are fundamentally uncertain, and if you get the domain wrong, you may cut off useful information.
 Topic models provide a way of automatically discovering soft domain
@@ -512,13 +512,13 @@ Aligning across multiple languages is a common way of resolving such ambiguities
   A monolingual topic model might not be able to tell the difference in a short Chinese document, but these terms
   are unambiguous in English, more accurately indicating the relevant topic.
 
-Multilingual topic models have been shown to improve results in \textsc{smt} \citep{hu-14}.
-There are various ways to build up the multilingual topic
-models. Different languages can be connected on the
-word-level~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm} or the
-document levels~\citep{mimno-09}, or a combination of both \citep{hu-14}. 
+%Multilingual topic models have been shown to improve results in \textsc{smt} \citep{hu-14}.
+%There are various ways to build up the multilingual topic
+%models. Different languages can be connected on the
+%word-level~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm} or the
+%document levels~\citep{mimno-09}, or a combination of both \citep{hu-14}. 
 
-While the above approaches try to model the source and target
+While many of the approaches described in this chapter try to model the source and target
 languages simultaneously to extract topics, some of the benefit of multilingual models can be achieved by aligning monolingual models. \citet{xiao-12} apply
 topic models on the source documents and target documents separately
 to learn the document-topic distributions $p(k_f | d_f)$ and $p(k_e |
