@@ -1,12 +1,12 @@
 \chapter{Building a Topic Model}
 \label{ch:building}
 
-Previous chapters have focused on \emph{existing} models.  This
-chapter focuses on how a researcher can create, implement, and
-validate a new model.  While we have thus far described
-models that researchers have created to capture particular nuances or
-processes that exist in the world, but omit blueprints
-for researchers who want to extend an existing model or create their own.
+Previous chapters have focused on \emph{existing} models.  
+We have thus far described
+models that researchers have created to capture particular nuances of documents or
+document-creating processes that exist in the world.
+This chapter focuses on how a researcher can create, implement, and
+validate a new model. 
 
 Before going into the details of constructing new models, we encourage users to consider whether questions can be answered through post-hoc analysis of a simple topic model in the context of additional information.
 For example, a simple dynamic topic model can be constructed from a standard LDA model by slicing the corpus into sections and estimating the probability distribution over words for each topic in each section.
@@ -333,14 +333,15 @@ variable conditioned on all of the other random variables.
 
 Thus, after creating your model, you need to compute the conditional
 distribution of each random variable conditioned on all of the
-others.  For example, the conditional distribution of the topic
-assignment of a word $z_{d,n}$ is
-\begin{equation}
-p(z_{d,n} \g z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
-\theta, \phi) = \frac{z_{d, 1} p(\dots z_{d, N_d}, \theta, \phi)}{ p(z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
+others.  For example, the conditional distribution of word $n$'s topic
+assignment variable $z_{d,n}$ (highlighted in bold) is
+\begin{multline}
+p(\bm{z_{d,n}} \g z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
+\theta, \phi) = \\
+\frac{p(z_{d, 1} \dots z_{d, n-1}, \bm{z_{d, n}}, z_{d, n+1}, \dots z_{d, N_d}, \theta, \phi)}{ p(z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
 \theta, \phi)},
 \label{eq:gibbs_conditional}
-\end{equation}
+\end{multline}
 which simplifies into Equation~\ref{eq:sampling}.
 
 Deriving conditional distributions is often simpler than expanding
