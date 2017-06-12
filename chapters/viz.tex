@@ -20,7 +20,7 @@ Recall from the previous chapters that topics are distributions over words; the
 words with the highest weight in a topic best explain what the topic is about.
 While the simplest answer---just show the most probable words---is a common
 solution, there are possible refinements that can improve a user's understanding
-of a dataset by showing the relationships between words or explicitly showing
+of a collection by showing the relationships between words or explicitly showing
 words' probability.
 
 % cite TACL paper
@@ -68,7 +68,7 @@ However, word clouds have been criticized for providing poor support for visual
 search~\cite{Viegas2008} and lacking contextual information between
 words~\cite{harris11}; users can sometimes draw false connections between words
 that are placed next to each other randomly in a word cloud.  Another
-alternative is to use word associations to layout
+alternative is to use word associations to set the position of
 words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014};
 Figure~\ref{fig:topic-in-a-box} shows places words that appear together next to
 each other in the visualization.
@@ -81,9 +81,9 @@ each other in the visualization.
 
 \section{Labeling Topics}
 
-Throughout this survey, we have been referring to topics about
-\underline{information technology} or about \underline{the arts}.  These are
-convenient labels, but completely removed from the raw distribution over words.
+Throughout this survey, we have been referring to topics with labels such as
+\underline{information technology} or \underline{the arts}.  These are
+convenient descriptors, but completely removed from the raw distribution over words.
 Thus, it is often useful to assign labels to topics within an interface.
 
 In contrast to the previous \emph{visualization} approaches, labeling
@@ -141,8 +141,8 @@ While these can be used alone as an unsupervised reranking,
 these features are most important for selecting the best topic word.
 These weights are learned using support vector regression.
 \citet{lau-11} extend their technique by adding candidates from
-Wikipedia to the set and show that models learned on different domain
-corpora are still effective.
+Wikipedia to the set.
+Despite the fact that this type of reference corpus may cover different domains than the specific training collection, the approach is still effective.
 
 \paragraph{Labeling with Knowledge Bases}
 
@@ -154,11 +154,11 @@ in the hierarchy; and the topic's labels should be unique.
 
 \citet{aleteras-14} instead query the whole Web and then build a graph that
 includes the words that make up the titles of the retrieved webpages. The edges
-between the words is the \abr{npmi} computed on a reference corpus.  The
+between the words is the normalized pointwise mutual information \abr{npmi} computed on a reference corpus, a function that measures whether two words occur together more often than we would expect by chance.  The
 intuition is that words that are ``central'' in this graph will be a good title
 for the topic.  They find the central words by using the PageRank~\citep{page-99}
-algorithm.  This finds words that are highly probable in the topic and appears
-often with many other words in the topic.
+algorithm, which finds words that are highly probable in the topic and appear frequently
+with many other words in the topic.
 
 \paragraph{Using Labeled Documents}
 
@@ -170,7 +170,7 @@ be consistent with the original labels (Figure~\ref{fig:llda}).
 \citet{Bakalov-12} extend this to hierarchical label sets (e.g., \abr{ny} Times
 subjects that place \underline{Russia} under \underline{International}), while
 \citet{nguyen:boyd-graber:resnik:chang-2014} extend it to learning hierarchies
-of topics from unorganized labels, learning that \underline{ska} topics are a
+of topics from unorganized labels, learning that \underline{ska}\footnote{A musical genre, familiar to reggae fans and cruciverbalists.} is a
 kind of \underline{music} without provided links.
 
 \begin{figure}
@@ -181,7 +181,7 @@ kind of \underline{music} without provided links.
     \citet{ramage-09}).  Each topic in labeled \abr{lda} is associated with a
     label, which encourages the topics to be consistent with the ontology of
     labels.  \abr{lda}, in contrast, uses the empirical frequency of topics to
-    divide the dataset, resulting in three topics (8, 13, 19) associated with
+    divide the collection, resulting in three topics (8, 13, 19) associated with
     the labeled \abr{lda} \underline{web} topic. }
   \label{fig:llda}
 \end{figure}
@@ -201,7 +201,7 @@ kind of \underline{music} without provided links.
 However, topics are not the end of the story.  Users often want to use topics to
 find relevant documents within the collection.  Going back to our example in the
 previous chapter, a user may want to find the ``smoking gun'' in the Enron
-dataset, not just use topics to understand the main themes in a dataset.
+corpus, not just use topics to understand the main themes in a collection.
 
 Thus, a good topic model visualization must also show the documents associated
 with a topic.  The Topic Model Visualization Engine~\citep{chaney-12} shows the
@@ -216,7 +216,7 @@ views with additional metadata.  For instance, if the collection has dollar
 amounts or sentiment~\cite{pang-08} associated with a document, it provides a
 histogram of the metadata associated with the topic.  It also provides \emph{in
   context} examples of topic words, allowing to see how a word is used within a
-topic (helping to address topic model's bag of words assumptions).
+topic (helping to address the topic model's bag of words assumptions).
 
 \abr{tome}~\citep{eistenstein-14} focuses on a specific type of metadata: time.
 It allows users to view the evolution of topics over time to understand, for
@@ -224,7 +224,7 @@ example, how the issue of slavery is reframed from an economic argument to an
 argument over human rights.  It supports filtering to specific topics or to see
 how words are used over time across topics.
 
-In contrast to showing how topics related to metadata,
+Rather than showing how topics relate to metadata,
 \citet{chuang-12} focus on how topics relate to \emph{each other}.
 Their ``Termite'' topic visualization (Figure~\ref{fig:termite}) shows
 the term-by-term similarity between topics.  By presenting topic-term
@@ -243,15 +243,13 @@ about a handful of words.
 \section{Quality, Stability, and Repair}
 \label{sec:coherence}
 
-However, not all topic models are perfect.  \citet{chang-09b} showed that
-held-out likelihood, the traditional measure of probabilistic model quality,
-emphasizes \emph{complexity} rather than interpretability, what humans
-presumably care about.  Thus, automated techniques may not be able to tell you
-whether a topic model is good or not.\footnote{Automated
+Visualizations can help show users where topic models have issues.
+Topic models are rarely perfect, and quality can vary within a model. Even in good models we often find several poorly fit or improperly combined topics. \citet{chang-09b} shows that
+held-out likelihood, a traditional measure of probabilistic model quality,
+emphasizes \emph{complexity} rather than the ease of interpretability that users are looking for.  Automated techniques that produce numeric results may not be able to tell you
+whether a topic model is good or not, which parts of a model are reliable, or why.\footnote{Automated
   measurements~\citep{newman-10,mimno-11,lau-14} of topic quality may serve as a
   proxy for human interpretability ratings.}
-
-Visualizations can help show users where topic models have issues.
 Showing the relationships between multiple models can also help
 distinguish stable from spurious topics~\citep{chuang-15}, and
 adjusting the ``hyperparameters'' of distributions (the Dirichlet
@@ -283,9 +281,9 @@ large effect of what the final models are~\cite{wallach-09b}.
 \end{tabular}
 \end{minipage}
 
-\caption{Before and after topics with iteractive topic modeling from
-  \citet{hu-14:itm}.  Initially, this topic conflates two topics
-  (\red{urinary} and \blue{central nervous system}), which is undesierable.  Adding
+\caption{Example topics before and after interactive topic modeling from
+  \citet{hu-14:itm}.  Initially, the topic conflates two topics
+  (\red{urinary} and \blue{central nervous system}), which is undesirable.  Adding
 a constraint that the words ``bladder'' and ``spinal cord'' should not
 appear together in a topic makes the topic more coherent and discovers
 concepts that \green{were not present before}.}
@@ -293,14 +291,14 @@ concepts that \green{were not present before}.}
 \end{figure}
 
 Interactive topic modeling---in conjunction with visualizations---can help
-correct the problems of topic models.  A user first get an overview of the
-dataset using a visualization of the topics and documents.  Then, the user can
-see instances where the model errs and then correct those mistakes.
+correct the problems of topic models.  A user first gets an overview of the
+collection using a visualization of the topics and documents and can then
+see and correct instances where the model makes mistakes.
 
 For example, Figure~\ref{fig:itm-nih} shows a topic learned from abstracts of
 grants funded by the American National Institutes of Health
 (\abr{nih}, discussed more in Chapter~\ref{sec:sci_fields}).  Most
-topics were ``good''; they summarized the data and told a story about
+topics were ``good'': they summarized the data and told a story about
 a coherent slice of research supported by the \abr{nih}.  However,
 this topic is more problematic; it combines words about the central
 nervous system with words about the urinary system.  Such a topic (as
@@ -318,9 +316,9 @@ to topics, which can be much faster.
 
 \section{Summary}
 
-While topic models provide users overviews of corpora, topic models
+While topic models provide users with overviews of corpora, topic models
 cannot be much help if the users cannot effectively see or understand
-the underlying topics.
+the underlying topics and how they relate to specific documents.
 Interactive visualizations allow users to discover and
 refine insights.  In the next chapters we will talk about specific applications of
 these insights, but these insights are often built on the initial understanding
