@@ -58,7 +58,7 @@ A topic that is less immediately interpretable ({\em  say thing might think own 
 
 
 
-Nelson\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/} studies topics in Civil War-era newspapers, including the Confederate paper of record, the Richmond Daily Dispatch.
+Nelson studies topics in Civil War-era newspapers, including the Confederate paper of record, the Richmond Daily Dispatch.\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/}
 Like Block and Newman, Nelson's goal is to organize the collection into themes and to measure the variation in prevalence of those themes over time.
 The web interface highlights a temporal view of the collection as a series of topic-specific time series.
 The mode of analysis is neither fully automated nor manual, but rather combines the two approaches.
@@ -124,7 +124,7 @@ Miller argues that in Classical Chinese a single character can be treated as a t
 
 %\jbgcomment{Could we get a figure for the months?  I think that would be a nice addition}
 
-Cameron Blevins\footnote{http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/} models the diary of Martha Ballard (1735--1812), a revolutionary war-era midwife who recorded entries over 27 years. The model provides a useful way to discover connections between words and repeated discourses.
+Cameron Blevins models the diary of Martha Ballard (1735--1812), a revolutionary war-era midwife who recorded entries over 27 years.\footnote{http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/} The model provides a useful way to discover connections between words and repeated discourses.
 As with other historical corpora, Blevins focuses on the connection between topics and time.
 Specific events, like a birth, can be highlighted by looking at spikes in a certain topic in the day-to-day time series.
 But larger trends are also evident.
@@ -155,13 +155,13 @@ Models trained on modern text corpora might not even recognize this example as E
 %\jbgcomment{The definition of secondary literature seems unclear to me, and it's not clear that the problem of copyright has been discussed enough that it's clear that JSTOR is so great as a result (even though it is!)}
 
 The historical record of scholarship is a valuable source for intellectual history.
-Many users make use of the JStor ``Data for Research'' API.\footnote{http://dfr.jstor.org/}
-The DFR API is an important example, because it provides access to articles that have been scanned by JStor and may be under copyright.
+Many users make use of the JSTOR ``Data for Research'' API.\footnote{http://dfr.jstor.org/}
+The DFR API is an important example, because it provides access to articles that have been scanned by JSTOR and may be under copyright.
 Access to the underlying documents in their original form as readable sequences of words may be restricted for legal or commercial reasons.
 DFR provides a simple view into selected articles by only providing the frequency of word unigrams.
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
-\cite{mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
+\cite{mimno-12b} studies a collection of Classics journals digitized by JSTOR to detect changes in the field over the 20th century.
 A distinctive aspect of this study is the use of a {\em polylingual} topic model \citep{mimno-09}.
 An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
 In other words, a topic has two ``modes'', one in which it emits words drawn from a distribution over English terms, and another in which it emits words drawn from a distribution over German terms.
@@ -181,17 +181,21 @@ He comments that ``it becomes essential that those using topic models validate t
 \citet{Goldstone-14} use a topic model as a tool to structure an exploration of a corpus that spans more than a century.
 They are interested both in changes at the topic level and at the level of word use within topics.
 For these authors the appeal of topic modeling is that models are better able to represent contextual meaning than simple lists of keywords. They write that ``[t]he meanings
-of words are shifting and context-dependendt. For this reason, it is risky to
+of words are shifting and context-dependent. For this reason, it is risky to
 construct groups of words that we imagine are equivalent to some predetermined
 concept.''
 
-They analyze the proceedings of the Modern Language Association to find shifts in focus in the field of English literature.
+They analyze the proceedings of the Modern Language Association\footnote{The MLA is a professional organization for literary scholars in the United States.} to find shifts in focus in the field of English literature.
 A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of violence: {\em power,
 violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20th century than during the first half.
 They contextualize this finding by comparing the frequency of these words in a more general corpus from Google n-grams; there is no comparable change.
 This approach holds topic fixed and searches for associated words.
 They then pivot and hold the word ``power'' fixed and search for associated topics.
 In this case the {\em violence} topic actually appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
+Like many topics, the content of this topic is difficult to assess from top words alone.
+Further exploration through exploration of individual documents would be necessary.
+
+\section{Summary}
 
 In this chapter we have focused on works in which the temporal axis is of primary concern.
 When we consider newspapers, historical records, and historical scholarly journals we are looking not just for the topical foci of each time period, but how those topics shift in concentration as they are influenced by historical events.
