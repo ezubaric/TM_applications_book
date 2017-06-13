@@ -1,4 +1,4 @@
-\chapter{Visualization}
+\chapter{Evaluation and Interpretation}
 \label{ch:viz}
 
 While the previous two chapters have focused on algorithmic uses of topic
@@ -30,10 +30,10 @@ Just showing a list of the most common words (a
 visualization that we will call ``word list'') is very simple, and it also works well.
 Users can quickly understand how words are arranged, and it is an efficient use of
 space. 
-Topics have been represented horizontally~\cite{gardner2010topic,smith2015visual} or
-vertically~\cite{eisenstein2012topicviz,chaney2012visualizing}, with or without
+Topics have been represented horizontally~\citep{gardner2010topic,smith2015visual} or
+vertically~\citep{eisenstein2012topicviz,chaney2012visualizing}, with or without
 commas separating the individual words, or using set
-notation~\cite{chaney2012visualizing}.  \citet{smith2015visual} go further by
+notation~\citep{chaney2012visualizing}.  \citet{smith2015visual} go further by
 adding bars representing the probabilities of the word.
 
 \paragraph{Word Clouds}
@@ -65,8 +65,8 @@ be used to display a topic.
 \end{figure}
 
 However, word clouds have been criticized for providing poor support for visual
-search~\cite{Viegas2008} and lacking contextual information between
-words~\cite{harris11}; users can sometimes draw false connections between words
+search~\citep{Viegas2008} and lacking contextual information between
+words~\citep{harris11}; users can sometimes draw false connections between words
 that are placed next to each other randomly in a word cloud.  Another
 alternative is to use word associations to layout
 words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014};
@@ -213,7 +213,7 @@ smallest.
 
 The topical guide~\citep{gardner-10} extends this approach by enriching topic
 views with additional metadata.  For instance, if the collection has dollar
-amounts or sentiment~\cite{pang-08} associated with a document, it provides a
+amounts or sentiment~\citep{pang-08} associated with a document, it provides a
 histogram of the metadata associated with the topic.  It also provides \emph{in
   context} examples of topic words, allowing to see how a word is used within a
 topic (helping to address topic model's bag of words assumptions).
@@ -256,7 +256,7 @@ Showing the relationships between multiple models can also help
 distinguish stable from spurious topics~\citep{chuang-15}, and
 adjusting the ``hyperparameters'' of distributions (the Dirichlet
 parameters of models discussed in Chapter~\ref{ch:intro}) can have a
-large effect of what the final models are~\cite{wallach-09b}.
+large effect of what the final models are~\citep{wallach-09b}.
 
 
 \begin{figure}
@@ -316,7 +316,7 @@ user provides this feedback.  In contrast to probabilistic constraints,
 \citet{choo-13} and \citet{lund-17} use matrix factorization constraints to guide changes
 to topics, which can be much faster.
 
-\section{Conclusion}
+\section{Summary}
 
 While topic models provide users overviews of corpora, topic models
 cannot be much help if the users cannot effectively see or understand

@@ -24,7 +24,7 @@ broader population.
 These techniques remain foundational, but they take time.  A
 company needs to know if it has an issue with a product immediately,
 particularly if its good name is being dragged through the mud on
-social media~\cite{bowen-16}.  However, the reason for the acute time
+social media~\citep{bowen-16}.  However, the reason for the acute time
 pressure can also be the solution: if a company is able to quickly see
 that it has a social media problem, it can more quickly intervene and
 correct the issue.
@@ -32,12 +32,12 @@ correct the issue.
 Traditional social science methods are labor intensive, take a long
 time, or are impossible for sensitive subjects.  For instance, surveys
 of influenza take too long to be useful compared to the life cycle of
-influenza's progression~\cite{broniatowsky-15}; using twitter and
+influenza's progression~\citep{broniatowsky-15}; using twitter and
 Google searches results in more accurate information faster.
 
 Directly communicating with some
 populations may be difficult.  Using social media presents an
-alternative~\cite{wang:paul:dredze-15}, as individuals share
+alternative~\citep{wang:paul:dredze-15}, as individuals share
 information more freely than official news agencies (which may suffer
 from official censorship in the case of opinions about pollution in China) or in
 school-administered surveys (which can suffer from self-censorship in
@@ -86,7 +86,7 @@ topics but the topics are less interpretable.
 \section{Topic Models for Qualitative Analysis}
 
 A common task in qualitative social science is to develop high-level theories that explain social processes based on low-level observations, such as field reports or ethnographic notes.
-One way to operationalize this process is the grounded theory method \cite{glaser-67}.
+One way to operationalize this process is the grounded theory method~\citep{glaser-67}.
 Grounded theory describes a process for iteratively developing theories through repeated reading of source material.
 \citet{baumer-17} compare a manual grounded theory analysis and a topic model-based analysis of survey response text describing people's experiences attempting to voluntarily leave Facebook.
 
@@ -289,7 +289,7 @@ analagous to the topics in topic models, except that the links are
 
 However, the first probabilistic models of network structure ignored
 the words in documents.  Link LDA is the exemplar for downstream
-models~\cite{nallapati-08} and include the text in the documents.  It
+models~\citep{nallapati-08} and include the text in the documents.  It
 uses a regression on the topic allocations ($\theta$) rather than
 topic assignments ($z$), in contrast to supervised \abr{lda} above.
 
@@ -301,8 +301,6 @@ document.  For example, if the model thinks there's a link between
 documents because they both use Topic~14 but no words in the document
 are assigned ($z_n=14$), then the model is unable to recreate this
 prediction in a held-out document.
-
-% But changing the objective function can improve performance further~\cite{bach-15}
 
 However, as social networks increasingly span the entire globe,
 assuming that a topic model is only in a single language is often a

@@ -17,7 +17,7 @@ Topic models give us a perspective that is interpretable but at the same time al
 
 Time is a critical variable in the study of historical documents.
 Although many modern collections have a significant aspect of time variation (see for example scientometrics), time is a defining element of historical research.
-Collections of historical documents are necessarily situated in a time other than our own, but also tend to cover long periods --- decades or even centuries.
+Collections of historical documents are necessarily situated in a time other than our own, but also tend to cover long periods---decades or even centuries.
 As a result, many of the examples cited in this chapter organize documents along a temporal axis.
 The associated analysis is particularly concerned with how language, as reflected in topic concentrations and topic contents, changes over time.
 
@@ -92,7 +92,7 @@ There are many factors that affect the quality of digitized historical newspaper
 For this study extensive work was applied to automated spelling correction.
 Another notable factor in this study is its prominent use of multiple topic models.
 In many cases there is a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
-\cite{yang-11-historical} train different models on different temporal slices of the corpus.
+\citet{yang-11-historical} train different models on different temporal slices of the corpus.
 Although there is some advantage to maintaining a consistent topic space over time, dividing the corpus into separate sections has certain advantages.
 In this case, historians were interested in the context of specific historic periods, such as the full run of a a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
 The authors also describe an iterative workflow that involves comparing topic model output after each of several pre-processing steps.
@@ -161,8 +161,8 @@ Access to the underlying documents in their original form as readable sequences 
 DFR provides a simple view into selected articles by only providing the frequency of word unigrams.
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
-\cite{mimno-12b} studies a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
-A distinctive aspect of this study is the use of a {\em polylingual} topic model \cite{mimno-09}.
+\citet{mimno-12b} study a collection of Classics journals digitized by JStor to detect changes in the field over the 20th century.
+A distinctive aspect of this study is the use of a {\em polylingual} topic model~\citep{mimno-09}.
 An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
 In other words, a topic has two ``modes'', one in which it emits words drawn from a distribution over English terms, and another in which it emits words drawn from a distribution over German terms.
 The linkage between English and German words is constructed using Wikipedia articles.
@@ -193,6 +193,12 @@ This approach holds topic fixed and searches for associated words.
 They then pivot and hold the word ``power'' fixed and search for associated topics.
 In this case the {\em violence} topic actually appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
 
-In this chapter we have focused on works in which the temporal axis is of primary concern.
+\section{Summary}
+
+This chapter focuses on finding themes in document that reflect temporal trends.
 When we consider newspapers, historical records, and historical scholarly journals we are looking not just for the topical foci of each time period, but how those topics shift in concentration as they are influenced by historical events.
-Our consideration of scholarly journals leads directly into our next chapter on the study of a much larger and temporally variable literature, the study of science.
+Modeling large collections of documents allows us to reveal how events are reflected in writing and how ideas and emotions emerge in response to changing events.
+
+In the next chapter, we extend our discussion of scholarly journals to focus more directly on how new ideas emerge.
+Unlike newspapers and diaries which reflect the reality of the world, the writing in scientific manuscripts can actually change the world by introducing innovative technologies.
+The next chapter asks whether we can detect and describe these innovations.

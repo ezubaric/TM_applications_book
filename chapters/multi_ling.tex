@@ -58,7 +58,7 @@ language $l_i$, we then sample a topic $z_{dn}$ from $\theta_d$, and
 generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
 
 Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval.
-\cite{mimno-09} uses a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
+\citet{mimno-09} use a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
 For example, the Farsi-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
  
@@ -85,10 +85,10 @@ p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
 \end{align}
 
 Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
-\cite{erlin2017topic} uses two independent seeded models on English and German books to search for works about epistemology.
+\citet{erlin2017topic} use two independent seeded models on English and German books to search for works about epistemology.
 After manually aligning one topic from each model, the topics are used as a ``soft query'' to identify words that are related to documents but the target subject.
 
-\section{Word-level Alignment from  Lexical Data}
+\section{Word-level Alignment from Lexical Data}
 
 Non-document \emph{lexical information}, such as orthographic
 similarity~\citep{boyd-graber-09} and multilingual
@@ -360,7 +360,7 @@ topic models to improve translation models~\citep{Eidelman-12,hu-14}.
 %used to smooth the expected count $\hat{c}_{k}(f,e)$ of a word
 %translation pair under topic $k$,
 
-\paragraph{Translations from monolingual topic models}
+\paragraph{Translations from Monolingual Topic Models}
 
 We can train a translation model by counting the frequency of pairs from word-level alignment data.
 \citet{Eidelman-12} builds topic-specific translation models by reweighting the frequency of word pairs based on soft topic/domain assignments for documents.
@@ -557,7 +557,7 @@ example, the English words ``house'' and ``home'' are in many cases synonymous, 
 ``I am going house''.
 
 Domain adaptation for language models~\citep{Bellegarda-04,wood-09}
-uses extra knowledge to adjust this probability $p(w|h)$ to reflect
+use extra knowledge to adjust this probability $p(w|h)$ to reflect
 the content change, which is an important avenue for improving machine
 translation. As \citet{Bellegarda-04} points out, ``an adaptive
 language model seeks to maintain an adequate representation of the
@@ -574,7 +574,7 @@ phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is translated to
   lot of fans'' without any ambiguity. Next, we introduce the details
   about applying topic models for language model adaptation.
 
-\paragraph{Language Model Adaptation from Monolingual topic models}
+\paragraph{Language Model Adaptation from Monolingual Topic Models}
 
 Early work~\citep{Clarkson-1997,Seymore-1997,Kneser-1997,Iyer-1999} focuses on
 partitioning the training data to multiple topic-specific subsets and
@@ -628,22 +628,23 @@ for language model adaptation.
 
 \paragraph{Language Model Adaptation from Multilingual Topic Models}
 
-As we explained in Section~\ref{sec:trans-multiling}, the information
-from different languages can complement each other to extract better
-topics. Latent semantic models such as LSA have been used in multilingual information retrieval for many years \cite{carbonell1997translingual}.
-In order to introduce multilingual information to probabilistic topic models
-for language model adaptation, various approaches such as
-\cite{Tam-2007}, \cite{Ruiz-2011}, \cite{Yu-2013} etc., have been
-explored. 
 
-\cite{Tam-2007} introduces the bilingual latent semantic
+As we explain in Section~\ref{sec:trans-multiling}, the information
+from different languages can complement each other to extract better
+topics. Latent semantic models such as LSA have been used in
+multilingual information retrieval for many years
+\citep{carbonell1997translingual}.
+We now describe approaches to add \emph{multilingual} information to probabilistic topic models
+for language model adaptation.
+
+\citet{Tam-2007} introduces the bilingual latent semantic
 analysis~(\textsc{blsa}) to learn the topics for both source language
 and target language, and apply the learned topics into language model
 adaptation for \textsc{smt}. Similar to polylingual topic models~\citep{mimno-09}, 
 \textsc{blsa} transfers the inferred
 topics from the source language to the parallel target language.
 
-More specifically, \cite{Tam-2007} assume the aligned source document
+More specifically, \citet{Tam-2007} assume the aligned source document
 and the target document share the same document-topic distribution.
 They first learn an \textsc{lsa} model on the source
 language and then use the document-topic vector from the
@@ -664,8 +665,8 @@ Then this word marginal distribution is integrated into the target background la
 p_a(w|h) \propto \Big( \frac{p_{lsa}(w)}{p_{bg}(w)} \Big) ^{\beta} \cdot p_{bg}(w|h)
 \end{align}
 
-\cite{Ruiz-2011} apply a similar idea for language model
-adaptation. Instead of using \textsc{blsa}, \cite{Ruiz-2011} simply
+\citet{Ruiz-2011} apply a similar idea for language model
+adaptation. Instead of using \textsc{blsa}, \citet{Ruiz-2011} 
 merge the aligned source and target document as one document, and
 train pLSI. Both ideas are
 based on the assumption that the aligned source document and target
@@ -674,7 +675,6 @@ language model combines the topic-based language model with the
 general background language model, thus it is more robust in improving
 the results of \textsc{smt}.
 
-\jbgcomment{again, good to have ex}
 
 \citet{Yu-2013} presents a hidden topic Markov model~(\textsc{htmm}) to improve
 the language model in \textsc{smt}. They build up a topic model on the
@@ -884,7 +884,7 @@ chain into the document translation decoding process.
 
 In general, multilingual topic models obtain topics with high quality,
 since different languages can complement each other to reduce topic
-ambiguity. Many different approaches, have been explored to apply such
+ambiguity. Many different approaches have been explored to apply such
 multilingual topic models to improve different pieces of statistical
 machine translation. With such topic knowledge, the variations of
 different languages can be better captured to make the translations
