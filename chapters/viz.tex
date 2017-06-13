@@ -241,22 +241,50 @@ about a handful of words.
   \label{fig:termite}
 \end{figure}
 
-\section{Quality, Stability, and Repair}
+\section{Evaluation, Stability, and Repair}
 \label{sec:coherence}
 
 Visualizations can help show users where topic models have issues.
-Topic models are rarely perfect, and quality can vary within a model. Even in good models we often find several poorly fit or improperly combined topics. \citet{chang-09b} shows that
+Topic models are rarely perfect, and quality can vary within a
+model. Even in good models we often find several poorly fit or
+improperly combined topics. 
+
+For many years, the primary metric for evaluating the quality of a
+topic model was the held-out likelihood of a model~\citep{wallach-09a}.
+Because a topic model is a generative probabilitic model---like a
+language model~\citep{chen-98}---we can ask how well the model can
+predict unseen text: run the generative process forward for the
+document and see how well that matches up with the held-out document.
+If the model does a good job of using topics to predict what words
+will appear in new documents, then it is a good model, and if it fails
+to do so, it is a bad model.
+
+At the extremes, held-out likelihood makes sense.  
+A set of gibberish topics will obviously poor held-out likelihood, and
+a set of topics so specific that any held-out document is modeled well
+by that topic will have great held-out likelihood.
+However, this metric ignores whether the underlying topics make sense
+to a user.
+
+\citet{chang-09b} shows that
 held-out likelihood, a traditional measure of probabilistic model quality,
-emphasizes \emph{complexity} rather than the ease of interpretability that users are looking for.  Automated techniques that produce numeric results may not be able to tell you
-whether a topic model is good or not, which parts of a model are reliable, or why.\footnote{Automated
-  measurements~\citep{newman-10,mimno-11,lau-14} of topic quality may serve as a
-  proxy for human interpretability ratings.}
+emphasizes \emph{complexity} rather than the ease of interpretability
+that users are looking for.  
+User ratings of how good topics negatively correlate with
+held-out likelihood: a more complex model (e.g., a model with more
+complicated equations or a model with more topics) can better fit a random
+held-out document. 
+More complex models, however, are more confusing for users. 
+
+Automated measurements~\citep{newman-10,mimno-11,lau-14} of topic
+quality may serve as a proxy for human interpretability ratings.
+However, these approaches may not be able to tell you
+whether a topic model is suitable for a specific application, which parts of a model are reliable, or why.
 Showing the relationships between multiple models can also help
 distinguish stable from spurious topics~\citep{chuang-15}, and
 adjusting the ``hyperparameters'' of distributions (the Dirichlet
 parameters of models discussed in Chapter~\ref{ch:intro}) can have a
 large effect of what the final models are~\citep{wallach-09b}.
-
 
 \begin{figure}
 
@@ -305,7 +333,6 @@ this topic is more problematic; it combines words about the central
 nervous system with words about the urinary system.  Such a topic (as
 discussed in \citet{mimno-11}) does not give a clear understanding of the
 documents it should represent.
-
 
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic
 constraints to the model~\citep{boyd-graber-07,andrzejewski-09}.  For example,
