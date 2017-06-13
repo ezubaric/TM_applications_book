@@ -497,14 +497,14 @@ $p(z_{d,n}=j\,|\,z_{d,1}\dots z_{d,n-1},z_{d,n+1}\dots z_{d,N_d}, w_{d,n})$ to
 show the dependence on the topic assignments of \emph{all other} tokens but not
 this token.}
 \begin{align}
-p(z_{d,n}=j \g \dots) = \theta_d
-\phi_j = \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
+p(z_{d,n}=i \g \dots) = \theta_d
+\phi_ji= \left(\frac{\dc{d}{i} + \alpha_i}{\sum_k \dc{d}{k} + \alpha_k} \right) \left( \frac{\tc{i}{w_{d,n}} + \beta_v}{\sum_w \tc{i}{w} +
     \beta_w} \right).
 \label{eq:sampling}
 \end{align}
 Computing this value for each topic will result in a probability distribution over the topic assignment for this word token, given all the other topic assignments.  The next step is to randomly choose one of those indices with
 probability proportional to the vector value.  You now assign that word to the
-topic, update $\dc{}{}$ and $\tc{}{}$, and move on to the next word and repeat.
+topic, update $\dc{d}{\cdot}$ and $\tc{\cdot}{w_{d,n}}$, and move on to the next word and repeat.
 The two terms provide two ``pressures'', for global and local coherence. Sparsity in the topic-word distributions encourages tokens of the same word type to be assigned to a small number of topics,  regardless of where they occur. Sparsity in the document-topic distributions encourages tokens in the same document to be assigned to a small number of topics, regardless of what type they are.
 For example, knowing that a word is ``compilation'' narrows down the number of potential topics considerably, but leaves ambiguity: is it program compilation or a music compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \emph{arts} topic as the most probable assignment.
 
