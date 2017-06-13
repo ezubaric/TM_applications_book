@@ -94,9 +94,9 @@ of generating the whole query given this document is zero, which may throw out p
 This data sparsity problem can be fixed by smoothing, which allocates
 some non-zero probability to the missing terms. In fact, topic models
 provide a unique way to extract the word probabilities given the
-corpus, which can be used to smooth document language models.  In
-this section, we summarize two simple smoothing methods, and then
-show how topic models fit into this smoothing framework.
+corpus, which can be used to smooth document language models.  We
+summarize two simple smoothing methods, and then show how topic models
+fit into this smoothing framework.
 
 %\subsection{Smoothing Document Language Models}
 
@@ -133,10 +133,12 @@ where $\mathcal{C}$ denotes the whole corpus. This simple mixture
 solves the data sparsity problem. For terms that occur in the document
 $d$, the maximum likelihood estimator (Equation~\ref{eq:ir_mse}) is
 not accurate given the limited size of a document, thus it is smoothed
-with the more reliable corpus level probability. For a missing term $w$
-in the document $d$, the probability of generating word $w$ is not zero any more, but falls
-back to the corpus level probability $p(w|\mathcal{C})$.
-This smoothing method has been explored and successfully applied in information retrieval tasks~\citep{PonteCroft,song-99}.
+with the more reliable corpus level probability. For a missing term
+$w$ in the document $d$, the probability of generating word $w$ is not
+zero any more, but falls back to the corpus level probability
+$p(w|\mathcal{C})$.  This smoothing method has been explored and
+successfully applied in information retrieval
+tasks~\citep{PonteCroft,song-99}.
 
 \paragraph{Bayesian Smoothing using Dirichlet Priors}
 
@@ -360,7 +362,7 @@ successfully applied into query expansion~\citep{Yi-2009,Park-2009,Zeng-2012}.
 
 \paragraph{Smoothing Query Language Model}
 
-The most intuitive way to apply topic models for query expansion is to
+The most intuitive way to use topic models for query expansion is to
 extract the words' relevance from topics directly as
 \citet{Yi-2009}. They train a topic model, from which the probability
 $p_{\texttt{TM}}(k|q)$ of a topic $k$ in a query $q$ is learned. Then

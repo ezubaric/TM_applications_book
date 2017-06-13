@@ -9,11 +9,7 @@ well-concealed by the corporation's political friends.  How are you going to
 understand this haystack well enough to explain it to your devoted readers under
 such a tight deadline?
 
-<<<<<<< HEAD
-\section{Tell me about your Haystack}
-=======
 \section{Tell Me about Your Haystack}
->>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 
 Unlike the vignette above, interacting with large text data sets is often posed
 as a needle in a haystack problem.  The poor user---faced with documents that
@@ -194,12 +190,8 @@ Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
 document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
 have seen a resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we
-<<<<<<< HEAD
-focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03}, which are intuitive, work well, and allow for
-=======
-focus on probabilistic approaches \citep{hofmann-99,papadimitriou-00,blei-03}, 
+focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03}, 
 which are intuitive, work well, and allow for
->>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 easy modification (as we see later in many of our later chapters).
 
 \begin{figure}
@@ -220,26 +212,15 @@ easy modification (as we see later in many of our later chapters).
 \end{figure}
 
 Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
-<<<<<<< HEAD
 There is a substantial and well-developed field of topic detection and tracking~\citep{allan-02}.
-=======
-There is a substantial and well-developed field of topic detection and tracking \citep{allan-02}.
->>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 In TDT, a topic is usually closer to an event or an individual story.
 In contrast, topic models tend to identify more abstract latent factors.
 For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
 
-<<<<<<< HEAD
 There has been some work on using topic models to detect emerging events by searching for changes in topic probability~\citep{alsumait-08}.
 But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
 Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases~\citep{leskovec-09}.
 
-=======
-There has been some work on using topic models to detect emerging events by searching for changes in topic probability \citep{alsumait-08}.
-But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
-Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases~\citep{leskovec-09}.
-\newline
->>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 \subsection{Probabilistic Building Blocks}
 \label{sec:intro_building_blocks}
 
@@ -560,6 +541,14 @@ machine, allowing it to process up to millions of documents.  Variational
 inference is the other major option~\citep{blei-03,vw}, but often requires a
 little more effort for new users to get a first result.
 
+However, not all users are comfortable with Java; there are many
+implementations available on other platforms and in many programming
+languages.\footnote{There are so many and they change so quickly that
+  we're reluctant endorse specific ones here.}  Many of these
+implementations are well-built, but it may be worthwhile checking
+whether they have all of the features of mature implementations like
+Mallet so that you know what (if anything) you're missing.
+
 % Smola, Amr
 However, if your corpus is truly large, it may be worthwhile
 considering techniques that can be parallelized over large computer
@@ -567,12 +556,13 @@ clusters.  These techniques can be based on variational
 inference~\citep{Narayanamurthy-11,zhai-12} or on
 sampling~\citep{newman-08}.
 
-While these implementations allow you to run \emph{specific} topic models, other
-frameworks allow you to specify arbitrary generative
-models.  This allows for quick prototyping of topic models and integrating topic
-models with other probabilistic frameworks like regression or collaborative
-filtering.  Examples of these general frameworks include
-Stan~\citep{stan-software:2014}, Infer.net, and Church.
+While these implementations allow you to run \emph{specific} topic
+models, other frameworks allow you to specify arbitrary generative
+models.  This allows for quick prototyping of topic models and
+integrating topic models with other probabilistic frameworks like
+regression or collaborative filtering.  Examples of these general
+frameworks include Stan~\citep{stan-software:2014},
+Theano~\citep{theano}, and Infer.net~\citep{InferNET14}.
 
 If you cannot find the specific model that you want among these
 existing software packages, the flexibility and simplicity of topic

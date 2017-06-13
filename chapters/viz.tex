@@ -82,7 +82,7 @@ each other in the visualization.
 
 \section{Labeling Topics}
 
-Throughout this survey, we have been referring to topics with labels such as
+Throughout this survey, we have been referring to topics with \emph{labels} such as
 \underline{information technology} or \underline{the arts}.  These are
 convenient descriptors, but completely removed from the raw distribution over words.
 Thus, it is often useful to assign labels to topics within an interface.
@@ -143,7 +143,10 @@ these features are most important for selecting the best topic word.
 These weights are learned using support vector regression.
 \citet{lau-11} extend their technique by adding candidates from
 Wikipedia to the set.
-Despite the fact that this type of reference corpus may cover different domains than the specific training collection, the approach is still effective.
+The weakness of this approach is that Wikipedia may not have coverage
+of the topics in the collection; if Wikipedia ignores the theme
+captured by a topic model, then it will fail to find an appropriate
+label for that topic.
 
 \paragraph{Labeling with Knowledge Bases}
 
@@ -154,12 +157,33 @@ topics); a topic's words should be consistent with a labels' children
 in the hierarchy; and the topic's labels should be unique.
 
 \citet{aleteras-14} instead query the whole Web and then build a graph that
-includes the words that make up the titles of the retrieved webpages. The edges
-between the words is the normalized pointwise mutual information \abr{npmi} computed on a reference corpus, a function that measures whether two words occur together more often than we would expect by chance.  The
-intuition is that words that are ``central'' in this graph will be a good title
-for the topic.  They find the central words by using the PageRank~\citep{page-99}
+includes the words that make up the titles of the retrieved webpages. 
+Their goal is to find words that are ``central'' in the graph: these
+words should make for a good title.
+Words have edges between them if they appear close to each other more
+than one would expect by chance.
+This property is measures through the  the normalized pointwise mutual
+information (\abr{npmi}) metric.
+They find the central words by using the PageRank~\citep{page-99}
 algorithm, which finds words that are highly probable in the topic and appear frequently
 with many other words in the topic.
+This is the same algorithm that search engines use to find pages that
+have ``high authority'' on the Internet.
+
+Just like a search engine should return \texttt{simpsonsarchive.com}
+for a search on ``the Simpsons'' because everyone links to it, this
+labeling method will find the word in a topic that all of the other
+words ``vote for''.  
+For each word in a topic, we find all of the
+words that are likely to also appear with that word and then take the
+winner of that election as our label for a topic.  For example, given
+the topic
+\begin{quote}
+cell response immune lymphocyte antigen cytokine t-cell induce
+receptor immunity
+\end{quote}
+the algorithm selects \underline{immune system}, as it appears near many of
+the other terms in the topic~\citep{aleteras-14}.
 
 \paragraph{Using Labeled Documents}
 
@@ -176,7 +200,7 @@ kind of \underline{music} without provided links.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=.5\linewidth]{figures/viz_llda}
+    \includegraphics[width=.7\linewidth]{figures/viz_llda}
   \end{center}
   \caption{Example of topics learned by labeled \abr{lda} (Figure from
     \citet{ramage-09}).  Each topic in labeled \abr{lda} is associated with a
