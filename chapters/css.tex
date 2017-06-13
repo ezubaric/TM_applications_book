@@ -268,7 +268,7 @@ science~\citep{Nguyen:Boyd-Graber:Resnik:Miler-2015}.
 
 % Eisenstein
 
-\section{Social Networks}
+\section{Social Networks and Media}
 
 We have talked about metadata that are independent for each user.
 Sometimes, however, we are interested in metadata that describe the
@@ -290,7 +290,8 @@ However, the first probabilistic models of network structure ignored
 the words in documents.  Link LDA is the exemplar for downstream
 models~\citep{nallapati-08} and include the text in the documents.  It
 uses a regression on the topic allocations ($\theta$) rather than
-topic assignments ($z$), in contrast to supervised \abr{lda} above.
+topic assignments ($z$), in contrast to supervised \abr{lda} above.  Similarly, \citet{cha-12} use
+followed users to model downstream documents.
 
 Conditioning on the topic assignments can improve the algorithm's
 ability to predict links on held-out documents,
@@ -299,7 +300,22 @@ allocations alone can use topics to explain links that aren't in the
 document.  For example, if the model thinks there's a link between
 documents because they both use Topic~14 but no words in the document
 are assigned ($z_n=14$), then the model is unable to recreate this
-prediction in a held-out document.
+prediction in a held-out document.  
+
+\section{Summary}
+
+\citet{hong-10} discuss how the short documents of social media
+platforms like Twitter can confuse topic modeling algorithms.  Because
+a document is limited to 140 character, the admixture assumptions of
+topic models are limited.  To capture trends over time or across
+users, algorithms must also know connections between users or group
+messages together over time (Chapter~\ref{ch:sci}). 
+
+Computational social science can unlock the emotion and hidden
+factions often present in online discussions.  This is useful for
+companies trying to understand their customers, for politicians trying
+to target voters, and for academics tyring to understand how online
+communication morphs social norms.  
 
 However, as social networks increasingly span the entire globe,
 assuming that a topic model is only in a single language is often a
@@ -307,8 +323,5 @@ poor assumption.  Indeed, even within a single country, topic models
 can discover regional variation~\citep{eisenstein-10}.  In the next
 chapter, we discuss how to cope with multilingual datasets and still
 discover coherent, language-independent topics.
-
-\section{Summary}
-
 
 
