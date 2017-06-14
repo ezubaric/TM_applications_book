@@ -98,16 +98,20 @@ California regulators, and stock prices
 
 \begin{figure}
 \begin{center}
-  \begin{tabular}{ccccc}
-    Topic 3    & Topic 6   & Topic 9    & Topic 14 & Topic 22 \\
-    \hline
-    trading    & gas       & state      & ferc     & group \\
-    financial  & capacity  & california & issue    & meeting \\
-    trade      & deal      & davis      & order    & team \\
-    product    & pipeline  & power      & party    & process \\
-    price      & contract  & utilities  & case     & plan \\
-    \hline
-  \end{tabular}
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{cp{10cm}}
+\hline
+\rowcolor{gray!50}
+\hline
+Topic & Terms \\
+\hline \hline
+3 & trading financial trade product price  \\
+6 & gas capacity deal pipeline contract \\
+9 & state california davis power utilities \\
+14 & ferc issue order party case \\
+22 & group meeting team process plan \\
+\hline
+\end{tabular}
 \end{center}
 
   \caption{Five topics from a twenty-five topic model fit on Enron
@@ -214,18 +218,36 @@ between \plsa{} and \abr{lda} outweigh the differences.
 
 \begin{figure}
 \small
+\rowcolors{2}{gray!25}{white}
   \begin{tabular}{cccc}
-    Distribution & Density & Example Parameters & Example draws \\
-    \hline
+\hline
+\rowcolor{gray!50}
+ & & Example & Example \\
+\rowcolor{gray!50}
+    Distribution & Density & Parameters & Draws \\
+    \hline \hline
     Gaussian  & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{- \frac{(x-\mu)^2}{2 \sigma^2}}$ & $\mu=2, \sigma^2=1.1$ & $x=2.21$\\
-    Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=(0.1, 0.6, 0.3)$
-                                                & $w=2$ (second
-                                                  item) \\
-   Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}^K \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = (1.1, 0.1, 0.1)$  & $\theta = (0.8, 0.15, 0.05)$ \\
+    Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=\begin{bmatrix}
+           0.1 \\
+           0.6 \\
+           0.3 
+         \end{bmatrix}$
+                                                & $w=2$ \\
+   Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}^K \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = \begin{bmatrix}
+           1.1 \\
+           0.1 \\
+           0.1 
+         \end{bmatrix}$  & $\theta = \begin{bmatrix}
+           0.8 \\
+           0.15 \\
+           0.05 
+         \end{bmatrix}$ \\
      \hline
   \end{tabular}
   \caption{Examples of probability distributions used in the
-    generative stories of topic models.}
+    generative stories of topic models.  In the case of the discrete
+    draw, $w=2$ denotes that the second element (the one with
+    probability $0.6$) was drawn.}
   \label{fig:distribution_examples}
 \end{figure}
 
@@ -237,7 +259,10 @@ For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a t
 
 There has been some work on using topic models to detect emerging events by searching for changes in topic probability~\citep{alsumait-08}.
 But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
-Other work has found that more lexically specific methods than topic models are best for identifying memes and viral phrases~\citep{leskovec-09}.
+Other work has found that more lexically specific methods than topic
+models are best for identifying memes and viral
+phrases~\citep{leskovec-09}. \\
+
 
 \subsection{Probabilistic Building Blocks}
 \label{sec:intro_building_blocks}
@@ -345,12 +370,6 @@ Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
 how the data came to be.  We assemble the probabilistic pieces to tell
 this story about generating topics and how those topics are used to create
 diverse documents.
-<<<<<<< HEAD
-We note that LDA is closely related to its probabilistic precursor, pLSA~\citep{hofmann-99}, which can be viewed as a special case of LDA in which the Dirichlet priors are uniform.
-=======
-We note that \abr{lda} is closely related to its probabilistic precursor, \abr{plsa} \citep{hofmann-99},
-which can be viewed as a special case of \abr{lda} in which the Dirichlet priors are uniform.
->>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 
 \paragraph{Generating Topics}
 
@@ -541,7 +560,7 @@ advanced models that we will discuss later in the survey.  While we will not des
 the algorithms in detail, we will occasionally make reference to this sketch to
 highlight challenges or difficulties in implementing topic models.
 
-\subsection{What's so Great about Dirichlets?}
+\subsection{What's so Great about Dirichlet?}
 \label{sec:plsa-vs-lda}
 
 Now that we have described what \abr{lda} is, we can return to its
