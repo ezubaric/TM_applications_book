@@ -63,8 +63,10 @@ For example, the Persian-language Wikipedia has a larger than average number of 
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
  
 We note that it is not necessary to take ``language'' in its strict meaning.
-Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. They assume the search
-query and its relevant web documents share a common distribution of
+Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
+While the topic models' application in information retrieval (Chapter~\ref{ch:ir}) focus
+on a single language, \cite{Gao-2011} assume the queries and web documents are in
+different ``languages'' and are loosely aligned: the search query and its relevant web documents share a common distribution of
 topics, but use different vocabularies to express these topics. Thus
 in their models, queries and documents share the same document-topic
 distributions $\theta^Q$, but have different topic-word distributions
@@ -196,13 +198,14 @@ sampled word $w_{dn}$ to document $d_{l_{dn}}$ in language $l_{dn}$.
 
 If we use a flat symmetric Dirichlet prior in place of the tree prior,
 the model is equivalent to \plda{}. Similarly, if all documents are monolingual (i.e., with
-distinct distributions over topics $\theta$), the model is equivalent to\tlda{}. \ptlda{} connects different languages on both the word
+distinct distributions over topics $\theta$), the model is equivalent to \tlda{}. \ptlda{} connects different languages on both the word
 level (using the word correlations) and the document level (using the
 document alignments), thus it learns better topics by considering more
 information from both languages.
 
 
 \section{Topic Models and Machine Translation}
+\label{sec:tm-mt}
 
 The most frequent application of multilingual topic models is in machine translation.
 Given a text input in one language (source language), statistical
@@ -256,6 +259,10 @@ only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜
 Statistical machine translation represents translation as a
 combination of probabilistic processes, a phrase-level translation model and a sentence-level language model~\citep{koehn-03,koehn-09}. 
 Topic models have been applied to both aspects of this process.
+
+The actual process of translation is also known as \textit{decoding},
+which is to find the best translation target sentence $\mathbf{e}$ 
+given the source sentence $\mathbf{f}$. Formally,
 Given a source sentence $\mathbf{f}$, the best
 translation in target language $\mathbf{e}_\texttt{best}$ is
 \begin{equation}
@@ -264,7 +271,8 @@ translation in target language $\mathbf{e}_\texttt{best}$ is
 which is split to a \textit{translation model}
 $p(\mathbf{f}|\mathbf{e})$ and a \textit{language model} $p
 (\mathbf{e})$.
-Intuitively, a good translation should be both a good match for the source sentence (scoring high in the translation model) and a good sentence in its own right (scoring high in the language model).
+Intuitively, a good translation should be both a good match for the source sentence (scoring high in the translation model) 
+and a good sentence in its own right (scoring high in the language model).
 
 In the \textit{decoding} phase, the source sentence $\mathbf{f}$ is segmented into multiple source
 phrases $\bar{f}_n$, which are translated to a set
@@ -313,28 +321,20 @@ models, language models, and reordering models respectively.
 
 Translation models map words and phrases from one language to another.
 Both monolingual topic models and bilingual topic models are useful for improving translation models.
-The most prominent application of topic models is in {\em domain adaptation}.
+As we have mentioned in Section~\ref{sec:tm-mt}, 
+the most prominent application of topic models is in {\em domain adaptation}.
 
-To train such \textsc{smt} systems with domain adaptation, early
-efforts focus on building separate models based on hand-labeled
-domains~\citep{foster-07,matsoukas-09,chiang-11}. For example, for all
-the training examples that are labeled as \underline{sports} domain, we get 
-one translation model. Continuing the earlier example, in any test document
-that is labeled as \underline{sports}, ``\begin{CJK*}{UTF8}{gbsn}潜
-  水\end{CJK*}'' will always be translated as ``underwater diving'', and
-  the probability of translating ``\begin{CJK*}{UTF8}{gbsn}潜
-    水\end{CJK*}'' as ``lurker'' is zero. In fact, such hard domain
-    labels are not only expensive and time consuming to obtain, but
-    also unsmoothed and sensitive to labeling errors and inconsistency: someone may lurk in a sports forum, and someone may share stories about diving on social media.
+Early work for extracting domain knowledge focus on the hand-labeled domains~\citep{foster-07,matsoukas-09,chiang-11}.
+These labels are not only expensive and time consuming to obtain, but also unsmoothed and sensitive 
+to labeling errors and inconsistency. Besides, such hard domain labels are difficult to 
+apply and can decrease the robustness of translations: domains are fundamentally uncertain, 
+and if you get the domain wrong, you may cut off useful information.
 
-Hard domain labels are difficult to apply and can decrease the robustness of translations: domains are fundamentally uncertain, and if you get the domain wrong, you may cut off useful information.
-Topic models provide a way of automatically discovering soft domain
-assignments. 
+Topic models provide a way of \textbf{automatically} discovering \textbf{soft} domain assignments. 
 If we equate the $K$ topic distributions over the vocabulary in a topic model with $K$ 
 \textsc{smt} domains, each document's topic distribution can be viewed as a soft
 domain assignment for that document.
-If there
-are two topics \underline{sports} and \underline{social media} and
+If there are two topics \underline{sports} and \underline{social media} and
 a test example is most likely about \underline{sports}, it may
 have a soft domain distribution as $85\%$ for \underline{sports}
 domain and $15\%$ for \underline{social media} domain. These automatically
