@@ -38,7 +38,7 @@ population level statistics: what proportion of Twitter users have ever talked
 about gun violence?
 
 At first, it might seem that answering these questions would require building an
-extensive ontology or categorization scheme.  For every new corpus, you would 
+extensive ontology or categorization scheme.  For every new corpus, you would
 need to define  the buckets that a document could fit into, politely ask some librarians and
 archivists to put each document into the correct buckets, perhaps automate the
 process with some supervised machine learning, and then collect summary
@@ -54,7 +54,7 @@ the optimal outcome if we had infinite resources.  First, they
  require a significant investment of time and resources.
 Even creating the \emph{list} of categories is a difficult task and
 requires careful deliberation and calibration.  Even if it were possible, a
-particular question might not warrant the time or effort: the \oe{}vre
+particular question might not warrant the time or effort: the \oe{}uvre
 of a minor author (only of interest to a few), or the tweets of a day
 (not relevant tomorrow).
 
@@ -174,10 +174,10 @@ interest, we can explore deeper to find other documents.
   \end{center}
 
   \caption{A matrix formulation of finding $K$ topics for a dataset
-    with $M$ documents and $V$ unique words.  While this
-    view of topic modeling includes approaches such as latent semantic
-    analysis (\abr{lsa}), we focus on probabilistic techniques in the
-    rest of this survey.}
+    with $M$ documents and $V$ unique words.  While this view of topic
+    modeling includes approaches such as latent semantic analysis
+    (\abr{lsa}, where the approximation is based on \abr{svd}), we
+    focus on probabilistic techniques in the rest of this survey.}
   \label{fig:matrix_topics}
 \end{figure}
 \end{center}
@@ -190,9 +190,27 @@ Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
 document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
 have seen a resurgence in recent years~\citep{anandkumar-12:lda,arora-13}, we
-focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03}, 
+focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03},
 which are intuitive, work well, and allow for
 easy modification (as we see later in many of our later chapters).
+
+The two foundational probabilistic topic models are latent Dirichlet
+allocation~\citep[\abr{lda}]{blei-03} and probabilistic latent
+semantic analysis~\citep[\plsa{}]{hofmann-99}.  We describe the
+former in significant detail in Chapter~\ref{sec:lda}, but we want to
+take a moment to address some of the historical connection between
+these two models.
+
+\plsa{} was historically first and laid the foundation for \abr{lda}.
+\plsa{} was used extensively in many applications such as information
+retrieval.  However, this survey focuses on \abr{lda} because more
+researchers have not just \emph{used} \abr{lda}---they have also
+\emph{extended} it.  \abr{lda} is not just widely used, but it's also
+widely modified.  Because of these prolific modifcations, we feel it
+is more important to focus on the mechanics of \abr{lda}, which many
+researchers have used as the foundations of new models.  However, as
+we explain below (Chapter~\ref{sec:plsa-vs-lda}), the similarities
+between \plsa{} and \abr{lda} outweigh the differences.
 
 \begin{figure}
 \small
@@ -213,9 +231,9 @@ easy modification (as we see later in many of our later chapters).
 
 Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
 There is a substantial and well-developed field of topic detection and tracking~\citep{allan-02}.
-In TDT, a topic is usually closer to an event or an individual story.
+In \abr{tdt}, a topic is usually closer to an event or an individual story.
 In contrast, topic models tend to identify more abstract latent factors.
-For example, a TDT topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
+For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
 
 There has been some work on using topic models to detect emerging events by searching for changes in topic probability~\citep{alsumait-08}.
 But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
@@ -330,7 +348,7 @@ diverse documents.
 <<<<<<< HEAD
 We note that LDA is closely related to its probabilistic precursor, pLSA~\citep{hofmann-99}, which can be viewed as a special case of LDA in which the Dirichlet priors are uniform.
 =======
-We note that \abr{lda} is closely related to its probabilistic precursor, \abr{plsa} \citep{hofmann-99}, 
+We note that \abr{lda} is closely related to its probabilistic precursor, \abr{plsa} \citep{hofmann-99},
 which can be viewed as a special case of \abr{lda} in which the Dirichlet priors are uniform.
 >>>>>>> 5c026d66a0073ad3a4af48a7f9412fb75371012b
 
@@ -522,6 +540,31 @@ The algorithm that we have sketched here is the foundation of many of the more
 advanced models that we will discuss later in the survey.  While we will not describe
 the algorithms in detail, we will occasionally make reference to this sketch to
 highlight challenges or difficulties in implementing topic models.
+
+\subsection{What's so Great about Dirichlets?}
+\label{sec:plsa-vs-lda}
+
+Now that we have described what \abr{lda} is, we can return to its
+history.  What is the innovation that separates \abr{lda} from
+\plsa{}, its predecessor?  Na\"ively, the difference is changing an
+``s'' to a ``d'' (i.e., changing p\abr{l{\bf S}a} to \abr{l{\bf
+    D}a}).  The deeper story is about as consequential.
+
+Instead of having a Dirichlet prior over $\theta$, \plsa{} assumes
+that $\theta$ is simply a multinomial parameters.  In practice, this
+means that documents aren't encouraged to focus on a limited number of
+topics and often ``spread out'' to have small weights for many
+different topics.  In theory, this means that there isn't as sound a
+generative story for how a document came to be: you can't run the
+generative process forward from scratch if you must have $\theta$ as a
+parameter to start with.
+
+These differences are relatively minor.  \abr{lda} has slightly easier
+inference---particularly when it comes to tweaking the model---which
+has caused it to become the more popular of the two models.  Thus, we
+will focus on comparing models to \abr{lda}.  This is
+not to diminish from \plsa{} and its incontrovertible place in the
+literature, but only to present a more unified narrative for our reader.
 
 \subsection{Implementations}
 

@@ -54,8 +54,7 @@ The authors find that the learned topics are a good representation of dynamics i
 There is a large increase in discussions of politics in the period immediately around the American Revolution ({\em state government constitution law united power}).
 There is also evidence of economic factors: a topic relating to descriptions of cloth ({\em silk cotton ditto white black linen}) rises in the 1750s, but then declines as Americans turned to domestic ``homespun'' cloth production in response to British trade policies.
 Other topics point to more subtle changes in language.
-A topic that is less immediately interpretable ({\em  say thing might think own did}) corresponds to a series of long ``public letters'' that contain more academic ``argument making''.
-
+A topic that is less immediately interpretable ({\em  say thing might think own did}) corresponds to a series of long ``public letters'' that contain more academic ``argument making''.  This is consistent with other results~\citep{viermetz-08} that suggest topics may be long-term or transient, which is captured directly by \citet{viermetz-08}.
 
 
 Nelson studies topics in Civil War-era newspapers, including the Confederate paper of record, the Richmond Daily Dispatch.\footnote{Mining the Dispatch, http://dsl.richmond.edu/dispatch/}
@@ -88,15 +87,16 @@ Further investigation suggested that the significance of the pivotal battle of S
 
 The Texas newspaper study raises several interesting methodological issues relating to pre-processing and iterative modeling.
 The authors put considerable work into dealing with the quality of digitization.
-There are many factors that affect the quality of digitized historical newspapers, from the quality of the original printing to scanning, article segmentation, and optical character recognition (OCR).
+There are many factors that affect the quality of digitized historical newspapers, from the quality of the original printing to scanning, article segmentation, and optical character recognition (\abr{ocr}).
 For this study extensive work was applied to automated spelling correction.
 Another notable factor in this study is its prominent use of multiple topic models.
 In many cases there is a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
+\citet{alsumait-08} iteratively refine their model with each segment of a news collection, while
 \citet{yang-11-historical} train different models on different temporal slices of the corpus.
 Although there is some advantage to maintaining a consistent topic space over time, dividing the corpus into separate sections has certain advantages.
 In this case, historians were interested in the context of specific historic periods, such as the full run of a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
 The authors also describe an iterative workflow that involves comparing topic model output after each of several pre-processing steps.
-Topic models are often effective at identifying consistent data-preparation errors, such as end-of-line hyphenation and consistent OCR errors.
+Topic models are often effective at identifying consistent data-preparation errors, such as end-of-line hyphenation and consistent \abr{ocr} errors.
 
 \section{Historical Records}
 
