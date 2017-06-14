@@ -47,7 +47,7 @@ This approach pre-dates probabilistic topic models.
 by projecting both documents to a shared latent semantic indexing
 space.
 
-Similarly, bilingual \citep{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
+Similarly, bilingual~\citep{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
 assume that the aligned documents in different languages share the
 same topic distribution and each language has a unique topic
 distribution over its word types.
@@ -94,12 +94,14 @@ After manually aligning one topic from each model, the topics are used as a ``so
 
 Non-document \emph{lexical information}, such as orthographic
 similarity~\citep{boyd-graber-09} and multilingual
-dictionaries~\citep{boyd-graber-10}, can be helpful in learning
+dictionaries~\citep{Zhang-10,boyd-graber-10}, can be helpful in learning
 better topics from multilingual corpora. For instance, tree-based
 topic models \abr{tlda}~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
-{\bf concept} to have similar probabilities given a topic. These
+{\bf concept} to have similar probabilities given a
+topic.\footnote{\citet{boyd-graber-09} and \citet{Zhang-10} use
+  topic-level soft constraints to achieve a similar effect.} These
 concepts can come from WordNet~\citep{boyd-graber-10}, domain
 experts~\citep{andrzejewski-09}, or user
 constrains~\citep{hu-14:itm}. If these concepts are in the same

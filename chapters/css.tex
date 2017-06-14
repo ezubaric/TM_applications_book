@@ -163,8 +163,8 @@ generative story?
 
 Upstream models assume that external variables such as sentiment come first in the generative
 story.  That is, there will be different topics given the underlying
-sentiment.  This can come in the form in a prior learned from observed
-sentiment~\citep{mimno-08} or from a latent variable that can serve as
+sentiment.  This can come in the form a hard-coded distribution~\citep{mei-07}, a prior learned from observed
+sentiment~\citep{mimno-08}, or from a latent variable that can serve as
 a proxy for sentiment~\citep{lin-09}.  Upstream models are often
 easier to implement and are more flexible~\citep{stewart-14} because they do not need to specify a generative distribution that matches the form of the variable.
 
@@ -216,8 +216,10 @@ against a proposal, are you a Democrat or a Republican, or are you a
 fan of the original Star Trek or the new version?
 
 Upstream models can discover these sides by incorporating stance into
-the generative model.  For example, \citet{paul-10} posit that each
-``side'' had a distribution over words that it uses generally
+the generative model.  For example, both \citet{zhai-04} and
+\citet{paul-10} develop topic models that allow readers to compare
+aspects of a topic.  They posit that each comparative
+``side'' has a distribution over words that it uses generally
 \emph{and} that each side had its own take on how it discusses a
 topic.  Within a document, each word is chosen either from a side's
 background distribution, a side's version of the topic, or from the
@@ -228,11 +230,7 @@ unrest in Israeli-occupied Palestine, but the Israeli side uses
 on ``resistance'' and ``occupation''.
 
 \begin{figure}[ht]
-  \begin{minipage}[c]{0.62\textwidth}
-  	\vspace{-.3cm}
-    \includegraphics[width=\textwidth]{figures/ideology_topics_vert}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{0.36\textwidth}
+    \includegraphics[width=0.5\textwidth]{figures/ideology_topics_vert}
     \caption{
        \small Topics discovered from Congressional floor debates using
        a downstream model to capture speaker's ideology.  Many
@@ -246,13 +244,12 @@ on ``resistance'' and ``occupation''.
     with that topic.  Colors and the numbers beneath each topic show the
     regression parameter $\eta$ associated with the topic.  From \citet{nguyen-13:shlda}.
     } \label{fig:shlda-taxes}
-  \end{minipage}
-  \vspace{-.3cm}
 \end{figure}
 
 Downstream models can also capture these divisions as well.
 \citet{nguyen-13:shlda} predict whether a speaker is Republican or
-Democrat based on the versions of topics they discuss.  For example,
+Democrat based on the versions of topics they discuss, extending the
+non-predictive model of \citet{grimmer-09}.  For example,
 Republicans are more likely to discuss taxes in general than
 Democrats, but Democrats focus on the good that comes out of taxes
 (Figure~\ref{fig:shlda-taxes}).
@@ -301,6 +298,20 @@ document.  For example, if the model thinks there's a link between
 documents because they both use Topic~14 but no words in the document
 are assigned ($z_n=14$), then the model is unable to recreate this
 prediction in a held-out document.  
+
+In addition to explicit links in social networks, social media is also
+shaped by implicit links between people in similar contexts---events,
+cultural, or regional patterns that affect how people talk and what
+they talk about.  \citet{mei-06} capture how topics vary across region
+and time (e.g., when a hurricane strikes a region, those closest to
+the eye of the storm will talk about it with greater volume and more
+specifically).
+
+In constrast, \citet{eisenstein-17} focuses on lexical variation,
+capturing how social media neologisms like ``af'' (a post-position
+intensifier, particularly of adjectives, e.g. ``the description was
+evasive af'') spread from twin epicenters in southern California and
+Atlanta to the whole of the US.
 
 \section{Summary}
 
