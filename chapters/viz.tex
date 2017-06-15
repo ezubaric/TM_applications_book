@@ -275,7 +275,7 @@ improperly combined topics.
 
 For many years, the primary metric for evaluating the quality of a
 topic model was the held-out likelihood of a model~\citep{wallach-09a}.
-Because a topic model is a generative probabilitic model---like a
+Because a topic model is a generative probabilistic model---like a
 language model~\citep{chen-98}---we can ask how well the model can
 predict unseen text: run the generative process forward for the
 document and see how well that matches up with the held-out document.
@@ -283,15 +283,13 @@ If the model does a good job of using topics to predict what words
 will appear in new documents, then it is a good model, and if it fails
 to do so, it is a bad model.
 
-At the extremes, held-out likelihood makes sense.  
-A set of gibberish topics will obviously poor held-out likelihood, and
-a set of topics so specific that any held-out document is modeled well
-by that topic will have great held-out likelihood.
-However, this metric ignores whether the underlying topics make sense
-to a user.
+In some ways held-out likelihood makes sense, but it is incomplete.
+We should be able to detect some kinds of failure: topics that are just random noise will have poor held-out likelihood.
+On the other hand, it is possible to get good held-out likelihood with a large set of topics so specific that any held-out document is modeled well.
+The topics would nevertheless lack generalizability and interpretability.
 
-\citet{chang-09b} shows that
-held-out likelihood, a traditional measure of probabilistic model quality,
+\citet{chang-09b} demonstrates empirically that
+held-out likelihood
 emphasizes \emph{complexity} rather than the ease of interpretability
 that users are looking for.  
 User ratings of how good topics negatively correlate with
