@@ -61,8 +61,8 @@ depends on the previous two words, and it is represented as
 p(w_1,\cdots,w_n)=p(w_1)p(w_2|w_1)p(w_3|w_1,w_2)\cdots p(w_n|w_{n-2},w_{n-1})
 \end{align}
 
-In the application of information retrieval, the queries are generated
-by a probabilistic language model based on a
+In the application of information retrieval, the likelihood of queries
+are estimated given a probabilistic language model based on a
 document~\citep{zhai-01}. More specifically, each document is viewed
 as a language sample, and a language model for each document is
 estimated based on document terms. Then the
@@ -99,12 +99,6 @@ summarize two simple smoothing methods, and then show how topic models
 fit into this smoothing framework.
 
 %\subsection{Smoothing Document Language Models}
-
-\jbgcomment{Is this important to talk about here?  I worry that it
-  might be a distraction.  will this connect directly to topic models?
-  \yhcomment{Yes, it is important. Topic models are applied to
-    document LM in forms of smoothing. Simplified and added more
-    connections. }}
 
 There are two major directions for smoothing:
 \textbf{interpolation}~\citep{Jelinek-1980,mackay95dirichlet,Ney-1994,PonteCroft,zhai-01}
@@ -173,19 +167,17 @@ computed as marginalizing all topics $k$,
 p_{\texttt{TM}}(w|d) = \sum_{k} p(w \g k) p(k \g d)
 \end{align}
 
-Later, \citet{wei-06} apply the same idea to learn the topic-smoothed document-word
-distribution, using \abr{lda} instead of \abr{plsa}.
-Because topic models learn the semantic relationships between words
-and documents through learning the hidden topics and their posterior
-estimates of document-topic distribution and topic-word distribution
-are smoothed by the Dirichlet priors, topic models learn a better and
-smoothed semantic relationship between document words and documents. However,
-while the original document language model directly models the relationship
-between query words and documents, the topic models based on documents only 
-lose the relationship between query words and documents,
-but it is a good approach to complement the original document
-language models. Thus \citet{wei-06} further propose to combine the
-\abr{lda}-based document model with the original smoothed document
+Following this idea, \citet{Wang-2013} further add regularizations  on document topic representations 
+which is useful for retrieval. Instead of using \abr{plsa}, \citet{wei-06} apply the same idea to 
+learn the topic-smoothed document-word distribution using \abr{lda}.
+\citet{Vosecky-2014} also explore \abr{lda} for document language models on  twitter search.
+
+Because the posterior estimates for topics are smoothed by the Dirichlet priors, topic models learn a better and
+smoothed semantic relationship between document words and documents. As a result,
+even though this approach loses the connection between query words and documents,
+it is a good approach to complement the original document language models. 
+Thus \citet{wei-06} further propose to combine the
+\abr{lda}-based document model with the original document
 model~(Equation~\ref{eq:lm-jr}) through a linear interpolation,
 \begin{align}
 p(w \g d) = \lambda' \Big( (1 - \lambda) p_{\texttt{ml}}(w|d) + \lambda
@@ -598,14 +590,14 @@ By subtly incorporating users' profiles as part of the ranking algorithms, \cite
 
 \section{Summary}
 
-Because topic models analyze documents on a semantic level, it offers
-an interesting and unique framework for modeling the document-word
-relations and word-word relations. As a result, topic models have been
+Because topic models analyze documents on a semantic level, they offer
+an interesting and unique framework for modeling relationships between words, and between documents and words.
+As a result, topic models have been
 successfully applied in smoothing language models, query expansion and search personalization.
 
-There are also some works focusing on the diversification of the search results~\citep{Dang-2013,Santos-2015}. The goal of search result diversification is to identify the different aspects of the ambiguous query, retrieve documents for each aspect and make the search results more diverse~\citep{Dang-2013}. Similarly, the diversification techniques can also be further combined with personalization to diversify the personalized search results~\citep{Vallet-2012,Liang-2014}. This topic is beyond the scope of this chapter.
+There is also some work focusing on the diversification of search results~\citep{Dang-2013,Santos-2015}. The goal of search result diversification is to identify the different aspects of the ambiguous query, retrieve documents for each aspect and make the search results more diverse~\citep{Dang-2013}. Personalization and diversification are orthogonal, and can be combined in unified models~\citep{Vallet-2012,Liang-2014}.
 
-These successful applications on information retrieval are based on a general good
+These successful applications on information retrieval are based on a good
 understanding of the outputs of topic models. In the next chapter, we
 will introduce how to visualize, label, and evaluate topics to
-help users better understand the topics.
+help users better understand topics and how they are expressed in collections.

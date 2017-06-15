@@ -413,7 +413,7 @@ words we use to generate the word.  % (Figure~\ref{fig:generative-ex}).
 For example, consider the document in Figure~\ref{fig:enron_doc}.  To
 generate it, we choose a distribution over all of the topics.  This is
 $\theta$.  For this document, the distribution favors Topic~9 about
-California.  The value for this topic is higher than any other topic.  For
+\underline{California}.  The value for this topic is higher than any other topic.  For
 each word in the document, the generative process chooses a topic
 assignment $z_n$.  For this document, any topic is theoretically possible, but we expect that most of those will be Topic~9.
 
@@ -472,8 +472,8 @@ distributions through simple formulas as they are needed.
 
 Since every individual token is assumed to be generated from a single topic,
 we can consider the {\em topic assignment} of a token as a variable.  For example,
-an instance of the word ``compilation'' might be in a business topic in one
-document and in an arts topic in another document.  Because each token has its own
+an instance of the word ``compilation'' might be in a \underline{computer} topic in one
+document and in an \underline{arts} topic in another document.  Because each token has its own
 topic assignment, it is even possible that the
 same word might be assigned to different topics in the same document.
 To estimate \emph{global} properties of the topic model we use aggregate statistics derived from these token-level topic assignments.
@@ -547,7 +547,9 @@ Computing this value for each topic will result in a probability distribution ov
 probability proportional to the vector value.  You now assign that word to the
 topic, update $\dc{d}{\cdot}$ and $\tc{\cdot}{w_{d,n}}$, and move on to the next word and repeat.
 The two terms provide two ``pressures'', for global and local coherence. Sparsity in the topic-word distributions encourages tokens of the same word type to be assigned to a small number of topics,  regardless of where they occur. Sparsity in the document-topic distributions encourages tokens in the same document to be assigned to a small number of topics, regardless of what type they are.
-For example, knowing that a word is ``compilation'' narrows down the number of potential topics considerably, but leaves ambiguity: is it program compilation or a music compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \emph{arts} topic as the most probable assignment.
+For example, knowing that a word is ``compilation'' narrows down the
+number of potential topics considerably, but leaves ambiguity: is it
+\underline{computer} compilation or a \underline{music} compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \emph{arts} topic as the most probable assignment.
 
 At the very end of the algorithm, we can use the estimates of each topic
 (Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
@@ -656,4 +658,4 @@ political organizations.
 Finally, the survey closes with thoughts about how interested
 researchers can start building their own topic models
 (Chapter~\ref{ch:building}) and how topic models may change in the
-future (Chapter~\ref{ch:conclusion}).
+future (Chapter~\ref{ch:conc}).
