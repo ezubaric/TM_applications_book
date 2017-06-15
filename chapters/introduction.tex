@@ -562,6 +562,53 @@ advanced models that we will discuss later in the survey.  While we will not des
 the algorithms in detail, we will occasionally make reference to this sketch to
 highlight challenges or difficulties in implementing topic models.
 
+\subsection{Plate Diagrams}
+\label{sec:plate}
+
+Plate diagrams provide a shorthand for quickly explaining which random
+variables are associated with each other.  If you look up many of the
+references used in this survey, you'll likely see plate diagrams (we
+also use a plate diagram later in Figure~\ref{fig:ptm-simplified}).  
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.7\linewidth]{figures/lda_plate}
+  \end{center}
+  \caption{Plate diagram for \abr{lda}.  Nodes show random variables,
+    lines show (possible) probabilistic dependence, rectangles show
+    repetition, and shading shows observation.}
+\end{figure}
+
+Let's begin with a plate diagram for \abr{lda}
+(Figure~\ref{fig:plate-lda}).  You can compare these to the generative
+story in Chapter~\ref{sec:lda}.  All of the random variables are
+there, each in its own circle.  The lines between random variables
+tell more of the story.  You can see that if a random variable is
+conditioned on another, there is a line going from the variable that
+is \emph{conditioned on} {\bf to} the variable that is
+\emph{conditionally dependent}.  For example, a word depends on the
+token assignment $z_{d,n}$ and a topic $\phi_k$, so there are lines
+from both.
+
+You can think about the rectangular boxes as repetition.  The letter
+in the bottom right of the box shows how often what's inside the box
+is replicated.  There is a box for each document (there are $M$ in
+total) and each token (the box of words is inside the box for
+documents, so there are many more tokens than documents).
+
+When a variable is shaded, this means that it is observed.  These are
+the data we start with.  The unshaded variables must either be
+inferred (e.g., topics $\phi$) or are hyperparameters that must be set
+or inferred (e.g., Dirichlet parameter $\alpha$).
+
+Plate diagrams allow a reader to quickly see a ``family resemblence''
+between related models, and once someone has become fully immersed in
+topic models, it's often possible to at a glance understand a model
+from its plate diagram.  However, plate diagrams are imperfect; they
+lack some of the key information you need to understand the model.
+For instance, the exact probabilistic relationship between variables
+is underspecified.
+
 \subsection{What's so Great about Dirichlet?}
 \label{sec:plsa-vs-lda}
 
