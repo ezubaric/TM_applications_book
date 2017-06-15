@@ -29,10 +29,17 @@ models unlocks comparable and mixed data.  They are \dots
 In this chapter, we first discuss how topic models unlocks X data for
 applications like (discussed in Chapter X).  We then show how these
 models can help machine translation, the usual application of
-multilingual NLP.
+multilingual NLP. \yhcomment{Added the following paragraph, but not sure
+whether it is a good fix.}
 }
 
-This chapter is organized into two sections. The first describes models that can be applied to multiple languages. The second focuses on a specific application, statistical machine translation.
+As one most frequent application for multilingual topic models, \textsc{smt} tries
+to find a sequence of words in one language  which match the meaning of a text input
+in another language. While the training data of \textsc{smt} rquires explicit aligned sentences
+in different languages, multilingual topic models relax this data restriction and are flexible to 
+explore only loosely aligned data.  In this chapter, we first discuss how topic models are 
+adapted to use multiple languages, and then show how these multilingual topic models can 
+help \textsc{smt}.
 
 Before discussing specific methods, it is useful to define terms related to data sources.
 The most salient feature for multilingual corpora is their degree of alignment.
@@ -55,12 +62,12 @@ Lexicons of this form can be considered to be examples of parallel corpora with 
 be a stronger section if you talk about the applications of this
 approach.  For example, the end goal could be a user who could browse
 a collection with only monolingual knowledge to find relevant
-documents, send them to a bilingual expert for further analysis.}
+documents, send them to a bilingual expert for further analysis. \yhcomment{added.}}
 
-The weaker category of multilingual models represents the presence of multiple languages, but does not explicitly represent connections between word types.
-A connection between languages based on documents is flexible: instead of requiring
-the exact matching or translations on words and sentences, only a
-coarse document alignment is necessary, as long as the documents
+In a case where a user is browsing a multilingual collection with only monolingual knowledge
+to find relevant documents, multilingual topic models can help. Such collections contain
+multiple languages, but does not necessarily have the exact matching or translations 
+on words and sentences. Only a coarse document alignment is necessary, as long as the documents
 discuss the same topics, e.g., wikipedia articles in different
 languages. Such connection between languages is also helpful to infer
 more robust topics, since different languages can complement each
@@ -87,15 +94,21 @@ For example, the Persian-language Wikipedia has a larger than average number of 
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
  
 \jbgcomment{Would be good to have example of what these other
-  languages are}
+  languages are  \yhcomment{fixed}}
 
 We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
 While the topic models' application in information retrieval (Chapter~\ref{ch:ir}) focus
-on a single language, \cite{Gao-2011} assume the queries and web documents are in
-different ``languages'' and are loosely aligned: the search query and its relevant web documents share a common distribution of
-topics, but use different vocabularies to express these topics. Thus
-in their models, queries and documents share the same document-topic
+on a single language, \cite{Gao-2011} assume the queries and Web documents are in
+different ``languages''. The query language from users are normally informal oral langauge, 
+which are less formatted and may include abbreviation as well. However, the document language
+are more formal and well organlized written language. For example, given a query ``dtd amc'',
+the relevant Web document may contain ``downtown disney amc''.~\citep{Jiang-2016} 
+
+This semantic gap~\citep{Muller-2009} between queries and documents
+provide the possibility to treat queries and documents as different languages, and the relevance between
+queries and documents make them loosely aligned. Based on this assumtption, 
+they further assume queries and documents share the same document-topic
 distributions $\theta^Q$, but have different topic-word distributions
 $\phi_z^Q$ and $\phi_z^D$ respectively.
 %To generate a query $q$, a document-topic distribution $\theta^Q$ is
@@ -113,7 +126,7 @@ be computed as,
 p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
 \end{align}
 
-\jbgcomment{Would be good to have an example of this soft query}
+\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
 Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
 As noted in Chapter \ref{ch:ir}, \citet{erlin2017topic} use two independent seeded models on English and German books to search for works about epistemology.
@@ -137,14 +150,23 @@ However, one of the most ubiquitous multilingual tools is the
 dictionary.  This section discusses how we can use tools like
 dictionaries and orthographic relations between words to help users
 who want to understand a collection.
-
+\yhcomment{added.}
 }
 
-Non-document \emph{lexical information}, such as orthographic
-similarity~\citep{boyd-graber-09} and multilingual
-dictionaries~\citep{Zhang-10,boyd-graber-10}, can be helpful in learning
-better topics from multilingual corpora. For instance, tree-based
-topic models \abr{tlda}~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
+Aligned documents are useful when a collection is designed to be
+lightly multilingual: e.g., when the creators are building a
+native-language version of the ubiquitous Wikipedia.  Documents links
+are cheap and easy. However, they require active support of those creating the
+collection.  This is not always available.  Many collections are
+written in isolation.
+
+However, one of the most ubiquitous multilingual tools is the
+dictionary.  This section discusses how we can use \emph{lexical information} like
+multilingual dictionaries~\citep{Zhang-10,boyd-graber-10} and orthographic relations 
+between words~\citep{boyd-graber-09} to help users
+who want to understand a collection.
+
+For instance, tree-based topic models \abr{tlda}~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
 {\bf concept} to have similar probabilities given a
@@ -196,9 +218,6 @@ if node $n_1$ is a concept node, we continue to sample a word node
 $n_2$ and generate the word associated with $n_2$; if node $n_1$ is a
 word node already, we generate the word directly.
 
-\jbgcomment{Give intuition, e.g. selecting a concept first and then
-  you get the language-specific version. \yhcomment{added.}}
-
 When this tree serves as a prior for topic models, words in the same
 concept are positively correlated in topics.  For example, if
 ``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' has high probability in a
@@ -208,12 +227,6 @@ concept are positively correlated in topics.  For example, if
   path is associated with a word type.  The same word could appear in
   multiple paths, and each path represents a unique sense of this
   word.
-
-
-
-\jbgcomment{Would be nice if the prior tree were multilingual.  Would
-  also be good to give back pointer to the interaction section where
-  it's also discussed \yhcomment{fixed.}}
 
 \section{Alignment from Parallel Corpora and Lexical Information}
 
@@ -392,11 +405,6 @@ obtained soft domain labels are well smoothed, and they are not only
 cheap to obtain but also much more robust to topic errors. 
 We next describe applications of monolingual and multilingual
 topic models to improve translation models~\citep{Eidelman-12,hu-14}.
-
-\jbgcomment{Give an example of Chiang's hard domain assignment and
-  then give an example of how topic models can do this using ``soft''
-  assignment.  Then go into the mathematical
-  details. \yhcomment{added.}}
 
 %\subsection{Translation Domain Adaptation with Topic Models}
 
@@ -825,85 +833,6 @@ tuned on the development set.
 This framework is very flexible and can encode any topic-based features.
 Any multilingual topic models we have discussed so far can be
 applied to extract better topics.
-
-
-
-%The goal of a lexicalized reordering model is to learn the orientation
-%probabilities for a given phrase pair with respect to the previous
-%phrase pair and the following phrase pair~\citep{Chen-2013}. The
-%orientation $o$ typically includes three types: monotone (M), swap (S)
-%and discontinuous (D). The M orientation means the current phrase pair
-%is immediately to the right of the previously translated phrase in the
-%source sentence, S orientation occurs when the current phrase is
-%immediately to the left of the previous phrase, and all other cases
-%all belong to D orientation.
-%The model is ``lexicalized'' because the estimated orientations depend on the words in both the
-%previously translated phrase pair and the current phrase pair.
-%
-%Formally, the reordering model is defined to estimate the
-%corresponding probabilities $p(o|f,e)$ using recursive MAP smoothing:
-%\begin{align}
-%p(o|f,e) &= \frac{c(o,f,e) + \alpha_f p(o|f) + \alpha_e p(o|e)}{c(f,e) + \alpha_f + \alpha_e} \\
-%p(o|f) &= \frac{c(o,f) + \alpha_g p(o)}{c(f) + \alpha_g} \\
-%p(o|e) &= \frac{c(o,e) + \alpha_g p(e)}{c(e) + \alpha_g} \\
-%p(o) &= \frac{c(o) + \alpha_u/3}{c(\cdot) + \alpha_u}
-%\end{align}
-%where $c(o,f,e)$ is the orientation counts obtained from the word-aligned corpus;  the parameters $\alpha_f$, $\alpha_e$, $\alpha_g$ and $\alpha_u$ are learned by minimizing the perplexity of the resulting model on the held-out data.
-%
-%\citet{Chen-2013} find that training corpora in different domains vary
-%significantly in their reordering characteristics for particular
-%phrase pairs, thus they introduce a linear model for adapting reordering
-%models. Given $N$ sub-corpora (or $N$ domain corpus), they
-%first train a reordering model on each domain-specific corpus, and then define
-%the global reordering model as a linear combination of the reordering
-%models on each domain corpus:
-%\begin{align}
-%p(o|f,e) = \sum_{i=1}^{N} \alpha_i p_i(o|f,e)
-%\end{align}
-%where $p_i(o|f,e)$ is the reordering model on sub-corpus $i$, and the weight $\alpha_i$ are learned by maximizing the probability of phrase-pair orientations in the in-domain development set:
-%\begin{align}
-%\hat{\alpha} = \texttt{argmax}_{\alpha} \sum_{o,f,e} \tilde{p}(o,f,e) \log \sum_{i=1}^N \alpha_i p_i(o|f,e)
-%\end{align}
-%where $\tilde{p}(o,f,e)$, proportional to $c(o,f,e)$, is the empirical distribution of counts in the development set. \citet{Chen-2013} propose to smooth the in-domain sample and weight instances by document frequency to further improve the mixture adaptation. They demonstrate this adaptation significantly improve the statistical machine translation system.
-%
-%However, \citet{Chen-2013} manually divide the training data into
-%multiple domains, instead of using automatic techniques such as topic
-%models. \citet{wang-14} apply topic models to maximum entropy
-% phrase reordering models \citep{Xiong-2006}.
-%
-%Under the ITG constraints~\citep{wu-1997}, three Bracketing
-%Transduction Grammar (BTG) rules are used to constrain the translation
-%and reordering:
-%\begin{align}
-%A &\rightarrow [A^1, A^2]\\
-%A &\rightarrow <A^1, A^2>\\
-%A &\rightarrow f/e
-%\end{align}
-%where $A$ is a block with a pair of source and target strings; $A^1$
-%and $A^2$ are two consecutive blocks; the two rules are reordering
-%rules which merge two blocks into a larger block in a straight or
-%inverted order. Rule 3 translates a source phrase $f$ to a target
-%phrase $e$ and generate a block $A$. These three rules applied until the whole source sentence is covered, generating a 
-%hierarchical segmentation tree of the source sentence in the process.
-%
-%Based on this hierarchical setting, \citet{Xiong-2006} treat the
-%reordering problem as a classification with two labels: straight and
-%inverted between two consecutive blocks, and build up a maximum
-%entropy classification model as the reordering model:
-%\begin{align}
-%p(o|c(A^1, A^2)) = \frac{\exp(\sum_i \theta_i f_i(o, c(A^1, A^2)))}{\sum_{o'} \exp(\sum_i \theta_i f_i(o', c(A^1, A^2)))}
-%\end{align}
-%where $\theta_i$ are the feature weights, $c(A^1, A^2)$ indicates the attributes of $A^1$ and $A^2$, and $f_i(o, c(A^1, A^2))$ are binary features defined as,
-%\begin{align}
-%f_i(o, c(A^1,A^2)) = \begin{cases}
-%1, &\text{if $(o,c(A^1, A^2))$ satisfies certain condition} \\
-%0, &\text{else}
-%\end{cases}
-%\end{align}
-%
-%This framework only uses the features extracted from the blocks
-%instead of the whole block (in contrast to lexicalized reordering),
-%thus it is flexible to reorder any blocks~\citep{Xiong-2006}.
 
 \section{Beyond Domain Adaptation}
 
