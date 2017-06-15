@@ -32,8 +32,10 @@ correct the issue.
 Traditional social science methods are labor intensive, take a long
 time, or are impossible for sensitive subjects.  For instance, surveys
 of influenza take too long to be useful compared to the life cycle of
-influenza's progression~\citep{broniatowsky-15}; using twitter and
-Google searches results in more accurate information faster.
+influenza's progression~\citep{broniatowsky-15}, and approval ratings
+may be too slow in the runup to an election~\citep{oconnor-10}.  Using
+twitter and Google searches results in more accurate information
+faster.
 
 Directly communicating with some
 populations may be difficult.  Using social media presents an
@@ -74,13 +76,14 @@ show that topic model features can improve tweet categorization, as
 do \citet{blei-07b} for supervised \abr{lda}.  However, changing the
 objective function can further improve predictions~\citep{zhu-09}.
 
-However, sometimes improved interpretability hampers the ability of
-the model to predict content.  This is true of both words within a
-document and document labels.  \citet{chang-09b} showed that
-complicated topic models do a better job of predicting held-out
-documents but make less sense to a user.  \citet{Nguyen-15:anchor}
-show that supervised models offer better predictions with additional
-topics but the topics are less interpretable.
+However, sometimes improved interpretability
+(Chapter~\ref{sec:coherence}) hampers the ability of the model to
+predict content.  This is true of both words within a document and
+document labels.  \citet{chang-09b} showed that complicated topic
+models do a better job of predicting held-out documents but make less
+sense to a user.  \citet{Nguyen-15:anchor} show that supervised models
+offer better predictions with additional topics but the topics are
+less interpretable.
 
 \section{Topic Models for Qualitative Analysis}
 
@@ -92,9 +95,9 @@ Grounded theory describes a process for iteratively developing theories through 
 They find that there are both theoretical and empirical connections between these two approaches.
 At the theoretical level, both grounded theory and probabilistic topic model algorithms are iterative, beginning with rough, low-quality models/theories and refining them through repeated passes through the documents.
 Both methods also seek to maintain a close connection between the abstract representation and the original data set: in Gibbs sampling, topics are ``grounded'' in specific word tokens.
-At the empirical level, \citet{baumer-17} find close connections between the themes discovered by researchers manually applying grounded theory procedures and topics discovered by an LDA model.
+At the empirical level, \citet{baumer-17} find close connections between the themes discovered by researchers manually applying grounded theory procedures and topics discovered by an \abr{lda} model.
 But this result should not imply that human analysis is of no additional value.
-They report that the thematic meaning of LDA topics was not immediately apparent from simple lists of high-frequency words.
+They report that the thematic meaning of \abr{lda} topics was not immediately apparent from simple lists of high-frequency words.
 Rather, the model was most useful as a way of suggesting a topic-specific ``reading list.''
 The ``meaning'' of topics was only clear at the theory level by browsing the documents that had unusually high representation of that topic.
 As such the topic model can best be thought of as a tool for applying grounded theory more efficiently and with greater insulation from human biases. 
@@ -163,7 +166,7 @@ generative story?
 
 Upstream models assume that external variables such as sentiment come first in the generative
 story.  That is, there will be different topics given the underlying
-sentiment.  This can come in the form a hard-coded distribution~\citep{mei-07}, a prior learned from observed
+sentiment.  This can come in the form a hard-coded distribution~\citep{mei-07b}, a prior learned from observed
 sentiment~\citep{mimno-08}, or from a latent variable that can serve as
 a proxy for sentiment~\citep{lin-09}.  Upstream models are often
 easier to implement and are more flexible~\citep{stewart-14} because they do not need to specify a generative distribution that matches the form of the variable.
@@ -216,8 +219,8 @@ against a proposal, are you a Democrat or a Republican, or are you a
 fan of the original Star Trek or the new version?
 
 Upstream models can discover these sides by incorporating stance into
-the generative model.  For example, both \citet{zhai-04} and
-\citet{paul-10} develop topic models that allow readers to compare
+the generative model.  For example, several authors---\citet{zhai-04},
+\citet{lu-08}, and \citet{paul-10}---develop topic models that allow readers to compare
 aspects of a topic.  They posit that each comparative
 ``side'' has a distribution over words that it uses generally
 \emph{and} that each side had its own take on how it discusses a
@@ -228,6 +231,13 @@ both use ``attacks'', ``civilians'', and ``military'' in discussing
 unrest in Israeli-occupied Palestine, but the Israeli side uses
 ``terrorist'' and ``incitement'', while the Palestinian side focuses
 on ``resistance'' and ``occupation''.
+
+The interaction between sentiment and aspect is unclear.  Some
+aspects are independent of sentiment, and other aspects are
+particularly charged.  \citet{jo-11} develop a model that first draws
+sentiment distributions that constrain the aspects discussed in a
+document.
+
 
 \begin{figure}[t]
 \begin{center}
@@ -250,11 +260,17 @@ on ``resistance'' and ``occupation''.
 
 Downstream models can also capture these divisions as well.
 \citet{nguyen-13:shlda} predict whether a speaker is Republican or
-Democrat based on the versions of topics they discuss, extending the
-non-predictive model of \citet{grimmer-09}.  For example,
-Republicans are more likely to discuss taxes in general than
-Democrats, but Democrats focus on the good that comes out of taxes
-(Figure~\ref{fig:shlda-taxes}).
+Democrat\footnote{In downstream models, which variables to use in the
+  prediction is often up for debate.  Using lexical
+  terms~\citep{titov-08,zhao-10} in a log-linear model typically works
+  better: it is able to capture word-specific nuances of sentiment and
+  model situational sentiment (e.g., ``unpredictible'' is good for a
+  book but bad for a car's steering).  However, it leads to a more
+  complicated, less interpretable model.} based on the versions of
+topics they discuss, extending the non-predictive model of
+\citet{grimmer-09}.  For example, Republicans are more likely to
+discuss taxes in general than Democrats, but Democrats focus on the
+good that comes out of taxes (Figure~\ref{fig:shlda-taxes}).
 
 % Need to cite Grimmer
 
@@ -264,6 +280,7 @@ process~\citep{blei-07}.  These hierarchies induce a non parametric
 hierarchy over an unbounded number of topics.  This corresponds to
 agenda setting from political
 science~\citep{Nguyen:Boyd-Graber:Resnik:Miler-2015}.
+
 
 % Eisenstein
 
@@ -286,7 +303,12 @@ analagous to the topics in topic models, except that the links are
 ``shared'' between documents.
 
 However, the first probabilistic models of network structure ignored
-the words in documents.  Link LDA is the exemplar for downstream
+the words in documents.  Because the network structure is tied to
+author identity, it is natural to combine author identity with
+an upstream model~\citet{mccallum-05b,liu-09}, conditioning topics on
+authors and the communities the authors belong to.
+
+Link \abr{lda} is the exemplar for downstream
 models~\citep{nallapati-08} and include the text in the documents.  It
 uses a regression on the topic allocations ($\theta$) rather than
 topic assignments ($z$), in contrast to supervised \abr{lda} above.  Similarly, \citet{cha-12} use
@@ -301,13 +323,20 @@ documents because they both use Topic~14 but no words in the document
 are assigned ($z_n=14$), then the model is unable to recreate this
 prediction in a held-out document.  
 
+Not all topic models applied to social network attempt to predict
+links.  \citet{weng-10} use the network structure of Twitter to find
+who is influential within a topic, and several models use links to
+constrain documents that are linked together to be
+similar~\citep{mei-08,sun-09,daume-09}.
+
 In addition to explicit links in social networks, social media is also
 shaped by implicit links between people in similar contexts---events,
 cultural, or regional patterns that affect how people talk and what
 they talk about.  \citet{mei-06} capture how topics vary across region
 and time (e.g., when a hurricane strikes a region, those closest to
 the eye of the storm will talk about it with greater volume and more
-specifically).
+specifically).  Later work builds models location and topic
+jointly~\citep{yin-11}.
 
 In constrast, \citet{eisenstein-17} focuses on lexical variation,
 capturing how social media neologisms like ``af'' (a post-position
@@ -318,17 +347,22 @@ Atlanta to the whole of the US.
 \section{Summary}
 
 \citet{hong-10} discuss how the short documents of social media
-platforms like Twitter can confuse topic modeling algorithms.  Because
-a document is limited to 140 character, the admixture assumptions of
-topic models are limited.  To capture trends over time or across
-users, algorithms must also know connections between users or group
-messages together over time (Chapter~\ref{ch:sci}). 
+platforms like Twitter can confuse topic modeling algorithms, and
+\citet{zhao-11} expand on the analysis, showing topical differences
+(e.g., Twitter often briefly follows fleeting topics passionately).
+Because a document is limited to 140 character, the admixture
+assumptions of topic models are limited.  To capture trends over time
+or across users, algorithms must also know connections between users
+or group messages together over time~\citep{mehrotra-13}.  Other
+researchers develop models with specific sparsity
+properties~\citep{lin-14} to accomodate the peculiarities of Twitter.
 
 Computational social science can unlock the emotion and hidden
 factions often present in online discussions.  This is useful for
 companies trying to understand their customers, for politicians trying
-to target voters, and for academics tyring to understand how online
-communication morphs social norms.  
+to target voters, for first responders reacting to a
+disaster~\citep{kireyev-09}, and for academics tyring to understand
+how online communication morphs social norms.
 
 However, as social networks increasingly span the entire globe,
 assuming that a topic model is only in a single language is often a

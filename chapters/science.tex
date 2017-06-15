@@ -167,6 +167,16 @@ topic that can change slightly from the previous version of a topic.
 This can help capture sudden changes in scientific topics, e.g. from
 an innovative contribution.
 
+An alternative view of innovation is one directed by authors.
+\citet{steyvers-04,rosen-zvi-04} build a generative model that includes the
+identity of authors.  
+An author has a collection of topics that they write about and each
+document is a combination of the topics that its set of authors care
+about.  
+\citet{zhou-06} extend this argument through modeling the use of a
+topic based on a Markov transition from other otpics.  
+They then use this model to discover the authors that drive those transitions.  
+
 % Author-topic model?
 
 \section{Innovation}
@@ -176,9 +186,19 @@ new techniques, new terminologies, and new understanding of the world.  These
 concepts require new words which are reflected in their scientific
 publications.  Unlike other fields, where documents merely report the changing
 world, scientific documents are themselves the force that can change the world:
-from Darwin's \textit{Origin of Species} to Einstein's papers on relativity.
+from Darwin's \textit{Origin of Species} to Einstein's papers on
+relativity.
 
-Thus, it is interesting to try to find out where this change is happening.  From
+Thus, it is interesting to try to find out where this change is
+happening.  
+From a modeling perspective, we thus need models that can also change
+over time.
+Unlike the approach described in Chapter~\ref{sec:scholarly}, which
+focused on \emph{static} topics, here we focus on \emph{dynamic}
+topics that can change over time and \emph{who} is responsible for the
+change.
+
+From
 a historical perspective, we might want to know who introduced
 groundbreaking research first.  Measuring the context of innovations may also be useful for policy makers~\citep{largent-12}.
 Rather than awaiting ``magic'' or serendipitous findings, we might want to measure
@@ -198,9 +218,18 @@ time $t$ and find the places in the past whose research most resembles the prese
 their ideas. % For example, they found that
 % TODO: Add example!
 
+Citations are a useful but incomplete guide to solving this problem.
+\citet{dietz-07} develop a ``copycat'' model that uses the citation
+network to model the use of language across cited documents: if you
+cite a paper, you are likely to reuse some of the language in the
+original paper.
+\citet{he-09} extend this idea to more complex graphs.
+However, this assumes a perfect citation graph, which isn't always
+available for some fields.  
+
 Capturing more nuanced effects at either the individual or lab level requires
 refining the model.  \citet{gerrish-10} adapt the random walk model of
-\citet{wang-08} for scientific change.  Instead of topic randomly wandering into
+\citet{wang-08} (Chapter~\ref{sec:sci_change}) for scientific change.  Instead of topic randomly wandering into
 new concepts, \citet{gerrish-10} propose that innovative articles ``nudge'' topics
 to look more like them in the future.  This model is called the ``Dynamic
 Influence Model'' (\abr{dim}). The assumption is that concepts and ideas are represented

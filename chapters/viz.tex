@@ -290,7 +290,7 @@ by that topic will have great held-out likelihood.
 However, this metric ignores whether the underlying topics make sense
 to a user.
 
-\citet{chang-09b} shows that
+\citet{chang-09b} show that
 held-out likelihood, a traditional measure of probabilistic model quality,
 emphasizes \emph{complexity} rather than the ease of interpretability
 that users are looking for.  
@@ -309,6 +309,12 @@ distinguish stable from spurious topics~\citep{chuang-15}, and
 adjusting the ``hyperparameters'' of distributions (the Dirichlet
 parameters of models discussed in Chapter~\ref{ch:intro}) can have a
 large effect of what the final models are~\citep{wallach-09b}.
+
+\citet{tang-14} provide a diagnosis manual for what properties of a
+dataset can cause the failure of a topic model: a mismatch between the
+number of topics and documents, topics that are ``too close
+together'', or a mismatch between the number of topics in a document
+and the 
 
 \begin{figure}
 
