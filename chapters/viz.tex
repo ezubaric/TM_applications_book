@@ -1,12 +1,12 @@
 \chapter{Evaluation and Interpretation}
 \label{ch:viz}
 
-While the previous two chapters have focused on algorithmic uses of topic
+While the previous chapter focuses on algorithmic uses of topic
 models, one of the reasons for using topic models is that they produce
 human-readable summaries of the themes of large document collections.  However,
 for users to use the results of topic models, they must be able to understand
-the models' output.  This depends on \emph{visualization},
-\emph{interaction}, and \emph{evaluation} of the model.
+the models' output.  This depends on model \emph{visualization},
+\emph{interaction}, and \emph{evaluation}.
 
 We begin this chapter with a discussion of how best to show individual
 topics to users.  From these foundations, we move to how we can
@@ -71,7 +71,7 @@ words~\citep{harris11}; users can sometimes draw false connections between words
 that are placed next to each other randomly in a word cloud.  Another
 alternative is to use word associations to set the position of
 words~\citep{Smith:Chuang:Hu:Boyd-Graber:Findlater-2014};
-Figure~\ref{fig:topic-in-a-box} shows places words that appear together next to
+Figure~\ref{fig:topic-in-a-box} places words that appear together next to
 each other in the visualization.
 
 % \subsection{When Words aren't Enough}
@@ -130,7 +130,7 @@ features such as the following:
 \begin{itemize*}
 \item the conditional probability of a word given the other words in a
   topic (which implies topic coherence, as discussed in
-  Section~\ref{sec:coherence});
+Chapter~\ref{sec:coherence});
 \item whether the word is a hypernym of other words in the topic
   (e.g., ``dog'' in a topic that also contains ``terrier'' and
   ``poodle''); and
@@ -224,14 +224,15 @@ kind of \underline{music} without provided links.
 \end{figure}
 
 However, topics are not the end of the story.  Users often want to use topics to
-find relevant documents within the collection.  Going back to our example in the
+find relevant documents within the collection.  Going back to our
+example in a
 previous chapter, a user may want to find the ``smoking gun'' in the Enron
 corpus, not just use topics to understand the main themes in a collection.
 
 Thus, a good topic model visualization must also show the documents associated
 with a topic.  The Topic Model Visualization Engine~\citep{chaney-12} shows the
 top documents associated with a topic (Figure~\ref{fig:tmve}).  Recall that each
-document has a distribution over topics $\theta_d$, which is a vector with an
+document has a distribution over topics~$\theta_d$, which is a vector with an
 entry for each topic.  We focus on the dimension associated with a particular topic
 and then sort the documents based on that topic coordinate from largest to
 smallest.
@@ -288,13 +289,8 @@ We should be able to detect some kinds of failure: topics that are just random n
 On the other hand, it is possible to get good held-out likelihood with a large set of topics so specific that any held-out document is modeled well.
 The topics would nevertheless lack generalizability and interpretability.
 
-<<<<<<< HEAD
 \citet{chang-09b} show that
 held-out likelihood, a traditional measure of probabilistic model quality,
-=======
-\citet{chang-09b} demonstrates empirically that
-held-out likelihood
->>>>>>> ace4c7a215910352b1a6f61a04651133d5e7569f
 emphasizes \emph{complexity} rather than the ease of interpretability
 that users are looking for.  
 User ratings of how good topics negatively correlate with
@@ -317,7 +313,7 @@ large effect of what the final models are~\citep{wallach-09b}.
 dataset can cause the failure of a topic model: a mismatch between the
 number of topics and documents, topics that are ``too close
 together'', or a mismatch between the number of topics in a document
-and the 
+and the Dirichlet parameter~$\alpha$.
 
 \begin{figure}
 
