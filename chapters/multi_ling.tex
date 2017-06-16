@@ -80,7 +80,7 @@ the relevant Web document may contain ``downtown disney amc''.~\citep{Jiang-2016
 
 This semantic gap~\citep{Muller-2009} between queries and documents
 provide the possibility to treat queries and documents as different languages, and the relevance between
-queries and documents make them loosely aligned. Based on this assumtption, 
+queries and documents make them loosely aligned. Based on this assumption, 
 they further assume queries and documents share the same document-topic
 distributions $\theta^Q$, but have different topic-word distributions
 $\phi_z^Q$ and $\phi_z^D$ respectively.
@@ -99,19 +99,20 @@ be computed as,
 p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
 \end{align}
 
-\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
+%\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
 Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
 As noted in Chapter \ref{ch:ir}, \citet{erlin2017topic} use two independent seeded models on English and German books to search for works about epistemology.
-After manually aligning one topic from each model, the topics are used as a ``soft query'' to identify words that are related to documents but the target subject.
+After manually identifying one  \underline{epistemology} topic from each language's model, these two topics are used as a form of query expansion to identify documents related to the target subject.
+
 
 \section{Word-level Alignment from Lexical Data}
 
 Aligned documents are useful when a collection is designed to be
 lightly multilingual: e.g., when the creators are building a
-native-language version of the ubiquitous Wikipedia.  Documents links
+native-language version of Wikipedia.  Documents links
 are cheap and easy. However, they require active support of those creating the
-collection.  This is not always available.  Many collections are
+collection, which is not always available.  Many collections are
 written in isolation.
 
 However, one of the most ubiquitous multilingual tools is the
@@ -720,7 +721,7 @@ the co-occurrence of the source-side and the target-side topic assignment.
 \section{Reordering with Topic Models}
 
 In addition to translation models and languages models, a third
-important component of a phrase-based \textsc{smt} systemt is 
+important component of a phrase-based \textsc{smt} system is 
 reordering models, which learn how the order of words in the source
 sentences influences the order of words in the target sentences and
 how to make the translations in the right order.
