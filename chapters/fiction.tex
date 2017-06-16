@@ -4,7 +4,7 @@
 \label{ch:fiction}
 
 This chapter considers documents that are valued not just for their information content but for their artistic expression.
-There are many different ways to read fiction, poetry, and rhetoric, and the choice of how we read affects the type of conclusions that we are able to make.
+There are many ways to read fiction, poetry, and rhetoric, and the choice of how we read affects the type of conclusions that we are able to make.
 Scholars have traditionally focused on a ``close reading'' approach, in which the goal is to identify the specific features of a passage that convey a more general meaning, or emotion, or atmosphere.
 These features might include nuances of word  selection, echoes of sound through rhyme or alliteration, or prosodic features like rhythm or cadence.
 
@@ -16,8 +16,8 @@ Topic models complement close reading in two ways, as a survey method and as a m
 
 The survey method is relatively simple, linking passages that a reader may not have known about.
 Close reading is the best way to analyze a short passage of text, but which short passages of text do we want to analyze?
-Because no one can read --- much less close read --- all the available material from a culture or time period, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread'' \citep{moretti-00}, works that are never studied.
-Identifying broad themes and then mapping those themes to their realization in different contexts may reveal works or sections of works that are ``hiding in plain sight,'' unknown to modern scholarship simply through obscurity.
+Because no one can read---much less close read---all the available material from a culture or time period, scholars are often left trying to make large-scale arguments about the history of literature from small-scale evidence. And this small-scale exploration is not randomly selected: the same small canon is studied in detail while the vast proportion make up the ``great unread''~\citep{moretti-00}, works that are never studied.
+Identifying broad themes and then mapping those themes to their realization in different contexts may reveal works or sections of works that are ``hiding in plain sight'', unknown to modern scholarship simply through obscurity.
 
 An alternative, and less traditional, mode of analysis is often referred to as ``distant reading'' \citep{moretti-13}.   This approach uses computer-assisted methodologies. Topic modeling has emerged as a central tool in distant reading, as a way to organize our reading of large scale patterns.
 
@@ -31,14 +31,13 @@ Statistical topic analysis has a similar goal, but pursues it through different 
 Rather than rigid boundaries specified by date of publication or nationality, algorithms identify genre through the repeated words that form the traces of those themes.
 Topics do not represent themes themselves, but rather identify the implicit statistical regularities in word use brought about by the presence of genres, themes, and discourses.
 
-
 Applying topic models to fiction, however, brings new challenges.  \citet{jockers-13} trains a 500-topic model on a corpus of 4000 English-language novels.
 Several issues emerge from this corpus. These are present in other contexts, but they are much more readily apparent in fiction.
 
 \section{What is a Document?}
 
 In most literature about topic models, the term ``document'' is used on the implicit assumption that users have things called documents.
-In the canonical LDA journal article \citep{blei-03}, this word is used 143 times, but never defined.
+In the canonical \abr{lda} journal article \citep{blei-03}, this word is used 143 times, but never defined.
 In many cases, the meaning of a ``document'' is fairly clear: a news article, or a scientific abstract.
 What was not clear in this earlier work was that this definition can be problematic, especially for documents longer than a few pages of text.
 
@@ -48,7 +47,7 @@ We should not be surprised by this finding.
 The assumption of a topic model is that the concentration of topics over a document is fixed and unchanging from the beginning of a document to the end.
 Natural writing rarely fits the topic model assumption, and a novel that had no thematic variation over its entire length is unlikely to have been published.
 
-We need to find a good segmentation into shorter contexts.
+We need to find a good segmentation into shorter contexts (in contrast to social media, which often needs to be combined into longer documents, c.f. Chapter~\ref{sec:twitter-strange}).
 We assume that themes are expressed in different sections of a long document like a novel.
 If a segmentation does a good job of identifying the boundaries between these sections, each resulting segment should have relatively few themes.
 If a segmentation does not do a good job of identifying boundaries, we should see segments that contain more themes on average, because our segments combine fragments of multiple thematic segments.
@@ -67,9 +66,9 @@ For example, consider two distributions $P$ and $Q$ over a set of symbols $\{a, 
 If $P$ has non-zero probability only on a single symbol $P(a) = 1.0$ and zero probability for all other symbols, the Herfindahl index of $P$ will be 1.0.
 If $Q$ has uniform probability on all five symbols $Q(a) = Q(b) = ... = Q(e) = 0.2$, the Herfindahl index will be $5 \cdot \frac{1}{5} \cdot \frac{1}{5} = 0.2$.
 
-When a corpus of 19th-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices, implying that the distribution over topics for each segment is more focused on a smaller number of topics.
-Setting the slice size to the average length of paragraphs in the corpus, 82 words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
-This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19th-century novels.
+When a corpus of 19\textsuperscript{th}-century novels is divided by paragraphs, the Herfindahl index over concentration of topics within each segment is consistently larger than the same index calculated when the same corpus is divided into evenly sized 200-word slices, implying that the distribution over topics for each segment is more focused on a smaller number of topics.
+Setting the slice size to the average length of paragraphs in the corpus, eighty-two words, increases the Herfindahl concentration metric, but the resulting value is still smaller than the value based on paragraphs.
+This result is reassuring, in that it suggests that paragraphs do indeed have some consistent meaning, at least in this collection of 19\textsuperscript{th}-century novels.
 
 %\jbgcomment{We've not talked about twitter anywhere else, I think it would be a good example here}
 
@@ -79,7 +78,7 @@ This result is reassuring, in that it suggests that paragraphs do indeed have so
 
 Because most works of fiction are set in imaginary worlds that have no existence outside the work itself, they are often characterized by words such as character names that are extremely frequent locally but never occur elsewhere.
 This word co-occurrence pattern is problematic for topic models because they can be thought of as machines for finding groups of words that occur frequently together and not in other contexts.
-Character names are --- by that criterion --- a perfect topic.
+Character names are---by that criterion---a perfect topic.
 Modeling these documents can result in topics that are essentially lists of character names.
 
 As an example, consider a model of 14 novels by Charles Dickens.
@@ -142,7 +141,7 @@ Bootstrap tests preserve the relationship between documents and metadata variabl
 This test indicates whether a result depends on the presence or absence of a specific document.
 If there is wide variation between randomly generated corpora, the observed correlation may be the result of unusual outliers rather than a consistent pattern.
 
-While the use of statistical hypothesis testing methods is potentially valuable in the context of large-scale distant reading, a literary analysis is not --- and should not be --- like a clinical trial.
+While the use of statistical hypothesis testing methods is potentially valuable in the context of large-scale distant reading, a literary analysis is not---and should not be---like a clinical trial.
 It is important to note some differences between their use in a scholarly context and their use in more typical scientific studies.
 First, the presence of unusual outliers or singular examples can in fact be a positive result.
 The suggestion that a particularly work may be radically different from supposedly similar examples could be the beginning of a new perspective.
@@ -153,7 +152,7 @@ Finally, it is vitally important to avoid the impulse to treat a significance sc
 If numeric scores should be used at all, they should be presented as a ``level of support'' given the documents that are available.
 Humanists may also be fundamentally more comfortable with dubious hypotheses: an observed association with a 10\% chance of being purely random could still be a very strong result.
 
-As an example, \citet{jockers-13b} evaluate an intriguing hypothesis, that a topic about religious foundations ({\em Convents and Abbeys}) is used more by unknown authors\footnote{Authors unknown to modern scholarship, not authors publishing under known pseudonyms.} than by either (known) male or female authors.
+As an example, \citet{jockers-13b} evaluate an intriguing hypothesis, that a topic about religious foundations ({\underline{Convents and Abbeys}) is used more by unknown authors\footnote{Authors unknown to modern scholarship, not authors publishing under known pseudonyms.} than by either (known) male or female authors.
 The conjecture is authors were choosing to remain anonymous in order to write about politically and religiously touchy subjects.
 This correlation, however, showed large variability under a bootstrap test, and indeed one of the supposedly anonymous works turned out to be an abridgment of an Anne Radcliffe novel.
 The pattern is still present without the effect of these works, but there is not a clear and undeniable association between anonymity and the questioning of religious authority.
@@ -170,11 +169,11 @@ One of the hallmarks of fiction and literature is the use of figurative language
 It is not obvious that unintelligent machines with no cultural understanding would have any ability to process such metaphors. However, \citet{rhody-12} demonstrates on a corpus of poetry that although topics do not represent symbolic meanings, they are a good way of detecting the concrete language associated with repeated metaphors.
 
 Specifically, Rhody explores a corpus of 4500 poems that describe works of art (or {\em ekphrastic} poems).
-She trains a 60-topic model, and highlights several particularly interesting topics.
+She trains a sixty-topic model, and highlights several particularly interesting topics.
 One of these topics places high probability on {\em night, light, moon, stars, day, dark, sun, sleep, sky, wind, time, eyes, star, darkness, bright}.
 The apparent meaning of the topic is clear, and well summarized by the single top word: night.
 But Rhody finds that when she explores the {\em context} of this topic, the poems are all using a consistent metaphor relating night and sleep to death.
-The concept of death does not appear in the top words --- poets are not addressing the issue directly.
+The concept of death does not appear in the top words---poets are not addressing the issue directly.
 Nevertheless, the model has identified an example of non-literal, figurative language even though, because it is grounded in the actual words, it has no ability to represent what the poets actually mean.
 The model is able to do this because the poets are using a consistent ``surface'' language to represent a consistent metaphor.
 The metaphor is not detectable directly, but a poet's use of a metaphor has a signature that is observable.
@@ -184,15 +183,15 @@ This topic places high probability on {\em death, life, heart, dead, long, world
 Unlike the previous topic, the topic directly references death and life, but it also lacks what Rhody calls the ``unambiguous comprehensibility'' of the {\em night} topic.
 But examining the context of poems that contain the topic reveals a different pattern.
 These poems have a consistent {\em form} that Rhody describes as elegiac.
-She writes that ``Paul Laurence Dunbar's 'We Wear the Mask' never once mentions the word 'death,' the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil --- language which 'The Starry Night' indisputably also draws from.''
+She writes that ``Paul Laurence Dunbar's `We Wear the Mask' never once mentions the word `death', the discourse Dunbar draws from to describe the erasure of identity and the shackles of racial injustice are identified by the model as drawing heavily from language associated with death, loss, and internal turmoil---language which `The Starry Night' indisputably also draws from''.
 
 \section{Comparison to Stylometric Analysis}
 
 In addition to discussing what researchers have done in literary analysis with topic models, it is useful to consider how other technologies have been used in the same setting.
-One of the most established applications of computation in the study of literature is stylometry, or more specifically the question of authorship attribution \citep{juola2006authorship}.
+One of the most established applications of computation in the study of literature is stylometry, or more specifically the question of authorship attribution~\citep{juola2006authorship}.
 It is illustrative to contrast the goals and methods of stylometry with those of topic modeling.
 
-The critical insight of modern stylometry is that it is easy for authors to shift the focus of their work, but much more difficult to alter the semi-conscious style of their language \citep{mosteller1964inference}.
+The critical insight of modern stylometry is that it is easy for authors to shift the focus of their work, but much more difficult to alter the semi-conscious style of their language~\citep{mosteller1964inference}.
 The implication is that content-bearing words, such as nouns and adjectives, are a relatively poor indicator of authorship or at least authorial style, while functional words, such as determiners, conjunctions, and prepositions, carry more information about authorship.
 Therefore, measures such as Burrows' delta \citep{burrows2002delta} restrict attention to the most frequent words in a corpus.
 
@@ -208,8 +207,8 @@ For scholars, these models offer the possibility of a more precise approach to c
 At the same time, and somewhat paradoxically, literary documents present such a radically different mode of language than news articles or scientific publications that they lead us to question the apparent precision of statistical approaches.
 
 Topic models provide a way of operationalizing the concept of distant reading.
-\citet{moretti2013operationalizing} defines this term as ``Taking a concept, and transforming it into a series of operations.''
-He attributes this definition to \citet{bridgman1927logic},  who introduces the term in the context of measurement in physics: ``To find the length of an object, we have to perform certain physical operations. The concept of length is therefore fixed when the operations by which length is measured are fixed: that is, the concept of length involves as much as and nothing more than the set of operations by which length is determined.''
+\citet{moretti2013operationalizing} defines this term as ``Taking a concept, and transforming it into a series of operations''.
+He attributes this definition to \citet{bridgman1927logic},  who introduces the term in the context of measurement in physics: ``To find the length of an object, we have to perform certain physical operations. The concept of length is therefore fixed when the operations by which length is measured are fixed: that is, the concept of length involves as much as and nothing more than the set of operations by which length is determined''.
 While topic models are an imperfect tool for measuring theme in literature, they do provide a much more powerful approximation of theme than anything that we have had previously.
 
 But applying statistical models to literature also brings forward a series of challenges that highlight the amount of human interpretive work that must go into successful topic modeling.
@@ -219,9 +218,9 @@ We can address these issues through corpus curation and through interpretive rea
 \section{Summary}
 
 Topic models cannot by themselves study literature, but they are useful \textit{tools} for scholars studying literature.
-Models provide a distinct perspective that can call our attention to connections across different parts of a corpus that might not be obvious from close reading. Literary concepts are complicated, but they often have surprisingly strong statistical signatures. Models can still be useful in identifying areas of potential interest, even if they don't ``understand'' what they are finding. At the same time, fiction presents a challenge to modeling practices because each fictional work deliberately creates its own closed world --- a world whose characters and settings are so vivid that they can overshadow more subtle connections across works. Addressing these challenges can serve as an invitation to think deeply about words and their contextual meanings.
+Models provide a distinct perspective that can call our attention to connections across different parts of a corpus that might not be obvious from close reading. Literary concepts are complicated, but they often have surprisingly strong statistical signatures. Models can still be useful in identifying areas of potential interest, even if they don't ``understand'' what they are finding. At the same time, fiction presents a challenge to modeling practices because each fictional work deliberately creates its own closed world---a world whose characters and settings are so vivid that they can overshadow more subtle connections across works. Addressing these challenges can serve as an invitation to think deeply about words and their contextual meanings.
 
-Just as topic models provide a methodology for analyzing the creative, diverse \oe{}vre of authors and the emotions and thoughts of fictional characters, topic models can also help us build insights of real people.
+Just as topic models provide a methodology for analyzing the creative, diverse \oe{}uvre of authors and the emotions and thoughts of fictional characters, topic models can also help us build insights of real people.
 Thanks to social media, we have a wealth of information about people sharing their thoughts and views online.  Topic models can help us use these data to better capture emotion,
 beliefs, and relationships.  The next chapter discusses how topic models can
 understand these messy, interesting properties of text.

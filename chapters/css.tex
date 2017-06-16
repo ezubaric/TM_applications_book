@@ -3,16 +3,17 @@
 \chapter{Computational Social Science}
 \label{ch:css}
 
-While the previous chapters were mostly retrospective analyses, computational
-social science is mostly in the ``here and now''.  
-The role of text analysis is to provide evidence for how people relate to each other and to their environment in particular contexts, for example social, political, or economic interactions.
-The specific expression of any particular document is usually of less importance.
-As a result, social science focuses on data
-being generated in the past hours, days, or weeks to inform
-intelligence analysts, brand monitors, journalists, or social
-scientists.  The underlying problem is the same, however: these
-stakeholders are interested in what people have to say but cannot read
-all of the data at their disposal.
+While the previous chapters were mostly retrospective analyses,
+computational social science is mostly in the ``here and now''.  The
+role of text analysis is to provide evidence for how people relate to
+each other and to their environment in particular contexts, for
+example social, political, or economic interactions.  The specific
+expression of any particular document is usually of less importance.
+As a result, social science focuses on data being generated in the
+past hours, days, or weeks to inform intelligence analysts, brand
+monitors, journalists, or social scientists.  The underlying problem
+is the same, however: these stakeholders are interested in what people
+have to say but cannot read all of the data at their disposal.
 
 Historically, social science asks questions about opinions. What candidate is
 preferred in a particular part of the country? Do people like a
@@ -33,8 +34,8 @@ Traditional social science methods are labor intensive, take a long
 time, or are impossible for sensitive subjects.  For instance, surveys
 of influenza take too long to be useful compared to the life cycle of
 influenza's progression~\citep{broniatowsky-15}, and approval ratings
-may be too slow in the runup to an election~\citep{oconnor-10}.  Using
-twitter and Google searches results in more accurate information
+may be too slow in the run-up to an election~\citep{oconnor-10}.  Using
+Twitter and Google searches results in more accurate information
 faster.
 
 Directly communicating with some
@@ -47,13 +48,20 @@ the case of sexuality or drug use).  Topic models and other large-data approache
 that can look at vast quantities of text help overcome some of the
 obstacles to fast-response social science.
 
-The observational nature of topic models is both a weakness and a strength.
-Analyzing documents through social media collection can induce threats to validity. Researchers cannot necessarily control the populations producing documents, the forum in which documents are written, or the subject of documents.
-At the same time, observational models have the advantage of increased potential for discovery.
-In a survey, researchers have to specify every question that will be asked.
-That control is good for ensuring validity, but risks missing whole categories of opinion that might not be obvious to researchers.
-Topic models can complement this type of carefully designed survey by bringing forward issues or factors that are important to participants whether or not those issues were anticipated.
-Thus unsupervised models can help in identifying questions that researchers ``forgot to ask''.
+The observational nature of topic models is both a weakness and a
+strength.  Analyzing documents through social media collection can
+induce threats to validity. Researchers cannot necessarily control the
+populations producing documents, the forum in which documents are
+written, or the subject of documents.  At the same time, observational
+models have the advantage of increased potential for discovery.  In a
+survey, researchers have to specify every question that will be asked.
+That control is good for ensuring validity, but risks missing whole
+categories of opinion that might not be obvious to researchers.  Topic
+models can complement this type of carefully designed survey by
+bringing forward issues or factors that are important to participants
+whether or not those issues were anticipated.  Thus unsupervised
+models can help in identifying questions that researchers ``forgot to
+ask''.
 
 \paragraph{Prediction and Interpretation}
 
@@ -129,7 +137,7 @@ not want to be confused by social media commentary complaining about
 the low quality of a Red Delicious. 
 Contextual disambiguation can also be useful because the implied sentiment of words 
 can vary considerably between domains.
-The term ``Surprising'' could be positive in a book review, but 
+The term ``surprising'' could be positive in a book review, but 
 strongly negative in an automobile review.
 
 Topic-based sentiment analysis can, however, be problematic.
@@ -154,7 +162,7 @@ aware of a non-textual variable that represents sentiment.
 In the language of probabilistic models,
 sentiment and topic are modeled \emph{jointly}.  That is, there is for each document a
 probability distribution over both the sentiment variable $y$ and
-the topics $z$.
+the topic assignments $z$.
 
 There are two general kinds of joint models that incorporate metadata
 such as sentiment: upstream and downstream models.  The distinction is
@@ -264,7 +272,7 @@ Democrat\footnote{In downstream models, which variables to use in the
   prediction is often up for debate.  Using lexical
   terms~\citep{titov-08,zhao-10} in a log-linear model typically works
   better: it is able to capture word-specific nuances of sentiment and
-  model situational sentiment (e.g., ``unpredictible'' is good for a
+  model situational sentiment (e.g., ``unpredictable'' is good for a
   book but bad for a car's steering).  However, it leads to a more
   complicated, less interpretable model.} based on the versions of
 topics they discuss, extending the non-predictive model of
@@ -299,7 +307,7 @@ The stochastic block model~\citep{holland-83} and its mixed-membership
 descendant~\citep{airoldi-08} are prototypes for upstream models.
 They posits that there are intrinsic groups of documents and links are
 more likely inside the group than outside the group.  These groups are
-analagous to the topics in topic models, except that the links are
+analogous to the topics in topic models, except that the links are
 ``shared'' between documents.
 
 However, the first probabilistic models of network structure ignored
@@ -344,7 +352,8 @@ intensifier, particularly of adjectives, e.g. ``the description was
 evasive af'') spread from twin epicenters in southern California and
 Atlanta to the whole of the US.
 
-\section{Summary}
+\subsection{Peculiarities of Social Media}
+\label{sec:twitter-strange}
 
 \citet{hong-10} discuss how the short documents of social media
 platforms like Twitter can confuse topic modeling algorithms, and
@@ -357,11 +366,14 @@ or group messages together over time~\citep{mehrotra-13}.  Other
 researchers develop models with specific sparsity
 properties~\citep{lin-14} to accomodate the peculiarities of Twitter.
 
+\section{Summary}
+\label{sec:css-summary}
+
 Computational social science can unlock the emotion and hidden
 factions often present in online discussions.  This is useful for
 companies trying to understand their customers, for politicians trying
 to target voters, for first responders reacting to a
-disaster~\citep{kireyev-09}, and for academics tyring to understand
+disaster~\citep{kireyev-09}, and for academics trying to understand
 how online communication morphs social norms.
 
 However, as social networks increasingly span the entire globe,
