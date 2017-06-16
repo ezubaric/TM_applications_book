@@ -14,25 +14,6 @@ These models are useful for organizing corpora, but make no attempt to support a
 The second category is those that explicitly model word-level alignments across languages.
 These models support applications in statistical machine translation~(\textsc{smt}).
 
-\jbgcomment{I think we can combine the definition of terms a little
-  bit with the outline to make it clearer.  Perhaps something like:
-
-Machine translation is X.  
-
-Machine translation assumes data that looks like Y.
-However, most collections do not have this property (you have to look
-hard to find it; most are created).
-
-But we should be able to use data that are less structured.  Topic
-models unlocks comparable and mixed data.  They are \dots
-
-In this chapter, we first discuss how topic models unlocks X data for
-applications like (discussed in Chapter X).  We then show how these
-models can help machine translation, the usual application of
-multilingual NLP. \yhcomment{Added the following paragraph, but not sure
-whether it is a good fix.}
-}
-
 As one most frequent application for multilingual topic models, \textsc{smt} tries
 to find a sequence of words in one language  which match the meaning of a text input
 in another language. While the training data of \textsc{smt} rquires explicit aligned sentences
@@ -58,12 +39,6 @@ Lexicons of this form can be considered to be examples of parallel corpora with 
 
 \section{Document-level Alignment from Multilingual Corpora}
 \label{sec:doc-align}
-
-\jbgcomment{Instead of just saying that this is weaker, would probably
-be a stronger section if you talk about the applications of this
-approach.  For example, the end goal could be a user who could browse
-a collection with only monolingual knowledge to find relevant
-documents, send them to a bilingual expert for further analysis. \yhcomment{added.}}
 
 In a case where a user is browsing a multilingual collection with only monolingual knowledge
 to find relevant documents, multilingual topic models can help. Such collections contain
@@ -93,9 +68,6 @@ Topic models trained from document-level alignments have applications in explora
 \citet{mimno-09} use a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
 For example, the Persian-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
- 
-\jbgcomment{Would be good to have example of what these other
-  languages are  \yhcomment{fixed}}
 
 We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
@@ -134,25 +106,6 @@ As noted in Chapter \ref{ch:ir}, \citet{erlin2017topic} use two independent seed
 After manually aligning one topic from each model, the topics are used as a ``soft query'' to identify words that are related to documents but the target subject.
 
 \section{Word-level Alignment from Lexical Data}
-
-\jbgcomment{Need a better transition from previous section.  Perhaps
-  something like:
-
-Aligned documents are useful when a collection is designed to be
-lightly multilingual: e.g., when the creators are building a
-native-language version of the ubiquitous Wikipedia.  Documents links
-are cheap and easy.
-
-However, they require active support of those creating the
-collection.  This is not always available.  Many collections are
-written in isolation.
-
-However, one of the most ubiquitous multilingual tools is the
-dictionary.  This section discusses how we can use tools like
-dictionaries and orthographic relations between words to help users
-who want to understand a collection.
-\yhcomment{added.}
-}
 
 Aligned documents are useful when a collection is designed to be
 lightly multilingual: e.g., when the creators are building a

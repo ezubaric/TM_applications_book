@@ -202,15 +202,21 @@ p(w \g d) = \lambda \frac{n_{d,w} + \beta p(w \g \mathcal{C})}{\sum_{v
   \in V} n_{d,v} + \beta}  + (1 - \lambda) p_{\texttt{TM}}(w \g d)
 \end{align}
 
-While using different smoothing strategies, both
-approaches apply topic models to
-connect the query words with documents through hidden topics. As a
-result, better semantic relationships between query words and
-documents can be learned to complement the document language models.
+While using different smoothing strategies, both approaches apply topic models to
+connect the query words with documents through hidden topics. As the example shown in
+\citet{wei-06}, given a query ``buyout leverage'', a relevant document talks about 
+``Farley Unit Defaults On Pepperell Buyout Loan'' without the exact word ``leverage'',
+thus the ranking for this relevant document is very low. However, topic models connect
+this document with two topics that that have strong connections with the term ``leverage'': 
+one economic topic contain words like ``million'', ``company'' and ``bankruptcy'',
+and the other money market topic is connected to ``bond''.
+Since a better semantic relationship between the query and the doucment is learned,
+this relevant document is ranked much higher and the retrieval performace in general is 
+significantly improved.
 
-\jbgcomment{Would be good to have an example of how this works.}
+\jbgcomment{Would be good to have an example of how this works. \yhcomment{added above.}}
 
-\section{Query Expansion in IR}
+\section{Query Expansion in \abr{ir}}
 
 The document language models in information
 retrieval~\citep{PonteCroft} attempt to model the query
@@ -361,7 +367,8 @@ successfully applied into query expansion~\citep{Yi-2009,Park-2009,Zeng-2012}.
 \paragraph{Smoothing Query Language Model}
 
 \jbgcomment{We typically don't have just $k$ as a topic, we normally
-  have $\phi_k$}
+  have $\phi_k$ \yhcomment{I changed it, and then realize that they use $p(w|k)=\phi_k$ in IR, not using k
+  to represent a topic. So I changed it back..}}
 
 The most intuitive way to use topic models for query expansion is to
 extract the words' relevance from topics directly as
@@ -434,7 +441,7 @@ p(w_x \g w_y, \alpha) &= \sum_k p(w_x, k  \g  w_y, \alpha) \\
 \end{align}
 where $\alpha$ is the concentration parameter of the Dirichlet prior
 for document-topic distributions and $p(w_x  \g  k, \alpha)$ is the
-topic-word distribution which can be learned from topic models, and
+probility of word $w_x$ in topic $k$ which can be learned from topic models, and
 $p(k  \g  w_y, \alpha)$ is
 %\begin{align}
 %p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{p(w_y|\alpha)} \\
@@ -447,7 +454,8 @@ p(k  \g w_y, \alpha)
 %&= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y, k'|\alpha)} \notag\\
 &= \frac{p(w_y|k,\alpha)p(k|\alpha)}{\sum_{k'} p(w_y|k',\alpha)p(k' \g \alpha)} \notag
 \end{align}
-where $p(w_y \g k,\alpha)$ is the topic-word distributions. \citet{Park-2009} also show that $p(k|\alpha) = \frac{\alpha_k}{\sum_j \alpha_j}$.
+where $p(w_y \g k,\alpha)$ is the probability of word $w_y$ in topic $k$. 
+\citet{Park-2009} also show that $p(k|\alpha) = \frac{\alpha_k}{\sum_j \alpha_j}$.
 %\begin{align}
 %p(z_i|\alpha) &= \int p(z_i, \theta | \alpha) d\theta \\
 %&= \int p(z_i | \theta, \alpha) p(\theta | \alpha) d\theta \\
@@ -548,7 +556,7 @@ referred as personalized search, or search personalization.
 
 There are multiple ways to do search personalization, and two of major
 directions are normally referred as
-contextualization~\citep{Melucci-2012,} and
+contextualization~\citep{Melucci-2012} and
 individualization~\citep{Pitkow-2002}. The former is to consider
 users' conditions in a search activity, for example, time and
 location.  The latter focuses more on users' individual
@@ -612,15 +620,17 @@ click that document.
   \label{fig:ptm}
 \end{figure}
 
-\jbgcomment{Need to have more explanation in figure or in main text.}
+\jbgcomment{Need to have more explanation in figure or in main text. \yhcomment{added a little more text.}}
 
 As shown in Figure~\ref{fig:ptm-original} (this uses plate diagram
-formalism, explained in Chapter~\ref{sec:plate}), instead of just two
-observed variable (document $d_i$ and query word $w_i$) as in normal
-topic models, this model adds one extra observed variable $u_i$ for
-user and directly estimate the probability of $p(k \g w_i, d_i,
-u_i)$.
-They further assume the conditional independence among the word $w_i$,
+formalism, explained in Chapter~\ref{sec:plate}), this model has three observed
+variables, document $d_i$, query word $w_i$ and user $u_i$. Given a topic $k$ sampled
+from a multinormial distribution $\theta_d$, the corresponding query words $w_i$ are sampled from 
+a topic-word multinormial distribution $\phi_k$ and the user $u_i$ who submitted the corresponding query 
+is sampled from a topic-user multinormial distribution $\psi_k$.
+
+In order to estimate the probability of $p(k \g w_i, d_i, u_i)$,
+they further assume the conditional independence among the word $w_i$,
 the user $u_i$ and document $d_i$ given the topic $k$, and the model
 can be simplified as
 \begin{align}
