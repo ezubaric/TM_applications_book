@@ -92,7 +92,7 @@ of generating the whole query given this document is zero, which may throw out p
 
 This data sparsity problem can be fixed by smoothing, which allocates
 some non-zero probability to the missing terms.  Another
-solution---which also provides other benefits---is topic models.  THey
+solution---which also provides other benefits---is topic models.  They
 provide a unique way to extract the word probabilities given the
 corpus, which can be used to smooth document language models.  We
 summarize two simple smoothing methods, and then show how topic models
@@ -172,7 +172,7 @@ p_{\texttt{TM}}(w \g d) = \sum_{k} p(w \g k) p(k \g d)
 \end{align}
 
 Following this idea, \citet{Wang-2013} further add regularizations  on document topic representations 
-which is useful for retrieval. Instead of using \abr{plsa}, \citet{wei-06} apply the same idea to 
+which is useful for retrieval. Instead of using \plsa{}, \citet{wei-06} apply the same idea to 
 learn the topic-smoothed document-word distribution using \abr{lda}.
 \citet{Vosecky-2014} also explore \abr{lda} for document language models on  twitter search.
 
@@ -210,8 +210,8 @@ thus the ranking for this relevant document is very low. However, topic models c
 this document with two topics that that have strong connections with the term ``leverage'': 
 one economic topic contain words like ``million'', ``company'' and ``bankruptcy'',
 and the other money market topic is connected to ``bond''.
-Since a better semantic relationship between the query and the doucment is learned,
-this relevant document is ranked much higher and the retrieval performace in general is 
+Since a better semantic relationship between the query and the document is learned,
+this relevant document is ranked much higher and the retrieval performance in general is 
 significantly improved.
 
 \jbgcomment{Would be good to have an example of how this works. \yhcomment{added above.}}
@@ -228,7 +228,7 @@ traditional information retrieval tasks.
 In fact, queries, which are normally brief and using informal
 language from users, diverge significantly from the language in
 documents~\citep{Muller-2009}. This semantic gap or lexical gap can
-result in percieved poor query-document relevance, even though the document is
+result in perceived poor query-document relevance, even though the document is
 quite relevant from the users' view point. For example, after typing
 in ``apple products'' to a search engine, a frustrated user might append
 ``computer'' to the query after faced with a screen of fruit-based
@@ -245,7 +245,7 @@ expansion, it is possible to build up the relationship between ``dtd''
 and ``disneyland downtown'', which is more helpful in document
 retrieval.  Next, this section reviews the classic query expansion
 frameworks in information retrieval, and the related works about using
-topic models for query exapansion are introduced in the next section.
+topic models for query expansion are introduced in the next section.
 
 \subsection{Learning Query-Word Relationships for Query Expansion}
 
@@ -312,7 +312,7 @@ p(w, q) = \sum_{d \in \mathcal{C}} p(d) p(w,q |d) = \sum_{d \in
   \mathcal{C}} p(d) p(w \g d) p(q \g d).
 \end{align}
 
-Then the multinomial distribution $p(w \g q)$ for a given query $q$ is
+Then the discrete distribution $p(w \g q)$ for a given query $q$ is
 \begin{align}
 \label{eq:rm_qe}
 p(w \g q) = \frac{p(w, q)}{p(q)} = \sum_{d \in \mathcal{C}} p(w \g d) p(d
@@ -441,7 +441,7 @@ p(w_x \g w_y, \alpha) &= \sum_k p(w_x, k  \g  w_y, \alpha) \\
 \end{align}
 where $\alpha$ is the concentration parameter of the Dirichlet prior
 for document-topic distributions and $p(w_x  \g  k, \alpha)$ is the
-probility of word $w_x$ in topic $k$ which can be learned from topic models, and
+probability of word $w_x$ in topic $k$ which can be learned from topic models, and
 $p(k  \g  w_y, \alpha)$ is
 %\begin{align}
 %p(z_i|w_y, \alpha) &= \frac{p(w_y|z_i,\alpha)p(z_i|\alpha)}{p(w_y|\alpha)} \\
@@ -533,7 +533,7 @@ Topic & Terms \\ \hline \hline
 \end{table}
 
 This direction is related to topic labeling and
-interative visualization for topic models, which will be further
+interactive visualization for topic models, which will be further
 discussed in Chapter~\ref{ch:viz}.
 
 \section{Beyond Relevance---Search Personalization}
@@ -625,9 +625,9 @@ click that document.
 As shown in Figure~\ref{fig:ptm-original} (this uses plate diagram
 formalism, explained in Chapter~\ref{sec:plate}), this model has three observed
 variables, document $d_i$, query word $w_i$ and user $u_i$. Given a topic $k$ sampled
-from a multinormial distribution $\theta_d$, the corresponding query words $w_i$ are sampled from 
-a topic-word multinormial distribution $\phi_k$ and the user $u_i$ who submitted the corresponding query 
-is sampled from a topic-user multinormial distribution $\psi_k$.
+from a discrete distribution $\theta_d$, the corresponding query words $w_i$ are sampled from 
+a topic-word discrete distribution $\phi_k$ and the user $u_i$ who submitted the corresponding query 
+is sampled from a topic-user discrete distribution $\psi_k$.
 
 In order to estimate the probability of $p(k \g w_i, d_i, u_i)$,
 they further assume the conditional independence among the word $w_i$,
