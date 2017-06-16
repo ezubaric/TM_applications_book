@@ -16,7 +16,7 @@ These models support applications in statistical machine translation~(\textsc{sm
 
 As one most frequent application for multilingual topic models, \textsc{smt} tries
 to find a sequence of words in one language  which match the meaning of a text input
-in another language. While the training data of \textsc{smt} rquires explicit aligned sentences
+in another language. While the training data of \textsc{smt} requires explicit aligned sentences
 in different languages, multilingual topic models relax this data restriction and are flexible to 
 explore only loosely aligned data.  In this chapter, we first discuss how topic models are 
 adapted to use multiple languages, and then show how these multilingual topic models can 
@@ -73,13 +73,13 @@ We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
 While the topic models' application in information retrieval (Chapter~\ref{ch:ir}) focus
 on a single language, \cite{Gao-2011} assume the queries and Web documents are in
-different ``languages''. The query language from users are normally informal oral langauge, 
+different ``languages''. The query language from users are normally informal oral language, 
 which are less formatted and may include abbreviation as well. However, the document language
-are more formal and well organlized written language. For example, given a query ``dtd amc'',
-the relevant Web document may contain ``downtown disney amc''.~\citep{Jiang-2016} 
+are more formal and well organized written language. For example, given a query ``dtd amc'',
+the relevant Web document may contain ``downtown disney amc''~\citep{Jiang-2016}. 
 
 This semantic gap~\citep{Muller-2009} between queries and documents
-provide the possibility to treat queries and documents as different languages, and the relevance between
+provides the possibility to treat queries and documents as different languages, and the relevance between
 queries and documents make them loosely aligned. Based on this assumption, 
 they further assume queries and documents share the same document-topic
 distributions $\theta^Q$, but have different topic-word distributions
@@ -93,17 +93,21 @@ $\phi_z^Q$ and $\phi_z^D$ respectively.
 In this way, documents and queries are
 connected through the hidden topics, even though their vocabularies
 (topic-word distributions) are different. By summing over all possible
-topics, the relationship between document term $e$ and query $q$ can
-be computed as,
+topics, the relationship between document term $e$ and query $q$ is
 \begin{align}
-p(e|q) = \sum_k p(e|\phi_k^D) p(k | \theta_q).
+p(e \g q) = \sum_k p(e \g \phi_k^D) p(k \g \theta_q).
 \end{align}
 
 %\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
-Some forms of query expansion across multiple languages do not require explicit modeling of connections between topics.
-As noted in Chapter \ref{ch:ir}, \citet{erlin2017topic} use two independent seeded models on English and German books to search for works about epistemology.
-After manually identifying one  \underline{epistemology} topic from each language's model, these two topics are used as a form of query expansion to identify documents related to the target subject.
+Some forms of query expansion across multiple languages do not require
+explicit modeling of connections between topics.  As noted in
+Chapter~\ref{ch:ir}, \citet{erlin2017topic} use two independent seeded
+models on English and German books to search for works about
+epistemology.  After manually identifying one \underline{epistemology}
+topic from each language's model, these two topics are used as a form
+of query expansion to identify documents related to the target
+subject.
 
 
 \section{Word-level Alignment from Lexical Data}
@@ -117,7 +121,7 @@ written in isolation.
 
 However, one of the most ubiquitous multilingual tools is the
 dictionary.  This section discusses how we can use \emph{lexical information} like
-multilingual dictionaries~\citep{Zhang-10,boyd-graber-10} and orthographic relations 
+multilingual dictionaries~\citep{Zhang-10} and orthographic relations 
 between words~\citep{boyd-graber-09} to help users
 who want to understand a collection.
 
@@ -125,11 +129,11 @@ For instance, tree-based topic models \abr{tlda}~\citep{boyd-graber-07,andrzejew
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
 {\bf concept} to have similar probabilities given a
-topic.\footnote{\citet{boyd-graber-09} and \citet{Zhang-10} use
+topic.\footnote{\citet{Zhang-10} use
   topic-level soft constraints to achieve a similar effect.} These
 concepts can come from WordNet~\citep{boyd-graber-10}, domain
 experts~\citep{andrzejewski-09}, or user
-constrains~\citep{hu-14:itm}. If these concepts are in the same
+constraints~\citep{hu-14:itm}. If these concepts are in the same
 language, the backend model is the same as monolingual interactive topic modeling
 introduced in Chapter~\ref{ch:viz}. However, when we gather concepts
 from bilingual resources, these concepts can connect different
@@ -137,13 +141,13 @@ languages. For example, if a bilingual dictionary defines
 ``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' as ``computer'', we combine
   these words in a concept.
 
-These concepts (positive correlations) are organized into a {\bf prior
-  tree} structure. As Figure~\ref{fig:prior_trees} shows, words in the
-same concept share a common parent node. That concept then becomes
-one of many children of the root node.  Words that are not in any
-concept---{\bf uncorrelated words}---are directly connected to the
-root node. Thus a topic becomes a distribution over all paths in this
-prior tree and each path is associated with a word.
+  These concepts (positive correlations) are organized into a {\bf
+    prior tree} structure. Words in the same concept share a common
+  parent node (Figure~\ref{fig:prior_trees}). That concept then
+  becomes one of many children of the root node.  Words that are not
+  in any concept---{\bf uncorrelated words}---are directly connected
+  to the root node. Thus a topic becomes a distribution over all paths
+  in this prior tree and each path is associated with a word.
 
 \begin{figure}
 \centering
@@ -243,12 +247,11 @@ A correct translation in one domain may be inappropriate in another
 domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in the
   \underline{sports} domain usually means ``underwater diving'', but
   in the \underline{social media} domain, it means a non-contributing
-  ``lurker''. To avoid such translation errors caused by a domain
-  change, domain knowledge is needed to train translation systems that
-  are robust to such systematic variation in the training set, which
-  are said to exhibit \emph{domain adaptation}.
+  ``lurker''. To avoid such translation errors caused by domain
+  shift, train translation must be robust to such systematic variation
+  in the training set.  This is called \emph{domain adaptation}.
 
-To train such \textsc{smt} systems with domain adaptation, early
+To train such \textsc{smt} systems, early
 efforts focus on building separate models given the hand-labeled
 domains~\citep{foster-07,matsoukas-09,chiang-11}. However, this setup
 is at best expensive and at worst infeasible for large data.  Topic
@@ -268,7 +271,7 @@ only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜
   \underline{sport} domain or it is a \underline{social media}
   domain. However, with the help of the aligned English translation
   ``lurker'', it is easy to identify the ``social media'' domain. Thus
-  multilingual topic models~\citep{ni-09,DeSmet-09,mimno-09,boyd-graber-10} have been
+  multilingual topic models~\citep{ni-09,DeSmet-09} have been
   applied to extract domain knowledge for machine
   translation~\citep{hu-14}.
 
@@ -300,32 +303,32 @@ translation probability $p(\bar{f}_n | \bar{e}_n)$.
 In the \textit{reordering} phase target phrases may then need to be repositioned to get the best
 translation result. Reordering is captured by a relative distortion
 probability distribution $d(a_n - b_{n-1})$, where $a_i$ denotes the
-start position of the source phrase that was translated to the $n$th
+start position of the source phrase that was translated to the $n$\textsuperscript{th}
 target phrase, and $b_{n-1}$ denotes the end position of the source
-phrase translated into the $(n-1)$th target phrase. As a result, the
-translation model can be decomposed as,
+phrase translated into the $(n-1)$\textsuperscript{th} target phrase. As a result, the
+translation model decomposes into
 \begin{equation}
-p(\mathbf{f}|\mathbf{e}) = \prod_{n} p(\bar{f}_n | \bar{e}_n) d(a_n - b_{n-1})
+p(\mathbf{f} \g \mathbf{e}) = \prod_{n} p(\bar{f}_n \g \bar{e}_n) d(a_n - b_{n-1})
 \end{equation}
 
-In phrase-based \textsc{smt}, the phrase probability $p(\bar{f}_n |
+In phrase-based \textsc{smt}, the phrase probability $p(\bar{f}_n \g
 \bar{e}_n)$ can be further estimated by combining lexical translation
 probabilities of words contained in that phrase~\citep{koehn-03},
 which is normally referred as \textit{lexical weighting}. Lexical
-conditional probabilities $p_w(f|e)$ are maximum likelihood estimates
+conditional probabilities $p_w(f \g e)$ are maximum likelihood estimates
 from relative lexical frequencies,
 \begin{equation}
 \label{eq:lexical_prob}
-p_w(f|e) = \textstyle \slfrac{c(f, e)}{\sum_f{c(f, e)}}
+p_w(f \g e) = \textstyle \slfrac{c(f, e)}{\sum_f{c(f, e)}}
 \end{equation}
 where $c(f, e)$ is the count of observing lexical pair $(f, e)$ in the
 training dataset. Given a word alignment $a$, the lexical weight for
-this phrase pair $p_w(\bar{f} | \bar{e}; a)$ is the normalized product
+this phrase pair $p_w(\bar{f} \g \bar{e}; a)$ is the normalized product
 of lexical probabilities of the aligned word pairs within that phrase
 pair:
 \begin{equation}
 \label{eq:phrase_prob}
-p_w(\bar{f} | \bar{e}; a) = \prod_{i} \frac{1}{\{|j | (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i | e_j)
+p_w(\bar{f} \g \bar{e}; a) = \prod_{i} \frac{1}{\{|j \g (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i \g e_j)
 \end{equation}
 where $i$ and $j$ are the word positions in target phrase $\bar{e}$
 and source phrase $\bar{f}$ respectively.
@@ -378,11 +381,11 @@ topic models to improve translation models~\citep{Eidelman-12,hu-14}.
 We can train a translation model by counting the frequency of pairs from word-level alignment data.
 \citet{Eidelman-12} builds topic-specific translation models by reweighting the frequency of word pairs based on soft topic/domain assignments for documents.
 Since a translated document is assumed to have the same topics in both languages, we only require a monolingual topic model trained on one or the other language.
-The document-topic distribution $p(k|d)$ is used
+The document-topic distribution $p(k \g d)$ is used
 to smooth the expected count $\hat{c}_{k}(f,e)$ of a word translation
 pair under topic $k$,
 \begin{align}
-\textstyle \hat{c}_{k}(f,e) = \sum_{d}{p(k|d)c_d(f,e)},
+\textstyle \hat{c}_{k}(f,e) = \sum_{d}{p(k \g d)c_d(f,e)},
 \end{align}
 where $c_d(\bullet)$ is the number of occurrences of the word pair in
 document $d$.  The lexical probability conditioned on topic $k$ is the
@@ -392,36 +395,37 @@ unsmoothed probability estimate of those expected counts
 \textstyle p_w(f|e;k) = \hat{c}_{k}(f,e) / \sum_f{\hat{c}_{k}(f,e)},
 \end{align}
 from which we can compute the lexical weight of this phrase pair
-$p_w(\bar{f}|\bar{e};a, k)$ given a word alignment $a$ \citep{koehn-03}:
+$p_w(\bar{f} \g \bar{e};a, k)$ given a word alignment $a$ \citep{koehn-03}:
 \begin{align}
 \label{eq:phrase_prob_k}
-p_w(\bar{f} | \bar{e};a, k) = \prod^{n}_{i=1} \frac{1}{\{|j | (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i | e_j; k)
+p_w(\bar{f} \g \bar{e};a, k) = \prod^{n}_{i=1} \frac{1}{\{|j \g (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i \g e_j; k)
 \end{align}
 where $i$ and $j$ are the word positions in target phrase $\bar{e}$
 and source phrase $\bar{f}$ respectively. 
-Equations~\ref{eq:lexical_prob_k} and \ref{eq:phrase_prob_k} are equivalent to Equations~\ref{eq:lexical_prob} and ~\ref{eq:phrase_prob}, but with the addition of soft topic/domain assignments.
-\citet{Eidelman-12} combines the standard $f(\bar{f}|\bar{e})$ and
+Equations~\ref{eq:lexical_prob_k} and \ref{eq:phrase_prob_k} are equivalent to Equations~\ref{eq:lexical_prob}--\ref{eq:phrase_prob}, but with the addition of soft topic/domain assignments.
+\citet{Eidelman-12} combine the standard $f(\bar{f}|\bar{e})$ and
 $f(\bar{e}|\bar{f})$ with two directions of
 topic-adapted probabilities 
 $p_w(\bar{f} | \bar{e};a, k)$ and $p_w(\bar{e} | \bar{f};a, k)$, equivalent to introducing $2K$ new word translation tables. 
 Feature weights are optimized through
 using the Margin Infused Relaxed
-  Algorithm (MIRA)~\cite[\textsc{mira}]{Crammer-06}.
+  Algorithm~\cite[\textsc{mira}]{Crammer-06}.
 
-For a test document $d$, the document topic distribution $p(k | d)$ is
+For a test document $d$, the document topic distribution $p(k \g d)$ is
 inferred based on the topics learned from training data. The lexical
-weight feature of a phrase pair $(\bar{f}, \bar{e})$ is,
+weight feature of a phrase pair $(\bar{f}, \bar{e})$ is
 \begin{align}
-\textstyle f_{k}(\bar{f}|\bar{e})=-\log\left\{{p_{w}(\bar{f}|\bar{e};k)\cdot p(k|d)}\right\},
+\textstyle f_{k}(\bar{f} \g \bar{e})=-\log\left\{{p_{w}(\bar{f} \g
+  \bar{e};k)\cdot p(k \g d)}\right\},
 \end{align}
 a combination of the topic dependent lexical weight and the topic
 distribution of the document, from which we extract the phrase.
 
 These adapted features allow us to bias the translations according to
 the topics. For example, if topic $k$ is dominant in a test document,
-the feature $f_k(\bar{f} | \bar{e})$ will be large, which may bias the
+the feature $f_k(\bar{f} \g \bar{e})$ will be large, which may bias the
 decoder to a translation that has small value of the standard feature
-$f(\bar{f}|\bar{e})$. In addition, combining the adapted features with
+$f(\bar{f} \g \bar{e})$. In addition, combining the adapted features with
 the standard features makes this model more flexible. For a test
 document with less clear topics, the topic distribution will tend
 toward being fairly uniform. In this case, the topic features will
@@ -483,28 +487,29 @@ Given the bilingual translation
 training data without any specific domain information (referred as
 out-of-domain bilingual data), they incorporate topic information
 from the source language into translation probability estimation, and
-decompose the phrase probability $p(\bar{e}|\bar{f})$ as,
+decompose the phrase probability $p(\bar{e} \g \bar{f})$ as
 \begin{align}
-p(\bar{e}|\bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} | \bar{f}) = \sum_{k_{out}} p(\bar{e} | \bar{f}, k_{out})  \cdot p(k_{out} | \bar{f})
+p(\bar{e} \g \bar{f}) = \sum_{k_{out}} p(\bar{e}, k_{out} \g \bar{f})
+  = \sum_{k_{out}} p(\bar{e} \g \bar{f}, k_{out})  \cdot p(k_{out} \g \bar{f})
 \end{align}
-where $p(\bar{e} | \bar{f}, k_{out})$ is the translation probability given 
+where $p(\bar{e} \g \bar{f}, k_{out})$ is the translation probability given 
 the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the 
 phrase probability in topic $k_{out}$.
 
-Besides, \citet{su-12} assume that a monolingual corpus in the
+In addition, \citet{su-12} assume a monolingual corpus in the
 same domain as the test sentence (referred to as in-domain monolingual
-data) is available. Thus they also apply \textsc{htmm} to estimate the
-in-domain topic $k_{in}$ and $p(k_{in} | \bar{f})$.  However, the
+data). Thus they also apply \textsc{htmm} to estimate the
+in-domain topic $k_{in}$ and $p(k_{in} \g \bar{f})$.  However, the
 in-domain topics $k_{in}$ and the out-of-domain topics $k_{out}$ may
 not be in the same space, so \citet{su-12} introduce the topic mapping
-probability $p(k_{out} | k_{in})$ to map the in-domain topic to the
+probability $p(k_{out} \g k_{in})$ to map the in-domain topic to the
 out-of-domain topic:
 \begin{align}
-p(k_{out} | \bar{f}) = \sum_{k_{in}} p(k_{out} | k_{in}) \cdot  p(k_{in} | \bar{f})
+p(k_{out} \g \bar{f}) = \sum_{k_{in}} p(k_{out} \g k_{in}) \cdot  p(k_{in} \g \bar{f})
 \end{align}
-As a result, the final phrase probability can be refined as,
+As a result, the final phrase probability becomes
 \begin{align}
-p(\bar{e}|\bar{f}) = \sum_{k_{out}} \sum_{k_{in}} p(\bar{e} | \bar{f}, k_{out}) \cdot p(k_{out} | k_{in}) \cdot p(k_{in} | \bar{f})
+p(\bar{e} \g \bar{f}) = \sum_{k_{out}} \sum_{k_{in}} p(\bar{e} \g \bar{f}, k_{out}) \cdot p(k_{out} \g k_{in}) \cdot p(k_{in} \g \bar{f}).
 \end{align}
 The topic and topic mapping relationship
 between the training data and test data can be built offline, so the
@@ -534,19 +539,24 @@ Aligning across multiple languages is a common way of resolving such ambiguities
 While many of the approaches described in this chapter try to model the source and target
 languages simultaneously to extract topics, some of the benefit of multilingual models can be achieved by aligning monolingual models. \citet{xiao-12} apply
 topic models on the source documents and target documents separately
-to learn the document-topic distributions $p(k_f | d_f)$ and $p(k_e |
+to learn the document-topic distributions $p(k_f \g d_f)$ and $p(k_e \g
 d_e)$, and then estimate the phrase-topic probabilities $p(\bar{e}, k_f
-| \bar{f})$ and $p(\bar{e}, k_e | \bar{f})$ from each model. They further
+\g \bar{f})$ and $p(\bar{e}, k_e \g \bar{f})$ from each model. They further
 compute the topic similarity scores between the phrase topic
 distribution and document topic distribution as features for decoding
 to improve \textsc{smt} results.
 
-To translate a new document $d_f$, they first estimate the document-topic distribution $p(k_f |
+To translate a new document $d_f$, they first estimate the document-topic distribution $p(k_f \g
 d_f)$.
-Then for a given phrase $\bar{f}$ in the source document they search for the target phrase $\bar{e}$ that maximizes the similarity between the source document's topic distribution $p(k_f|d_f)$ and the phrase-topic distribution $p(\bar{e}, k_f|\bar{f})$ according to squared Hellinger distance $H^2(p,q) = \sum_k \left(\sqrt{p_k} - \sqrt{q_k} \right)^2$.
+Then for a given phrase $\bar{f}$ in the source document they search
+for the target phrase $\bar{e}$ that maximizes the similarity between
+the source document's topic distribution $p(k_f \g d_f)$ and the
+phrase-topic distribution $p(\bar{e}, k_f \g \bar{f})$ according to
+squared Hellinger distance $H^2(p, q) = \sum_k \left(\sqrt{p_k} - \sqrt{q_k} \right)^2$.
 Second, they calculate a projection between the two monolingual topic models $p(k_f
-| k_e)$  by normalizing the co-occurrence count in the aligned training
-sentences, and use this relationship to calculate the conditional distribution of target phrases and target topics $p(\bar{e}, k_e|\bar{f})$.
+\g k_e)$  by normalizing the co-occurrence count in the aligned training
+sentences, and use this relationship to calculate the conditional
+distribution of target phrases and target topics $p(\bar{e}, k_e \g \bar{f})$.
 
 This topic projection idea is similar to the topic mapping by
 \citet{su-12}, but it is applied between the source language and the
@@ -559,19 +569,19 @@ be combined to further improve \textsc{smt}.
 
 
 A critical component of machine translation systems is the language
-models, which provide local constraints and preferences to make
+model, which provide local constraints and preferences to make
 translations more coherent. A language model describes the probability
 of a word $w$ occurring given the previous context words, which is
-also mentioned as the history $h$. We have introduced the application
-of language models in information retrieval in
-Chapter~\ref{sec:ir-lm}. In fact, it also helps to choose the correct
-or more proper word during the statistical machine translation. For
-example, the English words ``house'' and ``home'' are in many cases synonymous, but the translation ``I am going home'' is better than
-``I am going house''.
+also mentioned as the history $h$ (Chapter~\ref{sec:ir-lm} discusses
+language models for information retrieval). They also help choose the
+correct or more appropriate word during statistical machine
+translation. For example, the English words ``house'' and ``home'' are
+in many cases synonymous, but the translation ``I am going home'' is
+better than ``I am going house''.
 
 Domain adaptation for language models~\citep{Bellegarda-04,wood-09}
-use extra knowledge to adjust this probability $p(w|h)$ to reflect
-the content change, which is an important avenue for improving machine
+use extra knowledge to adjust this probability $p(w \g h)$ to reflect
+a change in context, which is an important avenue for improving machine
 translation. As \citet{Bellegarda-04} points out, ``an adaptive
 language model seeks to maintain an adequate representation of the
 current task domain under changing conditions involving potential
@@ -592,13 +602,14 @@ phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is translated to
 Early work~\citep{Clarkson-1997,Seymore-1997,Kneser-1997,Iyer-1999} focuses on
 partitioning the training data to multiple topic-specific subsets and
 building up language models for each subset. Then the topic-specific
-language models $p_k(w|h)$ are linearly combined with a general
-language model $p_g(w|h)$ built from all training data as
+language models $p_k(w \g h)$ are linearly combined with a general
+language model $p_g(w \g h)$ built from all training data as
 Equation~\ref{eq:linear_lm}. The weights $\lambda_k$ can be tuned
 based on the topics of the test documents.
 \begin{align}
 \label{eq:linear_lm}
-p_\textrm{adapted}(w|h) = \sum_k \lambda_k p_k(w|h) + \lambda_g p_g(w|h)
+p_\textrm{adapted}(w \g h) = \sum_k \lambda_k p_k(w \g h) + \lambda_g
+  p_g(w \g h)
 \end{align}
 
 \citet{Seymore-1998} further identify the most appropriate topic for
@@ -617,19 +628,22 @@ to exactly one topic cluster.
 To fix these problems, models with topic mixtures, such as
 \emph{Latent Semantic Analysis}~\citep[\textsc{lsa}]{deerwester-90}
 and its probabilistic interpretation probabilistic latent semantic
-indexing (pLSI)~\citep[\textsc{plsi}]{hofmann-99},
+indexing (p\abr{lsi})~\citep[\textsc{plsi}]{hofmann-99},
 learn large-span language
 models~\citep{Bellegarda-1997,Coccaro-1998,Gildea-1999}. \citet{Gildea-1999}
 decomposes the language model based on topics,
 \begin{align}
 \label{eq:plsi_lm}
-p(w|h) = \sum_k p(w|k) p(k|h)
+p(w \g h) = \sum_k p(w \g k) p(k \g h)
 \end{align}
 where the topics are learned from the training corpus by optimizing the log probability,
 \begin{align}
-l(\theta; N) = \sum_w \sum_d n(w,d) \log \sum_k p(w|k) p(k|d)
+l(\theta; N) = \sum_w \sum_d n(w, d) \log \sum_k p(w \g k) p(k \g d)
 \end{align}
-where $d$ is the training documents, and $n(w,d)$ is the word frequency of $w$ in document $d$. $p(w|k)$ and $p(k|d)$ are learned through the EM algorithm. For test documents, they fix $p(w|k)$ to estimate $p(k|h)$ and then compute $p(w|h)$ using Equation~\ref{eq:plsi_lm}. 
+where $d$ is the training documents, and $n(w,d)$ is the word
+frequency of $w$ in document $d$. $p(w \g k)$ and $p(k \g d)$ are
+learned through the EM algorithm. For test documents, they fix $p(w \g
+k)$ to estimate $p(k \g h)$ and then compute $p(w \g h)$ using Equation~\ref{eq:plsi_lm}. 
 
 This way of applying topic models to language models is 
 similar to document language modeling for information retrieval
@@ -644,15 +658,15 @@ for language model adaptation.
 
 As we explain in Section~\ref{sec:trans-multiling}, the information
 from different languages can complement each other to extract better
-topics. Latent semantic models such as LSA have been used in
+topics. Latent semantic models such as \abr{lsa} have been used in
 multilingual information retrieval for many years
 \citep{carbonell1997translingual}.
 We now describe approaches to add \emph{multilingual} information to probabilistic topic models
 for language model adaptation.
 
-\citet{Tam-2007} introduces the bilingual latent semantic
+\citet{Tam-2007} introduce bilingual latent semantic
 analysis~(\textsc{blsa}) to learn the topics for both source language
-and target language, and apply the learned topics into language model
+and target language and apply the learned topics to language model
 adaptation for \textsc{smt}. Similar to polylingual topic models~\citep{mimno-09}, 
 \textsc{blsa} transfers the inferred
 topics from the source language to the parallel target language.
@@ -670,18 +684,22 @@ efficiently.
 In order to apply the topics for language adaptation, the word
 marginal distribution $p_{lsa}(w)$ for document $d$ is computed,
 \begin{align}
-p_{lsa}(w) = \sum_{k=1}^K p(w|k) p(k|d)
+p_{lsa}(w) = \sum_{k=1}^K p(w \g k) p(k \g d)
 \end{align}
-Then this word marginal distribution is integrated into the target background language model by minimizing the KL divergence between the adapted language model and the background language model~\citep{Kneser-1997b}:
+Then this word marginal distribution is integrated into the target
+background language model by minimizing the KL divergence between the
+adapted language model and the background language
+model~\citep{Kneser-1997b}:
 \begin{align}
 \label{eq:mdi}
-p_a(w|h) \propto \Big( \frac{p_{lsa}(w)}{p_{bg}(w)} \Big) ^{\beta} \cdot p_{bg}(w|h)
+p_a(w \g h) \propto \left( \frac{p_{lsa}(w)}{p_{bg}(w)} \right) ^{\beta}
+  \cdot p_{bg}(w \g h)
 \end{align}
 
 \citet{Ruiz-2011} apply a similar idea for language model
 adaptation. Instead of using \textsc{blsa}, \citet{Ruiz-2011} 
 merge the aligned source and target document as one document, and
-train pLSI. Both ideas are
+train p\abr{lsi}. Both ideas are
 based on the assumption that the aligned source document and target
 document share the same document-topic distribution. The final adapted
 language model combines the topic-based language model with the
@@ -694,12 +712,13 @@ the language model in \textsc{smt}. They build up a topic model on the
 source side and target side respectively, and learn a topic-specific
 language model based on the target side by estimating the
 maximum-likelihood. To smooth the sharply distributed probabilities,
-back-off probabilities are also considered as follows:
+they back off to other distributions:
 \begin{align}
-p(w_i | w^{i-1}_{i-n+1}, k_e) = &\lambda_{w^{i-1}_{i-n+1}} p_{MLE}(w_i|w^{i-1}_{i-n+1}, k_e) \\
-&+ (1- \lambda_{w^{i-1}_{i-n+1}})p_{MLE}(w_i|w^{i-1}_{i-n+2}, k_e)
+p(w_i \g w^{i-1}_{i-n+1}, k_e) = &\lambda_{w^{i-1}_{i-n+1}}
+                                   p_{MLE}(w_i \g w^{i-1}_{i-n+1}, k_e) \\
+&+ (1- \lambda_{w^{i-1}_{i-n+1}})p_{MLE}(w_i \g w^{i-1}_{i-n+2}, k_e)
 \end{align}
-where $\lambda$ is the normalization parameter, calculated by,
+where $\lambda$ is the normalization parameter
 \begin{align}
 \lambda_{w^{i-1}_{i-n+1}, k_e} = \frac{N_{1+}(w^{i-1}_{i-n-1},
   k_e)}{N_{1+}(w^{i-1}_{i-n-1}, k_e) + \sum_{w_i}c(w^i_{i-n+1}, k_e)}
@@ -708,13 +727,14 @@ where $N_{1+}(w^{i-1}_{i-n-1}, k_e)$ is the number of words following
 $w^{i-1}_{i-n-1}$ in topic $k_e$, and $c(w^i_{i-n+1}, k_e)$ is the
 count of n-gram $w^i_{i-n+1}$ in $k_e$.
 
-During the decoding, since no target sentence is available, they extract the topics on the 
+During decoding, since no target sentence is available, they extract the topics on the 
 source side and project the source topic to the target side. 
-The target probability is estimated as following:
+The target probability is:
 \begin{align}
-p(e) = \sum_{k_e} p(e|k_e) p(k_e) = \sum_{k_e} p(e|k_e) \cdot \sum_{k_f} p(k_e|k_f) p (k_f)
+p(e) = \sum_{k_e} p(e \g k_e) p(k_e) = \sum_{k_e} p(e \g k_e) \cdot
+  \sum_{k_f} p(k_e \g k_f) p (k_f)
 \end{align}
-where $p(k_e|k_f)$ is the topic projection probability, estimated by
+where $p(k_e \g k_f)$ is the topic projection probability, estimated by
 the co-occurrence of the source-side and the target-side topic assignment.
 
 
@@ -744,7 +764,7 @@ topic, the Chinese word \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is on the
 \begin{table}[!tp]
 \begin{center}
 \setlength\tabcolsep{3pt}
-\begin{tabular}{c || c c} \hline
+\begin{tabular}{c c c} \hline
 Topic & Type & Example \\ \hline \hline
 \multirow{2}{*}{Economy} & Source & $\cdots$ \textbf{\begin{CJK*}{UTF8}{gbsn}比五\end{CJK*}} \begin{CJK*}{UTF8}{gbsn}月份下降\end{CJK*}$3.8\%$ $\cdots$\\
                      & Target & $\cdots$ down $3.8\%$ from May $\cdots$\\ \hline
@@ -779,7 +799,7 @@ distributions of the test documents first and then apply this proposed
 topic-based reordering model as one sub-model to the log-linear maximum entropy model
 to obtain the best translation:
 \begin{align}
-e_\texttt{best} = \texttt{argmax}_e \Big \{ \sum_{m=1}^M \lambda_m h_m(e,f) \Big \}
+e_\texttt{best} = \texttt{argmax}_e \left\{ \sum_{m=1}^M \lambda_m h_m(e,f) \right\}
 \end{align}
 where $h_m(e,f)$ are the sub-models or features of the whole
 log-linear model, $\lambda_m$ are their weights accordingly, which are
@@ -815,12 +835,11 @@ chain into the document translation decoding process.
 
 \section{Summary}
 
-Topic models are not limited to a single language and different languages
-can be connected on either document level or word level.
-In general, multilingual topic models obtain topics with high quality,
+Topic models are not limited to a single language and different
+languages can be connected on either document level or word
+level. Multilingual topic models obtain topics with high quality,
 since different languages can complement each other to reduce topic
-ambiguity. Many different approaches have been explored to apply such
-multilingual topic models to improve different pieces of statistical
-machine translation. With such topic knowledge, the variations of
-different languages can be better captured to make the translations
-more natural and coherent.
+ambiguity. Many different approaches apply multilingual topic models
+to improve different pieces of the statistical machine translation pipeline. With
+such topic knowledge, the variations of different languages can be
+better captured to make the translations more natural and coherent.
