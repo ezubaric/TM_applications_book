@@ -14,7 +14,7 @@ These models are useful for organizing corpora, but make no attempt to support a
 The second category is those that explicitly model word-level alignments across languages.
 These models support applications in statistical machine translation~(\textsc{smt}).
 
-As one most frequent application for multilingual topic models, \textsc{smt} tries
+As one of the most frequent applications for multilingual topic models, \textsc{smt} tries
 to find a sequence of words in one language  which match the meaning of a text input
 in another language. While the training data of \textsc{smt} requires explicit aligned sentences
 in different languages, multilingual topic models relax this data restriction and are flexible to 
@@ -44,7 +44,7 @@ In a case where a user is browsing a multilingual collection with only monolingu
 to find relevant documents, multilingual topic models can help. Such collections contain
 multiple languages, but does not necessarily have the exact matching or translations 
 on words and sentences. Only a coarse document alignment is necessary, as long as the documents
-discuss the same topics, e.g., wikipedia articles in different
+discuss the same topics, e.g., Wikipedia articles in different
 languages. Such connection between languages is also helpful to infer
 more robust topics, since different languages can complement each
 other to reduce ambiguity.
@@ -54,7 +54,8 @@ This approach pre-dates probabilistic topic models.
 by projecting both documents to a shared latent semantic indexing
 space.
 
-Similarly, bilingual~\citep{zhao-06} and polylingual topic models~\citep[\plda{}]{mimno-09}
+Similarly, bilingual topic models~\citep{zhao-06} and polylingual topic models~\citep{mimno-09}
+such as polylingual Latent Dirichlet Allocation~(\plda{})
 assume that the aligned documents in different languages share the
 same topic distribution and each language has a unique topic
 distribution over its word types.
@@ -125,7 +126,8 @@ multilingual dictionaries~\citep{Zhang-10} and orthographic relations
 between words~\citep{boyd-graber-09} to help users
 who want to understand a collection.
 
-For instance, tree-based topic models \abr{tlda}~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
+For instance, tree-based topic models such as tree-based Latent Dirichlet 
+Allocation~(\abr{tlda})~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
 {\bf concept} to have similar probabilities given a
@@ -195,9 +197,9 @@ simple lexical relationships that might be difficult to extract from parallel co
 But such manually generated data may be brittle, low-quality, or missing contextual differences in actual usage.
 These two approaches are not mutually exclusive, however; they reveal
 different connections across languages. \citet{hu-14} bring existing
-tree-based topic models~(\tlda{}) and polylingual topic
-models~(\plda{}) together and create the polylingual tree-based topic
-model~(\ptlda{}) that incorporates both word-level correlations and
+tree-based Latent Dirichlet Allocation~(\tlda{}) and polylingual Latent Dirichlet 
+Allocation~(\plda{}) together and create the polylingual tree-based Latent Dirichlet 
+Allocation~(\ptlda{}) that incorporates both word-level correlations and
 document-level alignment information.
 
 To build up the prior tree structure, \citet{hu-14} consider two
@@ -252,7 +254,7 @@ domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in the
   in the training set.  This is called \emph{domain adaptation}.
 
 To train such \textsc{smt} systems, early
-efforts focus on building separate models given the hand-labeled
+efforts focused on building separate models given the hand-labeled
 domains~\citep{foster-07,matsoukas-09,chiang-11}. However, this setup
 is at best expensive and at worst infeasible for large data.  Topic
 models provide a promising solution where domains can be automatically
