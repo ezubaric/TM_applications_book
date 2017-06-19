@@ -46,24 +46,6 @@
 }
 
 @inproceedings{abbeel-04,
-               abstract	= {{We consider learning in a Markov decision process where		  we are not explicitly given a reward function, but where
-		  instead we can observe an expert demonstrating the task
-		  that we want to learn to perform. This setting is useful in
-		  applications (such as the task of driving) where it may be
-		  difficult to write down an explicit reward function
-		  specifying exactly how different desiderata should be
-		  traded off. We think of the expert as trying to maximize a
-		  reward function that is expressible as a linear combination
-		  of known features, and give an algorithm for learning the
-		  task demonstrated by the expert. Our algorithm is based on
-		  using "inverse reinforcement learning" to try to recover
-		  the unknown reward function. We show that our algorithm
-		  terminates in a small number of iterations, and that even
-		  though we may never recover the expert's reward function,
-		  the policy output by the algorithm will attain performance
-		  close to that of the expert, where here performance is
-		  measured with respect to the expert's unknown reward
-		  function.}},
                author	= {Abbeel, Pieter and Ng, Andrew Y.},
                booktitle	= icml,
                citeulike-article-id={4509413},
@@ -273,7 +255,7 @@
 
 @inproceedings{alsumait-08,
                author	= {AlSumait, Loulwah and Barbar\'{a}, Daniel and Domeniconi,		  Carlotta},
-               title		= {On-line LDA: Adaptive Topic Models for Mining Text Streams		  with Applications to Topic Detection and Tracking},
+               title		= {On-line {LDA}: Adaptive Topic Models for Mining Text Streams		  with Applications to Topic Detection and Tracking},
                booktitle	= icdm,
                year		= {2008},
 }
@@ -332,13 +314,6 @@
                biburl	= {http://www.bibsonomy.org/bibtex/27aa33cf81f62a4f8f76f845dbdefeb2e/dblp},
                booktitle	= colt,
                title		= {A Method of Moments for Mixture Models and Hidden Markov		  Models.},
-               year		= 2012
-}
-
-@inproceedings{anandkumar-12:lda,
-               author	= {Anandkumar, Anima and Foster, Dean P. and Hsu, Daniel and		  Kakade, Sham and Liu, Yi-Kai},
-               booktitle	= nips,
-               title		= {A Spectral Algorithm for Latent {D}irichlet Allocation.},
                year		= 2012
 }
 
@@ -642,31 +617,6 @@
 }
 
 @inproceedings{banko-07,
-               abstract	= {Traditionally, Information Extraction (IE) has focused on		  satisfying precise, narrow, pre-specified requests from
-		  small homogeneous corpora (e.g., extract the location and
-		  time of seminars from a set of announcements). Shifting to
-		  a new domain requires the user to name the target relations
-		  and to manually create new extraction rules or hand-tag new
-		  training examples. This manual labor scales linearly with
-		  the number of target relations. This paper introduces Open
-		  IE (OIE), a new extraction paradigm where the system makes
-		  a single data-driven pass over its corpus and extracts a
-		  large set of relational tuples without requiring any human
-		  input. The paper also introduces TextRunner, a fully
-		  implemented, highly scalable OIE system where the tuples
-		  are assigned a probability and indexed to support efficient
-		  extraction and exploration via user queries. We report on
-		  experiments over a 9,000,000 Web page corpus that compare
-		  TextRunner with KnowItAll, a state-of-the-art Web IE
-		  system. TextRunner achieves an error reduction of 33\% on a
-		  comparable set of extractions. Furthermore, in the amount
-		  of time it takes KnowItAll to perform extraction for a
-		  handful of pre-specified relations, TextRunner extracts a
-		  far broader set of facts reflecting orders of magnitude
-		  more relations, discovered on the fly. We report statistics
-		  on TextRunner's 11,000,000 highest probability tuples and
-		  show that they contain over 1,000,000 concrete facts and
-		  over 6,500,000 more abstract assertions.},
                author	= {Banko, Michele and Cafarella, Michael J. and Soderland,		  Stephen and Broadhead, Matthew and Etzioni, Oren},
                booktitle	= ijcai,
                citeulike-article-id={1106067},
@@ -721,17 +671,6 @@
 		  network;interactive interface;graph;force
 		  vector;java;OpenGL;3-D visualization;user-centric;graph
 		  layout;complex graph rendering;network analysis;webatlas},
-               abstract	= {Gephi is an open source software for graph and network		  analysis. It uses a 3D render engine to display large
-		  networks in real-time and to speed up the exploration. A
-		  flexible and multi-task architecture brings new
-		  possibilities to work with complex data sets and produce
-		  valuable visual results. We present several key features of
-		  Gephi in the context of interactive exploration and
-		  interpretation of networks. It provides easy and broad
-		  access to network data and allows for spatializing,
-		  filtering, navigating, manipulating and clustering.
-		  Finally, by presenting dynamic features of Gephi, we
-		  highlight key aspects of dynamic network visualization.},
 }
 
 @inproceedings{basu-10,
@@ -776,14 +715,6 @@
 }
 
 @inproceedings{beal-08,
-               abstract	= {{We show that it is possible to extend hidden Markov		  models to have a countably infinite number of hidden
-		  states. By using the theory of Dirichlet processes we can
-		  implicitly integrate out the infinitely many transition
-		  parameters, leaving only three hyperparameters which can be
-		  learned from data. These three hyperparameters define a
-		  hierarchical Dirichlet process capable of capturing a rich
-		  set of transition dynamics. The three hyperparameters
-		  control the time scale of the dynamics, the...}},
                author	= {Beal, M. J. and Ghahramani, Z. and Rasmussen, C. E.},
                booktitle	= nips,
                title		= {The Infinite Hidden Markov Model},
@@ -817,18 +748,10 @@
 }
 
 @inproceedings{bellegarda-1997,
-               author	= {J. Bellegarda},
+               author	= {Jerome R. Bellegarda},
                title		= {A latent semantic analysis framework for large-span		  language modeling},
                booktitle	= {European Conference on Speech Communication and		  Technology},
                year		= {1997}
-}
-
-@inproceedings{bellegarda:04,
-               author	= {Jerome R. Bellegarda},
-               title		= {Statistical language model adaptation: review and		  perspectives},
-               journal	= {Speech Communication},
-               year		= {2004},
-               volume	= {42},
 }
 
 @inbook{ben-hur-09,
@@ -843,7 +766,7 @@
 @inproceedings{bender-11,
                author	= {Bender, Emily M. and Morgan, Jonathan T. and Oxley, Meghan		  and Zachry, Mark and Hutchinson, Brian and Marin, Alex and
 		  Zhang, Bin and Ostendorf, Mari},
-               title		= {Annotating social acts: authority claims and alignment		  moves in Wikipedia talk pages},
+               title		= {Annotating social acts: authority claims and alignment		  moves in {W}ikipedia talk pages},
                booktitle	= {Proceedings of the Workshop on Languages in Social Media		  (LSM)},
                year		= {2011},
                numpages	= {10}
@@ -1340,7 +1263,7 @@
 @article{bowen-16,
          author  = {Shannon Bowen},
          title   = {Pseudo-events pay dividends from {C}leopatra to {C}hipotle},
-         journal = {PR Week},
+         journal = {Public Relations Week},
          year    = {2016}
 }
 
@@ -1349,7 +1272,6 @@
       author	= {Box, G.E.P. and Draper, N.R.},
       lccn		= {lc86004064},
       series	= {Wiley series in probability and mathematical statistics:		  Applied probability and statistics},
-      url		= {https://books.google.com/books?id=QO2dDRufJEAC},
       year		= {1987},
       publisher	= {Wiley}
 }
@@ -1584,7 +1506,7 @@
 @article{broniatowsky-15,
          author	= "Broniatowski, Andre David and Dredze, Mark and Paul, J. Michael and Dugas, Andrea",
          title		= "Using Social Media to Perform Local Influenza Surveillance in an Inner-City Hospital: A Retrospective Observational Study",
-         journal	= "JMIR Public Health Surveill",
+         journal	= "JMIR Public Health and Surveillance",
          year		= "2015",
          month		= "May",
          day		= "29",
@@ -1678,7 +1600,7 @@
 
 @inproceedings{butler-08,
                author	= {Butler, Brian and Joyce, Elisabeth and Pike, Jacqueline},
-               title		= {Don't look now, but we've created a bureaucracy: the		  nature and roles of policies and rules in wikipedia},
+               title		= {Don't look now, but we've created a bureaucracy: the		  nature and roles of policies and rules in {W}ikipedia},
                booktitle	= chi,
                year		= {2008}
 }
@@ -1744,7 +1666,7 @@
 @inproceedings{carbonell1997translingual,
                title={Translingual information retrieval: A comparative evaluation},
                author={Carbonell, Jaime G and Yang, Yiming and Frederking, Robert E and Brown, Ralf D and Geng, Yibing and Lee, Danny},
-               year={1997}, booktitle={IJCAI}
+               year={1997}, booktitle=ijcai,
 }
 
 @inproceedings{Carman-2010,
@@ -1825,7 +1747,7 @@
 
 @inproceedings{chai-04,
                author	= {Xiaoyong Chai and Lin Deng and Qiang Yang and Charles X.		  Ling},
-               booktitle	= {IEEE International Conference on Data Mining},
+               booktitle	= icdm,
                masid		= {1796808},
                title		= {Test-Cost Sensitive Naive Bayes Classification},
                year		= {2004}
@@ -2074,10 +1996,10 @@
 }
 
 @inproceedings{chuang-15,
-               title		= {TopicCheck: Interactive Alignment for Assessing Topic		  Model Stability},
+               title		= {{TopicCheck}: Interactive Alignment for Assessing Topic		  Model Stability},
                author	= {Jason Chuang AND Margaret E. Roberts AND Brandon M.		  Stewart AND Rebecca Weiss AND Dustin Tingley AND Justin
 		  Grimmer AND Jeffrey Heer},
-               booktitle	= {NAACL-HLT},
+               booktitle	= naacl,
                year		= {2015},
 }
 
@@ -2116,7 +2038,7 @@
 
 @inproceedings{ciaramita-00,
                author	= {Massimiliano Ciaramita and Mark Johnson},
-               booktitle	= {COLING-00},
+               booktitle	= coling,
                title		= {Explaining away ambiguity: Learning verb selectional		  preference with Bayesian networks},
                year		= {2000}
 }
@@ -2245,7 +2167,7 @@
 }
 
 @inproceedings{collobert-11,
-               title = {Torch7: A Matlab-like Environment for Machine Learning},
+               title = {Torch7: A {Matlab}-like Environment for Machine Learning},
                author = {R. Collobert and K. Kavukcuoglu and C. Farabet},
                booktitle = {BigLearn, NIPS Workshop},
                year = {2011}
@@ -2418,9 +2340,9 @@
 }
 
 @inproceedings{das2010ranking,
-               title		= {Ranking mechanisms in twitter-like forums},
+               title		= {Ranking mechanisms in {T}witter-like forums},
                author	= {Das Sarma, Anish and Das Sarma, Atish and Gollapudi,		  Sreenivas and Panigrahy, Rina},
-               booktitle	= {Proceedings of the third ACM international conference on		  Web search and data mining},
+               booktitle	= wsdm,
                year		= {2010},
                organization	= {ACM}
 }
@@ -2907,7 +2829,7 @@
 
 @inproceedings{eisner-96,
                author	= {Jason Eisner},
-               booktitle	= {Proceedings of the 16th International Conference on		  Computational Linguistics (COLING-96)},
+               booktitle	= coling,
                month		= {August},
                title		= {Three New Probabilistic Models for Dependency Parsing: An		  Exploration},
                year		= 1996
@@ -2982,7 +2904,7 @@
 }
 
 @article{erlin2017topic,
-         author={Matt Erlin}, title={Topic Modeling, Epistemology, and the English and German Novel},
+         author={Matt Erlin}, title={Topic Modeling, Epistemology, and the {English and German} Novel},
          journal={Cultural Analytics}, year={2017}, month={May}
 }
 
@@ -3528,7 +3450,7 @@
 @inproceedings{foster-07,
                author	= {Foster, George and Kuhn, Roland},
                booktitle	= {Proceedings of the Second Workshop on Statistical Machine		  Translation},
-               title		= {Mixture-model adaptation for SMT},
+               title		= {Mixture-model adaptation for {SMT}},
                year		= {2007}
 }
 
@@ -3751,17 +3673,6 @@
 }
 
 @inproceedings{genia,
-               abstract	= {With the information overload in genome-related fields,		  there is an infreest need for natural language processing
-		  technology to extract information from literature and
-		  various attempts of information ex- traction using NLP has
-		  been being made. We are developing the necessary resources
-		  including domain ontology and annotated cor- pus from
-		  research abstracts in MEDLINE database (GENIA cor- pus). We
-		  are building the ontology and the corpus simultaneously,
-		  using each other. In this paper we report on our new
-		  corpus, its ontological basis, annotation scheme and
-		  statistics of annotated objects. We also describe the tools
-		  used for corpus annotation and management.},
                author	= {Ohta, Tomoko and Tateisi, Yuka and Kim, Jin-Dong},
                booktitle	= {Proceedings of HLT},
                citeulike-article-id={2005962},
@@ -3807,21 +3718,6 @@
 
 @inproceedings{georgila-11,
                title		= {Reinforcement Learning of Argumentation Dialogue Policies		  in Negotiation},
-               abstract	= {We build dialogue system policies for negotiation, and in		  particular for argumentation. These dialogue policies are
-		  designed for negotiation against users of different
-		  cultural norms (individualists, collectivists, and
-		  altruists). In order to learn these policies we build
-		  simulated users {(SUs)}, i.e. models that simulate the
-		  behavior of real users, and use reinforcement learning
-		  {(RL).} The {SUs} are trained on a spoken dialogue corpus
-		  in a negotiation domain, and then tweaked towards a
-		  particular cultural norm using hand-crafted rules. We
-		  evaluate the learned policies in a simulation setting. Our
-		  results are consistent with our {SUs}, in other words, the
-		  policies learn what they are designed to learn, which shows
-		  that {RL} is a promising technique for learning policies in
-		  domains, such as argumentation, that are more complex than
-		  standard slot-filling applications.},
                booktitle	= interspeech,
                author	= {Georgila, Kallirroi and Traum, David},
                month		= aug,
@@ -3927,7 +3823,7 @@
 @inproceedings{gildea-1999,
                author	= {Gildea, Daniel and Hofmann, Thomas},
                booktitle	= {EEuropean Conference on Speech Communication and		  Technology},
-               title		= {Topic-based language models using EM},
+               title		= {Topic-based language models using {EM}},
                year		= 1999
 }
 
@@ -4034,7 +3930,7 @@
 
 @inproceedings{golbeck-12,
                author	= {Golbeck, Jennifer},
-               title		= {The twitter mute button: a web filtering challenge},
+               title		= {The {T}witter mute button: a web filtering challenge},
                booktitle	= chi,
                year		= {2012}
 }
@@ -4268,7 +4164,7 @@
 
 @article{grimmer-10,
          author	= {Jusin Grimmer},
-         title		= {A Bayesian Hierarchical Topic Model for Political Texts:		  Measuring Expressed Agendas in Senate Press},
+         title		= {A {B}ayesian hierarchical topic model for political texts:		  Measuring expressed agendas in Senate press},
          journal	= {Political Analysis},
          publisher	= {Oxford University Press},
          year		= {2010}
@@ -4639,7 +4535,7 @@
                author	= {Hasler, Eva and Haddow, Barry and Koehn, Philipp},
                title		= {Sparse Lexicalised Features and Topic Adaptation for		  {SMT}},
                year		= {2012},
-               booktitle	= {Proceedings of IWSLT}
+               booktitle	= {Proceedings of International Workshop on Spoken Language Translation}
 }
 
 @article{hawes-08,
@@ -4690,7 +4586,7 @@
 
 @inproceedings{headden-08,
                author	= {Headden III, William P. and McClosky, David and Charniak,		  Eugene},
-               booktitle	= {Proceedings of the 22nd International Conference on		  Computational Linguistics (Coling 2008)},
+               booktitle	= coling,
                keywords	= {UnsupParsing},
                title		= {Evaluating Unsupervised Part-of-Speech Tagging for Grammar		  Induction},
                year		= {2008}
@@ -4808,7 +4704,7 @@
 @article{hirschman-01,
          author	= {Hirschman, L. and Gaizauskas, R.},
          title		= {Natural Language Question Answering: The View from Here},
-         journal	= {Nat. Lang. Eng.},
+         journal	= {Natural Language Engineering},
          issue_date	= {December 2001},
          volume	= {7},
          number	= {4},
@@ -4847,14 +4743,6 @@
 }
 
 @inproceedings{hofmann-99,
-               abstract	= {Probabilistic Latent Semantic Analysis is a novel		  statistical technique for the analysis of two--mode and
-		  co-occurrence data, which has applications in information
-		  retrieval and filtering, natural language processing,
-		  machine learning from text and in related areas. Compared
-		  to standard Latent Semantic Analysis which stems from
-		  linear algebra and performs a Singular Value Decomposition
-		  of co-occurrence tables, the proposed method is based on a
-		  mixture decomposition derived from a latent class...},
                author	= {Thomas Hofmann},
                booktitle	= uai,
                citeulike-article-id={437884},
@@ -4885,7 +4773,7 @@
 
 @inproceedings{hong-10,
                author = {Hong, Liangjie and Davison, Brian D.},
-               title = {Empirical Study of Topic Modeling in Twitter},
+               title = {Empirical Study of Topic Modeling in {T}witter},
                booktitle = {Proceedings of the First Workshop on Social Media Analytics},
                year = {2010},
                numpages = {9},
@@ -4918,19 +4806,6 @@
 }
 
 @inproceedings{horsch-98,
-               abstract	= {{We present an anytime algorithm which computes policies		  for decision problems represented as multi-stage influence
-		  diagrams. Our algorithm constructs policies incrementally,
-		  starting from a policy which makes no use of the available
-		  information. The incremental process constructs policies
-		  which includes more of the information available to the
-		  decision maker at each step. While the process converges to
-		  the optimal policy, our approach is designed for situations
-		  in which computing the optimal policy is infeasible. We
-		  provide examples of the process on several large decision
-		  problems, showing that, for these examples, the process
-		  constructs valuable (but sub-optimal) policies before the
-		  optimal policy would be available by traditional methods.
-		  1}},
                author	= {Horsch, Michael C. and Poole, David},
                booktitle	= {In Proceedings of the Fourteenth Conference on Uncertainty		  in Artificial Intelligence},
                citeulike-article-id={3153214},
@@ -5197,8 +5072,8 @@
 }
 
 @article{iyer-1999,
-         author	= {Iyer, R. and Ostendorf, M.},
-         booktitle	= {IEEE Transactions on Speech Audio Process},
+         author	= {Iyer, Rukmini and Ostendorf, Mari},
+         journal	= {IEEE Transactions on Speech Audio Process},
          pages		= {236-239},
          title		= {Modeling long distance dependencies in language: topic		  mixtures versus dynamic cache models},
          volume	= {7 },
@@ -5241,30 +5116,9 @@
 }
 
 @inproceedings{jagarlamudi-10,
-               abstract	= { Topic models have been studied extensively in the context		  of monolingual corpora. Though there are some attempts to
-		  mine topical structure from cross-lingual corpora, they
-		  require clues about document alignments. In this paper we
-		  present a generative model called JointLDA which uses a
-		  bilingual dictionary to mine multilingual topics from an
-		  unaligned corpus. Experiments conducted on different data
-		  sets confirm our conjecture that jointly modeling the
-		  cross-lingual corpora offers several advantages compared to
-		  individual monolingual models. Since the JointLDA model
-		  merges related topics in different languages into a single
-		  multilingual topic: a) it can fit the data with relatively
-		  fewer topics. b) it has the ability to predict related
-		  words from a language different than that of the given
-		  document. In fact it has better predictive power compared
-		  to the bag-of-word based translation model leaving the
-		  possibility for JointLDA to be preferred over bag-of-word
-		  model for cross-lingual IR applications. We also found that
-		  the monolingual models learnt while optimizing the
-		  cross-lingual copora are more effective than the
-		  corresponding LDA models. },
                author	= {Jagadeesh Jagarlamudi and Hal {Daum\'{e} III}},
                booktitle	= ecir,
                keywords	= {nlp ml},
-               tagline	= {We show how topic models can be used to model unaligned		  multilingual corpora, such as Wikipedia.},
                title		= {Extracting Multilingual Topics from Unaligned Corpora},
                year		= {2010}
 }
@@ -5401,7 +5255,7 @@
 @inproceedings{jo-11,
                author = {Jo, Yohan and Oh, Alice H.},
                title = {Aspect and Sentiment Unification Model for Online Review Analysis},
-               booktitle = {Proceedings of the Fourth ACM International Conference on Web Search and Data Mining},
+               booktitle = wsdm,
                year = {2011},
                numpages = {10},
                acmid = {1935932},
@@ -5422,7 +5276,6 @@
       author	= {Jockers, Matt L.},
       lccn		= {2012032491},
       series	= {Topics in the Digital Humanities},
-      url		= {http://books.google.com/books?id=mPOdxQgpOSUC},
       year		= {2013},
       publisher	= {University of Illinois Press}
 }
@@ -5732,7 +5585,7 @@
          month = dec,
          posted-at = {2010-03-04 15:19:08},
          priority = {2},
-         title = {{Applications of Topics Models to Analysis of Disaster-Related Twitter Data}},
+         title = {{Applications of Topics Models to Analysis of Disaster-Related {T}witter Data}},
          year = {2009}
 }
 
@@ -5798,15 +5651,6 @@
 }
 
 @inproceedings{klein-06,
-               abstract	= {We present a novel generative model for natural language		  tree structures in which semantic (lexical dependency) and
-		  syntactic (PCFG) structures are scored with separate
-		  models. This factorization provides conceptual simplicity,
-		  straightforward opportunities for separately improving the
-		  component models and a level of performance comparable to
-		  similar, non-factored models. Most importantly, unlike
-		  other modern parsing models, the factored model admits an
-		  extremely effective A* parsing algorithm, which enables
-		  efficient, exact inference.},
                author	= {Dan Klein and Christopher D. Manning},
                booktitle	= nips,
                citeulike-article-id={754242},
@@ -5867,15 +5711,6 @@
 }
 
 @inproceedings{knight-97,
-               abstract	= {It is challenging to translate names and technical terms		  across languages with different alphabets and sound
-		  inventories. These items are commonly transliterated, i.e.,
-		  replaced with approximate phonetic equivalents. For
-		  example, computer in English comes out as 'S4E{\o}{\O}{\o}
-		  (konpyuutaa) in Japanese. Translating such items from
-		  Japanese back to English is even more challenging and of
-		  practical interest, as transliterated items make up the
-		  bulk of text phrases not found in bilingual dictionaries.
-		  We ...},
                author	= {Knight, Kevin and Graehl, Jonathan},
                booktitle	= acl,
                title		= {Machine Transliteration},
@@ -5966,23 +5801,8 @@
 }
 
 @inproceedings{kohlschuetter-10,
-               abstract	= {{In addition to the actual content Web pages consist of		  navigational elements, templates, and advertisements. This
-		  boilerplate text typically is not related to the main
-		  content, may deteriorate search precision and thus needs to
-		  be detected properly. In this paper, we analyze a small set
-		  of shallow text features for classifying the individual
-		  text elements in a Web page. We compare the approach to
-		  complex, state-of-the-art techniques and show that
-		  competitive accuracy can be achieved, at almost no cost.
-		  Moreover, we derive a simple and plausible stochastic model
-		  for describing the boilerplate creation process. With the
-		  help of our model, we also quantify the impact of
-		  boilerplate removal to retrieval performance and show
-		  significant improvements over the baseline. Finally, we
-		  extend the principled approach by straight-forward
-		  heuristics, achieving a remarkable detection accuracy.}},
                author	= {Kohlsch\"{u}tter, Christian and Fankhauser, Peter and		  Nejdl, Wolfgang},
-               booktitle	= {Proceedings of the third ACM international conference on		  Web search and data mining},
+               booktitle	= wsdm,
                citeulike-article-id={8241255},
                citeulike-linkout-0={http://portal.acm.org/citation.cfm?id=1718542},
                citeulike-linkout-1={http://dx.doi.org/10.1145/1718487.1718542},
@@ -6136,28 +5956,6 @@
                title		= {1 Billion Pages = 1 Million Dollars? Mining the Web to		  Play "Who Wants to be a Millionaire?"},
                booktitle	= uai,
                year		= {2003},
-               abstract	= {We exploit the redundancy and volume of information on the		  web to build a computerized player for the ABC TV game show
-		  Who Wants To Be A Millionaire?. The player consists of a
-		  questionanswering module and a decision-making module. The
-		  question-answering module utilizes question transformation
-		  techniques, natural language parsing, multiple information
-		  retrieval algorithms, and multiple search engines; results
-		  are combined in the spirit of ensemble learning using an
-		  adaptive weighting scheme. Empirically, the system
-		  correctly answers about 75% of questions from the
-		  Millionaire CD-ROM, 3rd editiongeneral-interest trivia
-		  questions often about popular culture and common knowledge.
-		  The decision-making module chooses from allowable actions
-		  in the game in order to maximize expected risk-adjusted
-		  winnings, where the estimated probability of answering
-		  correctly is a function of past performance and confidence
-		  in correctly answering the current question. When given a
-		  six question head start (i.e., when starting from the
-		  \$2,000 level), we find that the system performs about as
-		  well on average as humans starting at the beginning. Our
-		  system demonstrates the potential of simple but well-chosen
-		  techniques for mining answers from unstructured information
-		  such as the web.},
                author	= {Lam, Shyong K. and Pennock, David M. and Cosley, Dan and		  Lawrence, Steve}
 }
 
@@ -6311,7 +6109,7 @@
 
 @inproceedings{lau-10,
                author	= {Lau, Jey Han and Newman, David and Karimi, Sarvnaz and		  Baldwin, Timothy},
-               booktitle	= {Coling 2010: Posters},
+               booktitle	= coling,
                month		= {August},
                title		= {Best Topic Word Selection for Topic Labelling},
                year		= {2010},
@@ -6473,34 +6271,6 @@
 }
 
 @inproceedings{leskovec-09,
-               abstract	= {Tracking new topics, ideas, and "memes" across the Web has		  been an issue of considerable interest. Recent work has
-		  developed methods for tracking topic shifts over long time
-		  scales, as well as abrupt spikes in the appearance of
-		  particular named entities. However, these approaches are
-		  less well suited to the identification of content that
-		  spreads widely and then fades over time scales on the order
-		  of days - the time scale at which we perceive news and
-		  events. We develop a framework for tracking short,
-		  distinctive phrases that travel relatively intact through
-		  on-line text; developing scalable algorithms for clustering
-		  textual variants of such phrases, we identify a broad class
-		  of memes that exhibit wide spread and rich variation on a
-		  daily basis. As our principal domain of study, we show how
-		  such a meme-tracking approach can provide a coherent
-		  representation of the news cycle - the daily rhythms in the
-		  news media that have long been the subject of qualitative
-		  interpretation but have never been captured accurately
-		  enough to permit actual quantitative analysis. We tracked
-		  1.6 million mainstream media sites and blogs over a period
-		  of three months with the total of 90 million articles and
-		  we find a set of novel and persistent temporal patterns in
-		  the news cycle. In particular, we observe a typical lag of
-		  2.5 hours between the peaks of attention to a phrase in the
-		  news media and in blogs respectively, with divergent
-		  behavior around the overall peak and a "heartbeat"-like
-		  pattern in the handoff between news and blogs. We also
-		  develop and analyze a mathematical model for the kinds of
-		  temporal variation that the system exhibits.},
                added-at	= {2010-01-14T16:08:16.000+0100},
                author	= {Jure Leskovec and Lars Backstrom and Jon Kleinberg},
                booktitle	= kdd,
@@ -6551,14 +6321,6 @@
 }
 
 @inproceedings{lewis-05,
-               abstract	= {. The naive Bayes classifier, currently experiencing a		  renaissance in machine learning, has long been a core
-		  technique in information retrieval. We review some of the
-		  variations of naive Bayes models used for text retrieval
-		  and classification, focusing on the distributional
-		  assumptions made about word occurrences in documents. 1
-		  Introduction The naive Bayes classifier, long a favorite
-		  punching bag of new classification techniques, has recently
-		  emerged as a focus of research itself in machine...},
                author	= {Lewis, David D.},
                booktitle	= ecml,
                citeulike-article-id={352260},
@@ -6629,7 +6391,7 @@
 
 @inproceedings{Liang-2014,
                author = {Liang, Shangsong and Ren, Zhaochun and de Rijke, Maarten},
-               booktitle = {KDD},
+               booktitle = kdd,
                title = {Personalized search result diversification via structured learning.},
                year = 2014
 }
@@ -6643,7 +6405,7 @@
 
 @inproceedings{lin,
                author	= {D. Lin},
-               booktitle	= {Proceedings of COLING-ACL},
+               booktitle	= acl,
                date-added	= {2006-05-21 18:17:33 -0400},
                date-modified	= {2006-05-21 18:17:33 -0400},
                title		= {Automatic retrieval and clustering of similar words},
@@ -6849,13 +6611,6 @@
 }
 
 @inproceedings{loper-02,
-               abstract	= {NLTK, the Natural Language Toolkit, is a suite of open		  source program modules, tutorials and problem sets,
-		  providing ready-to-use computational linguistics
-		  courseware. NLTK covers symbolic and statistical natural
-		  language processing and is interfaced to annotated corpora.
-		  Students augment and replace existing components, learn
-		  structured programming by example and manipulate
-		  sophisticated models from the outset.},
                author	= {Loper, Edward and Bird, Steven},
                booktitle	= {Tools and methodologies for teaching},
                citeulike-article-id={4446664},
@@ -6900,7 +6655,7 @@
 @inproceedings{lu-08,
                author = {Lu, Yue and Zhai, Chengxiang},
                title = {Opinion Integration Through Semi-supervised Topic Modeling},
-               booktitle = {Proceedings of the 17th International Conference on World Wide Web},
+               booktitle = www,
                year = {2008},
                numpages = {10},
                acmid = {1367514},
@@ -7026,7 +6781,7 @@
 }
 
 @inproceedings{malik2013topicflow,
-               title		= {{TopicFlow}: visualizing topic alignment of twitter data		  over time},
+               title		= {{TopicFlow}: visualizing topic alignment of {T}witter data		  over time},
                author	= {Malik, Sana and Smith, Alison and Hawes, Timothy and		  Papadatos, Panagis and Li, Jianyu and Dunne, Cody and
 		  Shneiderman, Ben},
                booktitle	= {Proceedings of the IEEE/ACM Conference on Advances in		  Social Networks Analysis and Mining},
@@ -7150,7 +6905,7 @@
 
 @inproceedings{maskeri-08,
                author	= {Maskeri, Girish and Sarkar, Santonu and Heafield,		  Kenneth},
-               booktitle	= {ISEC},
+               booktitle	= {India Software Engineering Conference},
                title		= {Mining business topics in source code using latent		  dirichlet allocation},
                year		= {2008},
                bdsk-url-1	= {http://doi.acm.org/10.1145/1342211.1342234}
@@ -7668,7 +7423,7 @@
 @inproceedings{mimno-11Bayesian,
                title={Bayesian checking for topic models},
                author={Mimno, David and Blei, David},
-               booktitle={EMNLP},
+               booktitle=emnlp,
                year={2011}
 }
 
@@ -8309,18 +8064,6 @@
 }
 
 @inproceedings{ni-09,
-               abstract	= {In this paper, we try to leverage a large-scale and		  multilingual knowledge base, Wikipedia, to help effectively
-		  analyze and organize Web information written in different
-		  languages. Based on the observation that one Wikipedia
-		  concept may be described by articles in different
-		  languages, we adapt existing topic modeling algorithm for
-		  mining multilingual topics from this knowledge base. The
-		  extracted ?universal? topics have multiple types of
-		  representations, with each type corresponding to one
-		  language. Accordingly, new documents of different languages
-		  can be represented in a space using a group of universal
-		  topics, which makes various multilingual Web applications
-		  feasible.},
                author	= {Xiaochuan Ni and Jian-Tao Sun and Jian Hu and Zheng Chen},
                booktitle	= www,
                title		= {Mining Multilingual Topics from {W}ikipedia},
@@ -8465,15 +8208,6 @@
 }
 
 @inproceedings{oconnor-10,
-               abstract = {{We connect measures of public opinion measured frompolls with sentiment measured from text. We analyze
-several surveys on consumer confidence and political
-opinion over the 2008 to 2009 period, and find they
-correlate to sentiment word frequencies in contemporaneous
-Twitter messages. While our results vary across
-datasets, in several cases the correlations are as high as
-80\%, and capture important large-scale trends. The results
-highlight the potential of text streams as a substitute
-and supplement for traditional polling.}},
                author = {O'Connor, Brendan and Balasubramanyan, Ramnath and Routledge, Bryan R. and Smith, Noah A.},
                booktitle = {Proceedings of the International AAAI Conference on Weblogs and Social Media},
                citeulike-article-id = {7044833},
@@ -9418,7 +9152,7 @@ and supplement for traditional polling.}},
 
 @inproceedings{ritter:2010,
                author	= {Ritter, Alan and Cherry, Colin and Dolan, Bill},
-               title		= {Unsupervised modeling of Twitter conversations},
+               title		= {Unsupervised modeling of {T}witter conversations},
                booktitle	= naacl,
                year		= {2010},
 }
@@ -9979,8 +9713,7 @@ and supplement for traditional polling.}},
 @inproceedings{seymore-1998,
                author	= {Kristie Seymore and Stanley F. Chen and Ronald Rosenfeld},
                title		= {Nonlinear interpolation of topic models for language model		  adaptation},
-               booktitle	= {The 5th International Conference on Spoken Language		  Processing, Incorporating The 7th Australian International
-		  Speech Science and Technology Conference},
+               booktitle	= {International Conference on Spoken Language Processing},
                year		= {1998}
 }
 
@@ -10345,7 +10078,7 @@ and supplement for traditional polling.}},
 }
 
 @misc{stewart-14,
-      title		= {stm: R Package for Structural Topic Models},
+      title		= {{STM}: R Package for Structural Topic Models},
       author	= {Margaret E. Roberts and Brandon M. Stewart and Dustin		  Tingley},
       year		= {2014},
       note		= {R package version 1.0.8},
@@ -10470,8 +10203,8 @@ and supplement for traditional polling.}},
 
 @inproceedings{sun-09,
                author = {Sun, Yizhou and Han, Jiawei and Gao, Jing and Yu, Yintao},
-               title = {iTopicModel: Information Network-Integrated Topic Modeling},
-               booktitle = {Proceedings of the 2009 Ninth IEEE International Conference on Data Mining},
+               title = {{iTopicModel}: Information Network-Integrated Topic Modeling},
+               booktitle = icdm,
                year = {2009},
                numpages = {10},
                acmid = {1677115},
@@ -11090,7 +10823,7 @@ and supplement for traditional polling.}},
 
 @inproceedings{Vosecky-2014,
                author = {Vosecky, Jan and Leung, Kenneth Wai-Ting and Ng, Wilfred},
-               title = {Collaborative Personalized Twitter Search with Topic-language Models},
+               title = {Collaborative Personalized {T}witter Search with Topic-language Models},
                booktitle = sigir,
                year = {2014}
 }
@@ -11138,7 +10871,7 @@ and supplement for traditional polling.}},
 @inproceedings{vulic2011crosslanguage,
                author = {Ivan Vuli\'{c} and Wim De Smet and Marie-Francine Moens},
                title={Cross-Language Information Retrieval with Latent Topic Models Trained on a Comparable Corpus},
-               booktitle={Asia Information Retrieval Societies (AIRS)}, year={2011}
+               booktitle={Asia Information Retrieval Societies}, year={2011}
 }
 
 @inproceedings{vulic2011identifying,
@@ -11340,22 +11073,6 @@ and supplement for traditional polling.}},
 }
 
 @inproceedings{wang-08,
-               abstract	= {In this paper, we develop the continuous time dynamic		  topic model (cDTM). The cDTM is a dynamic topic model that
-		  uses Brownian motion to model the latent topics through a
-		  sequential collection of documents, where a ``topic'' is a
-		  pattern of word use that we expect to evolve over the
-		  course of the col- lection. We derive an efficient
-		  variational approximate inference algorithm that takes
-		  advantage of the sparsity of observations in text, a
-		  property that lets us easily han- dle many time points. In
-		  contrast to the cDTM, the original discrete-time dynamic
-		  topic model (dDTM) requires that time be discretized.
-		  Moreover, the complexity of vari- ational inference for the
-		  dDTM grows quickly as time granularity increases, a
-		  drawback which limits fne-grained discretization. We
-		  demonstrate the cDTM on two news corpora, reporting both
-		  predictive perplexity and the novel task of time stamp
-		  prediction.},
                author	= {Wang, Chong and Blei, David M. and Heckerman, David},
                booktitle	= uai,
                citeulike-article-id={3032095},
@@ -11407,26 +11124,6 @@ and supplement for traditional polling.}},
 }
 
 @inproceedings{wang-10,
-               abstract	= {{This paper introduces the notion of temporally		  constrained ranked retrieval, which, given a query and a
-		  time constraint, produces the best possible ranked list
-		  within the specified time limit. Naturally, more time
-		  should translate into bet- ter results, but the ranking
-		  algorithm should always pro- duce some results. This
-		  property is desirable from a number of perspectives: to
-		  cope with diverse users and information needs, as well as
-		  to better manage system load and variance in query
-		  execution times. We propose two temporally con- strained
-		  ranking algorithms based on a class of probabilistic
-		  prediction models that can naturally incorporate efficiency
-		  constraints: one that makes independent feature selection
-		  de- cisions, and the other that makes joint feature
-		  selection de- cisions. Experiments on three different test
-		  collections show that both ranking algorithms are able to
-		  satisfy imposed time constraints, although the joint model
-		  outperforms the independent model in being able to deliver
-		  more effective results, especially under tight time
-		  constraints, due to its ability to capture feature
-		  dependencies.}},
                author	= {Wang, Lidan and Metzler, Donald and Lin, Jimmy},
                booktitle	= {ACM Conference on Information and Knowledge Management},
                citeulike-article-id={8350372},
@@ -11442,7 +11139,7 @@ and supplement for traditional polling.}},
 @inproceedings{wang-10:regression,
                author = {Wang, Hongning and Lu, Yue and Zhai, Chengxiang},
                title = {Latent Aspect Rating Analysis on Review Text Data: A Rating Regression Approach},
-               booktitle = {Proceedings of the 16th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+               booktitle = kdd,
                year = {2010},
                numpages = {10},
                acmid = {1835903},
@@ -11499,14 +11196,14 @@ and supplement for traditional polling.}},
 @inproceedings{wang2006topics,
                title		= {Topics over time: a non-Markov continuous-time model of		  topical trends},
                author	= {Wang, Xuerui and McCallum, Andrew},
-               booktitle	= {Proceedings of the ACM SIGKDD Conference on Knowledge		  Discovery and Data Mining},
+               booktitle	= kdd,
                year		= {2006}
 }
 
 @inproceedings{wang:2011:ctm:2020408.2020480,
                author	= {Wang, Chong and Blei, David M.},
                title		= {Collaborative Topic Modeling for Recommending Scientific		  Articles},
-               booktitle	= {Proceedings of the 17th ACM SIGKDD International		  Conference on Knowledge Discovery and Data Mining},
+               booktitle	= kdd,
                year		= {2011},
                numpages	= {9},
                acmid		= {2020480},
@@ -11568,7 +11265,7 @@ and supplement for traditional polling.}},
 @inproceedings{weng-10,
                author = {Weng, Jianshu and Lim, Ee-Peng and Jiang, Jing and He, Qi},
                title = {Twitter{R}ank: Finding Topic-sensitive Influential {T}witterers},
-               booktitle = {Proceedings of the Third ACM International Conference on Web Search and Data Mining},
+               booktitle = wsdm,
                year = {2010},
                numpages = {10},
                acmid = {1718520},
@@ -11683,13 +11380,6 @@ and supplement for traditional polling.}},
 }
 
 @inproceedings{wilson-05,
-               abstract	= {This paper presents a new approach to phrase-level		  sentiment analysis that first determines whether an
-		  expression is neutral or polar and then disambiguates the
-		  polarity of the polar expressions. With this approach, the
-		  system is able to automatically identify the contextual
-		  polarity for a large subset of sentiment expressions,
-		  achieving results that are significantly better than
-		  baseline.},
                author	= {Wilson, Theresa and Wiebe, Janyce and Hoffmann, Paul},
                booktitle	= emnlp,
                citeulike-article-id={1444201},
@@ -12150,7 +11840,7 @@ and supplement for traditional polling.}},
 
 @inproceedings{zhao-10,
                author = {Zhao, Wayne Xin and Jiang, Jing and Yan, Hongfei and Li, Xiaoming},
-               title = {Jointly Modeling Aspects and Opinions with a MaxEnt-LDA Hybrid},
+               title = {Jointly Modeling Aspects and Opinions with a {MaxEnt-LDA} Hybrid},
                booktitle = emnlp,
                year = {2010},
                numpages = {10},
@@ -12159,14 +11849,14 @@ and supplement for traditional polling.}},
 
 @inproceedings{zhao-11,
                author = {Zhao, Wayne Xin and Jiang, Jing and Weng, Jianshu and He, Jing and Lim, Ee-Peng and Yan, Hongfei and Li, Xiaoming},
-               title = {Comparing Twitter and Traditional Media Using Topic Models},
+               title = {Comparing {T}witter and Traditional Media Using Topic Models},
                booktitle = ecir,
                year = {2011},
 }
 
 @inproceedings{zheleva:kdd09,
                author	= {Zheleva, Elena and Sharara, Hossam and Getoor, Lise},
-               booktitle	= {15th ACM SIGKDD Conference on Knowledge Discovery and Data		  Mining (KDD)},
+               booktitle	= kdd,
                month		= {June},
                title		= {Co-evolution of Social and Affiliation Networks},
                year		= {2009}
@@ -12183,22 +11873,6 @@ and supplement for traditional polling.}},
 }
 
 @inproceedings{zhou-10,
-               abstract	= {This paper describes an automatic text analysis of values		  contained in the Enron email dataset that seeks to explore
-		  the potential to apply value patterns to cluster a social
-		  network. Two hypotheses are posed: individuals communicate
-		  more frequently with other individuals who share similar
-		  value patterns than with individuals with different value
-		  patterns; and people who communicate more frequently with
-		  each other share similar value patterns. The first
-		  hypothesis is supported: indeed, individuals were found to
-		  communicate more frequently with individuals who share
-		  similar value patterns, and further, the extent to which
-		  this is true appears to depend at least in part on the
-		  value patterns themselves. However, the second hypothesis
-		  is not supported - people who communicate more frequently
-		  with each other do not necessarily all fit into a
-		  particular value type. Thus, values have utility as a novel
-		  tool for social network analysis.},
                author	= {Yingjie Zhou and Fleischmann, K.R. and Wallace, W.A.},
                booktitle	= {Hawaii International Conference on System Sciences},
                keywords	= {Enron email dataset;actors value patterns;automatic text		  analysis;social network clustering;electronic mail;pattern
@@ -12246,19 +11920,6 @@ and supplement for traditional polling.}},
 
 @inproceedings{zhu-13,
                title		= {{G}ibbs Max-Margin Topic Models with Fast Sampling		  Algorithms},
-               abstract	= {Existing max-margin supervised topic models rely on an		  iterative procedure to solve multiple latent SVM
-		  subproblems with additional mean-field assumptions on the
-		  desired posterior distributions. This paper presents Gibbs
-		  max-margin supervised topic models by minimizing an
-		  expected margin loss, an upper bound of the existing margin
-		  loss derived from an expected prediction rule. By
-		  introducing augmented variables, we develop simple and fast
-		  Gibbs sampling algorithms with no restricting assumptions
-		  and no need to solve SVM subproblems for both
-		  classification and regression. Empirical results
-		  demonstrate significant improvements on time efficiency.
-		  The classification performance is also significantly
-		  improved over competitors.},
                author	= {Jun Zhu and Ning Chen and Hugh Perkins and Bo Zhang},
                year		= {2013},
                booktitle	= icml
