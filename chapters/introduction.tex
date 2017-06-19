@@ -190,6 +190,7 @@ You might notice that we are using the general term ``topic model''.
 There are many specific mathematical formulations of topic models, and many algorithms that learn the parameters of those models from data.
 Although we will focus on particular models and algorithms, we choose our terminology in order to emphasize that the similarities between formulations, models, and algorithms are often greater than their differences.
 
+\index{latent semantic analysis}
 Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
 latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
 document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
@@ -198,6 +199,8 @@ focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03},
 which are intuitive, work well, and allow for
 easy modification (as we see later in many of our later chapters).
 
+\index{latent Dirichlet allocation}
+\index{probabilistic latent semantic analysis}
 The two foundational probabilistic topic models are latent Dirichlet
 allocation~\citep[\abr{lda}]{blei-03} and probabilistic latent
 semantic analysis~\citep[\plsa{}]{hofmann-99}.  We describe the
