@@ -8,6 +8,7 @@ This behavior makes sense because the model is looking for groups of words that 
 In some cases we may choose to filter out small numbers of documents in other languages, but in many cases we would like to take advantage of  connections across many languages.
 
 Multilingual topic models have been developed to analyze and understand a corpus in multiple languages.
+\citet{vulic2015probabilistic} provide a good overview.
 The applications in multi-language corpora can be divided into two categories.
 The first, and simpler category is those that align languages at the topical level, but not at the level of individual word types.
 These models are useful for organizing corpora, but make no attempt to support analysis for users unfamiliar with any particular language.
@@ -54,7 +55,7 @@ This approach pre-dates probabilistic topic models.
 by projecting both documents to a shared latent semantic indexing
 space.
 
-Similarly, bilingual topic models~\citep{zhao-06} and polylingual topic models~\citep{mimno-09}
+Similarly, bilingual topic models~\citep{zhao-06,DeSmet-09} and polylingual topic models~\citep{mimno-09}
 such as polylingual Latent Dirichlet Allocation~(\plda{})
 assume that the aligned documents in different languages share the
 same topic distribution and each language has a unique topic
@@ -65,7 +66,7 @@ document-topic distribution $\theta_d$; for a document $d_{l_i}$ in
 language $l_i$, we then sample a topic $z_{dn}$ from $\theta_d$, and
 generate a word from topic $\phi_{z_{dn}, l_i}$ in language $l_i$.
 
-Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval.
+Topic models trained from document-level alignments have applications in exploratory data analysis and in information retrieval \citep{vulic2013cross}.
 \citet{mimno-09} use a model trained on multiple languages in Wikipedia to compare relative interest in different topics across linguistic domains.
 For example, the Persian-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
@@ -102,7 +103,7 @@ p(e \g q) = \sum_k p(e \g \phi_k^D) p(k \g \theta_q).
 %\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
 Some forms of query expansion across multiple languages do not require
-explicit modeling of connections between topics.  As noted in
+explicit modeling of connections between topics \citep{vulic2011crosslanguage,vulic2015probabilistic}.  As noted in
 Chapter~\ref{ch:ir}, \citet{erlin2017topic} use two independent seeded
 models on English and German books to search for works about
 epistemology.  After manually identifying one \underline{epistemology}
@@ -110,6 +111,12 @@ topic from each language's model, these two topics are used as a form
 of query expansion to identify documents related to the target
 subject.
 
+Although it is relatively easy to get comparable topics from comparable corpora, identifying specific words that are translations of each other in different languages is more difficult.
+Given a word $w_e$ that has high probability in topic $k$ in language $e$, it is likely that a good translation of $w_e$ in language $f$ has high probability in topic $k$ as well. \citet{vulic2011identifying} evaluate several methods for identifying such translation pairs given a bilingual or polylingual topic model.
+They find two methods that work well, both of which consider the frequency of a given target word across many topics.
+The intuition is that words that have high probability in a given topic because they are specific to that topic are more likely to be good translations than words that have high probability in a topic because they are frequent in the corpus overall, and are thus represented in many topics.
+The authors were then able to derive an algorithm for finding high-quality aligned translation pairs \citep{vulic2012detecting}. This method is capable of using word patterns as hints for etymologically related words when available, but is also effective even for unrelated languages.
+However, there are limits to our ability to find direct translation pairs with only document-level alignment, both because the data is not sufficient, and because languages may align more at the level of {\em concepts} rather than specific lexical items \citep{vulic2014probabilistic}.
 
 \section{Word-level Alignment from Lexical Data}
 
@@ -226,6 +233,7 @@ distinct distributions over topics $\theta$), the model is equivalent to \tlda{}
 level (using the word correlations) and the document level (using the
 document alignments), thus it learns better topics by considering more
 information from both languages.
+
 
 
 \section{Topic Models and Machine Translation}
