@@ -18,7 +18,7 @@ most a handful of documents) that matches what the user is looking for.  This
 could be a ``smoking gun'' e-mail, the document that best represents a
 concept~\citep{Salton-68} or the answer to a question~\citep{Hirschman-01}.
 
-These questions are important.  The sub-discipline of information retrieval is
+These questions are important.  The discipline of information retrieval is
 built upon systematizing, solving, and evaluating this problem.  Google's empire
 is built on the premise of users typing a few keywords into a search engine box
 and seeing quick, consistent search results.  However, this is not the only
@@ -251,9 +251,11 @@ between \plsa{} and \abr{lda} outweigh the differences.
   \label{fig:distribution_examples}
 \end{figure}
 
-Despite the similarity in terms, the meaning of ``topic'' in topic modeling is distinct from the meaning in many information retrieval settings.
+In any technical field it is common for general terms to take on specific, concrete meanings, and this can be a source of confusion.
+In topic modeling the word ``topic'' takes on the specific meaning of a probability distribution over words, while still alluding the to more general meaning of a theme or subject of discourse.
+Other areas of information retrieval have similarly developed specific meanings for the word ``topic'', and it is important to distinguish them.
 There is a substantial and well-developed field of topic detection and tracking~\citep{allan-02}.
-In \abr{tdt}, a topic is usually closer to an event or an individual story.
+In \abr{tdt}, a ``topic'' is usually closer to an event or an individual story.
 In contrast, topic models tend to identify more abstract latent factors.
 For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
 

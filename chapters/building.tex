@@ -228,9 +228,9 @@ distribution $p$ is simple enough to solve Equation~\ref{eq:em}
 directly.  However, for many models (including topic models), this is
 not feasible.  Variational inference solves this intractability by
 searching for optimal {\em distributions} $q(z)$ and $q(\theta)$ rather than optimal values of $z$ and $\theta$.
-It is this search for optimal functions (i.e. probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus that deals with finding optimal functions.
+It is this search for optimal functions (i.e. probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus concerning optimal functions.
 
-A variational distribution is over the model's latent variables.
+A variational distribution is a function that assigns a probability score to each setting of the model's latent variables.
 These are the same variables that would appear in the original model's posterior distribution over latent variables given observed variables and user-defined hyperparameters.
 Although it is a distribution over the same variables, it is typically
 simpler.  
@@ -320,8 +320,8 @@ Coupled variables need to change together, and a fully-factorized
 distribution forces them to change in sequence.  For example, let's
 say that $x=0$ and $y=0$ and that they are highly correlated, but a
 higher probability setting is for $x=1$ and $y=1$.  Coordinate ascent
-optimization with mean field will want to change $x$ or $y$
-individually when they must move together.
+optimization with a fully-factorized variational distribuion will want to change $x$ or $y$
+individually, when in fact they must move together to maintain high performance.
 
 To fully model the interaction between the two variables, we can model
 $x$ and $y$ jointly in the variational distribution.  Instead of
