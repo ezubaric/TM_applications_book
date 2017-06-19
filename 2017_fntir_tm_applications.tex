@@ -10,6 +10,7 @@
 \usepackage{CJK}
 \usepackage{mathtools}
 \usepackage{comment}
+\usepackage{makeidx}
 \usepackage{bm}
 \usepackage{mdwlist}
 \usepackage[table]{xcolor}
@@ -83,6 +84,7 @@ Cornell University \\
 \texttt{mimno@cornell.edu}
 }
 
+\makeindex
 \begin{document}
 
 % the following settings can be set or left blank at first
@@ -138,5 +140,9 @@ Cornell University \\
 
 \bibliographystyle{plainnat}
 \bibliography{bib/journal-full,bib/clean,bib/alison}
+
+\clearpage
+
+\printindex
 
 \end{document}

@@ -82,6 +82,7 @@ each other in the visualization.
 
 \section{Labeling Topics}
 
+\index{topic labeling}
 Throughout this survey, we have been referring to topics with \emph{labels} such as
 \underline{information technology} or \underline{the arts}.  These are
 convenient descriptors, but completely removed from the raw distribution over words.
@@ -137,6 +138,7 @@ Chapter~\ref{sec:coherence});
 \item the original probability of the word in the topic.
 \end{itemize*}
 
+\index{Wikipedia}
 While these can be used alone as an unsupervised reranking,
 \citet{lau-10} use user-selected best topic words to weight which of
 these features are most important for selecting the best topic word.
@@ -156,6 +158,7 @@ They argue that labels should match topic words (as labeling with flat
 topics); a topic's words should be consistent with a labels' children
 in the hierarchy; and the topic's labels should be unique.
 
+\index{PageRank}
 \citet{aleteras-14} instead query the whole Web and then build a graph that
 includes the words that make up the titles of the retrieved webpages. 
 Their goal is to find words that are ``central'' in the graph: these
@@ -187,6 +190,7 @@ the other terms in the topic~\citep{aleteras-14}.
 
 \paragraph{Using Labeled Documents}
 
+\index{labeled \abr{lda}}
 The task of associating labels with topics becomes much easier if many of your
 documents are themselves labeled.  Labeled \abr{lda}~\citep{ramage-09}
 associates topics to each of the labels and forces labeled documents to only use
@@ -229,14 +233,16 @@ example in a
 previous chapter, a user may want to find the ``smoking gun'' in the Enron
 corpus, not just use topics to understand the main themes in a collection.
 
+\index{topic model visualization engine}
 Thus, a good topic model visualization must also show the documents associated
-with a topic.  The Topic Model Visualization Engine~\citep{chaney-12} shows the
+with a topic.  The Topic Model Visualization Engine~\citep[\abr{tmve}]{chaney-12} shows the
 top documents associated with a topic (Figure~\ref{fig:tmve}).  Recall that each
 document has a distribution over topics~$\theta_d$, which is a vector with an
 entry for each topic.  We focus on the dimension associated with a particular topic
 and then sort the documents based on that topic coordinate from largest to
 smallest.
 
+\index{topical guide}
 The topical guide~\citep{gardner-10} extends this approach by enriching topic
 views with additional metadata.  For instance, if the collection has dollar
 amounts or sentiment~\citep{pang-08} associated with a document, it provides a
@@ -244,12 +250,14 @@ histogram of the metadata associated with the topic.  It also provides \emph{in
   context} examples of topic words, allowing to see how a word is used within a
 topic (helping to address the topic model's bag of words assumptions).
 
-\abr{tome}~\citep{eistenstein-14} focuses on a specific type of metadata: time.
+\index{interactive topic model and metadata}
+Interactive TOpic Model and MEtadata~\citep[Interactive TOpic Model and MEtadata]{eistenstein-14} focuses on a specific type of metadata: time.
 It allows users to view the evolution of topics over time to understand, for
 example, how the issue of slavery is reframed from an economic argument to an
 argument over human rights.  It supports filtering to specific topics or to see
 how words are used over time across topics.
 
+\abr{termite}
 Rather than showing how topics relate to metadata,
 \citet{chuang-12} focus on how topics relate to \emph{each other}.
 Their ``Termite'' topic visualization (Figure~\ref{fig:termite}) shows
@@ -274,6 +282,7 @@ Topic models are rarely perfect, and quality can vary within a
 model. Even in good models we often find several poorly fit or
 improperly combined topics. 
 
+\index{likelihood evaluation}
 For many years, the primary metric for evaluating the quality of a
 topic model was the held-out likelihood of a model~\citep{wallach-09a}.
 Because a topic model is a generative probabilistic model---like a
@@ -299,6 +308,7 @@ complicated equations or a model with more topics) can better fit a random
 held-out document. 
 More complex models, however, are more confusing for users. 
 
+\index{topic coherence}
 Automated measurements~\citep{newman-10,mimno-11,lau-14} of topic
 quality may serve as a proxy for human interpretability ratings.
 However, these approaches may not be able to tell you
@@ -348,6 +358,7 @@ concepts that \green{were not present before}.}
 \label{fig:itm-nih}
 \end{figure}
 
+\index{interactivity!topic models}
 Interactive topic modeling---in conjunction with visualizations---can help
 correct the problems of topic models.  A user first gets an overview of the
 collection using a visualization of the topics and documents and can then

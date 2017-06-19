@@ -254,6 +254,7 @@ between \plsa{} and \abr{lda} outweigh the differences.
   \label{fig:distribution_examples}
 \end{figure}
 
+\index{topic detection and tracking}
 In any technical field it is common for general terms to take on specific, concrete meanings, and this can be a source of confusion.
 In topic modeling the word ``topic'' takes on the specific meaning of a probability distribution over words, while still alluding the to more general meaning of a theme or subject of discourse.
 Other areas of information retrieval have similarly developed specific meanings for the word ``topic'', and it is important to distinguish them.
@@ -280,6 +281,7 @@ Figure~\ref{fig:distribution_examples} lists some of the key players in these
 stories, how they are parameterized and what samples drawn from these distributions look like.  We will
 briefly discuss them, as we will use them to build a wide variety of topic models later.
 
+\index{Gaussian distribution}
 \paragraph{Gaussian} If you know any probability distribution already,
 it is (probably) the
 Gaussian.  This distribution does not have a role in the most basic topic models that we will
@@ -296,6 +298,7 @@ will cause the samples to be more spread out.
 
 \paragraph{Discrete}
 
+\index{discrete distribution}
 While Gaussian distributions are over a continuous space, documents are
 combinations of discrete symbols, usually word tokens.\footnote{An emerging trend in natural language
   processing research is to view words as embedded in a continuous space. We
@@ -320,6 +323,7 @@ documents have very low weights for most of the possible topics.
 
 \paragraph{Dirichlet}
 
+\index{Dirichlet distribution}
 Although discrete distributions are the star players in topic models, they are
 not the end of the story.  We often begin with Dirichlet distributions.
 Just as Gaussians produce real numbers and discrete distributions produce symbols from a finite set, Dirichlet distributions produce probability vectors that can be used as the parameters of discrete distributions.
@@ -344,7 +348,7 @@ Note that we often combine these parameters into a single value for each dimensi
 \end{figure}
 \end{center}
 
-
+\index{Dirichlet distribution!parameter}
 If $\alpha_0$ is very large, then the draws from a Dirichlet will be very close to
 $\tau$ (Figure~\ref{fig:dirichlet_sparsity}, left).  If $\alpha_0$ is small, however,
 something more interesting happens: the discrete distributions become sparse
@@ -365,7 +369,8 @@ If the base measure is uniform and the concentration parameter $\alpha_0$ is equ
 \section{Latent Dirichlet Allocation}
 \label{sec:lda}
 
-We now have all the tools we need to tell the complete story of the most popular topic model: latent Dirichlet allocation~\citep{blei-03}.  Latent
+\index{latent Dirichlet allocation}
+We now have all the tools we need to tell the complete story of the most popular topic model: latent Dirichlet allocation~\citep[\abr{lda}]{blei-03}.  Latent
 Dirichlet allocation\footnote{The name \abr{lda} is a play on \abr{lsa}, its
   non-probabilistic forerunner (latent semantic analysis).  Latent because we
   use probabilistic inference to infer missing probabilistic pieces of the
@@ -428,6 +433,7 @@ word distributions shown in Figure~\ref{fig:enron_topics}).  Each is a
 discrete draw from the topic's word distribution, which makes words
 like ``California'', ``state'', and ``Sacramento'' more likely.
 
+\index{latent Dirichlet allocation!generative process}
 It goes without saying that the generative story is a fiction~\citep{box-87}.
 Nobody is sitting down with dice to decide what to type in on their keyboard.
 We use this story because it is \emph{useful}.  This fanciful story about randomly
@@ -459,6 +465,7 @@ on Gibbs sampling, which is simple, intuitive, and---with some clever
 tricks specific to topic models---fast~\citep{yao-09}.  (We discuss
 variational inference in Chapter~\ref{ch:building}.)
 
+\index{Gibbs sampling}
 We present the results of Gibbs sampling without derivation,
 which---along with the history of its origin in statistical
 physics---are well described elsewhere.\footnote{We recommend
@@ -520,6 +527,7 @@ where $\beta$ is the Dirichlet parameter for the topic distribution.
 
 \subsection{Algorithm}
 
+\index{Gibbs sampling!for \abr{lda}}
 The collapsed Gibbs sampling algorithm for learning a topic model is
 only based on the topic assignments, but we will use our estimates for
 the topics $\phi_k$ and the documents $\theta_d$ discussed above.  We
@@ -570,6 +578,7 @@ highlight challenges or difficulties in implementing topic models.
 \subsection{Plate Diagrams}
 \label{sec:plate}
 
+\index{plate diagram}
 Plate diagrams provide a shorthand for quickly explaining which random
 variables are associated with each other.  If you look up many of the
 references used in this survey, you'll likely see plate diagrams (we
@@ -618,6 +627,7 @@ is underspecified.
 \subsection{What's so Great about Dirichlet?}
 \label{sec:plsa-vs-lda}
 
+\index{Dirichlet distribution!role in \abr{lda}}
 Now that we have described what \abr{lda} is, we can return to its
 history.  What is the innovation that separates \abr{lda} from
 \plsa{}, its predecessor?  Na\"ively, the difference is changing an
@@ -642,6 +652,7 @@ literature, it helps us present a more unified narrative for our reader.
 
 \subsection{Implementations}
 
+\index{latent Dirichlet allocation!implementations}
 Hopefully the previous algorithm sketch has convinced you that implementing
 topic models is not a Herculean task; most skilled programmers can complete a
 reasonable implementation of topic models in less than a day.  However, we would
@@ -650,6 +661,7 @@ output of a topic model, as there are many solid
 implementations that help users get to useful results more quickly, particularly
 as topic models often require extensive preprocessing.
 
+\index{Mallet}
 Mallet is fast and is a widely used implementation in Java~\citep{mallet}.  This
 is where you should probably start, in our biased opinion.  It runs in Java, uses
 highly-optimized Gibbs sampling implementations, and can work from a variety of

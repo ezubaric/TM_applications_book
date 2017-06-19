@@ -43,6 +43,7 @@ query expansion~\citep{Park-2009,Andrzejewski-2011} to further improve
 \section{Document Language Modeling}
 \label{sec:ir-lm}
 
+\index{document language modeling}
 The language modeling approach~\citep{PonteCroft,song-99,croft-03} is
 one of the main frameworks for using topic models in \abr{ir} systems, since
 it is an effective probabilistic framework for studying
@@ -100,6 +101,7 @@ fit into this smoothing framework.
 
 %\subsection{Smoothing Document Language Models}
 
+\index{smoothing}
 There are two major directions for smoothing:
 \textbf{interpolation}~\citep{Jelinek-1980,mackay95dirichlet,Ney-1994,PonteCroft,zhai-01}
 and \textbf{backoff}~\citep{katz-87,song-99}. The interpolation-based
@@ -136,6 +138,7 @@ tasks~\citep{PonteCroft,song-99}.
 
 \paragraph{Bayesian Smoothing using Dirichlet Priors}
 
+\index{Dirichlet distribution!smoothing in language models}
 A language model can be viewed as a discrete distribution, thus it can
 be smoothed by applying the Dirichlet distribution as the conjugate
 prior~\citep{mackay95dirichlet}. We made a similar observation in the
@@ -157,10 +160,12 @@ corpus-level probabilities $p(v \g \mathcal{C})$,
 
 \section{Applying Topic Models to Document Language Models}
 
+\index{probabilistic latent semantic analysis}
+\index{latent Dirichlet allocation!document language model}
 Topic models, which model each document as a mixture of topics and
 each topic as a mixture of words, offer an interesting framework to
 model documents in information retrieval. Popular topic models such as
-probabilistic Latent Semantic Analysis~(\plsa{}) and Latent Dirichlet Allocation (\abr{lda})
+probabilistic latent semantic analysis~(\plsa{}) and latent Dirichlet allocation (\abr{lda})
 have been both explored to improve document language models.
 
 \citet{hofmann-99a} introduces \plsa{} to
@@ -171,7 +176,9 @@ computed as marginalizing all topics $k$,
 p_{\texttt{TM}}(w \g d) = \sum_{k} p(w \g k) p(k \g d)
 \end{align}
 
-Following this idea, \citet{Wang-2013} further add regularizations  on document topic representations 
+Following this idea, \citet{Wang-2013} further add
+regularizations---changing the shape of distributions to be more or
+less spread out---on document topic representations 
 which is useful for retrieval. Instead of using \plsa{}, \citet{wei-06} apply the same idea to 
 learn the topic-smoothed document-word distribution using \abr{lda}.
 \citet{Vosecky-2014} also explore \abr{lda} for document language models on  twitter search.
@@ -218,6 +225,7 @@ significantly improved.
 
 \section{Query Expansion in \abr{ir}}
 
+\index{query expansion}
 The document language models in information
 retrieval~\citep{PonteCroft} attempt to model the query
 generation process based on the document models. However, a big
@@ -259,6 +267,7 @@ models~\citep{Lavrenko-2001}.
 
 \paragraph{Query Language Model}
 
+\index{language model!query expansion}
 To learn the query-word relationship, \citet{zhai-01b} build up a query
 language model to estimate the probability $p(w \g q)$ of a word $w$
 given a query $q$. However, it is not easy to learn a good query
@@ -294,6 +303,7 @@ more robust, thus query-word relationships are better represented.
 
 \paragraph{Relevance Model}
 
+\index{relevance model}
 Unlike the query language model approach,
 \citet{Lavrenko-2001} assume both the query and the relevant documents
 are random samples from an unknown relevance model $R$. Given the
@@ -493,6 +503,7 @@ to give feedback on the relevance of documents in an initial set of retrieval
 results, and users' feedback on relevance is further used to improve the 
 ranking results. This process can go through one or more iterations.
 
+\index{interactivity!information retrieval}
 \citet{Andrzejewski-2011} present a new framework for obtaining and
 exploiting user feedback at the latent topic level. They learn the
 latent topics from the whole corpus and construct meaningful topic
@@ -549,6 +560,7 @@ computer peripherals. Even for queries without ambiguity, for example
 ``online shopping'', some users may prefer ``\url{www.amazon.com}''
 while others may prefer ``\url{www.ebay.com}''.
 
+\index{search personalization}
 To meet different users' information needs, it is important to
 understand the user's preference, context, etc., and adapt the ranking
 results accordingly~\citep{Pitkow-2002,Micarelli-2007}.  This is
@@ -622,6 +634,7 @@ click that document.
 
 \jbgcomment{Need to have more explanation in figure or in main text. \yhcomment{added a little more text.}}
 
+\index{plate diagram!personalized retrieval}
 As shown in Figure~\ref{fig:ptm-original} (this uses plate diagram
 formalism, explained in Chapter~\ref{sec:plate}), this model has three observed
 variables, document $d_i$, query word $w_i$ and user $u_i$. Given a topic $k$ sampled
