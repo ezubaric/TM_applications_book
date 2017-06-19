@@ -8,10 +8,20 @@ document-creating processes that exist in the world.
 This chapter focuses on how a researcher can create, implement, and
 validate a new model. 
 
-Before going into the details of constructing new models, we encourage users to consider whether questions can be answered through post-hoc analysis of a simple topic model in the context of additional information.
-For example, a simple dynamic topic model can be constructed from a standard LDA model by slicing the corpus into sections and estimating the probability distribution over words for each topic in each section.
-Building and validating custom topic models is a powerful tool, but requires significant investment in coding and debugging, and may not be able to take advantage of computational optimizations available for simpler models.
-Posterior predictive checks \citep{mimno-11Bayesian} provide a good means of determining whether LDA topics or words within topics already show patterns that are present but not explicitly modeled.
+\index{posterior predictive checks}
+Before going into the details of constructing new models, we encourage
+users to consider whether questions can be answered through post-hoc
+analysis of a simple topic model in the context of additional
+information.  For example, a simple dynamic topic model can be
+constructed from a standard \abr{lda} model by slicing the corpus into
+sections and estimating the probability distribution over words for
+each topic in each section.  Building and validating custom topic
+models is a powerful tool, but requires significant investment in
+coding and debugging, and may not be able to take advantage of
+computational optimizations available for simpler models.  Posterior
+predictive checks \citep{mimno-11Bayesian} provide a good means of
+determining whether \abr{lda} topics or words within topics already
+show patterns that are present but not explicitly modeled.
 
 It is impossible to cover all of the details of research in topic
 models or machine learning generally, but this chapter introduces some
@@ -93,6 +103,8 @@ thought of as a \emph{spectrum} rather than a label: some politicians
 are more centrist than others even though they might have the same
 party label.
 
+\index{discrete distribution}
+\index{Dirichlet distribution!conjugacy}
 However, discrete labels are appealing from a modeling perspective.
 Dirichlet-discrete distributions (Chapter~\ref{ch:intro})
 are easy to to combine.  Given that basic topic models are built from
@@ -101,6 +113,7 @@ Dirichlet-discrete than to add a continuous random variable to the
 model.  For example, the Topic-Aspect model~\citep{paul-10} is far simpler to
 implement than Supervised Topic Models~\citep{blei-07b}.
 
+\index{Gaussian distribution}
 Dirichlets and discrete distributions play well together because they are
 conjugate, while Gaussian distributions add additional
 difficulty.  However, Gaussian distributions are more convenient than
@@ -132,10 +145,11 @@ complicating a model.
 
 As we describe in Chapter~\ref{sec:coherence}, interpretability is a measure of how
 easy it is for a human to understand the results of a model.  Often,
-the interpretability of a model is an afterthought.  That is if it is thought of
+the interpretability of a model is an afterthought.  That is, if it is thought of
 at all; many papers neglect to inspect the learned parameters of a
 model, focusing instead on quantifications of performance.
 
+\index{deep learning}
 While always a problem, with the increased prominence of deep learning (discussed more in
 Chapter~\ref{ch:conc}), this is particularly worrying.  Deep learning has a
 reputation for inscrutable parameters but state-of-the-art
@@ -144,6 +158,7 @@ interpretability and grounded generative processes.  Thus, researchers who
 choose probabilistic models such as topic models should not ignore the
 interpretability of their models.
 
+\index{interpretability}
 While Chapter~\ref{sec:coherence} discusses ways of rigorously evaluating the
 interpretability of models, even a simple once-over of model
 parameters by the researcher can reveal whether a learned model
@@ -187,11 +202,13 @@ systems you don't often use (or cannot afford).
 
 Stan~\citep{stan-software:2014} is an inference framework that works best with the R programming
 language.
+\index{Stan}
 
 \paragraph{Infer.Net}
 
 Infer.net~\citep{InferNET14} is a Microsoft-created, closed-source framework that works well for conjugate
 models but can only be used on the Windows operating system.
+\index{Infer.Net}
 
 \paragraph{Automatic Differentiation}
 
@@ -201,14 +218,18 @@ objective functions including variational inference.  If you are
 already familiar with Torch~\citep{collobert-11} or Theano~\citep{theano}, it is relatively easy to use
 these tools to define variational objectives for arbitrary
 probabilistic models.
+\index{Torch}
+\index{Theano}
 
 \subsection{Variational Inference}
 
+\index{variational inference}
 While we focused on Gibbs sampling in Chapter~\ref{sec:lda}, the other major
 class of inference algorithms is variational inference.  Compared to
 Gibbs sampling, variational inference is often considered to be
 slightly more difficult to both derive and implement.
 
+\index{expectation maximization}
 Variational inference is similar to expectation maximization
 algorithms~\citep{liang-07b}.  Expectation maximization algorithms find a
 setting of local latent variables $z$ (which represent specific observations) and global parameters $\theta$ (which represent model properties) that maximize
@@ -230,6 +251,7 @@ not feasible.  Variational inference solves this intractability by
 searching for optimal {\em distributions} $q(z)$ and $q(\theta)$ rather than optimal values of $z$ and $\theta$.
 It is this search for optimal functions (i.e. probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus concerning optimal functions.
 
+\index{fully-factorized distribution}
 A variational distribution is a function that assigns a probability score to each setting of the model's latent variables.
 These are the same variables that would appear in the original model's posterior distribution over latent variables given observed variables and user-defined hyperparameters.
 Although it is a distribution over the same variables, it is typically
@@ -330,6 +352,7 @@ becomes $q(x,y)$ (as appropriate for whatever form those variables take).
 
 \subsection{Gibbs Sampling}
 
+\index{Gibbs sampling}
 Gibbs sampling (as discussed at a high level in Chapter~\ref{ch:intro}) finds
 latent variables by randomly sampling an assignment of each random
 variable conditioned on all of the other random variables.
@@ -371,6 +394,7 @@ you know if it's working as intended?
 
 \subsection{Synthetic Data}
 
+\index{synthetic data}
 Because most topic models have a generative story, we can
 \emph{generate} data.  This means running the probabilistic story of
 the model forward to generate data.  For example, for \abr{lda},
@@ -426,6 +450,7 @@ Often you will want to compare your model to another model that either
 has a similar structure or application.  This comparison can help you during
 development.
 
+\index{supervised latent Dirichlet allocation}
 For example, you may want to extend supervised \abr{lda} in some way
 (Chapter~\ref{ch:css}).  Fortunately, \abr{slda} is a well-defined model and
 has established performance on widely available datasets.
@@ -440,8 +465,10 @@ changes to the model are.
 Comparisons between topic models can be difficult because implementations and algorithms can vary so much.
 It is often unclear, for example, whether an observed difference is due to one model being better than another or to comparing Gibbs sampling to variational inference.
 An excellent way to test a new algorithm for a complicated model is to find ways to implement simpler models in the same code.
-For example, you can emulate an LDA model using an Author-Topic model \citep{rosen-zvi-04} by assigning each document its own ``author''.
+For example, you can emulate an \abr{lda} model using an Author-Topic model \citep{rosen-zvi-04} by assigning each document its own ``author''.
 
+\index{likelihood evaluation}
+\index{interpretability}
 A standard metric to report for topic models is their perplexity or
 held-out likelihood.  This value is the probability of held-out data given
 the settings of the model.  \citet{wallach-09a} detail a 

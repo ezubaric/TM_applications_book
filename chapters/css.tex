@@ -15,6 +15,7 @@ monitors, journalists, or social scientists.  The underlying problem
 is the same, however: these stakeholders are interested in what people
 have to say but cannot read all of the data at their disposal.
 
+\index{survey}
 Historically, social science asks questions about opinions. What candidate is
 preferred in a particular part of the country? Do people like a
 new restaurant or product?  These questions are often answered by
@@ -30,6 +31,8 @@ pressure can also be the solution: if a company is able to quickly see
 that it has a social media problem, it can more quickly intervene and
 correct the issue.
 
+\index{influenza}
+\index{approval rating}
 Traditional social science methods are labor intensive, take a long
 time, or are impossible for sensitive subjects.  For instance, surveys
 of influenza take too long to be useful compared to the life cycle of
@@ -38,6 +41,7 @@ may be too slow in the run-up to an election~\citep{oconnor-10}.  Using
 Twitter and Google searches results in more accurate information
 faster.
 
+\index{pollution in China}
 Directly communicating with some
 populations may be difficult.  Using social media presents an
 alternative~\citep{wang:paul:dredze-15}, as individuals share
@@ -65,6 +69,7 @@ ask''.
 
 \paragraph{Prediction and Interpretation}
 
+\index{prediction vs. interpretation}
 A common theme in using topic models is whether models
 should prioritize \emph{prediction} or \emph{interpretation}. 
 Different topic models privilege each of  these approaches.
@@ -84,6 +89,7 @@ show that topic model features can improve tweet categorization, as
 do \citet{blei-07b} for supervised \abr{lda}.  However, changing the
 objective function can further improve predictions~\citep{zhu-09}.
 
+\index{interpretability}
 However, sometimes improved interpretability
 (Chapter~\ref{sec:coherence}) hampers the ability of the model to
 predict content.  This is true of both words within a document and
@@ -95,11 +101,13 @@ less interpretable.
 
 \section{Topic Models for Qualitative Analysis}
 
+\index{Facebook}
 A common task in qualitative social science is to develop high-level theories that explain social processes based on low-level observations, such as field reports or ethnographic notes.
 One way to operationalize this process is the grounded theory method~\citep{glaser-67}.
 Grounded theory describes a process for iteratively developing theories through repeated reading of source material.
 \citet{baumer-17} compare a manual grounded theory analysis and a topic model-based analysis of survey response text describing people's experiences attempting to voluntarily leave Facebook.
 
+\index{grounded theory}
 They find that there are both theoretical and empirical connections between these two approaches.
 At the theoretical level, both grounded theory and probabilistic topic model algorithms are iterative, beginning with rough, low-quality models/theories and refining them through repeated passes through the documents.
 Both methods also seek to maintain a close connection between the abstract representation and the original data set: in Gibbs sampling, topics are ``grounded'' in specific word tokens.
@@ -112,6 +120,7 @@ As such the topic model can best be thought of as a tool for applying grounded t
 
 \section{Sentiment Analysis}
 
+\index{sentiment analysis}
 A useful way to think of the application of topic models in quantitative social science is as a means of deriving a numeric variable from text.
 The presence of specific topics in a document can stand in for themes that may not be otherwise easily measurable.
 These inferred topic variables can then be added to standard statistical methods to find connections between topics and non-textual variables.
@@ -164,6 +173,7 @@ sentiment and topic are modeled \emph{jointly}.  That is, there is for each docu
 probability distribution over both the sentiment variable $y$ and
 the topic assignments $z$.
 
+\index{upstream vs. downstream models}
 There are two general kinds of joint models that incorporate metadata
 such as sentiment: upstream and downstream models.  The distinction is
 based on the generative story of topic models (Chapter~\ref{ch:intro}): is
@@ -179,18 +189,20 @@ sentiment~\citep{mimno-08}, or from a latent variable that can serve as
 a proxy for sentiment~\citep{lin-09}.  Upstream models are often
 easier to implement and are more flexible~\citep{stewart-14} because they do not need to specify a generative distribution that matches the form of the variable.
 
+\index{Gaussian distribution}
 In contrast, downstream models explicitly predict variables such as sentiment
 \emph{given} text.  If the goal is to later predict sentiment given
 raw text with the help of topic models, downstream models can work
 better than upstream models.  These models are often called
 ``supervised'' topic models after supervised
-\abr{lda}~\citep{blei-07b}, which use a document's topics to predict
+\abr{lda}~\citep[\abr{slda}]{blei-07b}, which use a document's topics to predict
 the downstream sentiment using regression: a document's sentiment~$y_d$ is
-assumed to come from a normal distribution with mean $\eta^\top \bar
+assumed to come from a Gaussian distribution with mean $\eta^\top \bar
 z$, where $\bar z$ is a normalized vector of all of the topics that a
 document uses and $\eta$ is a regression parameter that describes the
 sentiment of each topic.
 
+\index{supervised latent dirichlet allocation (\abr{slda})}
 During inference, the words and sentiments work together to find
 combinations of topic and sentiment that make sense.  While
 ``vanilla'' topic models seek to find clusters of words that make
@@ -226,6 +238,7 @@ person take on an issue.  This can take many forms: are you for or
 against a proposal, are you a Democrat or a Republican, or are you a
 fan of the original Star Trek or the new version?
 
+\index{aspect model}
 Upstream models can discover these sides by incorporating stance into
 the generative model.  For example, several authors---\citet{zhai-04},
 \citet{lu-08}, and \citet{paul-10}---develop topic models that allow readers to compare
@@ -282,6 +295,7 @@ good that comes out of taxes (Figure~\ref{fig:shlda-taxes}).
 
 % Need to cite Grimmer
 
+\index{nested Dirichlet process}
 However, there are not always two sides to an issue.  A probabilistic
 solution to this model is the nested Dirichlet
 process~\citep{blei-07}.  These hierarchies induce a non parametric
@@ -303,6 +317,8 @@ see the same division between upstream and downstream models: upstream
 models assume that the communities form before we see words, while
 downstream models use the words to explain which links we see.
 
+\index{stochastic block model}
+\index{mixed-membership block model}
 The stochastic block model~\citep{holland-83} and its mixed-membership
 descendant~\citep{airoldi-08} are prototypes for upstream models.
 They posits that there are intrinsic groups of documents and links are
@@ -316,6 +332,7 @@ author identity, it is natural to combine author identity with
 an upstream model~\citet{mccallum-05b,liu-09}, conditioning topics on
 authors and the communities the authors belong to.
 
+\index{link latent dirichlet allocation (\abr{lda})}
 Link \abr{lda} is the exemplar for downstream
 models~\citep{nallapati-08} and include the text in the documents.  It
 uses a regression on the topic allocations ($\theta$) rather than
@@ -355,6 +372,7 @@ Atlanta to the whole of the US.
 \subsection{Peculiarities of Social Media}
 \label{sec:twitter-strange}
 
+\index{Twitter}
 \citet{hong-10} discuss how the short documents of social media
 platforms like Twitter can confuse topic modeling algorithms, and
 \citet{zhao-11} expand on the analysis, showing topical differences

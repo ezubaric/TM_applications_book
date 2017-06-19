@@ -23,6 +23,7 @@ more quickly.
 
 % TODO Add in something about document-centric perspective (anchors, etc)
 
+\index{online latent Dirichlet allocation}
 The first is through decreasing the average number of times a computer
 needs to look at a document to learn a topic model; i.e., to improve
 \emph{throughput}.  Online algorithms~\citep{hoffman-10} only look at a
@@ -37,6 +38,7 @@ possible by improving how long it takes to sample document
 assignments~\citep{yao-09,li2014reducing} or compute variational
 parameters~\citep{mimno-12}.
 
+\index{spectral learning}
 The final approach to improve the efficiency of probabilistic
 algorithms for topic models is to rethink the inference process
 entirely.  Novel approaches view topic model inference as a
@@ -47,6 +49,7 @@ documents---as the central unit of computation.
 
 \section{Deeper Representations}
 
+\index{deep learning}
 Part of the benefit of topic models is that the topic distribution of
 a document ($\theta$) serves as a low-dimensional representation of
 what the document means.  This numerical vector is useful for finding
@@ -54,9 +57,10 @@ similar documents (Chapter~\ref{ch:ir}), displaying documents to a user
 (Chapter~\ref{ch:viz}), or connecting documents across languages
 (Chapter~\ref{ch:mt}).
 
-Increasingly, vector-based representations have been useful ``all the
-way down''.  Vector-based representations of words and phrases can
-improve next word prediction~\citep{bengio-03}, sentiment
+\index{distributed representation} Increasingly, vector-based,
+distributed representations have been useful ``all the way down''.
+Vector-based representations of words and phrases can improve next
+word prediction~\citep{bengio-03}, sentiment
 analysis~\citep{socher-12}, and translation~\citep{devlin-14}.  And
 this is not just for text---representation learning has taken hold of
 speech, vision, and machine learning generally.
@@ -68,6 +72,7 @@ the future.
 
 \paragraph{Evaluation}
 
+\index{interpretability}
 Evaluation methods from topic models (Chapter~\ref{sec:coherence})
 have made their way into representation
 learning~\citep{schnabel-15,iyyer-16}, which suggests that some of the

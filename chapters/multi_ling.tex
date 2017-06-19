@@ -7,6 +7,7 @@ In practice, we often discover this phenomenon unexpectedly after running an ini
 This behavior makes sense because the model is looking for groups of words that appear frequently together but not in other contexts, and separate languages will exhibit this property strongly.
 In some cases we may choose to filter out small numbers of documents in other languages, but in many cases we would like to take advantage of  connections across many languages.
 
+\index{statistical machine translation}
 Multilingual topic models have been developed to analyze and understand a corpus in multiple languages.
 \citet{vulic2015probabilistic} provide a good overview.
 The applications in multi-language corpora can be divided into two categories.
@@ -23,6 +24,7 @@ explore only loosely aligned data.  In this chapter, we first discuss how topic 
 adapted to use multiple languages, and then show how these multilingual topic models can 
 help \textsc{smt}.
 
+\index{Wikipedia}
 Before discussing specific methods, it is useful to define terms related to data sources.
 The most salient feature for multilingual corpora is their degree of alignment.
 Parallel corpora are the most closely aligned. These collections comprise subsets of documents such that each set contains documents in different languages that have the same semantic content (up to the limits of translation).
@@ -55,8 +57,9 @@ This approach pre-dates probabilistic topic models.
 by projecting both documents to a shared latent semantic indexing
 space.
 
-Similarly, bilingual topic models~\citep{zhao-06,DeSmet-09} and polylingual topic models~\citep{mimno-09}
-such as polylingual Latent Dirichlet Allocation~(\plda{})
+\index{polylingual latent Dirichlet allocation}
+Similarly, bilingual topic models~\citep{zhao-06,DeSmet-09} and---more
+specifically---polylingual Latent Dirichlet Allocation~\citep[\plda]{mimno-09}
 assume that the aligned documents in different languages share the
 same topic distribution and each language has a unique topic
 distribution over its word types.
@@ -71,6 +74,7 @@ Topic models trained from document-level alignments have applications in explora
 For example, the Persian-language Wikipedia has a larger than average number of articles about science, while the Finnish-language Wikipedia has a larger than average number of articles about skiing.
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
 
+\index{query expansion}
 We note that it is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
 While the topic models' application in information retrieval (Chapter~\ref{ch:ir}) focus
@@ -102,6 +106,7 @@ p(e \g q) = \sum_k p(e \g \phi_k^D) p(k \g \theta_q).
 
 %\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
+\index{German language}
 Some forms of query expansion across multiple languages do not require
 explicit modeling of connections between topics \citep{vulic2011crosslanguage,vulic2015probabilistic}.  As noted in
 Chapter~\ref{ch:ir}, \citet{erlin2017topic} use two independent seeded
@@ -111,6 +116,7 @@ topic from each language's model, these two topics are used as a form
 of query expansion to identify documents related to the target
 subject.
 
+\index{comparable corpora}
 Although it is relatively easy to get comparable topics from comparable corpora, identifying specific words that are translations of each other in different languages is more difficult.
 Given a word $w_e$ that has high probability in topic $k$ in language $e$, it is likely that a good translation of $w_e$ in language $f$ has high probability in topic $k$ as well. \citet{vulic2011identifying} evaluate several methods for identifying such translation pairs given a bilingual or polylingual topic model.
 They find two methods that work well, both of which consider the frequency of a given target word across many topics.
@@ -127,14 +133,18 @@ are cheap and easy. However, they require active support of those creating the
 collection, which is not always available.  Many collections are
 written in isolation.
 
+\index{dictionary}
 However, one of the most ubiquitous multilingual tools is the
 dictionary.  This section discusses how we can use \emph{lexical information} like
 multilingual dictionaries~\citep{Zhang-10} and orthographic relations 
 between words~\citep{boyd-graber-09} to help users
 who want to understand a collection.
 
-For instance, tree-based topic models such as tree-based Latent Dirichlet 
-Allocation~(\abr{tlda})~\citep{boyd-graber-07,andrzejewski-09,hu-14:itm}
+\index{Chinese language}
+\index{tree-based latent Dirichlet allocation}
+\index{WordNet}
+For instance, tree-based topic models such as tree-based latent Dirichlet 
+allocation~\citep[\abr{tlda}]{boyd-graber-07,andrzejewski-09}
 incorporate positive correlations between words in the same or
 different languages by encouraging words that appear together in a
 {\bf concept} to have similar probabilities given a
@@ -150,6 +160,7 @@ languages. For example, if a bilingual dictionary defines
 ``\begin{CJK*}{UTF8}{gbsn}电脑\end{CJK*}'' as ``computer'', we combine
   these words in a concept.
 
+\index{Dirichlet distribution!tree}
   These concepts (positive correlations) are organized into a {\bf
     prior tree} structure. Words in the same concept share a common
   parent node (Figure~\ref{fig:prior_trees}). That concept then
@@ -198,6 +209,9 @@ concept are positively correlated in topics.  For example, if
 
 \section{Alignment from Parallel Corpora and Lexical Information}
 
+\index{polylingual tree-based Latent Dirichlet allocation}
+\index{dictionary}
+\index{parallel corpus}
 Bilingual dictionaries and other sources of word-level information are 
 valuable in training multilingual models, because they can easily specify 
 simple lexical relationships that might be difficult to extract from parallel corpora.
@@ -206,7 +220,7 @@ These two approaches are not mutually exclusive, however; they reveal
 different connections across languages. \citet{hu-14} bring existing
 tree-based Latent Dirichlet Allocation~(\tlda{}) and polylingual Latent Dirichlet 
 Allocation~(\plda{}) together and create the polylingual tree-based Latent Dirichlet 
-Allocation~(\ptlda{}) that incorporates both word-level correlations and
+allocation~(\ptlda{}) that incorporates both word-level correlations and
 document-level alignment information.
 
 To build up the prior tree structure, \citet{hu-14} consider two
@@ -239,6 +253,7 @@ information from both languages.
 \section{Topic Models and Machine Translation}
 \label{sec:tm-mt}
 
+\index{statistical machine translation!domain adaptation}
 The most frequent application of multilingual topic models is in machine translation.
 Given a text input in one language (source language), statistical
 machine translation tries to find a similar sequence of words in another
@@ -291,6 +306,7 @@ Statistical machine translation represents translation as a
 combination of probabilistic processes, a phrase-level translation model and a sentence-level language model~\citep{koehn-03,koehn-09}. 
 Topic models have been applied to both aspects of this process.
 
+\index{decoding (machine translation)}
 The actual process of translation is also known as \textit{decoding},
 which is to find the best translation target sentence $\mathbf{e}$ 
 given the source sentence $\mathbf{f}$. Formally,
@@ -350,6 +366,7 @@ models, language models, and reordering models respectively.
 \section{Topic Models for Phrase-level Translation}
 \label{sec:trans-multiling}
 
+\index{phrase (machine translation)}
 Translation models map words and phrases from one language to another.
 Both monolingual topic models and bilingual topic models are useful for improving translation models.
 As we have mentioned in Section~\ref{sec:tm-mt}, 
@@ -531,6 +548,7 @@ We next turn to topic models that explicitly learn multilingual connections betw
 
 \paragraph{Multilingual Information for Domain Adaptation}
 
+\index{disambiguation}
 Using bilingual data adds modeling complexity, but can also improve topic model quality.
 One can think of topic models as tools for disambiguating the meaning of words based on their context. 
 Aligning across multiple languages is a common way of resolving such ambiguities.
@@ -577,7 +595,7 @@ be combined to further improve \textsc{smt}.
 
 \section{Topic Models for Sentence-level Language Modeling}
 
-
+\index{language model!machine translation}
 A critical component of machine translation systems is the language
 model, which provide local constraints and preferences to make
 translations more coherent. A language model describes the probability
@@ -681,6 +699,7 @@ adaptation for \textsc{smt}. Similar to polylingual topic models~\citep{mimno-09
 \textsc{blsa} transfers the inferred
 topics from the source language to the parallel target language.
 
+\index{latent semantic analysis}
 More specifically, \citet{Tam-2007} assume the aligned source document
 and the target document share the same document-topic distribution.
 They first learn an \textsc{lsa} model on the source
@@ -716,8 +735,8 @@ language model combines the topic-based language model with the
 general background language model, thus it is more robust in improving
 the results of \textsc{smt}.
 
-
-\citet{Yu-2013} presents a hidden topic Markov model~(\textsc{htmm}) to improve
+\index{hidden topic Markov model}
+\citet{Yu-2013} present a hidden topic Markov model~(\textsc{htmm}) to improve
 the language model in \textsc{smt}. They build up a topic model on the
 source side and target side respectively, and learn a topic-specific
 language model based on the target side by estimating the
@@ -788,6 +807,7 @@ Topic & Type & Example \\ \hline \hline
 \end{center}
 \end{table}
 
+\index{reordering (machine translation)}
 \citet{Xiong-2006} treat the
 reordering problem as a classification with two labels: straight and
 inverted between two consecutive blocks, and build up a maximum
@@ -821,11 +841,11 @@ applied to extract better topics.
 
 \section{Beyond Domain Adaptation}
 
+\index{Bilingual topical admixture}
 In addition to translation models, language models and reordering models,
 there are also other modules of \textsc{smt}, such as word alignment,
-where topic models have also been applied. \citet{zhao-06} present a
-Bilingual topical admixture (BiTAM) to improve  word
-alignment in \textsc{smt}. BiTAM assumes each document pair is an
+where topic models have also been applied. The
+Bilingual topical admixture model~\citet[BiTAM]{zhao-06} assumes each document pair is an
 admixture of topics, and the topics for each sentence pair within that
 document pair are sampled from the same document-topic
 distribution. Each topic also has a topic-specific translation

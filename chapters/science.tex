@@ -81,6 +81,7 @@ yes, topic models correlate with what we often think of as scientific
 disciplines.  They use distinct language for methods, subjects of
 study, and have different key players.
 
+\index{National Institutes of Health}
 This work sought to find divisions between the fields of science, but from a retrospective point of view.
 In contrast, \citet{talley-11} sought to map the funding priorities of the American National Institutes
 of Health (\abr{nih}) from within the organization.
@@ -121,15 +122,17 @@ over time.  Another way that science is different is that the
 documents themselves introduce new ideas (we discuss detecting these
 innovative ideas in the next section).
 
+\index{dynamic topic model}
 One of the first techniques to do this viewed topics as subtly
-changing each year with a Dynamic Topic
-Model (\abr{dtm})~\citep{blei-06b}.  Each topic has a distinct
+changing each year with a dynamic topic
+model~\citep[\abr{dtm}]{blei-06b}.  Each topic has a distinct
 distribution over words for each time period.  For example, the probability that
 the \underline{physics} topic emits the word ``string'' in 1910 might be low,
 but after 1970 much higher.  Of course, we do not want the topics to be completely
 different every year---we want topics to change, but not \emph{too
   much}.
 
+\index{Gaussian distribution}
 The \abr{dtm} views topics as changing through \emph{Brownian
   motion}: the topic at year $t$ is drawn from a Gaussian distribution
 with mean at the topic for year $t-1$ (a separate variance parameter
@@ -138,13 +141,15 @@ object given our discussion of distributions from
 Chapter~\ref{sec:intro_building_blocks}: Gaussians produce continuous
 observations that might be negative or greater than 1.0, while topics are multinomial distributions over discrete outcomes.
 
+\index{Dirichlet distribution!alternatives}
+\index{discrete distribution}
 To move from Gaussian draws from $\vec x \in \R^d$ to a discrete distributions
 over $d$ outcomes, \citet{blei-06b} use the logistic normal form to
 create a multinomial distribution
 \begin{equation}
 p(z=k \g \vec x)  = \frac{\exp{x_k}}{\sum_i \exp{x_i}},
 \end{equation}
-rather than drawing the multinomial from a Dirichlet distribution
+rather than drawing the discrete distribution from a Dirichlet distribution
 (c.f. Equation~\ref{eq:phi_map}).
 This greatly complicates inference, but allows the topics to change
 gradually from year to year.
@@ -160,6 +165,7 @@ While the final topic is nearly unrecognizable given the first, they
 all are clearly \underline{physics}; the modeling assumptions of the
 \abr{dtm} capture these nearly imperceptible changes in each year.
 
+\index{continuous time dynamic topic model}
 The flipping of a calendar page does not rule science, however;
 changes can happen at any time.  \citet{wang-08} captures changes in
 topics in continuous time; each document gets its ``own'' view of a
@@ -218,6 +224,7 @@ time $t$ and find the places in the past whose research most resembles the prese
 their ideas. % For example, they found that
 % TODO: Add example!
 
+\index{copycat model}
 Citations are a useful but incomplete guide to solving this problem.
 \citet{dietz-07} develop a ``copycat'' model that uses the citation
 network to model the use of language across cited documents: if you
@@ -227,12 +234,13 @@ original paper.
 However, this assumes a perfect citation graph, which isn't always
 available for some fields.  
 
+\index{dynamic influence model}
 Capturing more nuanced effects at either the individual or lab level requires
 refining the model.  \citet{gerrish-10} adapt the random walk model of
 \citet{wang-08} (Chapter~\ref{sec:sci_change}) for scientific change.  Instead of topic randomly wandering into
 new concepts, \citet{gerrish-10} propose that innovative articles ``nudge'' topics
-to look adopt the word usage of those innovative documents.  This model is called the ``Dynamic
-Influence Model'' (\abr{dim}). The assumption is that concepts and ideas are represented
+to look adopt the word usage of those innovative documents.  This model is called the ``dynamic
+influence model'' (\abr{dim}). The assumption is that concepts and ideas are represented
 by language. If we can identify changes in word usage, this change implies that there
 were underlying changes in concepts.
 

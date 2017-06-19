@@ -33,6 +33,7 @@ Finally, we consider studies of historical scholarly literature.
 
 \section{Newspapers}
 
+\index{newspaper}
 \citet{newman-06} present an example of topic modeling on historical newspapers,\footnote{\citet{mei-05} present an earlier example of \emph{contemporary} news analysis (i.e., where the data are already digitized).  Their work also uses topic models to show the evolution of themes over time.} in a collection of articles from the {\em Pennsylvania Gazette} from 1728 to 1800.\footnote{http://www.accessible-archives.com/}
 These articles comprise 25 million word tokens in articles and advertisements, and cover several generations of everyday life before, during, and after the founding of the United States of America.
 The authors contrast their study to manually created keyword-based indexes, which focus on specific terms and can be applied inconsistently across large corpora.
@@ -103,11 +104,13 @@ Topic models are often effective at identifying consistent data-preparation erro
 Other types of records besides newspapers are of interest, and present their own challenges.
 In this section we consider two case studies, in which the simplicity of the bag-of-words document model is an asset because it allows for substantial variability in spelling and language, both in English and in other languages.
 
+\index{German language}
 \citet{erlin2017topic} search for work related to epistemology in a large corpus of English and German books.
 They ``seed'' the models for each language with a small set of query words that the authors expect to be related to that subject.
 This approach is closer to standard information retrieval than many other topic model applications, since the model is used both as a way of organizing the corpus and as a way of focusing attention on specific aspects.
 Their use of a topic model differs from standard IR in that they are more deliberately open to related terms and concepts: the field of epistemology is expected to be broad, and more likely to be represented by a combination of words than by any one query.
 
+\index{Chinese language}
 \citet{miller-13} uses Chinese records to investigate the meaning of
 the word {\em zei}, or ``bandit'' in Qing dynasty China (1644--1912). The word by
 itself can imply several different forms of anti-social behavior,
@@ -124,6 +127,7 @@ Miller argues that in Classical Chinese a single character can be treated as a t
 
 %\jbgcomment{Could we get a figure for the months?  I think that would be a nice addition}
 
+\index{Martha Ballard}
 Cameron Blevins models the diary of Martha Ballard (1735--1812), a revolutionary war-era midwife who recorded entries over 27 years.\footnote{http://www.cameronblevins.org/posts/topic-modeling-martha-ballards-diary/} The model provides a useful way to discover connections between words and repeated discourses.
 As with other historical corpora, Blevins focuses on the connection between topics and time.
 Specific events, like a birth, can be highlighted by looking at spikes in a certain topic in the day-to-day time series.
@@ -154,6 +158,7 @@ Models trained on modern text corpora might not even recognize this example as E
 
 %\jbgcomment{The definition of secondary literature seems unclear to me, and it's not clear that the problem of copyright has been discussed enough that it's clear that JSTOR is so great as a result (even though it is!)}
 
+\index{\abr{jstor}}
 The historical record of scholarship is a valuable source for intellectual history.
 Many users make use of the \abr{jstor} ``Data for Research'' \abr{api}.\footnote{http://dfr.jstor.org/}
 The \abr{dfr api} is an important example, because it provides access to articles that have been scanned by \abr{jstor} and may be under copyright.
@@ -161,6 +166,7 @@ Access to the underlying documents in their original form as readable sequences 
 \abr{dfr} provides a simple view into selected articles by only providing the frequency of word unigrams.
 While the bag-of-words assumption used by topic models is restrictive, in this case it can be an advantage, because the original sequence of words is not used for inference anyway.
 
+\index{German language}
 \citet{mimno-12b} studies a collection of Classics journals digitized by \abr{jstor} to detect changes in the field over the 20\textsuperscript{th} century.
 A distinctive aspect of this study is the use of a {\em polylingual} topic model~\citep{mimno-09}.  The details of this model and how it contrasts with other models are described in more detail in Chapter~\ref{sec:doc-align}; for this discussion we simply need some topic model that can discover topics that are consistent across languages.
 An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
@@ -185,6 +191,7 @@ of words are shifting and context-dependent. For this reason, it is risky to
 construct groups of words that we imagine are equivalent to some predetermined
 concept.''
 
+\index{Modern Language Association}
 They analyze the proceedings of the Modern Language Association\footnote{The MLA is a professional organization for literary scholars in the United States.} to find shifts in focus in the field of English literature.
 A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of \underline{violence}: {\em power,
 violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20\textsuperscript{th} century than during the first half.
