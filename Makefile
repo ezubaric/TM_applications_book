@@ -1,0 +1,7 @@
+
+2017_fntir_tm_applications.pdf:
+	pdflatex 2017_fntir_tm_applications
+	bibtex 2017_fntir_tm_applications
+	makeindex 2017_fntir_tm_applications
+	pdflatex 2017_fntir_tm_applications
+	pdflatex 2017_fntir_tm_applications
