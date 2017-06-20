@@ -20,7 +20,7 @@ detect errors and improve the underlying model.
 Recall from the previous chapters that topics are distributions over words; the
 words with the highest weight in a topic best explain what the topic is about.
 While the simplest answer---just show the most probable words---is a common
-solution, there are possible refinements that can improve a user's understanding
+solution, there are refinements that can improve a user's understanding
 of a collection by showing the relationships between words or explicitly showing
 words' probability.
 
@@ -28,7 +28,7 @@ words' probability.
 \paragraph{Word Lists}
 
 Just showing a list of the most common words (a
-visualization that we will call ``word list'') is very simple, and it also works well.
+visualization that we will call ``word list'') is very simple, and works well.
 Users can quickly understand how words are arranged, and it is an efficient use of
 space. 
 Topics have been represented horizontally~\citep{gardner-10,smith2015visual} or
@@ -125,8 +125,8 @@ that parents' labels should be consistent with their children's.
 % Frank Wood / Noemi hierarchically supervised model?
 
 \citet{lau-10} use a supervised approach to rerank the words in a
-topic to ensure that the ``best'' word in the topic is shown to a
-user. Each candidate word forms a feature vector consisting of
+topic to ensure that the user sees the ``best'' word in the
+topic. Each candidate word forms a feature vector consisting of
 features such as the following:
 \begin{itemize*}
 \item the conditional probability of a word given the other words in a
@@ -160,12 +160,12 @@ in the hierarchy; and the topic's labels should be unique.
 
 \index{PageRank}
 \citet{aleteras-14} instead query the whole Web and then build a graph that
-includes the words that make up the titles of the retrieved webpages. 
+includes the words in the titles of the retrieved webpages. 
 Their goal is to find words that are ``central'' in the graph: these
 words should make for a good title.
 Words have edges between them if they appear close to each other more
 than one would expect by chance.
-This property is measures through the  the normalized pointwise mutual
+This property is measures through the normalized pointwise mutual
 information (\abr{npmi}) metric.
 They find the central words by using the PageRank~\citep{page-99}
 algorithm, which finds words that are highly probable in the topic and appear frequently
@@ -177,7 +177,7 @@ Just like a search engine should return \texttt{simpsonsarchive.com}
 for a search on ``the Simpsons'' because everyone links to it, this
 labeling method will find the word in a topic that all of the other
 words ``vote for''.  
-For each word in a topic, we find all of the
+For each word in a topic, find all of the
 words that are likely to also appear with that word and then take the
 winner of that election as our label for a topic.  For example, given
 the topic
@@ -296,8 +296,10 @@ to do so, it is a bad model.
 \index{interpretability}
 In some ways held-out likelihood makes sense, but it is incomplete.
 We should be able to detect some kinds of failure: topics that are just random noise will have poor held-out likelihood.
-On the other hand, it is possible to get good held-out likelihood with a large set of topics so specific that any held-out document is modeled well.
-The topics would nevertheless lack generalizability and interpretability.
+On the other hand, hundreds topics so specific that any held-out
+document is modeled well yields an excellent held-out likelihood.
+The topics would nevertheless lack generalizability and
+interpretability in the eyes of a user.
 
 \citet{chang-09b} show that
 held-out likelihood, a traditional measure of probabilistic model quality,
@@ -371,8 +373,7 @@ grants funded by the American National Institutes of Health
 topics were ``good'': they summarized the data and told a story about
 a coherent slice of research supported by the \abr{nih}.  However,
 this topic is more problematic; it combines words about the central
-nervous system with words about the urinary system.  Such a topic (as
-discussed in \citet{mimno-11}) does not give a clear understanding of the
+nervous system with words about the urinary system.  Such a topic~\citep{mimno-11} does not give a clear understanding of the
 documents it should represent.
 
 \citet{hu-14:itm} address this problem by allowing a user to add probabilistic

@@ -5,13 +5,13 @@
 Topic models play an important role in the analysis of historical documents.
 Historical records tend to be extensive and difficult to manage without intense and time-consuming organization.
 Records are complicated: they resist categorization, and may even lack standard spelling and formatting.
-But there is more to history than simply the management of documents.
+But there is more to history than the management of documents.
 The task of a historian is not only to absorb the contents of historical records, but to generalize; to find patterns and regularities that are true to the documents, but also beyond any single piece of evidence.
 Topic models are useful because they address these issues. They are scalable, robust to variability, and able to generalize while remaining grounded in observation.
 
 Automated methods are an especially valuable counterpoint to traditional scholarly methods.
 Studying history is about encountering the unexpected, often in contexts that seem familiar.
-We don't necessarily know how people in the past talked about particular issues, or how they organized their lives.
+We do not necessarily know how people in the past talked about particular issues, or how they organized their lives.
 Perhaps more dangerously, we assume that we know these things, and that our ancestors saw the world in the same way we do.
 Topic models give us a perspective that is interpretable but at the same time alien, based on patterns in documents and not on our own conceptions of how things should be.
 
@@ -25,7 +25,7 @@ This chapter is organized around different formats for historical documents.
 A recurring focus is the desire to plot events and discourses against time.
 We begin with historical newspapers, which are relatively close to the modern news articles that are a more familiar use case in topic modeling.
 We then consider other forms of historical records, such as annals and diaries.
-These demonstrate the flexibility of topic modeling, including a corpus not in English and corpus in English with irregular spelling.
+These show the flexibility of topic modeling, including a corpus not in English and corpus in English with irregular spelling.
 Finally, we consider studies of historical scholarly literature.
 
 %A useful resource:
@@ -39,18 +39,22 @@ These articles comprise 25 million word tokens in articles and advertisements, a
 The authors contrast their study to manually created keyword-based indexes, which focus on specific terms and can be applied inconsistently across large corpora.
 Spurious patterns in index term use could complicate historical research.
 They cite an example of the tag {\em adv}, which is used extensively in the early and late decades of the corpus, but not in the middle.
-The topic-based approach is attractive because it is consistent across the collection (as long as the terms used in the documents are themselves consistent) and because it operates at a more abstract semantic level, reducing the chance that modern historians miss key terms.
+The topic-based approach is attractive because it is consistent across the collection (as long as the terms used in the documents are themselves consistent) and because it is abstract, reducing the chance that modern historians miss key terms.
 
-They compare three methods for finding semantic dimensions, latent semantic analysis \citep{deerwester-90}, $k$-means clustering, and a topic model \citep{hofmann-99}.
-The difference between these methods can be described in terms of expressivity.
-\abr{lsa} is effective at embedding word types and documents in a low-dimensional space, but the individual dimensions of this space are not interpretable as themes.
+\index{latent semantic analysis}
+\index{$k$-means clustering}
+\index{probabilistic latent semantic analysis}
+They compare three methods for finding semantic dimensions, latent semantic analysis \citep{deerwester-90}, $k$-means clustering, and a topic model~\citep{hofmann-99}.
+The difference between these methods can be described via expressivity.
+\abr{lsa} embeds word types and documents in a low-dimensional space well, but the individual dimensions of this space are not interpretable as themes.
 \abr{lsa} is too expressive: it places no constraints, such as positivity, on the learned dimensions, and therefore produces uninterpretable results that nevertheless fit the document set well.
 The k-means clustering is more similar to the topic model, and more successful at finding recognizable themes.
 But it is also prone to repeating similar clusters with small variations.
 Because of the single-membership assumption (a document can only belong to one cluster), the clustering model cannot represent documents with varying combinations of somewhat independent themes.
-The k-means model is therefore insufficiently expressive: it it forced to ``waste'' clusters on frequent combinations of simpler themes.
-The topic model, in contrast, has both modeling flexibility along with sufficient  constraints to support interpretable results.
+The k-means model is therefore insufficiently expressive: it forced to ``waste'' clusters on frequent combinations of simpler themes.
+The topic model, in contrast, has both modeling flexibility along with constraints to support interpretable results.
 
+\index{American Revolution}
 The authors find that the learned topics are a good representation of dynamics in the corpus, although not always in a direct manner.
 There is a large increase in discussions of politics in the period immediately around the American Revolution ({\em state government constitution law united power}).
 There is also evidence of economic factors: a topic relating to descriptions of cloth ({\em silk cotton ditto white black linen}) rises in the 1750s, but then declines as Americans turned to domestic ``homespun'' cloth production in response to British trade policies.
@@ -80,35 +84,35 @@ Again, these are related themes but rather than comprising a single event they t
 
 \citet{yang-11-historical} model a collection of historical newspapers from Texas spanning from the end of the Civil War to the present day.
 The goal is both exploratory, to find out about the interests of Texans through the 19th and 20th centuries, and {\em semi-exploratory}, to find out more about the history and context of specific, pre-specified themes such as cotton production.
-In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as a axis of investigation into the corpus.
-For example, a historian considered documents that exhibit topics related to cotton, and the topics that co-occur in those documents.
+In the topic model setting, semi-exploratory analysis starts by identifying one or more topics that seem to correspond to the theme of interest, and then using those topics as an axis of investigation into the corpus.
+For example, a historian considered documents with topics related to cotton, and the topics that co-occur in those documents.
 The study also led to more fully exploratory results.
 A \underline{Battle of San Jacinto} topic, the final conflict in the Texas Revolution that led to separation from Mexico, appeared earlier than expected.
 Further investigation suggested that the significance of the pivotal battle of San Jacinto was established much earlier than historians had previously anticipated.
 
 The Texas newspaper study raises several interesting methodological issues relating to pre-processing and iterative modeling.
 The authors put considerable work into dealing with the quality of digitization.
-There are many factors that affect the quality of digitized historical newspapers, from the quality of the original printing to scanning, article segmentation, and optical character recognition (\abr{ocr}).
+Many factors that affect the quality of digitized historical newspapers, from the quality of the original printing to scanning, article segmentation, and optical character recognition (\abr{ocr}).
 For this study extensive work was applied to automated spelling correction.
 Another notable factor in this study is its prominent use of multiple topic models.
-In many cases there is a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
+There is often a tacit assumption that a single corpus should result in a single model, but in practice modeling is often iterative, and intimately bound to the development of pre-processing systems.
 \citet{alsumait-08} iteratively refine their model with each segment of a news collection, while
 \citet{yang-11-historical} train different models on different temporal slices of the corpus.
 Although there is some advantage to maintaining a consistent topic space over time, dividing the corpus into separate sections has certain advantages.
-In this case, historians were interested in the context of specific historic periods, such as the full run of a newspaper in one of several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
+In this case, historians were interested in specific historic periods, such as the full run of a newspaper during several pivotal years, that are smaller than the full corpus but yet too large to be read easily.
 The authors also describe an iterative workflow that involves comparing topic model output after each of several pre-processing steps.
 Topic models are often effective at identifying consistent data-preparation errors, such as end-of-line hyphenation and consistent \abr{ocr} errors.
 
 \section{Historical Records}
 
 Other types of records besides newspapers are of interest, and present their own challenges.
-In this section we consider two case studies, in which the simplicity of the bag-of-words document model is an asset because it allows for substantial variability in spelling and language, both in English and in other languages.
+This section considers two case studies, in which the simplicity of the bag-of-words document model is an asset because it allows for substantial variability in spelling and language, both in English and in other languages.
 
 \index{German language}
 \citet{erlin2017topic} search for work related to epistemology in a large corpus of English and German books.
-They ``seed'' the models for each language with a small set of query words that the authors expect to be related to that subject.
+They ``seed'' the models for each language with several query words that the authors expect to be related to that subject.
 This approach is closer to standard information retrieval than many other topic model applications, since the model is used both as a way of organizing the corpus and as a way of focusing attention on specific aspects.
-Their use of a topic model differs from standard IR in that they are more deliberately open to related terms and concepts: the field of epistemology is expected to be broad, and more likely to be represented by a combination of words than by any one query.
+Their use of a topic model differs from standard IR in that they are more deliberately open to related terms and concepts: epistemology is expected to be broad, and more likely to be represented by a combination of words than by any one query.
 
 \index{Chinese language}
 \citet{miller-13} uses Chinese records to investigate the meaning of
@@ -117,13 +121,14 @@ itself can imply several different forms of anti-social behavior,
 which are difficult to distinguish from word frequencies alone. A
 topic model uses contextual information to separate these effects.
 
+\index{Japanese language}
 The application of topic models in Chinese highlights the importance of tokenization.
 We usually receive documents in the form of long strings, but we are interested in identifying {\em tokens} that are short strings with a specific meaning.
 Breaking a document into distinct tokens is an often-overlooked part of the document analysis process.
-In European languages we can achieve good results simply by separating strings of letter characters from sequences of non-letter characters, although there are many special cases~\citep{Boyd-Graber-14}.
+In European languages we can achieve good results by separating strings of letter characters from sequences of non-letter characters, although there are many special cases~\citep{Boyd-Graber-14}.
 Tokens may contain non-letter characters such as apostrophes and hyphens, and may span multiple words ({\em Queen Victoria}, {\em black hole}).
 In many East Asian writing systems we cannot rely on orthographic conventions to identify tokens.
-Miller argues that in Classical Chinese a single character can be treated as a token without a strong negative impact on modeling, but for Japanese and modern Chinese we must often rely on pre-processing tools that are themselves potentially unreliable.
+Miller argues that in Classical Chinese a single character can be treated as a token without harming modeling, but for Japanese and modern Chinese we must often rely on pre-processing tools that are themselves potentially unreliable.
 
 %\jbgcomment{Could we get a figure for the months?  I think that would be a nice addition}
 
@@ -132,13 +137,13 @@ Cameron Blevins models the diary of Martha Ballard (1735--1812), a revolutionary
 As with other historical corpora, Blevins focuses on the connection between topics and time.
 Specific events, like a birth, can be highlighted by looking at spikes in a certain topic in the day-to-day time series.
 But larger trends are also evident.
-As a calibration experiment, Blevins measures the association of a topic that appears to refer to cold weather ({\em cold, windy, chilly, snowy, air}) to months of the year.
+As a calibration experiment, Blevins measures the association of a topic that appears to refer to \underline{cold weather} ({\em cold, windy, chilly, snowy, air}) to months of the year.
 As expected, the concentration of this topic is lowest from May to August, rises from September to January, and falls from February to April.
 
 Blevins identifies several other topics that appear to change in their concentration over time.
-Two topics involving house work, focusing roughly on cleaning and cooking, respectively, appear to be correlated in time, and rise over the decades.
+Two topics involving house work focusing roughly on \underline{cleaning} and \underline{cooking} appear to be correlated in time, rising over the decades.
 Blevins connects this finding to suggestions that as Ballard grew older and her children moved away, she had less help from family members.
-A more subtle topic involves descriptions of fatigue and illness.
+A more subtle topic involves descriptions of \underline{fatigue and illness}.
 This topic also increases over time, and appears to correlate with the housework topics, except in the last year of the diary, where fatigue and illness reach their highest concentration and housework declines.
 
 This analysis exemplifies the exploratory nature of topic modeling: by themselves, these observations are not conclusive, but they are suggestive and point to areas of further analysis.
@@ -146,8 +151,9 @@ A scholar might take the diary entries that score high on an individual topic as
 For example, one might check whether Ballard's references to fatigue and illness are referring to herself or to patients.
 The model does not tell the whole story, but it points to where stories might lie.
 
+\index{diary}
 Blevins argues that characteristics of the diary form make it well-suited for topic analysis: ``Short, content-driven entries that usually touch upon a limited number of topics appear to produce remarkably cohesive and accurate topics.''
-In addition, the topic model's lack of linguistic sophistication is actually an asset in this case.
+In addition, the topic model's lack of linguistic sophistication is an asset.
 The diary is written in a terse style with many abbreviations and with irregular, 18\textsuperscript{th} century spelling: ``mrss Pages illness Came on at Evng and Shee was Deliverd at 11h of a Son which waid 12 lb.''
 Models trained on modern text corpora might not even recognize this example as English, but the topic modeling algorithm is still capable of finding semantically meaningful groups of words.
 
@@ -168,7 +174,7 @@ While the bag-of-words assumption used by topic models is restrictive, in this c
 
 \index{German language}
 \citet{mimno-12b} studies a collection of Classics journals digitized by \abr{jstor} to detect changes in the field over the 20\textsuperscript{th} century.
-A distinctive aspect of this study is the use of a {\em polylingual} topic model~\citep{mimno-09}.  The details of this model and how it contrasts with other models are described in more detail in Chapter~\ref{sec:doc-align}; for this discussion we simply need some topic model that can discover topics that are consistent across languages.
+A distinctive aspect of this study is the use of a {\em polylingual} topic model~\citep{mimno-09}.  The details of this model and how it contrasts with other models are described in more detail in Chapter~\ref{sec:doc-align}; for this discussion we need some topic model that can discover topics that are consistent across languages.
 An English-language journal is compared to a German-language journal by learning a common set of topics that each have a vocabulary in both languages.
 In other words, a topic has two ``modes'', one in which it emits words drawn from a distribution over English terms, and another in which it emits words drawn from a distribution over German terms.
 The linkage between English and German words is constructed using Wikipedia articles.
@@ -176,7 +182,7 @@ Wikipedia articles exist in many different languages, and articles in one langua
 The author first selects English Wikipedia articles matching key terms in the English-language journals, and then collects the German Wikipedia articles that are listed as being comparable to the selected English-language articles.
 
 By training the topic model jointly on the combined corpus of the original journal articles and the comparable Wikipedia articles, the model provides insight into the relative concentration of scholarly interests across the two language communities.
-The German-language journal articles contain relatively more work on law and oratory, themes that are present in the English-language articles but less prevalent.
+The German-language journal articles contain more work on \underline{law} and \underline{oratory}, themes that are present in the English-language articles but less prevalent.
 The model also shows a large increase in  interest in poetry in the German journal in the period following the second world war.
 In the English journals there is a large increase starting in the 1980s in cultural and economic studies along with critical theory, which does not appear in the German journals.
 
@@ -192,13 +198,13 @@ construct groups of words that we imagine are equivalent to some predetermined
 concept.''
 
 \index{Modern Language Association}
-They analyze the proceedings of the Modern Language Association\footnote{The MLA is a professional organization for literary scholars in the United States.} to find shifts in focus in the field of English literature.
+They analyze the proceedings of the Modern Language Association\footnote{The MLA is a professional organization for literary scholars in the United States.} to find shifts in focus in English literature.
 A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of \underline{violence}: {\em power,
 violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20\textsuperscript{th} century than during the first half.
 They contextualize this finding by comparing the frequency of these words in a more general corpus from Google n-grams; there is no comparable change.
 This approach holds the topic fixed and searches for associated words.
 They then pivot and hold the word ``power'' fixed and search for associated topics.
-In this case the \underline{violence} topic actually appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
+In this case the \underline{violence} topic appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
 Like many topics, the content of this topic is difficult to assess from top words alone.
 Further exploration through exploration of individual documents would be necessary (e.g., through the tools discussed in Chapter~\ref{ch:viz}).
 

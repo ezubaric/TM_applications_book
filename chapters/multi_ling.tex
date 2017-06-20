@@ -4,8 +4,11 @@
 So far, we have been focusing on monolingual topic models and their applications.
 But many collections contain documents in more than one language.
 In practice, we often discover this phenomenon unexpectedly after running an initial monolingual topic model: topic models turn out to be very good at language identification.
-This behavior makes sense because the model is looking for groups of words that appear frequently together but not in other contexts, and separate languages will exhibit this property strongly.
-In some cases we may choose to filter out small numbers of documents in other languages, but in many cases we would like to take advantage of  connections across many languages.
+This behavior makes sense because the model is looking for groups of
+words that appear frequently together but not in other contexts, and
+separate languages have this property.
+In some cases we may choose to filter out small numbers of documents
+in other languages, but we would like to take advantage of  connections across many languages.
 
 \index{statistical machine translation}
 Multilingual topic models have been developed to analyze and understand a corpus in multiple languages.
@@ -75,7 +78,7 @@ For example, the Persian-language Wikipedia has a larger than average number of 
 These methods require parallel or comparable corpora, but for mixed corpora the training data can be augmented with a supplemental corpus of comparable documents as long as  the comparable documents cover similar enough topics \citep{mimno-12b}.
 
 \index{query expansion}
-We note that it is not necessary to take ``language'' in its strict meaning.
+It is not necessary to take ``language'' in its strict meaning.
 Loosely aligned models have been applied in information retrieval for query expansion \citep{Gao-2011,Gao-2012}. 
 While the topic models' application in information retrieval (Chapter~\ref{ch:ir}) focus
 on a single language, \cite{Gao-2011} assume the queries and Web documents are in
@@ -104,7 +107,6 @@ topics, the relationship between document term $e$ and query $q$ is
 p(e \g q) = \sum_k p(e \g \phi_k^D) p(k \g \theta_q).
 \end{align}
 
-%\jbgcomment{Would be good to have an example of this soft query \yhcomment{David added this example, and I don't actually understand what he means here.}}
 
 \index{German language}
 Some forms of query expansion across multiple languages do not require
@@ -357,7 +359,7 @@ pair:
 p_w(\bar{f} \g \bar{e}; a) = \prod_{i} \frac{1}{\{|j \g (i, j) \in a\}|} \sum_{\forall (i,j) \in a} p_w(f_i \g e_j)
 \end{equation}
 where $i$ and $j$ are the word positions in target phrase $\bar{e}$
-and source phrase $\bar{f}$ respectively.
+and source phrase $\bar{f}$.
 
 Next we introduce how to apply topic models to improve translation
 models, language models, and reordering models respectively.
@@ -459,41 +461,6 @@ toward being fairly uniform. In this case, the topic features will
 contribute less to the translation results and the standard features
 will dominate the translation results.
 
-%\paragraph{Topical Lexical and Phrasal Features}
-
-%\citet{hasler-12} also apply monolingual topic models for domain adaptation to
-%\textsc{smt} in a similar framework as \citet{Eidelman-12}, except
-%they introduce different features which they call sparse word pair
-%features and phrase pair features. The topics on source documents are
-%integrated as a source side trigger for a particular word pair or
-%phrase pair as sparse features. For example, given a word $w_f$ with
-%topic $k$, for an aligned word pair $(w_f, w_e)$ which is observed $c$
-%times in the aligned sentence pair, the sparse word pair feature $wp$
-%with topics is represented as $wp\_k\_w_f \sim w_e = c$, while the
-%original word pair feature is $wp\_w_f \sim w_e = c$. The topic phrase
-%pair features are also defined in a similar way: given an aligned
-%phrase pair $(p_f, p_e)$ with count $c$ in the same sentence, the
-%sparse phrase pair feature $pp$ with topics is represented as
-%$pp\_k\_p_f \sim p_e = c$. Both the phrase pair and word pair features
-%are extracted from the aligned training sentence pairs, and then
-%\textsc{mira} is used to learn the feature weights.
-%
-%One difference in \citet{hasler-12} from \citet{Eidelman-12} is that
-%they are using \emph{hidden topic Markov
-%  models}~\citep[\textsc{htmm}]{gruber-07} instead of \textsc{lda} to
-%learn topics. While \textsc{lda} assumes that each word is generated
-%independently in a document, \textsc{htmm} models the word topic in a
-%document as a Markov chain where all words in a sentence are assigned
-%with the same topic. \textsc{htmm} computes $p(z_n, \Phi_n | d, w_1,
-%\cdots, w_N)$ for each sentence, where $z_n$ is the topic of sentence
-%$n$ in document $d$, $w_1, \cdots, w_N$ are the words in the sentence
-%$n$, $\Phi_n$ is the topic transition between words. $\Phi_n$ is only
-%non-zero at sentence boundaries. The advantage of using \textsc{htmm}
-%is that each sentence gets the same topic assignment, thus the topic
-%for each phrase pair in the aligned sentence is consistent and can be
-%used for topical features directly.
-
-
 \citet{hasler-12} also apply monolingual topic models for domain adaptation to
 \textsc{smt} in a similar framework as \citet{Eidelman-12}, except
 they apply \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} 
@@ -524,8 +491,8 @@ the source side topic $k_{out}$, and $p(k_{out} | \bar{f})$ denotes the
 phrase probability in topic $k_{out}$.
 
 In addition, \citet{su-12} assume a monolingual corpus in the
-same domain as the test sentence (referred to as in-domain monolingual
-data). Thus they also apply \textsc{htmm} to estimate the
+same domain as the test sentence (called ``in-domain monolingual
+data''). Thus they also apply \textsc{htmm} to estimate the
 in-domain topic $k_{in}$ and $p(k_{in} \g \bar{f})$.  However, the
 in-domain topics $k_{in}$ and the out-of-domain topics $k_{out}$ may
 not be in the same space, so \citet{su-12} introduce the topic mapping
@@ -586,7 +553,7 @@ Second, they calculate a projection between the two monolingual topic models $p(
 sentences, and use this relationship to calculate the conditional
 distribution of target phrases and target topics $p(\bar{e}, k_e \g \bar{f})$.
 
-This topic projection idea is similar to the topic mapping by
+This topic projection resembles the topic mapping by
 \citet{su-12}, but it is applied between the source language and the
 target language. Compared to the lexical features in
 \citet{Eidelman-12} and \citet{hu-14}, \citet{xiao-12} introduce a new
@@ -604,7 +571,7 @@ also mentioned as the history $h$ (Chapter~\ref{sec:ir-lm} discusses
 language models for information retrieval). They also help choose the
 correct or more appropriate word during statistical machine
 translation. For example, the English words ``house'' and ``home'' are
-in many cases synonymous, but the translation ``I am going home'' is
+often synonymous, but the translation ``I am going home'' is
 better than ``I am going house''.
 
 Domain adaptation for language models~\citep{Bellegarda-04,wood-09}
@@ -710,7 +677,7 @@ target side. The topics for the target language are not learned
 iteratively, thus the topics in a parallel corpus can be learned very
 efficiently.
 
-In order to apply the topics for language adaptation, the word
+To apply the topics for language adaptation, the word
 marginal distribution $p_{lsa}(w)$ for document $d$ is computed,
 \begin{align}
 p_{lsa}(w) = \sum_{k=1}^K p(w \g k) p(k \g d)
@@ -816,8 +783,8 @@ entropy classification model as the reordering model.
 multiple domains, instead of using automatic techniques such as topic
 models.
 \citet{wang-14} integrate two more types of
-topic-based features into the reordering model, in additional to the
-boundary word features used in \citet{Xiong-2006}. First, they choose
+topic-based features into the reordering model, in addition to the
+boundary word features~\citep{Xiong-2006}. First, they choose
 the topic with maximum probability in a document to be the
 \textit{document topic feature} for that document. Besides, they also
 use the topics of the content words that locate at the left and

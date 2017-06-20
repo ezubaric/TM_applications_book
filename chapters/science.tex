@@ -38,7 +38,7 @@ Physics was revolutionized by relativity.
 Genetics was revolutionized by the discovery of polymerase chain reaction methods.
 Geology was revolutionized by the discovery of evidence for plate tectonics in the form of magnetic traces in the ocean floor. Unlike the other domains we have
 discussed, scientific documents are not just \emph{reports} of news or events;
-they actually \emph{are the news}.
+they \emph{are the news}.
 
 What makes the analysis of scientific document collections both challenging and
 interesting is that innovation is hard to detect and hard to attribute.
@@ -56,7 +56,7 @@ improve culture, and is an important form of international ``soft power''.
 However, knowing which research to fund is difficult, as the nature of science
 means that fields constantly change, which precludes rigid
 classifications~\citep{szostak-04}.  One challenge of modeling scientific
-documents is modeling how fields change over time; the static models we have
+documents is modeling how fields change; the static models we have
 discussed thus far are not always appropriate.
 
 \section{Understanding Fields of Study}
@@ -111,19 +111,19 @@ Scientific and other technical vocabulary often forms non-compositional compound
 As an example, ``amino acid'' contains the word ``acid'', but amino acids have no functional similarity to ``fatty acid'' or ``hydrochloric acid''.
 Combining such terms into single-token compounds resulted in substantially improved specificity and comprehensibility in topics.
 
-\section{How Fields Change over Time}
+\section{How Fields Change}
 \label{sec:sci_change}
 
 One way that science is distinct from the fields discussed in the
 previous chapters in that scientists see themselves as building a single coherent structure of knowledge.  Each
 paper in its own way stands on the shoulders of giants. Topic models
 for science thus need to be aware of the connections between documents
-over time.  Another way that science is different is that the
+across time.  Another way that science is different is that the
 documents themselves introduce new ideas (we discuss detecting these
 innovative ideas in the next section).
 
 \index{dynamic topic model}
-One of the first techniques to do this viewed topics as subtly
+One of the first techniques to \emph{model} topic change viewed topics as subtly
 changing each year with a dynamic topic
 model~\citep[\abr{dtm}]{blei-06b}.  Each topic has a distinct
 distribution over words for each time period.  For example, the probability that
@@ -170,7 +170,7 @@ The flipping of a calendar page does not rule science, however;
 changes can happen at any time.  \citet{wang-08} captures changes in
 topics in continuous time; each document gets its ``own'' view of a
 topic that can change slightly from the previous version of a topic.
-This can help capture sudden changes in scientific topics, e.g. from
+This can help capture sudden changes in scientific topics, e.g., from
 an innovative contribution.
 
 An alternative view of innovation is one directed by authors.
@@ -195,13 +195,11 @@ world, scientific documents are themselves the force that can change the world:
 from Darwin's \textit{Origin of Species} to Einstein's papers on
 relativity.
 
-Thus, it is interesting to try to find out where this change is
-happening.  
-From a modeling perspective, we thus need models that can also change
-over time.
+Can we find where this change is happening?  
+From a modeling perspective, we thus need models that can also change.
 Unlike the approach described in Chapter~\ref{sec:scholarly}, which
 focused on \emph{static} topics, here we focus on \emph{dynamic}
-topics that can change over time and \emph{who} is responsible for the
+topics that can change and \emph{who} is responsible for the
 change.
 
 From
