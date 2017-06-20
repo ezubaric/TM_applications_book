@@ -9,21 +9,21 @@ Despite their differences in purpose, there are strong mathematical and conceptu
 In this chapter we consider the use of topic modeling in \abr{ir} to balance specific user queries with more open-ended discovery.
 
 In the most direct sense, topic models can be used as a simple indexing method.
-Users can find topics that assign high probability to a particular query term, and then find documents that exhibit a high probability of these topics.
+Users can find topics that assign high probability to a particular
+query term, and then find documents with a high probability of these topics.
 Such topic-based search may additionally provide some level of query disambiguation, since it may be clear from topic-word distributions that one or another topic is more relevant to the user's information need.
 More sophisticated approaches blur the boundary between query-driven retrieval and unsupervised topic modeling.
 \citet{erlin2017topic} searches for passages related to epistemology in English and German books by ``seeding'' topic models with words thought to be relevant to that subject.
-This approach can be successful, but does not guarantee that relevant topics will be found, or that topics will really match the intended subject.
+This approach can be successful, but does not guarantee that relevant topics will be found, or that topics will match the intended subject.
 
-In the more formal \textit{ad-hoc} retrieval setting, users start with an information need expressed in the form of one or more queries. Many \abr{ir} systems treat both the queries and documents as ``bags of words'', and retrieve and rank the documents by measuring the word overlap between queries and documents.
+In the more formal \textit{ad-hoc} retrieval setting, users start with an information need expressed in queries. Many \abr{ir} systems treat both the queries and documents as ``bags of words'', and retrieve and rank the documents by measuring the word overlap between queries and documents.
 However, the ability of this direct and simple matching is always
 limited. Words with similar meaning or in different forms should also
 be considered as matched instead of being ignored. \textbf{Language
   modeling} has been one of the most popular frameworks to capture
 such semantic relationships. But humans would also like to use background
 knowledge to interpret and understand the queries and ``add'' missing
-words~\citep{wei-07}, which provides another approach often referred to as
-\textbf{query expansion} to improve retrieval and ranking results.
+words~\citep{wei-07}, which provides another approach called \textbf{query expansion} to improve retrieval and ranking results.
 
 Both directions can be pursued by learning and discovering the
 semantic relations between words and, further, the semantic relations
@@ -32,7 +32,7 @@ documents~\citep{deerwester-90,hofmann-99a} by describing each topic
 using probabilistically-weighted words and modeling each document as a distribution over
 all topics.
 This adds a layer of abstraction between a document and the exact words present in that document.
-Appealing to the generative ``story'' of a model, we want to recover the words that {\em could} have been available to an author based on the words that were actually chosen.
+Appealing to the generative ``story'' of a model, we want to recover the words that {\em could} have been available to an author based on the words that were chosen.
 Such semantic relations
 can be applied to smoothing the language models, or introducing
 related words in query expansion. This chapter focuses on how to apply
@@ -88,7 +88,7 @@ Then the documents are ranked based on this probability $p(q \g d)$. Higher
 probability implies the corresponding document is more relevant to the
 given query~\citep{song-99}. However, a document often contains limited number of words and
 maximum likelihood estimation gives zero probability to those unseen words.
-If a query contains any word that is not included in the document, the probability
+If a query contains any word not in the document, the probability
 of generating the whole query given this document is zero, which may throw out perfectly good documents.
 
 This data sparsity problem can be fixed by smoothing, which allocates
@@ -119,8 +119,7 @@ language models.
 
 The Jelinek-Mercer method~\citep{Jelinek-1980} is a linear
 interpolation of the maximum likelihood model in a document with the
-model based on the whole corpus, and a coefficient $\lambda$ is used
-to combine the two parts:
+model based on the whole corpus, and a coefficient $\lambda$ combines the two parts:
 \begin{align}
 p(w|d) = (1 - \lambda) p_{\texttt{ml}}(w|d) + \lambda p(w|\mathcal{C}),
 \label{eq:lm-jr}
@@ -218,8 +217,7 @@ this document with two topics that that have strong connections with the term ``
 one economic topic contain words like ``million'', ``company'' and ``bankruptcy'',
 and the other money market topic is connected to ``bond''.
 Since a better semantic relationship between the query and the document is learned,
-this relevant document is ranked much higher and the retrieval performance in general is 
-significantly improved.
+this relevant document is ranked much higher and the retrieval performance improves.
 
 \jbgcomment{Would be good to have an example of how this works. \yhcomment{added above.}}
 
@@ -247,8 +245,7 @@ prevent this frustration. Query expansion normally analyzes the
 relationships between the query words and other words and tries to
 find potential related words so that the original query is better
 represented; thus improving better query-document relevance. For
-example, without much context, it would be really hard to understand
-what a query ``dtd amc'' means~\citep{Jiang-2016}. Through query
+example, without much context, the query ``dtd amc'' is hard to understand~\citep{Jiang-2016}. Through query
 expansion, it is possible to build up the relationship between ``dtd''
 and ``disneyland downtown'', which is more helpful in document
 retrieval.  Next, this section reviews the classic query expansion
@@ -376,9 +373,9 @@ successfully applied into query expansion~\citep{Yi-2009,Park-2009,Zeng-2012}.
 
 \paragraph{Smoothing Query Language Model}
 
-\jbgcomment{We typically don't have just $k$ as a topic, we normally
+\jbgcomment{We typically do not have just $k$ as a topic, we normally
   have $\phi_k$ \yhcomment{I changed it, and then realize that they use $p(w|k)=\phi_k$ in IR, not using k
-  to represent a topic. So I changed it back..}}
+  to represent a topic. So I changed it back.}}
 
 The most intuitive way to use topic models for query expansion is to
 extract the words' relevance from topics directly as
@@ -495,7 +492,7 @@ Once this term relationship is obtained, they choose the top related
 terms as the expanded terms $e$ for the given query $q$, and the final
 document ranking score is computed as Equation~\ref{eq:rm_qe_comb}.
 
-\paragraph{Getting Interactive Feedback}
+\paragraph{Interactive Feedback}
 
 Relevance feedback involves the users in the retrieval process to improve 
 the ranking result set~\citep{Rocchio-1971}. The basic idea is to ask users 
@@ -512,13 +509,13 @@ potentially relevant and present the topic representations along
 keyword search results. When a user select a latent topic, the
 original query is expanded with the top words in this selected topic,
 and the search results are refined. 
-Query ``euro opposition'' is used as an example in \citet{Andrzejewski-2011},
-and the users want to find documents about opposition to the introduction of
+\citet{Andrzejewski-2011} use the query ``euro opposition'' as an example:
+users want to find documents about opposition to the introduction of
 the single European currency. 500 topics are learned using the corpus and relevance
 judgements. Seven of the 500 topics are selected to show to users as shown in
 Table~\ref{tab:topic-feedback} and the user select the Topic~79 as the user feedback.
-Using the top terms in Topic 79 as the expanded query terms, the ranking of
-the relevant documents is significantly better.
+Using the top terms in Topic~79 as the expanded query terms, the ranking of
+the relevant documents improves.
 
 \begin{table}[!tp]
 \caption{Given query ``euro opposition'', seven topics are selected and shown to a user. The user selected Topic 79
@@ -561,9 +558,9 @@ computer peripherals. Even for queries without ambiguity, for example
 while others may prefer ``\url{www.ebay.com}''.
 
 \index{search personalization}
-To meet different users' information needs, it is important to
-understand the user's preference, context, etc., and adapt the ranking
-results accordingly~\citep{Pitkow-2002,Micarelli-2007}.  This is
+Understanding users' preference and context helps meet their
+information needs.  Thus, \abr{ir} systems must adapt the ranking
+results~\citep{Pitkow-2002,Micarelli-2007}.  This is
 referred as personalized search, or search personalization.
 
 There are multiple ways to do search personalization, and two of major
@@ -606,8 +603,8 @@ interests (e.g., that match those topics well).
 \citet{Carman-2010} also investigate topic models on large query logs
 for search personalization and propose a personalization topic model
 as shown in Figure~\ref{fig:ptm-original}. The idea is given the topic
-distribution of the document, there will be a number of words chosen
-at random to generate the query and a number of users who chose to
+distribution of the document, there will be words chosen
+at random to generate the query and users who chose to
 click that document.
 
 \begin{figure}
@@ -628,7 +625,7 @@ click that document.
   \caption{ The plate diagrams for personalized retrieval in
     Figure~\ref{fig:ptm-original} and the actual simplified model used
     for parameter estimation in Figure~\ref{fig:ptm-simplified} (Both
-    figures are from \citet{Harvey-2013}.)}
+    figures from \citet{Harvey-2013}.)}
   \label{fig:ptm}
 \end{figure}
 
@@ -642,7 +639,7 @@ from a discrete distribution $\theta_d$, the corresponding query words $w_i$ are
 a topic-word discrete distribution $\phi_k$ and the user $u_i$ who submitted the corresponding query 
 is sampled from a topic-user discrete distribution $\psi_k$.
 
-In order to estimate the probability of $p(k \g w_i, d_i, u_i)$,
+To estimate the probability of $p(k \g w_i, d_i, u_i)$,
 they further assume the conditional independence among the word $w_i$,
 the user $u_i$ and document $d_i$ given the topic $k$, and the model
 can be simplified as
