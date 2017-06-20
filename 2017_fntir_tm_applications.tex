@@ -10,7 +10,6 @@
 \usepackage{CJK}
 \usepackage{mathtools}
 \usepackage{comment}
-\usepackage{makeidx}
 \usepackage{bm}
 \usepackage{mdwlist}
 \usepackage[table]{xcolor}
@@ -84,7 +83,6 @@ Cornell University \\
 \texttt{mimno@cornell.edu}
 }
 
-\makeindex
 \begin{document}
 
 % the following settings can be set or left blank at first
@@ -116,15 +114,13 @@ Cornell University \\
   present in the collection.
 
   This survey describes the recent academic and industrial
-  applications of topic models with the goal of launching a young
-  researcher capable of building their own applications of topic
-  models.  In addition to topic models' effective application to
-  traditional problems like information retrieval, visualization,
-  statistical inference, multilingual modeling, and linguistic
-  understanding, this survey also reviews topic models' ability to
-  unlock large text collections for qualitative analysis.  We review
-  their successful use by researchers to help understand fiction,
-  non-fiction, scientific publications, and political texts.
+  applications of topic models and reviews successful applications to
+  help understand fiction, non-fiction, scientific publications, and
+  political texts.  In addition to these success stories on particular
+  applications, this survey reviews technical innovations necessary
+  for effective topic model applications spanning information
+  retrieval, visualization, statistical inference, multilingual
+  modeling, and linguistic understanding.
 \end{abstract}
 
 \input{chapters/introduction}
@@ -142,9 +138,5 @@ Cornell University \\
 
 \bibliographystyle{plainnat}
 \bibliography{bib/journal-full,bib/clean,bib/alison}
-
-\clearpage
-
-\printindex
 
 \end{document}
