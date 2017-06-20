@@ -11,7 +11,7 @@ validate a new model.
 \index{posterior predictive checks}
 Before going into the details of constructing new models, we encourage
 users to consider whether questions can be answered through post-hoc
-analysis of a simple topic model in the context of additional
+analysis of a simple topic model with additional
 information.  For example, a simple dynamic topic model can be
 constructed from a standard \abr{lda} model by slicing the corpus into
 sections and estimating the probability distribution over words for
@@ -53,17 +53,17 @@ If political scientists believe that a politician's ideology is a property that 
 If they believe that electoral success is a result of political speech, then the model should condition success on topics (a ``downstream'' model).
 
 Modeling reality is a good idea. But just as building a scale model of
-a building requires compromises in terms of materials and level of
+a building requires compromising materials and level of
 detail, building a statistical model sometimes requires unreal assumptions.
 If a generative model exactly
 matches the process that produces data, we can prove that it will
 converge to the correct answer~\citep{neal-93}.
 But humans and text are
-not Dirichlet and discrete distributions; all models are going to
+not Dirichlet and discrete distributions; all models will
 be an approximation.
 
 In addition to determining \emph{where} to model a feature in a
-generative model, it is also important to decide \emph{how} to model
+generative model, you must decide \emph{how} to model
 it.  Is it a continuous value, a binary value, a member of a discrete
 set, or something else?  Often, we have multiple pre-defined notions of how to
 represent a quantity of interest.
@@ -138,8 +138,8 @@ fails, this model can serve as a useful baseline.
 Unlike many of the other dimensions when building a model, complexity
 is often sought and fetishized without improving the other dimensions
 (perverse incentives from publications often play a role in this).
-Thus, it is particularly important to guard against unnecessarily
-complicating a model.
+Thus, guard against unnecessarily
+complicating a model!
 
 \paragraph{Interpretability}
 
@@ -159,8 +159,8 @@ choose probabilistic models such as topic models should not ignore the
 interpretability of their models.
 
 \index{interpretability}
-While Chapter~\ref{sec:coherence} discusses ways of rigorously evaluating the
-interpretability of models, even a simple once-over of model
+While Chapter~\ref{sec:coherence} discusses rigorous evaluations of
+model interpretability, even a simple once-over of model
 parameters by the researcher can reveal whether a learned model
 ``makes sense'' or not.  Inspecting the model can help buttress
 whether the design of the model (``fidelity'', above) was able to
@@ -194,7 +194,7 @@ Using a tool (no matter how wonderful) developed by someone else means
 that you must accept their assumptions.  It may force you to use a
 programming language that you are unfamiliar with, it may force you to
 format your data in odd ways, or it may restrict you to operating
-systems you don't often use (or cannot afford).
+systems you do not use (or cannot afford).
 
 % Church?
 
@@ -206,7 +206,8 @@ language.
 
 \paragraph{Infer.Net}
 
-Infer.net~\citep{InferNET14} is a Microsoft-created, closed-source framework that works well for conjugate
+Infer.net~\citep{InferNET14} is a Microsoft-created, closed-source
+framework designed for conjugate
 models but can only be used on the Windows operating system.
 \index{Infer.Net}
 
@@ -230,11 +231,11 @@ Gibbs sampling, variational inference is often considered to be
 slightly more difficult to both derive and implement.
 
 \index{expectation maximization}
-Variational inference is similar to expectation maximization
+Variational inference resembles expectation maximization
 algorithms~\citep{liang-07b}.  Expectation maximization algorithms find a
 setting of local latent variables $z$ (which represent specific observations) and global parameters $\theta$ (which represent model properties) that maximize
 the data likelihood $p(x \g z, \theta)$.  First, we start with some guess
-of what the the latent variables might be $z_0$.  Then we update the
+of what the latent variables might be $z_0$.  Then we update the
 parameters to be
 \begin{equation}
   \arg \max_{\theta} p(x \g z, \theta),
@@ -249,16 +250,18 @@ distribution $p$ is simple enough to solve Equation~\ref{eq:em}
 directly.  However, for many models (including topic models), this is
 not feasible.  Variational inference solves this intractability by
 searching for optimal {\em distributions} $q(z)$ and $q(\theta)$ rather than optimal values of $z$ and $\theta$.
-It is this search for optimal functions (i.e. probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus concerning optimal functions.
+It is this search for optimal functions (i.e., probability distribution functions) rather than optimal values that gives this method its name: the ``calculus of variations'' is the branch of calculus concerning optimal functions.
 
 \index{fully-factorized distribution}
 A variational distribution is a function that assigns a probability score to each setting of the model's latent variables.
 These are the same variables that would appear in the original model's posterior distribution over latent variables given observed variables and user-defined hyperparameters.
 Although it is a distribution over the same variables, it is typically
 simpler.  
-In the original posterior distribution, there are many dependencies between variables: if we know the topics for one document, that implies that we know something about other documents.
+In the original posterior distribution, there are many dependencies
+between variables: the topics for one document constraints the topics
+for other documents.
 In common approaches for topic models~\citep{blei-03}, the
-distribution is fully factorized.  For example, the true distribution
+distribution is fully factorized to break these constraints.  For example, the true distribution
 over latent variables is
 \begin{equation}
 p(z, \theta) = \prod_k p(\phi_k \g \beta) \ \prod_d p(\theta_d \g
@@ -277,8 +280,8 @@ true distribution $p$, because the parameters are no longer tied,
 they are called variational parameters.
 
 Instead of maximizing the data likelihood, variational inference
-minimizes the difference between the variational distribution $q$ (a product of independent distributions over each of the latent variables) and the original model posterior distribution $p$.
-Difference is defined as the Kullback-Leibler
+minimizes the distance between the variational distribution $q$ (a product of independent distributions over each of the latent variables) and the original model posterior distribution $p$.
+Here, distance is the Kullback-Leibler
 \emph{divergence} between the distributions $p$ and $q$.  Minimizing this divergence is
 equivalent to optimizing a lower bound of the data likelihood,
 \begin{equation}
@@ -287,7 +290,7 @@ equivalent to optimizing a lower bound of the data likelihood,
 \label{eq:obj}
 \end{equation}
 
-This optimization can be done through many strategies: direct
+There are several options for this optimization: direct
 optimization, stochastic gradient~\citep{hoffman-10}, or coordinate
 ascent~\citep{blei-03}.
 
@@ -323,8 +326,7 @@ documents, the number of dependencies can explode.
   sampling can decrease slightly.  However, in both cases, the
   objective function should increase dramatically over time.  If the
   objective is flat, it may mean that there are issues design choices
-  in your inference algorithm.  Note: the
-  scales for variational inference and Gibbs sampling are not
+  in your inference algorithm.  Scales for variational inference and Gibbs sampling are not
   comparable.}
   \label{fig:objective_func}
 \end{figure}
@@ -348,7 +350,7 @@ individually, when in fact they must move together to maintain high performance.
 To fully model the interaction between the two variables, we can model
 $x$ and $y$ jointly in the variational distribution.  Instead of
 independent distributions $q(x)q(y)$, the variational distribution
-becomes $q(x,y)$ (as appropriate for whatever form those variables take).
+becomes $q(x,y)$ (as appropriate those variables' formulation).
 
 \subsection{Gibbs Sampling}
 
@@ -371,15 +373,15 @@ p(\bm{z_{d,n}} \g z_{d, 1} \dots z_{d, n-1}, z_{d, n+1}, \dots z_{d, N_d},
 which simplifies into Equation~\ref{eq:sampling}.
 
 Deriving conditional distributions is often simpler than expanding
-variational expectations.  For a step-by-step tutorial on deriving
-Gibbs sampling for probabilistic models, see \citet{hardisty-10}.
+variational expectations.  \citet{hardisty-10} provide a step-by-step tutorial on deriving
+Gibbs sampling for probabilistic models.
 
 \paragraph{Marginalization and Joint Variables}
 
-Just like there is some art in deciding which variables to join
-together in a joint distribution for variational inference, in Gibbs
-sampling, you need to decide which variables to sample jointly and
-which variables to marginalize.
+Just like there is some art in deciding which variables to merge into
+a joint distribution for variational inference, in Gibbs sampling, you
+need to decide which variables to sample jointly and which variables
+to marginalize.
 
 Jointly sampling variables solves the same problem as merging
 variables into the same variational distribution above.  Instead of
@@ -492,13 +494,13 @@ describing a model.
 
 The application should not just stand alongside the modeling goal; it
 should be tightly integrated in the probabilistic story.  Rather than
-simply listing the steps of the generative process, the generative
+listing the steps of the generative process, the generative
 process should be described with evocative variable names.  For
 example, if your model attempts to capture political polarization,
 then you may call a discrete variable ``polarization $\pi$'' to
 make it clear where in the model this aspect will be modeled.
 
-However, simply naming a variable does not make it so.  You will also
+However, naming a variable does not make it so.  You will also
 need to provide qualitative evidence that will convince a skeptical
 reader that your model is doing what you promised.  This is possible
 by providing overviews of your data at either the micro or macro
@@ -516,21 +518,21 @@ should also show individual documents and how they interact with
 data.  For example, if your model attempts to show political
 polarization, you can show polarized (or not) documents and show how
 the latent variables in your models correctly capture those aspects of
-the documents (or not; as with topics, it is important to show failure
+the documents (or not; as with topics, show failure
 modes as well).
 
-In addition, you will also have quantitative metrics for your task.
-This could be accuracy of prediction, precision at rank $K$, or
+In addition, you will also have quantitative metrics for your task:
+accuracy of prediction, precision at rank $K$, or
 translation quality (Chapter~\ref{ch:mt}).  When reporting quantitative
-results, it's important to remember the probabilistic foundations of
+results, remember the probabilistic foundations of
 topic models: you are not learning one answer.  Regardless of the
 inference, you are learning a \emph{distribution} over latent
 variables given a dataset.
 
-Thus, it is important to convey the inherent uncertainty in inference.
+Thus, convey the inherent uncertainty in inference.
 You should run inference multiple times with different random seeds
 (Gibbs sampling) or random initializations (variational inference).
-This allows you to report quantitative results with error bars to make
+Quantitative results with error bars enables
 credible comparisons to other models: not only do you have a higher
 score but you show that your higher score is not just the result of
 chance.
@@ -542,7 +544,7 @@ model from scratch and how to communicate this process to the world.
 While superficially different than our application-focused chapters,
 most of the papers were created through this process of
 model-building, inference, and evaluation.  Thus, this chapter helps
-understand the process for building the models that we've discussed
+understand the process for building the models discussed
 through these chapters.
 
 In the next chapter, we contemplate the future of topic models and how
