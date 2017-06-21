@@ -213,7 +213,7 @@ these two models.
 \plsa{} was used extensively in many applications such as information
 retrieval.  However, this survey focuses on \abr{lda} because more
 researchers have not just \emph{used} \abr{lda}---they have also
-\emph{extended} it.  \abr{lda} is not just widely used, but it's also
+\emph{extended} it.  \abr{lda} is not just widely used, but it is also
 widely modified.  Because of these prolific modifcations, we focus on the mechanics of \abr{lda}, which many
 researchers have used as the foundations of new models.  However, as
 we explain below (Chapter~\ref{sec:plsa-vs-lda}), the similarities
@@ -259,7 +259,10 @@ In any technical field it is common for general terms to take on specific, concr
 In topic modeling the word ``topic'' takes on the specific meaning of a probability distribution over words, while still alluding the to more general meaning of a theme or subject of discourse.
 Because other areas of information retrieval have similarly developed
 specific meanings for the word ``topic'', we distinguish them here.
-There is a substantial and well-developed field of topic detection and tracking~\citep{allan-02}.
+The most common definition is a specific information need, as in the TREC evaluation corpora developed by NIST \citep{voorhees-05}.
+TREC topics are generally much more specific than topic model topics, and may relate to particular aspects or perspectives on a subject.
+An example from the 2003 TREC Robust Track is ``Identify positive accomplishments of the Hubble telescope since it was launched in 1991'' \citep{voorhees2003overview}.
+Similarly to information retrieval, the related field of topic detection and tracking also has a specific technical definition of ``topic''~\citep{allan-02}.
 In \abr{tdt}, a ``topic'' is usually closer to an event or an individual story.
 In contrast, topic models tend to identify more abstract latent factors.
 For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
@@ -585,7 +588,7 @@ highlight challenges or difficulties in implementing topic models.
 \index{plate diagram}
 Plate diagrams provide a shorthand for quickly explaining which random
 variables are associated with each other.  If you look up many of the
-references used in this survey, you'll likely see plate diagrams (we
+references used in this survey, you will likely see plate diagrams (we
 also use a plate diagram later in Figure~\ref{fig:ptm-simplified}).  
 
 \begin{figure}
@@ -622,7 +625,7 @@ or inferred (e.g., Dirichlet parameter $\alpha$).
 
 Plate diagrams allow a reader to quickly see a ``family resemblance''
 between related models, and once someone has become fully immersed in
-topic models, it's often possible to at a glance understand a model
+topic models, it is often possible to at a glance understand a model
 from its plate diagram.  However, plate diagrams are imperfect; they
 lack some of the key information you need to understand the model.
 For instance, the exact probabilistic relationship between variables
@@ -640,10 +643,10 @@ history.  What is the innovation that separates \abr{lda} from
 
 Instead of having a Dirichlet prior over $\theta$, \plsa{} assumes
 that $\theta$ is a discrete parameter.  In practice, this
-means that documents aren't encouraged to focus on a limited number of
+means that documents are not encouraged to focus on a limited number of
 topics and often ``spread out'' to have small weights for many
-different topics.  In theory, this means that there isn't as sound a
-generative story for how a document came to be: you can't run the
+different topics.  In theory, this means that there is not as sound a
+generative story for how a document came to be: you cannot run the
 generative process forward from scratch if you must have $\theta$ as a
 parameter to start with.
 
@@ -651,8 +654,8 @@ These differences are relatively minor.  \abr{lda} has slightly easier
 inference---particularly when it comes to tweaking the model---which
 has caused it to become the more popular of the two models.  Thus, we
 will focus on comparing models to \abr{lda}.  This is
-not to diminish from \plsa{} and its incontrovertible place in the
-literature, it helps us present a more unified narrative for our reader.
+not to diminish from \plsa{} and its unquestionable place in the
+literature, but it helps us present a more unified narrative for our reader.
 
 \subsection{Implementations}
 
