@@ -1,0 +1,367 @@
+%% Front matter for for FnT Information Retrieval
+%% (c) 2013 Neal Parikh (Stanford University)
+%% 
+%% Based on earlier NOW style files by S. Kumar,
+%% J. Sebastian, T. Hoekwater, and B.V. Elvenkind
+
+\RequirePackage{lastpage}
+\RequirePackage{multicol}
+
+% base journal information definitions
+\def\doi#1{\def\@doi{#1}}
+\def\copyrightowner#1{\def\@copyrightowner{#1}}
+\def\firstpage#1{\def\@firstpage{#1}}
+\def\isbn#1{\def\@isbn{#1}}
+\def\issue#1{\def\@issue{#1}}
+\def\journalinfofont{\fontsize{8}{10}\selectfont\rmfamily}
+\def\journallibraryinfo#1{\def\@libraryinfo{#1}}
+\def\journaltitle#1{\def\@journaltitle{#1}}
+\def\journaltitleprefix#1{\def\@journaltitleprefix{#1}}
+\def\@lastpage{\pageref{LastPage}}
+\def\lastpage#1{\def\@lastpage{#1}}
+\def\copyrightyear#1{\def\@copyrightyear{#1}}
+\edef\@copyrightyear{\the\year}
+\def\pubyear#1{\def\@pubyear{#1}}
+\edef\@pubyear{\the\year}
+\def\volume#1{\def\@volume{#1}}
+
+\def\journaltopicintro#1{\def\@journaltopicintro{#1}}
+\def\journaltopics#1{\def\@journaltopics{#1}}
+
+% editors
+\newcount\editorcount
+\def\@editors{}
+\def\journaleditor#1{%
+  \advance\editorcount1 
+  \ifx\empty\@editors
+    \def\@editors{#1}%
+  \else
+    \expandafter\def\expandafter\@editors\expandafter{\@editors\\[0.3em]#1}%
+  \fi
+}
+
+% editors in chief
+\newcount\chiefeditorcount
+\def\@chiefeditors{}
+\def\journalchiefeditor#1{%
+  \advance\chiefeditorcount1 
+  \ifx\empty\@chiefeditors
+    \def\@chiefeditors{#1}%
+  \else
+    \expandafter\def\expandafter\@chiefeditors\expandafter{\@chiefeditors\\[0.3em]#1}%
+  \fi
+}
+
+%% title page
+
+\renewcommand\maketitle{\begin{titlepage}%
+
+\if@openright % -- for 'book' version
+\parindent \z@
+
+% title page
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{flushright}
+\begin{minipage}{0.8\textwidth}
+\begin{flushright}
+\renewcommand{\baselinestretch}{1.1}
+\sffamily\bfseries\huge 
+\@title
+\end{flushright}
+\end{minipage}
+\end{flushright}
+\vspace*{\fill}
+
+% title+author page
+\cleardoublepage
+\thispagestyle{empty}
+
+\begin{flushright}
+{\renewcommand{\baselinestretch}{1.2}
+\sffamily\Huge\bfseries \@title\par}
+\vspace{3ex}
+\noindent\rule{\textwidth}{2pt}
+\vspace{1ex}\par
+
+\begingroup
+\def\and{%
+  \end{tabular}%
+  \par\vspace*{1.5ex}
+  \begin{tabular}[t]{r@{}}
+  \bfseries}
+
+  \fontsize{13}{15}\selectfont\sffamily
+\begin{tabular}[t]{r@{}}
+    \bfseries
+    \@author
+\end{tabular}
+\endgroup
+\vfill
+\includegraphics[width=53bp]{now_logo}\\
+\includegraphics[width=81bp]{essence_logo}\\
+Boston --- Delft
+\end{flushright}
+
+% publisher page
+\newpage
+\thispagestyle{empty}
+\begingroup
+
+\parskip6pt
+
+{\bfseries\sffamily\Large \@journaltitleprefix\ \@journaltitle}
+\footnotesize
+
+\vfill
+
+{\itshape Published, sold and distributed by:}\\
+now Publishers Inc.\\
+PO Box 1024\\
+Hanover, MA\ 02339\\
+United States\\
+Tel.\ +1-781-985-4510\\
+www.nowpublishers.com\\
+sales@nowpublishers.com
+
+{\itshape Outside North America:}\\
+now Publishers Inc.\\
+PO Box 179\\
+2600 AD Delft\\
+The Netherlands\\
+Tel.\ +31-6-51115274
+
+The preferred citation for this publication is
+
+{\raggedright
+\@copyrightowner. \emph{\@title}.  \@journaltitleprefix\
+\@journaltitle, vol.~\@volume, no.~\@issue, pp.~\@firstpage--\@lastpage,
+\@pubyear.\par}
+
+{\itshape This Foundations and Trends\textsuperscript{\textregistered} issue
+was typeset in \LaTeX\ using a class file designed by Neal Parikh. Printed on
+acid-free paper.}
+
+ISBN: \@isbn\\ \copyright\ \@copyrightyear\ \@copyrightowner
+
+\vfill
+
+\fontsize{8}{9}\selectfont
+All rights reserved. No part of this publication may be
+reproduced, stored in a retrieval system, or transmitted in any form
+or by any means, mechanical, photocopying, recording or otherwise,
+without prior written permission of the publishers.
+
+Photocopying. In the USA: This journal is registered at the Copyright
+Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923. 
+Authorization to photocopy items for
+internal or personal use, or the internal or personal use of specific
+clients, is granted by now Publishers Inc for users registered with 
+the Copyright Clearance Center (CCC).
+The `services' for users can be found on the internet at:
+www.copyright.com
+
+For those organizations that have been granted a photocopy license, a
+separate system of payment has been arranged. Authorization does not
+extend to other kinds of copying, such as that for general
+distribution, for advertising or promotional purposes, for creating
+new collective works, or for resale.  In the rest of the world:
+Permission to photocopy must be obtained from the copyright
+owner. Please apply to now Publishers Inc., PO Box 1024, Hanover, MA
+02339, USA; Tel. +1 781 871 0245; www.nowpublishers.com;
+sales@nowpublishers.com
+
+now Publishers Inc. has an exclusive license to publish this
+material worldwide. Permission to use this content must be obtained from
+the copyright license holder. Please apply to now Publishers, PO Box 179, 2600
+AD Delft, The Netherlands, www.nowpublishers.com; e-mail:
+sales@nowpublishers.com\par
+\endgroup
+
+% editorial board
+\newpage
+\thispagestyle{empty}
+\begin{center}
+\sffamily\LARGE
+{\bfseries \@journaltitleprefix\\ \@journaltitle}\\
+{Volume \@volume, Issue \@issue, \@pubyear}\\
+{\bfseries Editorial Board}
+\end{center}
+
+\vspace{12pt}
+
+\ifnum\chiefeditorcount>1
+{\sffamily\bfseries Editors-in-Chief}
+{\footnotesize
+\begin{multicols}{2}
+\@chiefeditors
+\end{multicols}}
+\else
+{\sffamily\bfseries Editor-in-Chief}\par
+\vspace*{10pt}
+\begin{footnotesize}
+\begin{tabular}[t]{@{}l}
+\@chiefeditors \\
+\end{tabular}
+\end{footnotesize}
+\vspace*{10pt}
+\fi
+
+{\sffamily \bfseries Editors}
+{\footnotesize
+\begin{multicols}{2}
+\@editors
+\end{multicols}}%
+
+% editorial scope
+\newpage % page vi -- blank
+\thispagestyle{empty}
+\begin{center}
+{\sffamily\bfseries\LARGE Editorial Scope}
+\end{center}
+
+\vspace{18pt}
+
+{\bfseries\large\sffamily Topics}\\
+
+\@journaltopicintro
+
+\fontsize{10}{13}\selectfont
+\begin{multicols}{2}
+    \raggedright
+    \@journaltopics
+\end{multicols}
+
+{\bfseries\large\sffamily Information for Librarians}\\
+
+\@libraryinfo\par
+
+\else\fi % -- no book front matter for "journal" version
+
+% -- end book front matter
+
+% title+author page
+\newpage
+\thispagestyle{empty}
+\hbox to \textwidth{%
+    \vbox{\raggedright
+    \hsize=.6\textwidth \journalinfofont
+{\hangindent=3.5ex
+\hangafter=1
+\@journaltitleprefix\ \@journaltitle\par}%
+Vol.~\@volume, No.~\@issue\ (\@pubyear) 
+\@firstpage--\@lastpage\\
+{\hangindent=3.5ex
+\hangafter=1
+\copyright\ \@copyrightyear\ \@copyrightowner\par}%
+DOI: \@doi}\hss
+\vbox{\hsize=.4\textwidth 
+    \raggedleft
+    \includegraphics[width=53bp]{now_logo}\\
+    \includegraphics[width=81bp]{essence_logo}\\
+    \par
+}}\par
+\let\footnoterule\relax
+\let\footnote\thanks
+\null\vfil
+\vskip 60\p@
+\begin{center}%
+{\LARGE \sffamily \bfseries \@title \par}%
+\vskip 3em%
+{
+\large
+\lineskip .75em%
+     \lineskip .75em%
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+\end{center}\par
+\@thanks
+\vfill
+\end{titlepage}
+\setcounter{footnote}{0}%
+}
+
+%% defaults and settings for this FnT
+
+\def\@copyrightowner{now Publishers Inc.}
+\journaltitleprefix{Foundations and Trends\textsuperscript{\textregistered} in}
+\volume{XX}
+\issue{XX}
+\firstpage{1}
+\isbn{XXX-X-XXXXX-XXX-X}
+\doi{10.1561/XXXXXXXXXX}
+
+\journaltitle{Information Retrieval}
+
+\journalchiefeditor{\textbf{Maarten de Rijke} \\
+University of Amsterdam \\
+The Netherlands \columnbreak}
+
+\journalchiefeditor{\textbf{Mark Sanderson} \\
+Royal Melbourne Institute of Technology \\
+Australia}
+
+\journaleditor{Ben Carterette \\ \emph{University of Delaware}}
+\journaleditor{Charles L.A. Clarke \\ \emph{University of Waterloo}}
+\journaleditor{Claudia Hauff \\ \emph{Delft University of Technology}}
+\journaleditor{Diane Kelly \\ \emph{University of Tennessee}}
+\journaleditor{Doug Oard \\ \emph{University of Maryland}}
+\journaleditor{Ellen M. Voorhees  \\ \emph{National Institute of Standards and Technology}}
+\journaleditor{Emine Yilmaz \\ \emph{University College London}}
+\journaleditor{Fabrizio Sebastiani \\ \emph{ISTI-CNR}}
+\journaleditor{Ian Ruthven \\ \emph{University of Strathclyde}}
+\journaleditor{Jaap Kamps \\ \emph{University of Amsterdam}}
+\journaleditor{James Allan \\ \emph{University of Massachusetts, Amherst}\columnbreak}
+\journaleditor{Jamie Callan \\ \emph{Carnegie Mellon University}}
+\journaleditor{Jian-Yun Nie \\ \emph{University of Montreal}}
+\journaleditor{Jimmy Lin \\ \emph{University of Maryland}}
+\journaleditor{Leif Azzopardi \\ \emph{University of Glasgow}}
+\journaleditor{Marie-Francine Moens \\ \emph{Catholic University of Leuven}}
+\journaleditor{Mark D. Smucker \\ \emph{University of Waterloo}}
+\journaleditor{Rodrygo Luis Teodoro Santos \\ \emph{Federal University of Minas Gerais}}
+\journaleditor{Ryen White \\ \emph{Microsoft Research}}
+\journaleditor{Soumen Chakrabarti \\ \emph{Indian Institute of Technology Bombay}}
+\journaleditor{Tie-Jan Liu \\ \emph{Microsoft Research}}
+\journaleditor{Yiqun Liu \\ \emph{Tsinghua University}}
+
+\journaltopicintro{\@journaltitleprefix\ \@journaltitle\ publishes
+survey and tutorial articles in the following topics:}
+
+\journaltopics{
+\begin{itemize}\itemsep=0pt
+\item{Applications of IR} 
+\item{Architectures for IR} 
+\item{Collaborative filtering and recommender systems} 
+\item{Cross-lingual and multilingual IR} 
+\item{Distributed IR and federated search} 
+\item{Evaluation issues and test collections for IR} 
+\item{Formal models and language models for IR} 
+\item{IR on mobile platforms} 
+\item{Indexing and retrieval of structured documents} 
+\item{Information categorization and clustering} 
+\item{Information extraction} 
+\item{Information filtering and routing} 
+\item{Metasearch, rank aggregation, and data fusion} 
+\item{Natural language processing for IR} 
+\item{Performance issues for IR systems, including algorithms, data structures, optimization techniques, and scalability} 
+\item{Question answering} 
+\item{Summarization of single documents, multiple documents, and corpora} 
+\item{Text mining} 
+\item{Topic detection and tracking} 
+\item{Usability, interactivity, and visualization issues in IR} 
+\item{User modelling and user studies for IR} 
+\item{Web search}
+\end{itemize}
+}
+
+\journallibraryinfo{%
+  Foundations and Trends\textsuperscript{\textregistered} in \@journaltitle, \@pubyear,
+  Volume~\@volume, 5 issues. ISSN paper version 1554-0669. %%% (\@paperprice).
+  ISSN online version 1554-0677. %%% (\@onlineprice).
+  Also available as a combined paper and online
+  subscription.%%% (\@combinedprice).
+}
+
+
+\endinput
