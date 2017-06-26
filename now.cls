@@ -1,13 +1,12 @@
-%% now.cls v20141112
+%% now.cls v20130725
 %% (c) 2013 Neal Parikh (Stanford University)
-%% Updated by Ulrike Fischer - fixing lists in theorem environments
-%%
+%% 
 %% Based on earlier NOW style files by S. Kumar,
 %% J. Sebastian, T. Hoekwater, and B.V. Elvenkind
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{now}
-              [2014/11/12 v1.1
+              [2013/08/01 v1.0
                NOW document class]
 
 % use 'book' as a base class
@@ -68,7 +67,7 @@
     \interlinepenalty\@M
     {\CTfont#1\vphantom{y}\par}\addvspace{10pt}\nobreak
     \noindent\hrule\@width1\columnwidth\@height1\p@
-    \vfill%\vskip 14pc %12.11.2014 UF
+    \vskip 14pc
   }}}
 \def\@schapter#1{\if@twocolumn
                    \@topnewpage[\@makeschapterhead{#1}]%
@@ -83,7 +82,7 @@
     \interlinepenalty\@M
     {\CTfont#1\vphantom{y}\par}\addvspace{8pt}\nobreak
     \noindent\hrule\@width1\columnwidth\@height1\p@
-  }\vfill}} %12.11.2014 UF vfill inserted
+  }}}
 
 %% page headers
 \RequirePackage{fancyhdr}
@@ -181,12 +180,10 @@
     \@copyrightowner. \emph{\@title}.  \@journaltitleprefix\
     \@journaltitle, vol.~\@volume, no.~\@issue, pp.~\@firstpage--\@lastpage,
     \@pubyear.\\
-    DOI: \@doi.\par}%UF \par added
-    %\def\@noitemerr
-    % \@latex@warning{Empty `theabstract' environment}}%
-    %\endlist %12.11.2014 UF no idea what this should do.
-    % \newpage %UF ??
-    }
+    DOI: \@doi.}
+    \def\@noitemerr
+    {\@latex@warning{Empty `theabstract' environment}}%
+    \endlist}
 
 % acknowledgments environment
 \newcommand\acknowledgmentsname{Acknowledgments}
@@ -247,8 +244,7 @@
 \newtheoremstyle{now}
 {}
 {}
-{%\addtolength{\@totalleftmargin}{2.5em} %12.11.2014 UF removed
- }
+{\addtolength{\@totalleftmargin}{2.5em}}
 {}
 {\sffamily\bfseries}
 {.}

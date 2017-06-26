@@ -84,7 +84,7 @@ each other in the visualization.
 
 \index{topic labeling}
 Throughout this survey, we have been referring to topics with \emph{labels} such as
-\underline{information technology} or \underline{the arts}.  These are
+\underline{Information Technology} or \underline{Arts}.  These are
 convenient descriptors, but completely removed from the raw distribution over words.
 Thus, it is often useful to assign labels to topics within an interface.
 
@@ -185,8 +185,20 @@ the topic
 cell response immune lymphocyte antigen cytokine t-cell induce
 receptor immunity
 \end{quote}
-the algorithm selects \underline{immune system}, as it appears near many of
+the algorithm selects the topic \underline{Immune System}, as it appears near many of
 the other terms in the topic~\citep{aleteras-14}.
+\begin{figure}[t]
+  \begin{center}
+    \includegraphics[width=.7\linewidth]{figures/viz_llda}
+  \end{center}
+  \caption{Example of topics learned by labeled \abr{lda} (Figure from
+    \citet{ramage-09}).  Each topic in labeled \abr{lda} is associated with a
+    label, which encourages the topics to be consistent with the ontology of
+    labels.  \abr{lda}, in contrast, uses the empirical frequency of topics to
+    divide the collection, resulting in three topics (8, 13, 19) associated with
+    the labeled \abr{lda} \underline{Web} topic. }
+  \label{fig:llda}
+\end{figure}
 
 \paragraph{Using Labeled Documents}
 
@@ -199,33 +211,12 @@ be consistent with the original labels (Figure~\ref{fig:llda}).
 \citet{Bakalov-12} extend this to hierarchical label sets (e.g., \abr{ny} Times
 subjects that place \underline{Russia} under \underline{International}), while
 \citet{nguyen:boyd-graber:resnik:chang-2014} extend it to learning hierarchies
-of topics from unorganized labels, learning that \underline{ska}\footnote{A musical genre, familiar to reggae fans and cruciverbalists.} is a
-kind of \underline{music} without provided links.
+of topics from unorganized labels, learning that \underline{Ska}\footnote{A musical genre, familiar to reggae fans and cruciverbalists.} is a
+kind of \underline{Music} without provided links.
 
-\begin{figure}
-  \begin{center}
-    \includegraphics[width=.7\linewidth]{figures/viz_llda}
-  \end{center}
-  \caption{Example of topics learned by labeled \abr{lda} (Figure from
-    \citet{ramage-09}).  Each topic in labeled \abr{lda} is associated with a
-    label, which encourages the topics to be consistent with the ontology of
-    labels.  \abr{lda}, in contrast, uses the empirical frequency of topics to
-    divide the collection, resulting in three topics (8, 13, 19) associated with
-    the labeled \abr{lda} \underline{web} topic. }
-  \label{fig:llda}
-\end{figure}
 
 
 \section{Displaying Models}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=.8\linewidth]{figures/viz_tmve}
-  \end{center}
-  \caption{The Topic Model Visualization Engine~\citep{chaney-12}
-    shows the most related documents to a topic along with related topics. }
-  \label{fig:tmve}
-\end{figure}
 
 However, topics are not the end of the story.  Users often want to use topics to
 find relevant documents within the collection.  Going back to our
@@ -241,6 +232,14 @@ document has a distribution over topics~$\theta_d$, which is a vector with an
 entry for each topic.  We focus on the dimension associated with a particular topic
 and then sort the documents based on that topic coordinate from largest to
 smallest.
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=.7\linewidth]{figures/viz_tmve}
+  \end{center}
+  \caption{The Topic Model Visualization Engine~\citep{chaney-12}
+    shows the most related documents to a topic along with related topics. }
+  \label{fig:tmve}
+\end{figure}
 
 \index{topical guide}
 The topical guide~\citep{gardner-10} extends this approach by enriching topic

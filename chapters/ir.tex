@@ -32,6 +32,7 @@ documents~\citep{deerwester-90,hofmann-99a} by describing each topic
 using probabilistically-weighted words and modeling each document as a distribution over
 all topics.
 This adds a layer of abstraction between a document and the exact words present in that document.
+
 Appealing to the generative ``story'' of a model, we want to recover the words that {\em could} have been available to an author based on the words that were chosen.
 Such semantic relations
 can be applied to smoothing the language models, or introducing
@@ -61,18 +62,16 @@ depends on the previous two words, and it is represented as
 p(w_1,\cdots,w_n)=p(w_1)p(w_2|w_1)p(w_3|w_1,w_2)\cdots p(w_n|w_{n-2},w_{n-1}).
 \end{align}
 
-In the application of information retrieval, the likelihood of queries
-are estimated given a probabilistic language model based on a
-document~\citep{zhai-01}. More specifically, each document is viewed
-as a language sample, and a language model for each document is
-estimated based on document terms. Then the
-probability of generating a query is estimated by multiplying the probabilities of
-generating each query term using a document language model,
-and the documents are ranked based on the probability.
+Language models are used in information retrieval to estimate the similarity of documents and queries~\citep{zhai-01}.
+Each document is treated as a sample from a particular language model, which we estimate based on the terms present in the document.
+Given a language model trained from a document, we can then calculate the probability of any other sequence of words under that model.
+For a unigram language model, this probability is just the product of the individual term probabilities (or, equivalently, the sum of their log probabilities).
+We can therefore easily find the score for a given user query under every document's language model, and rank the documents by that score.
 
-Given a document sample $d$, a straightforward way to estimate the
-probability of generating a word $w$ is to use maximum likelihood
-estimation
+Given a sample document $d$, the simplest way to estimate the
+associated language model is the maximum likelihood principle. 
+The resulting distribution is the one that places the largest possible probability on the observed document.
+The probability of generating a word $w$ is the proportion
 \begin{align}
 p_{\texttt{ml}}(w \g d) = \frac{n_{d,w}}{n_{d,\cdot}}
 \label{eq:ir_mse}
@@ -157,7 +156,7 @@ corpus-level probabilities $p(v \g \mathcal{C})$,
 \label{eq:lm-bs}
 \end{align}
 
-\section{Applying Topic Models to Document Language Models}
+\section{Topic-based Document Language Models}
 
 \index{probabilistic latent semantic analysis}
 \index{latent Dirichlet allocation!document language model}
@@ -221,7 +220,7 @@ this relevant document is ranked much higher and the retrieval performance impro
 
 \jbgcomment{Would be good to have an example of how this works. \yhcomment{added above.}}
 
-\section{Query Expansion in Information Retrieval}
+\section{Query Expansion}
 
 \index{query expansion}
 The document language models in information
@@ -358,7 +357,7 @@ where $s_d(q)$ is the relevance between the original query $q$ and
 documents $d$, and $s_d(e)$ is relevance between the expanded query
 terms $e$ and document $d$.
 
-\section{Applying Topic Models For Query Expansion}
+\subsection{Applying Topic Models For Query Expansion}
 
 Topic models capture the semantic relationships of words through
 learning the latent topics, which are presented as distributions over

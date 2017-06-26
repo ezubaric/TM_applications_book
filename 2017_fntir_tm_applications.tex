@@ -22,6 +22,7 @@
 \usepackage{amssymb}
 \usepackage{dsfont}
 \usepackage{microtype}
+\usepackage[all]{nowidow}
 
 \usepackage{caption}
 \usepackage{subcaption}
@@ -87,15 +88,15 @@ Cornell University \\
 \makeindex
 \begin{document}
 
-% the following settings can be set or left blank at first
-\copyrightowner{}
-% \volume{1}
-% \issue{3}
-% \pubyear{2014}
-% \isbn{978-0521833783}
-% \doi{1234567890}
-% \firstpage{23}
-% \lastpage{94}
+\copyrightowner{J.~ Boyd-Graber, Y.~Hu and D.~Mimno} 
+\volume{11} 
+\issue{2-3} 
+\pubyear{2017} 
+\copyrightyear{2017} 
+\isbn{978-1-68083-308-9} 
+\doi{10.1561/1500000030} 
+\firstpage{1} % correct page number coming asap.
+\lastpage{154} 
 
 \frontmatter  % title page, contents, catalog information
 
@@ -106,6 +107,7 @@ Cornell University \\
 \mainmatter
 
 \begin{abstract}
+%\setcounter{page}{1}
   How can a single person understand what's going on in a collection
   of millions of documents?  This is an increasingly common problem:
   sifting through an organization's e-mails, understanding a decade

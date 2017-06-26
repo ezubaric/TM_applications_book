@@ -113,7 +113,7 @@ Some forms of query expansion across multiple languages do not require
 explicit modeling of connections between topics \citep{vulic2011crosslanguage,vulic2015probabilistic}.  As noted in
 Chapter~\ref{ch:ir}, \citet{erlin2017topic} use two independent seeded
 models on English and German books to search for works about
-epistemology.  After manually identifying one \underline{epistemology}
+epistemology.  After manually identifying one \underline{Epistemology}
 topic from each language's model, these two topics are used as a form
 of query expansion to identify documents related to the target
 subject.
@@ -272,8 +272,8 @@ Translations within one domain are better than translations across
 domains since they vary dramatically in their word choices and style.
 A correct translation in one domain may be inappropriate in another
 domain.  For example, ``\begin{CJK*}{UTF8}{gbsn}潜水\end{CJK*}'' in the
-  \underline{sports} domain usually means ``underwater diving'', but
-  in the \underline{social media} domain, it means a non-contributing
+  \underline{Sports} domain usually means ``underwater diving'', but
+  in the \underline{Social Media} domain, it means a non-contributing
   ``lurker''. To avoid such translation errors caused by domain
   shift, train translation must be robust to such systematic variation
   in the training set.  This is called \emph{domain adaptation}.
@@ -282,20 +282,22 @@ To train such \textsc{smt} systems, early
 efforts focused on building separate models given the hand-labeled
 domains~\citep{foster-07,matsoukas-09,chiang-11}. However, this setup
 is at best expensive and at worst infeasible for large data.  Topic
-models provide a promising solution where domains can be automatically
-discovered. Each extracted topic is treated as a soft
-domain.\footnote{Henceforth we will use the term ``topic'' and
-  ``domain'' interchangeably: ``topic'' to refer to  a word distribution in
-  topic models and ``domain'' to refer to \textsc{smt} corpora.} Thus
-the normal monolingual topic models trained only on the source documents have
-been applied to extract domain knowledge for machine
+models provide a promising solution by automatically
+discovering domains: Each extracted topic is treated as a soft
+domain. 
+Standard monolingual topic models, trained only on the source documents, have
+been applied in this way to extract domain knowledge for machine
 translation~\citep{Eidelman-12}.
+
+For the rest of this chapter we will use the term ``topic'' and
+  ``domain'' interchangeably. We will use ``topic'' to refer to  a word distribution in
+  topic models and ``domain'' to refer to \textsc{smt} corpora, but these will refer to the same entity. 
 
 However, the source language the and target language can complement
 each other to build up more accurate topic models. For example, if we
 only know the Chinese phrase ``\begin{CJK*}{UTF8}{gbsn}潜
   水\end{CJK*}'', it is hard to decide whether it is a
-  \underline{sport} domain or it is a \underline{social media}
+  \underline{Sports} domain or it is a \underline{Social Media}
   domain. However, with the help of the aligned English translation
   ``lurker'', it is easy to identify the ``social media'' domain. Thus
   multilingual topic models~\citep{ni-09,DeSmet-09} have been
@@ -309,11 +311,11 @@ combination of probabilistic processes, a phrase-level translation model and a s
 Topic models have been applied to both aspects of this process.
 
 \index{decoding (machine translation)}
-The actual process of translation is also known as \textit{decoding},
-which is to find the best translation target sentence $\mathbf{e}$ 
-given the source sentence $\mathbf{f}$. Formally,
+The core of translation is to find the best translation target sentence $\mathbf{e}$ 
+given the source sentence $\mathbf{f}$.
+This process is also known as \textit{decoding}.
 Given a source sentence $\mathbf{f}$, the best
-translation in target language $\mathbf{e}_\texttt{best}$ is
+translation sentence in the target language $\mathbf{e}_\texttt{best}$ is
 \begin{equation}
 \mathbf{e}_\texttt{best} = \textbf{argmax}_\mathbf{e} p(\mathbf{e}|\mathbf{f}) = \textbf{argmax}_\mathbf{e} p(\mathbf{f}|\mathbf{e}) p (\mathbf{e}),
 \end{equation}
@@ -384,10 +386,10 @@ Topic models provide a way of \textbf{automatically} discovering \textbf{soft} d
 If we equate the $K$ topic distributions over the vocabulary in a topic model with $K$ 
 \textsc{smt} domains, each document's topic distribution can be viewed as a soft
 domain assignment for that document.
-If there are two topics \underline{sports} and \underline{social media} and
-a test example is most likely about \underline{sports}, it may
-have a soft domain distribution as $85\%$ for \underline{sports}
-domain and $15\%$ for \underline{social media} domain. These automatically
+If there are two topics \underline{Sports} and \underline{Social Media} and
+a test example is most likely about \underline{Sports}, it may
+have a soft domain distribution as $85\%$ for \underline{Sports}
+domain and $15\%$ for \underline{Social Media} domain. These automatically
 obtained soft domain labels are well smoothed, and they are not only
 cheap to obtain but also much more robust to topic errors. 
 We next describe applications of monolingual and multilingual
@@ -520,8 +522,8 @@ Using bilingual data adds modeling complexity, but can also improve topic model 
 One can think of topic models as tools for disambiguating the meaning of words based on their context. 
 Aligning across multiple languages is a common way of resolving such ambiguities.
  For example, ``\begin{CJK*}{UTF8}{gbsn}木马\end{CJK*}'' in a Chinese
-  document can be either ``hobbyhorse'' in a \underline{children}'s
-  topic, or ``Trojan virus'' in a \underline{technology} topic.  
+  document can be either ``hobbyhorse'' in a \underline{Children}'s
+  topic, or ``Trojan virus'' in a \underline{Technology} topic.  
   A monolingual topic model might not be able to tell the difference in a short Chinese document, but these terms
   are unambiguous in English, more accurately indicating the relevant topic.
 
@@ -585,9 +587,9 @@ variations in vocabulary, syntax, content, and style''.
 Topics from topic models can be one of the resources to provide such
 knowledge for language model adaptation. For example, the Chinese
 phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is translated to
-  ``a lot of vermicelli'' in a \underline{food} domain, but means ``a
-  lot of fans'' in an \underline{entertainment} domain. Such ambiguity
-  can be reduced by using topic/domain knowledge. If the \underline{entertainment} topic is extracted based on
+  ``a lot of vermicelli'' in a \underline{Food} domain, but means ``a
+  lot of fans'' in an \underline{Entertainment} domain. Such ambiguity
+  can be reduced by using topic/domain knowledge. If the \underline{Entertainment} topic is extracted based on
   the previous context, this Chinese phrase will be translated to ``a
   lot of fans'' without any ambiguity. Next, we introduce the details
   about applying topic models for language model adaptation.
@@ -626,12 +628,12 @@ and its probabilistic interpretation probabilistic latent semantic
 indexing (p\abr{lsi})~\citep[\textsc{plsi}]{hofmann-99},
 learn large-span language
 models~\citep{Bellegarda-1997,Coccaro-1998,Gildea-1999}. \citet{Gildea-1999}
-decomposes the language model based on topics,
+decomposes the language model for a unigram $w$ as a summation over topics,
 \begin{align}
 \label{eq:plsi_lm}
 p(w \g h) = \sum_k p(w \g k) p(k \g h)
 \end{align}
-where the topics are learned from the training corpus by optimizing the log probability,
+where the topics are learned by setting these probabilities to optimize the sum of the logs of the marginal probabilities of all words in the training corpus,
 \begin{align}
 l(\theta; N) = \sum_w \sum_d n(w, d) \log \sum_k p(w \g k) p(k \g d)
 \end{align}
@@ -749,10 +751,10 @@ language may be different: \citet{Chen-2013} find that training corpora in diffe
 significantly in their reordering characteristics for particular
 phrase pairs.
 As the example shown in
-Table~\ref{tab:reorder-topic}~\citep{wang-14}, in an \underline{economy}
+Table~\ref{tab:reorder-topic}~\citep{wang-14}, in an \underline{Economy}
 topic, the Chinese word \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is on the
   left of \begin{CJK*}{UTF8}{gbsn}五\end{CJK*}; but in a
-    \underline{sports} topic, \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is
+    \underline{Sports} topic, \begin{CJK*}{UTF8}{gbsn}比\end{CJK*} is
       on the right of \begin{CJK*}{UTF8}{gbsn}五\end{CJK*}. As a
         result, it is necessary to introduce domain knowledge
         to model such order variance, and topic models provide a good data-driven way to do so.

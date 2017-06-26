@@ -92,10 +92,11 @@ but you are curious about other skeletons in the closet and
 you are highly motivated to find them.
 
 So you run a topic model on the data.  True to its name, a topic model
-gives you ``topics'', collections of words that make sense together.
-The Enron e-mails reveal topics about gas contracts,
-California regulators, and stock prices
-(Figure~\ref{tab:enron_topics}).
+gives you ``topics'', each of which is a ranking of all the distinct words in the e-mails by relevance to a topic. Taking the top five most relevant words in each topic results in collections of words that make sense together (Figure~\ref{tab:enron_topics}).
+For example, one topic seems to have words relating to finance and trading.
+Another seems to involve to gas pipelines, their capacity, and deals or contracts relating to those pipelines.
+This all makes sense: Enron was an energy trading company.
+Others seem to involve language used in any business, such as meetings and plans.
 
 \begin{table}
   \caption{Five topics from a twenty-five topic model fit on Enron
@@ -133,7 +134,7 @@ more in Chapter~\ref{ch:viz}).
 \begin{figure}
 
 \begin{center}
-\colorbox{lightgray}{ \parbox{.9\linewidth}{
+\colorbox{lightgray}{ \parbox{.9\linewidth}{ \small
 Yesterday, SDG\&E filed a motion for adoption of an
 electric procurement cost recovery mechanism and for an order
 shortening time for parties to file comments on the mechanism. The
@@ -165,27 +166,13 @@ The second half of a topic model links topics to individual documents.
 For example, the document in
 Figure~\ref{fig:enron_doc} is about a California utility's reaction to
 the short-term electricity market and exemplifies Topic~9 from
-Figure~\ref{fig:enron_topics}.
+Figure~\ref{tab:enron_topics}.
 Considering examples of documents that are strongly connected to a topic, along with the words associated with the topic, can give us a more complete representation of the topic.
 If we get a sense that Topic~9 is of
 interest, we can explore deeper to find other documents.
 
 \section{Foundations}
 
-\begin{center}
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=.8\linewidth]{figures/matrix_factorization}
-  \end{center}
-
-  \caption{A matrix formulation of finding $K$ topics for a dataset
-    with $M$ documents and $V$ unique words.  While this view of topic
-    modeling includes approaches such as latent semantic analysis
-    (\abr{lsa}, where the approximation is based on \abr{svd}), we
-    focus on probabilistic techniques in the rest of this survey.}
-  \label{fig:matrix_topics}
-\end{figure}
-\end{center}
 
 You might notice that we are using the general term ``topic model''.
 There are many mathematical formulations of topic models and many algorithms that learn the parameters of those models from data.
@@ -208,6 +195,20 @@ semantic analysis~\citep[\plsa{}]{hofmann-99}.  We describe the
 former in significant detail in Chapter~\ref{sec:lda}, but we want to
 take a moment to address some of the historical connection between
 these two models.
+\begin{center}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=.8\linewidth]{figures/matrix_factorization}
+  \end{center}
+
+  \caption{A matrix formulation of finding $K$ topics for a dataset
+    with $M$ documents and $V$ unique words.  While this view of topic
+    modeling includes approaches such as latent semantic analysis
+    (\abr{lsa}, where the approximation is based on \abr{svd}), we
+    focus on probabilistic techniques in the rest of this survey.}
+  \label{fig:matrix_topics}
+\end{figure}
+\end{center}
 
 \plsa{} was historically first and laid the foundation for \abr{lda}.
 \plsa{} was used extensively in many applications such as information
@@ -218,6 +219,38 @@ widely modified.  Because of these prolific modifcations, we focus on the mechan
 researchers have used as the foundations of new models.  However, as
 we explain below (Chapter~\ref{sec:plsa-vs-lda}), the similarities
 between \plsa{} and \abr{lda} outweigh the differences.
+
+
+\index{topic detection and tracking}
+In any technical field it is common for general terms to take on specific, concrete meanings, and this can be a source of confusion.
+In topic modeling the word ``topic'' takes on the specific meaning of a probability distribution over words, while still alluding the to more general meaning of a theme or subject of discourse.
+Because other areas of information retrieval have similarly developed
+specific meanings for the word ``topic'', we distinguish them here.
+The most common definition is a specific information need, as in the TREC evaluation corpora developed by NIST \citep{voorhees-05}.
+TREC topics are generally much more specific than topic model topics, and may relate to particular aspects or perspectives on a subject.
+An example from the 2003 TREC Robust Track is ``Identify positive accomplishments of the Hubble telescope since it was launched in 1991'' \citep{voorhees2003overview}.
+Similarly to information retrieval, the related field of topic detection and tracking also has a specific technical definition of ``topic''~\citep{allan-02}.
+In \abr{tdt}, a ``topic'' is usually closer to an event or an individual story.
+In contrast, topic models tend to identify more abstract latent factors.
+For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
+
+There has been some work on using topic models to detect emerging events by searching for changes in topic probability~\citep{alsumait-08}.
+But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
+Other work has found that more lexically specific methods than topic
+models are best for identifying memes and viral
+phrases~\citep{leskovec-09}. \\
+
+
+\subsection{Probabilistic Building Blocks}
+\label{sec:intro_building_blocks}
+
+In probabilistic models we want to find values for unobserved model variables that do a good job of explaining the observed data.
+The first step in inference is to turn this process around, and assert a way to generate data given model variables.
+Probabilistic models thus begin with a generative story: a recipe listing a sequence of random events
+that creates the dataset we are trying to explain.
+Figure~\ref{fig:distribution_examples} lists some of the key players in these
+stories, how they are parameterized and what samples drawn from these distributions look like.  We will
+briefly discuss them, as we will use them to build a wide variety of topic models later.
 
 \begin{figure}
 \small
@@ -253,37 +286,6 @@ between \plsa{} and \abr{lda} outweigh the differences.
     probability $0.6$) was drawn.}
   \label{fig:distribution_examples}
 \end{figure}
-
-\index{topic detection and tracking}
-In any technical field it is common for general terms to take on specific, concrete meanings, and this can be a source of confusion.
-In topic modeling the word ``topic'' takes on the specific meaning of a probability distribution over words, while still alluding the to more general meaning of a theme or subject of discourse.
-Because other areas of information retrieval have similarly developed
-specific meanings for the word ``topic'', we distinguish them here.
-The most common definition is a specific information need, as in the TREC evaluation corpora developed by NIST \citep{voorhees-05}.
-TREC topics are generally much more specific than topic model topics, and may relate to particular aspects or perspectives on a subject.
-An example from the 2003 TREC Robust Track is ``Identify positive accomplishments of the Hubble telescope since it was launched in 1991'' \citep{voorhees2003overview}.
-Similarly to information retrieval, the related field of topic detection and tracking also has a specific technical definition of ``topic''~\citep{allan-02}.
-In \abr{tdt}, a ``topic'' is usually closer to an event or an individual story.
-In contrast, topic models tend to identify more abstract latent factors.
-For example, a \abr{tdt} topic might include an earthquake in Haiti, whereas a topic model might represent the same event as a combination of topics such as Haiti, natural disasters, and international aid.
-
-There has been some work on using topic models to detect emerging events by searching for changes in topic probability~\citep{alsumait-08}.
-But these methods tend to identify mainly the fact that an event has occurred, without necessarily identifying the specific features of that event.
-Other work has found that more lexically specific methods than topic
-models are best for identifying memes and viral
-phrases~\citep{leskovec-09}. \\
-
-
-\subsection{Probabilistic Building Blocks}
-\label{sec:intro_building_blocks}
-
-In probabilistic models we want to find values for unobserved model variables that do a good job of explaining the observed data.
-The first step in inference is to turn this process around, and assert a way to generate data given model variables.
-Probabilistic models thus begin with a generative story: a recipe listing a sequence of random events
-that creates the dataset we are trying to explain.
-Figure~\ref{fig:distribution_examples} lists some of the key players in these
-stories, how they are parameterized and what samples drawn from these distributions look like.  We will
-briefly discuss them, as we will use them to build a wide variety of topic models later.
 
 \index{Gaussian distribution}
 \paragraph{Gaussian} If you know any probability distribution already,
@@ -325,18 +327,6 @@ than other words).  Each document also has an ``allocation'' for each
 topic: documents are about a small handful of topics, and most
 documents have very low weights for most of the possible topics.
 
-\paragraph{Dirichlet}
-
-\index{Dirichlet distribution}
-Although discrete distributions are the star players in topic models, they are
-not the end of the story.  We often begin with Dirichlet distributions.
-Just as Gaussians produce real numbers and discrete distributions produce symbols from a finite set, Dirichlet distributions produce probability vectors that can be used as the parameters of discrete distributions.
-Like the Gaussian distribution, they have parameters analogous to a mean and
-variance.  The mean is called the ``base measure'' $\tau$ and is the expected
-value of the Dirichlet distribution: the values you would get if you averaged many draws from the
-Dirichlet.  The concentration parameter $\alpha_0$ controls how far away individual draws are from the base measure.
-We often combine these parameters into a single value for each dimension: $\alpha_k = \alpha_0 \tau_k$.
-
 \begin{center}
 \begin{figure}
   \centering
@@ -351,6 +341,17 @@ We often combine these parameters into a single value for each dimension: $\alph
   \label{fig:dirichlet_sparsity}
 \end{figure}
 \end{center}
+
+\paragraph{Dirichlet}
+\index{Dirichlet distribution}
+Although discrete distributions are the star players in topic models, they are
+not the end of the story.  We often begin with Dirichlet distributions.
+Just as Gaussians produce real numbers and discrete distributions produce symbols from a finite set, Dirichlet distributions produce probability vectors that can be used as the parameters of discrete distributions.
+Like the Gaussian distribution, they have parameters analogous to a mean and
+variance.  The mean is called the ``base measure'' $\tau$ and is the expected
+value of the Dirichlet distribution: the values you would get if you averaged many draws from the
+Dirichlet.  The concentration parameter $\alpha_0$ controls how far away individual draws are from the base measure.
+We often combine these parameters into a single value for each dimension: $\alpha_k = \alpha_0 \tau_k$.
 
 \index{Dirichlet distribution!parameter}
 If $\alpha_0$ is very large, then the draws from a Dirichlet will be very close to
@@ -489,8 +490,8 @@ distributions through simple formulas.
 
 Since every individual token is assumed to be generated from a single topic,
 we can consider the {\em topic assignment} of a token as a variable.  For example,
-an instance of the word ``compilation'' might be in a \underline{computer} topic in one
-document and in an \underline{arts} topic in another document.  Because each token has its own
+an instance of the word ``compilation'' might be in a \underline{Computer} topic in one
+document and in an \underline{Arts} topic in another document.  Because each token has its own
 topic assignment, it is even possible that the
 same word might be assigned to different topics in the same document.
 To estimate \emph{global} properties of the topic model we use aggregate statistics derived from these token-level topic assignments.
@@ -569,7 +570,7 @@ topic, update $\dc{d}{\cdot}$ and $\tc{\cdot}{w_{d,n}}$, and move on to the next
 The two terms provide two ``pressures'', for global and local coherence. Sparsity in the topic-word distributions encourages tokens of the same word type to be assigned to a small number of topics,  regardless of where they occur. Sparsity in the document-topic distributions encourages tokens in the same document to be assigned to a small number of topics, regardless of what type they are.
 For example, knowing that a word is ``compilation'' narrows down the
 number of potential topics considerably, but leaves ambiguity: is it
-\underline{computer} compilation or a \underline{music} compilation? Knowing that the word occurs in a document with many other words in the \emph{arts} topic resolves this ambiguity, leaving the \emph{arts} topic as the most probable assignment.
+\emph{program} compilation or a \emph{music} compilation? Knowing that the word occurs in a document with many other words in the \underline{Arts} topic resolves this ambiguity, leaving the \underline{Arts} topic as the most probable assignment.
 
 At the very end of the algorithm, we can use the estimates of each topic
 (Equation~\ref{eq:phi_map}) to summarize the main themes of the corpus and the
