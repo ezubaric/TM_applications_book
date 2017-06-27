@@ -463,16 +463,14 @@ toward being fairly uniform. In this case, the topic features will
 contribute less to the translation results and the standard features
 will dominate the translation results.
 
-\citet{hasler-12} also apply monolingual topic models for domain adaptation to
-\textsc{smt} in a similar framework as \citet{Eidelman-12}, except
-they apply \emph{hidden topic Markov models}~\citep[\textsc{htmm}]{gruber-07} 
-instead of \textsc{lda} to learn topics and extract different features. 
-While \textsc{lda} assumes that each word is generated
-independently in a document, \textsc{htmm} models the word topic in a
-document as a Markov chain where all words in a sentence are assigned
-with the same topic. As a result, the topic
-for each phrase pair in the aligned sentence is consistent and can be
-used for topical features directly.
+\citet{hasler-12} also use monolingual topic models for domain
+adaptation like \citet{Eidelman-12}, except they replace \textsc{lda}
+with \emph{hidden topic Markov
+  models}~\citep[\textsc{htmm}]{gruber-07}.  While words are
+conditionally independent in an \textsc{lda} document, \textsc{htmm}
+models the words' topics via a Markov chain that encourages nearby
+words to share topics.  Thus, topics within phrases in aligned
+sentences are consistent and can be directly used as features.
 
 %\paragraph{Topical Phrase Probability via Topic Mapping}
 
@@ -586,13 +584,14 @@ variations in vocabulary, syntax, content, and style''.
 
 Topics from topic models can be one of the resources to provide such
 knowledge for language model adaptation. For example, the Chinese
-phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is translated to
+phrase ``\begin{CJK*}{UTF8}{gbsn}很多粉丝\end{CJK*}'' is 
   ``a lot of vermicelli'' in a \underline{Food} domain, but means ``a
   lot of fans'' in an \underline{Entertainment} domain. Such ambiguity
-  can be reduced by using topic/domain knowledge. If the \underline{Entertainment} topic is extracted based on
+  can be reduced by using topic/domain knowledge. If the
+  \underline{Entertainment} topic is known based on
   the previous context, this Chinese phrase will be translated to ``a
-  lot of fans'' without any ambiguity. Next, we introduce the details
-  about applying topic models for language model adaptation.
+  lot of fans'' without any ambiguity. We next describe how to capture
+  thesis topical knowledge for language model adaptation.
 
 \paragraph{Language Model Adaptation from Monolingual Topic Models}
 
@@ -612,9 +611,8 @@ p_\textrm{adapted}(w \g h) = \sum_k \lambda_k p_k(w \g h) + \lambda_g
 \citet{Seymore-1998} further identify the most appropriate topic for
 each word in the vocabulary and choose either a topic-specific language model
 or the general language model. The intuition is that the general
-language model provides the most reliable estimation for general
-words, and the topic language model estimates the probability more
-accurately for more specific words. As a result, they split the vocabulary
+language model best estimates general
+words, but the topic language better models more specific words. As a result, they split the vocabulary
 words into three groups: the general subset, on-topic subset and
 off-topic subsets. They use the general language model for the general subset and the off-topic subset and the topic-specific language model for  the
 on-topic subset.

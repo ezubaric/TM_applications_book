@@ -56,8 +56,8 @@ The topic model, in contrast, has both modeling flexibility along with constrain
 
 \index{American Revolution}
 The authors find that the learned topics are a good representation of dynamics in the corpus, although not always in a direct manner.
-There is a large increase in discussions of politics in the period immediately around the American Revolution ({\em state government constitution law united power}).
-There is also evidence of economic factors: a topic relating to descriptions of cloth ({\em silk cotton ditto white black linen}) rises in the 1750s, but then declines as Americans turned to domestic ``homespun'' cloth production in response to British trade policies.
+There is a large increase in discussions of \underline{Politics} in the period immediately around the American Revolution ({\em state government constitution law united power}).
+There is also evidence of economic factors: a topic relating to descriptions of \underline{Cloth} ({\em silk cotton ditto white black linen}) rises in the 1750s, but then declines as Americans turned to domestic ``homespun'' cloth production in response to British trade policies.
 Other topics point to more subtle changes in language.
 A topic that is less immediately interpretable ({\em  say thing might think own did}) corresponds to a series of long ``public letters'' that contain more academic ``argument making''.  This is consistent with other results~\citep{viermetz-08} that suggest topics may be long-term or transient, which is captured directly by \citet{viermetz-08}.
 
@@ -137,13 +137,13 @@ Cameron Blevins models the diary of Martha Ballard (1735--1812), a revolutionary
 As with other historical corpora, Blevins focuses on the connection between topics and time.
 Specific events, like a birth, can be highlighted by looking at spikes in a certain topic in the day-to-day time series.
 But larger trends are also evident.
-As a calibration experiment, Blevins measures the association of a topic that appears to refer to \underline{cold weather} ({\em cold, windy, chilly, snowy, air}) to months of the year.
+As a calibration experiment, Blevins measures the association of a topic that appears to refer to \underline{Cold Weather} ({\em cold, windy, chilly, snowy, air}) to months of the year.
 As expected, the concentration of this topic is lowest from May to August, rises from September to January, and falls from February to April.
 
 Blevins identifies several other topics that appear to change in their concentration over time.
-Two topics involving house work focusing roughly on \underline{cleaning} and \underline{cooking} appear to be correlated in time, rising over the decades.
+Two topics involving house work focusing roughly on \underline{Cleaning} and \underline{Cooking} appear to be correlated in time, rising over the decades.
 Blevins connects this finding to suggestions that as Ballard grew older and her children moved away, she had less help from family members.
-A more subtle topic involves descriptions of \underline{fatigue and illness}.
+A more subtle topic involves descriptions of \underline{Fatigue and Illness}.
 This topic also increases over time, and appears to correlate with the housework topics, except in the last year of the diary, where fatigue and illness reach their highest concentration and housework declines.
 
 This analysis exemplifies the exploratory nature of topic modeling: by themselves, these observations are not conclusive, but they are suggestive and point to areas of further analysis.
@@ -182,7 +182,7 @@ Wikipedia articles exist in many different languages, and articles in one langua
 The author first selects English Wikipedia articles matching key terms in the English-language journals, and then collects the German Wikipedia articles that are listed as being comparable to the selected English-language articles.
 
 By training the topic model jointly on the combined corpus of the original journal articles and the comparable Wikipedia articles, the model provides insight into the relative concentration of scholarly interests across the two language communities.
-The German-language journal articles contain more work on \underline{law} and \underline{oratory}, themes that are present in the English-language articles but less prevalent.
+The German-language journal articles contain more work on \underline{Law} and \underline{Oratory}, themes that are present in the English-language articles but less prevalent.
 The model also shows a large increase in  interest in poetry in the German journal in the period following the second world war.
 In the English journals there is a large increase starting in the 1980s in cultural and economic studies along with critical theory, which does not appear in the German journals.
 
@@ -199,12 +199,12 @@ concept.''
 
 \index{Modern Language Association}
 They analyze the proceedings of the Modern Language Association\footnote{The MLA is a professional organization for literary scholars in the United States.} to find shifts in focus in English literature.
-A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of \underline{violence}: {\em power,
+A model trained with 150 topics on 21,000 articles identifies a topic associated with descriptions of \underline{Violence}: {\em power,
 violence, fear, blood, death, murder, act, guilt}. Using a temporal plot they argue that the concentration of this topic is greater in the second half of the 20\textsuperscript{th} century than during the first half.
 They contextualize this finding by comparing the frequency of these words in a more general corpus from Google n-grams; there is no comparable change.
 This approach holds the topic fixed and searches for associated words.
 They then pivot and hold the word ``power'' fixed and search for associated topics.
-In this case the \underline{violence} topic appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
+In this case the \underline{Violence} topic appears to be relatively stable in its association with the target word. The largest increase is in a different topic characterized by the words {\em own power text form}, in which context it appears almost exclusively after 1980.
 Like many topics, the content of this topic is difficult to assess from top words alone.
 Further exploration through exploration of individual documents would be necessary (e.g., through the tools discussed in Chapter~\ref{ch:viz}).
 
