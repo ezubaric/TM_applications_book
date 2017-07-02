@@ -82,22 +82,6 @@ will likely not learn much technically, but we hope our coverage of
 diverse applications will expose a topic modeling expert to models and
 approaches they had not seen before.
 
-\section{What is a Topic Model}
-
-Returning to our motivating example, consider the e-mails from Enron, the prototypical
-troubled corporation of the turn of the century.  A source has provided you with a trove of emails, and your editor is demanding an article by yesterday.  You know
-that wrongdoing happened, but you do not know who did it or how it was planned
-and carried out.  You have suspicions (e.g., around the California energy spot market),
-but you are curious about other skeletons in the closet and
-you are highly motivated to find them.
-
-So you run a topic model on the data.  True to its name, a topic model
-gives you ``topics'', each of which is a ranking of all the distinct words in the e-mails by relevance to a topic. Taking the top five most relevant words in each topic results in collections of words that make sense together (Table~\ref{tab:enron_topics}).
-For example, one topic seems to have words relating to finance and trading.
-Another seems to involve to gas pipelines, their capacity, and deals or contracts relating to those pipelines.
-This all makes sense: Enron was an energy trading company.
-Others seem to involve language used in any business, such as meetings and plans.
-
 \begin{table}
   \caption{Five topics from a twenty-five topic model fit on Enron
     e-mails.  Example topics concern financial transactions, natural
@@ -124,12 +108,15 @@ Topic & Terms \\
 \end{center}
 \end{table}
 
-The first half of a topic model connects topics to a jumbled ``bag of words''.
-When we say that a topic is about $X$, we are manually assigning a \textit{post hoc} label
- (more on this in Chapter~\ref{sec:display}).
-It remains the responsibility of the human consumer of topic models to go further and
-make sense of these piles of straw (we discuss labeling the topics
-more in Chapter~\ref{ch:viz}).
+
+\section{What is a Topic Model}
+
+Returning to our motivating example, consider the e-mails from Enron, the prototypical
+troubled corporation of the turn of the century.  A source has provided you with a trove of emails, and your editor is demanding an article by yesterday.  You know
+that wrongdoing happened, but you do not know who did it or how it was planned
+and carried out.  You have suspicions (e.g., around the California energy spot market),
+but you are curious about other skeletons in the closet and
+you are highly motivated to find them.
 
 \begin{figure}
 
@@ -161,6 +148,23 @@ is a Saturday). Reply comments would be filed 10 days later.}}
   \label{fig:enron_doc}
 \end{figure}
 
+
+So you run a topic model on the data.  True to its name, a topic model
+gives you ``topics'', each of which is a ranking of all the distinct words in the e-mails by relevance to a topic. Taking the top five most relevant words in each topic results in collections of words that make sense together (Table~\ref{tab:enron_topics}).
+For example, one topic seems to have words relating to finance and trading.
+Another seems to involve to gas pipelines, their capacity, and deals or contracts relating to those pipelines.
+This all makes sense: Enron was an energy trading company.
+Others seem to involve language used in any business, such as meetings and plans.
+
+
+The first half of a topic model connects topics to a jumbled ``bag of words''.
+When we say that a topic is about $X$, we are manually assigning a \textit{post hoc} label
+ (more on this in Chapter~\ref{sec:display}).
+It remains the responsibility of the human consumer of topic models to go further and
+make sense of these piles of straw (we discuss labeling the topics
+more in Chapter~\ref{ch:viz}).
+
+
 Making sense of one of these word piles by itself can be difficult.
 The second half of a topic model links topics to individual documents.
 For example, the document in
@@ -173,28 +177,6 @@ interest, we can explore deeper to find other documents.
 
 \section{Foundations}
 
-
-You might notice that we are using the general term ``topic model''.
-There are many mathematical formulations of topic models and many algorithms that learn the parameters of those models from data.
-Although we will focus on particular models and algorithms, we choose our terminology to emphasize that the similarities between formulations, models, and algorithms are often greater than their differences.
-
-\index{latent semantic analysis}
-Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
-latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
-document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
-have seen a resurgence in recent years~\citep{anandkumar-12,arora-13}, we
-focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03},
-which are intuitive, work well, and allow for
-easy extensions (as we see later in many of our later chapters).
-
-\index{latent Dirichlet allocation}
-\index{probabilistic latent semantic analysis}
-The two foundational probabilistic topic models are latent Dirichlet
-allocation~\citep[\abr{lda}]{blei-03} and probabilistic latent
-semantic analysis~\citep[\plsa{}]{hofmann-99}.  We describe the
-former in significant detail in Chapter~\ref{sec:lda}, but we want to
-take a moment to address some of the historical connection between
-these two models.
 \begin{center}
 \begin{figure}
   \begin{center}
@@ -209,6 +191,33 @@ these two models.
   \label{fig:matrix_topics}
 \end{figure}
 \end{center}
+
+
+You might notice that we are using the general term ``topic model''.
+There are many mathematical formulations of topic models and many algorithms that learn the parameters of those models from data.
+Although we will focus on particular models and algorithms, we choose our terminology to emphasize that the similarities between formulations, models, and algorithms are often greater than their differences.
+
+
+
+\index{latent semantic analysis}
+Topic modeling began with a linear algebra approach~\citep{deerwester-90} called
+latent semantic analysis (\abr{lsa}): find the best low rank approximation of a
+document-term matrix (Figure~\ref{fig:matrix_topics}).  While these approaches
+have seen a resurgence in recent years~\citep{anandkumar-12,arora-13}, we
+focus on probabilistic approaches~\citep{hofmann-99,papadimitriou-00,blei-03},
+which are intuitive, work well, and allow for
+easy extensions (as we see later in many of our later chapters).
+
+
+
+\index{latent Dirichlet allocation}
+\index{probabilistic latent semantic analysis}
+The two foundational probabilistic topic models are latent Dirichlet
+allocation~\citep[\abr{lda}]{blei-03} and probabilistic latent
+semantic analysis~\citep[\plsa{}]{hofmann-99}.  We describe the
+former in significant detail in Chapter~\ref{sec:lda}, but we want to
+take a moment to address some of the historical connection between
+these two models.
 
 \plsa{} was historically first and laid the foundation for \abr{lda}.
 \plsa{} was used extensively in many applications such as information
@@ -266,17 +275,17 @@ briefly discuss them, as we will use them to build a wide variety of topic model
     Discrete  & $\prod_i \phi_i^{\ind{w=i}}$ & $\phi=\begin{bmatrix}
            0.1 \\
            0.6 \\
-           0.3 
+           0.3
          \end{bmatrix}$
                                                 & $w=2$ \\
    Dirichlet & $\frac{\prod_{i=1}^K \Gamma(\alpha_i)}{\Gamma \left( \sum_{i=1}^K \alpha_i \right)} \prod_{i=1}^K \theta_i^{\alpha_i - 1} $ & $\alpha = \begin{bmatrix}
            1.1 \\
            0.1 \\
-           0.1 
+           0.1
          \end{bmatrix}$  & $\theta = \begin{bmatrix}
            0.8 \\
            0.15 \\
-           0.05 
+           0.05
          \end{bmatrix}$ \\
      \hline
   \end{tabular}
@@ -365,7 +374,7 @@ write about a handful of the topics that they could potentially use.  They do no
 tool that encodes this intuition.
 
 There are several important special cases of the Dirichlet distribution.
-If the base measure $\tau$ is uniform, we call the resulting distribution {\em symmetric}.
+If the base measure $\tau$ is the same for every dimension, we call the resulting distribution {\em symmetric}.
 This case is appropriate when we do not expect any one element to be, on average, more likely than any other element across all samples from the distribution.
 In the symmetric case the  distribution has only one parameter, the concentration $\alpha_0$.
 If the base measure is uniform and the concentration parameter $\alpha_0$ is equal to the number of dimensions $K$ (or, equivalently, $\alpha_k = 1.0$ for all $k$), the distribution is uniform, placing equal probability on all $K$-dimensional probability distributions.
@@ -395,7 +404,7 @@ $\lambda$: $\phi_k \sim \dir{\lambda {\bm u}}$.  The discrete distribution
 $\phi_k$ has a weight for \emph{every} word in the vocabulary.
 
 However, when we summarize topics (as in
-Figure~\ref{fig:enron_topics}), we typically only use the top (most probable) words of
+Figure~\ref{tab:enron_topics}), we typically only use the top (most probable) words of
 a topic.  The lower probability words are less relevant to the topic
 and thus are not shown.
 
@@ -425,7 +434,7 @@ topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
 tells you what the word is about, and then this selects which distribution over
 words we use to generate the word.  % (Figure~\ref{fig:generative-ex}).
 
-For example, consider the document in Figure~\ref{fig:enron_doc}.  To
+For example, consider the document in Figure~\ref{tab:enron_doc}.  To
 generate it, we choose a distribution over all of the topics.  This is
 $\theta$.  For this document, the distribution favors Topic~9 about
 \underline{California}.  The value for this topic is higher than any other topic.  For
@@ -434,7 +443,7 @@ assignment $z_n$.  For this document, any topic is theoretically possible, but w
 
 Then, for each token in the document, we need to choose which word type will appear.  This
 comes from Topic~9's distribution over words (multiple topics have
-word distributions shown in Figure~\ref{fig:enron_topics}).  Each is a
+word distributions shown in Figure~\ref{tab:enron_topics}).  Each is a
 discrete draw from the topic's word distribution, which makes words
 like ``California'', ``state'', and ``Sacramento'' more likely.
 
@@ -590,7 +599,7 @@ highlight challenges or difficulties in implementing topic models.
 Plate diagrams provide a shorthand for quickly explaining which random
 variables are associated with each other.  If you look up many of the
 references used in this survey, you will likely see plate diagrams (we
-also use a plate diagram later in Figure~\ref{fig:ptm-simplified}).  
+also use a plate diagram later in Figure~\ref{fig:ptm-simplified}).
 
 \begin{figure}
   \begin{center}
