@@ -434,7 +434,7 @@ topic to select the word: $w_{d,n} \sim \phi_{z_{d,n}}$.  The topic assignment
 tells you what the word is about, and then this selects which distribution over
 words we use to generate the word.  % (Figure~\ref{fig:generative-ex}).
 
-For example, consider the document in Figure~\ref{tab:enron_doc}.  To
+For example, consider the document in Figure~\ref{fig:enron_doc}.  To
 generate it, we choose a distribution over all of the topics.  This is
 $\theta$.  For this document, the distribution favors Topic~9 about
 \underline{California}.  The value for this topic is higher than any other topic.  For
@@ -501,16 +501,16 @@ Since every individual token is assumed to be generated from a single topic,
 we can consider the {\em topic assignment} of a token as a variable.  For example,
 an instance of the word ``compilation'' might be in a \underline{Computer} topic in one
 document and in an \underline{Arts} topic in another document.  Because each token has its own
-topic assignment, it is even possible that the
-same word might be assigned to different topics in the same document.
-To estimate \emph{global} properties of the topic model we use aggregate statistics derived from these token-level topic assignments.
+topic assignment, the
+same word might be assigned to \emph{different} topics in the \emph{same} document.
+To estimate \emph{global} properties of the topic model we use aggregate statistics derived from token-level topic assignments.
 
 \paragraph{Document Allocation} The document allocation is a distribution over
 the topics for each document; in other words, it says how popular each topic is
 in a document.  If we count up how often a document uses a topic, this gives us
-an idea of the popularity.  Let's define $\dc{d}{i}$ as the number of times
+its popularity.  We define $\dc{d}{i}$ as the number of times
 document~$d$ uses topic~$i$.  This is larger for more popular topics;
-however, it is not a probability because it is larger than one.  We can make it a
+however, it is not a probability because it is larger than one.  We make it a
 probability by dividing by the number of words in a document
 \begin{equation}
 \frac{\dc{d}{i}}{\sum_k \dc{d}{k}},
